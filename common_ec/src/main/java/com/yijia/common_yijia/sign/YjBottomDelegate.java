@@ -12,6 +12,7 @@ import com.example.latte.ec.main.discover.DiscoverDelegate;
 import com.example.latte.ec.main.index.IndexDelegate;
 import com.example.latte.ec.main.sort.SortDelegate;
 import com.yijia.common_yijia.main.index.YjIndexDelegate;
+import com.yijia.common_yijia.main.mine.MineDelegate;
 
 import java.util.LinkedHashMap;
 
@@ -24,7 +25,7 @@ public class YjBottomDelegate extends BaseBottomDelegate {
         items.put(new BottomTabBean(null, "首页", R.mipmap.icon_shouye, R.mipmap.icon_shouye_c), new YjIndexDelegate());
         items.put(new BottomTabBean(null, "远程看护", R.mipmap.icon_kanhu, R.mipmap.icon_kanhu_c), new SortDelegate());
         items.put(new BottomTabBean(null, "消息", R.mipmap.icon_xiaoxi,  R.mipmap.icon_xiaoxi_c), new DiscoverDelegate());
-        items.put(new BottomTabBean(null, "我的", R.mipmap.icon_wode, R.mipmap.icon_wode_c), new ShopCartDelegate());
+        items.put(new BottomTabBean(null, "我的", R.mipmap.icon_wode, R.mipmap.icon_wode_c), new MineDelegate());
         return builder.addItems(items).build();
     }
 

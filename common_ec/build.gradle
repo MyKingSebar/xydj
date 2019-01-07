@@ -1,0 +1,38 @@
+apply plugin: 'com.android.library'
+apply plugin: 'com.jakewharton.butterknife'
+apply plugin: 'org.greenrobot.greendao'
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        minSdkVersion 19
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    buildToolsVersion '28.0.3'
+}
+
+dependencies {
+    //    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    api project(':common_ui')
+    annotationProcessor 'com.jakewharton:butterknife-compiler:9.0.0-rc2'
+    //圆形图片
+    api 'de.hdodenhof:circleimageview:2.2.0'
+    implementation files('libs/alipaySdk-20180601.jar')
+    //音视频exoplayer
+    implementation 'com.google.android.exoplayer:exoplayer:2.9.3'
+}

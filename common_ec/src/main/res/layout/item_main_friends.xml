@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:id="@+id/llc"
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_marginRight="20dp"
+    android:background="@android:color/white"
+    >
+<android.support.v7.widget.AppCompatImageView
+    android:id="@+id/iv_img"
+    android:layout_width="60dp"
+    android:layout_height="60dp"
+    android:scaleType="fitXY"
+    android:background="@drawable/rv_main_friends_iv"
+    android:layout_centerInParent="true"
+    />
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tv_name"
+        android:gravity="center"
+        android:layout_centerInParent="true"
+        android:textSize="13sp"
+        android:textColor="@color/app_text_dark"
+        android:layout_below="@+id/iv_img"
+        android:layout_marginTop="6dp"
+        android:layout_width="wrap_content"
+        android:ellipsize="end"
+        android:maxEms="4"
+        android:lines="1"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>

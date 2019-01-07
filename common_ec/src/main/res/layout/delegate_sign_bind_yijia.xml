@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="true"
+            android:orientation="vertical"
+            >
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tv_back"
+                android:text="@string/back_icon"
+              android:textSize="15sp"
+                android:textColor="@color/app_text_orange"
+                android:gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="44dp" />
+
+            <android.support.v7.widget.LinearLayoutCompat
+                android:layout_marginTop="12dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="35dp"
+                    android:gravity="center"
+                    android:text="绑定手机号码"
+                    android:textColor="@color/app_text_orange"
+                    android:textSize="18sp" />
+            </android.support.v7.widget.LinearLayoutCompat>
+
+            <!--电话-->
+            <android.support.v7.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="41dp"
+                android:layout_marginTop="58dp"
+                android:layout_marginRight="40dp">
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:layout_width="13dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="3dp"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/icon_login_phone" />
+                <android.support.v7.widget.AppCompatTextView
+                    android:text="+86"
+                    android:textSize="14sp"
+                    android:textColor="@color/app_text_dark"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="28dp"
+                    android:layout_marginEnd="12dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    >
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/edit_logup_phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+
+                        android:gravity="center_vertical"
+                        android:hint="请输入您的手机号码"
+                        android:inputType="textPhonetic"
+                        android:textColorHint="@color/app_text_hint"
+                        android:textSize="12sp"
+                        tools:ignore="HardcodedText" />
+
+
+                </android.support.design.widget.TextInputLayout>
+            </android.support.v7.widget.LinearLayoutCompat>
+
+            <View
+                android:id="@+id/v_signup_phone_line"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="44dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="43dp"
+                android:background="@color/app_text_orange" />
+
+
+            <!--密码-->
+            <android.support.v7.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="41dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="40dp">
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:layout_width="16dp"
+                    android:layout_height="18dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="2dp"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/icon_login_password" />
+
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:layout_gravity="center_vertical"
+                    >
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/edit_logup_note"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+
+                        android:gravity="center_vertical"
+                        android:hint="请输入您的验证码"
+                        android:inputType="textPassword"
+                        android:textColorHint="@color/app_text_hint"
+                        android:textSize="12sp"
+                        tools:ignore="HardcodedText" />
+
+
+                </android.support.design.widget.TextInputLayout>
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_gravity="center_vertical"
+                    android:text="获取验证码"
+                    android:textSize="12sp"
+                    android:gravity="center"
+                    android:textColor="@color/app_text_orange"
+                    android:background="@mipmap/buttom_logup_getnote_orange"
+                    android:layout_width="81dp"
+                    android:layout_height="31dp" />
+
+
+            </android.support.v7.widget.LinearLayoutCompat>
+
+            <View
+                android:id="@+id/v_signup_note_line"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="44dp"
+                android:layout_marginTop="9dp"
+                android:layout_marginEnd="43dp"
+                android:background="@color/app_text_gray" />
+
+            <!--密码-->
+            <android.support.v7.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="41dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="40dp">
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:layout_width="16dp"
+                    android:layout_height="18dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="2dp"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/icon_login_authcode" />
+
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+>
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/edit_login_password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="25dp"
+                        android:gravity="center_vertical"
+                        android:hint="请输入您的密码，至少6位"
+                        android:inputType="textPassword"
+                        android:textColorHint="@color/app_text_hint"
+                        android:textSize="12sp"
+                        tools:ignore="HardcodedText" />
+
+
+                </android.support.design.widget.TextInputLayout>
+
+
+            </android.support.v7.widget.LinearLayoutCompat>
+
+            <View
+                android:id="@+id/v_signup_password_line"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="44dp"
+                android:layout_marginTop="14dp"
+                android:layout_marginEnd="43dp"
+                android:background="@color/app_text_gray" />
+
+
+
+            <android.support.v7.widget.AppCompatButton
+
+                android:id="@+id/btn_sign_in"
+                android:layout_width="match_parent"
+                android:layout_height="41dp"
+                android:layout_marginStart="41dp"
+                android:layout_marginTop="44dp"
+                android:layout_marginEnd="40dp"
+                android:background="@mipmap/buttom_login_gray"
+                android:gravity="center"
+                android:padding="12sp"
+                android:text="完成"
+                android:textColor="@color/app_text_gray"
+                tools:ignore="HardcodedText" />
+
+
+
+
+        </android.support.v7.widget.LinearLayoutCompat>
+    </android.support.v4.widget.NestedScrollView>
+
+</android.support.v7.widget.LinearLayoutCompat>

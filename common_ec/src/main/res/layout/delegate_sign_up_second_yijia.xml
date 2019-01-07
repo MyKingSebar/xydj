@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/ci_img"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="83dp"
+        android:background="@mipmap/user_img">
+
+
+    </de.hdodenhof.circleimageview.CircleImageView>
+
+    <android.support.v7.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:text="点击设置图片"
+        android:textColor="@color/app_text_dark"
+        android:textSize="13sp" />
+
+    <android.support.v7.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical"
+
+        >
+
+
+
+
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="41dp"
+                android:layout_marginTop="18dp"
+                android:layout_marginRight="40dp"
+                android:theme="@style/hintAppearance">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/edit_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="28dp"
+                    android:gravity="center_vertical"
+                    android:hint="建议输入您的真实姓名"
+                    android:textColor="@color/app_text_dark"
+                    android:textColorHint="@color/app_text_hint"
+                    android:textSize="13sp"
+                    app:hintTextAppearance="@style/normalAppearance"
+                    tools:ignore="HardcodedText" />
+
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="41dp"
+                android:layout_marginTop="14dp"
+                android:layout_marginRight="40dp"
+                android:theme="@style/hintAppearance">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/edit_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="28dp"
+                    android:gravity="center_vertical"
+                    android:hint="请输入密码"
+                    android:inputType="textPassword"
+                    android:textColor="@color/app_text_dark"
+                    android:textColorHint="@color/app_text_hint"
+                    android:textSize="13sp"
+                    app:hintTextAppearance="@style/normalAppearance"
+                    tools:ignore="HardcodedText" />
+
+
+            </android.support.design.widget.TextInputLayout>
+
+
+
+
+
+
+        <android.support.v7.widget.AppCompatButton
+
+            android:id="@+id/btn_sign_in"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:layout_marginStart="55dp"
+            android:layout_marginTop="45dp"
+            android:layout_marginEnd="55dp"
+            android:background="@mipmap/buttom_login_gray"
+            android:gravity="center"
+            android:padding="12sp"
+            android:text="完成"
+            android:textSize="15sp"
+            android:textColor="@color/app_text_gray"
+            tools:ignore="HardcodedText" />
+
+
+
+
+    </android.support.v7.widget.LinearLayoutCompat>
+
+</android.support.v7.widget.LinearLayoutCompat>

@@ -1,0 +1,15 @@
+package com.yijia.common_yijia.main.index;
+
+public enum YjIndexCommentMultipleFields {
+    COMMENTID,
+    COMMENTUSERID,
+    COMMENTUSERNICKNAME,
+    COMMENTUSERREALNAME,
+    COMMENTUSERHEAD,
+    COMMENTCONTENT,
+    REPLYUSERID,
+    REPLYUSERNICKNAME,
+    REPLYUSERREALNAME,
+    COMMENTCREATEDTIME,
+    ISOWNCOMMENT
+}

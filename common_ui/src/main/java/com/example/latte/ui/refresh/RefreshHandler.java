@@ -83,7 +83,7 @@ public class RefreshHandler implements
                 @Override
                 public void run() {
                     RestClient.builder()
-                            .url(url + index)
+                            .url(url)
                             .success(new ISuccess() {
                                 @Override
                                 public void onSuccess(String response) {

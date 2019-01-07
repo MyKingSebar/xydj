@@ -8,22 +8,35 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.example.latte.delegates.LatteDelegate;
 import com.example.latte.ec.R;
 import com.example.latte.ec.R2;
+import com.example.latte.net.rx.BaseObserver;
+import com.example.latte.net.rx.RxRestClient;
+import com.example.latte.util.log.LatteLogger;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
+import com.yijia.common_yijia.database.YjDatabaseManager;
 import com.yijia.common_yijia.main.index.YjIndexDelegate;
+import com.yijia.common_yijia.sign.YjBottomDelegate;
+import com.yijia.common_yijia.sign.YjSignHandler;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 
 public class PhotoFragment extends LatteDelegate {
@@ -34,17 +47,59 @@ public class PhotoFragment extends LatteDelegate {
     RecyclerView recyclerView;
 
     @OnClick(R2.id.tv_back)
-     void back() {
+    void back() {
         getSupportDelegate().pop();
     }
 
+    //朋友圈参数
+    //1-文本，2-照片，3-语音，4-视频
+    private int contentType = 0;
+    private String urlType = null;
+    private String urlTop = null;
+
     @OnClick(R2.id.tv_save)
-     void save() {
-        getSupportDelegate().pop();
+    void save() {
+
+        final String token = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getYjtk();
+
+        switch (chooseMode) {
+            case ALLMODE:
+
+                break;
+
+            case IMAGEMODE:
+                contentType = 2;
+                urlType = "pictureUrl";
+                urlTop="picture/upload";
+                upLoadImg(token);
+                break;
+            case VIDEOMODE:
+                contentType = 4;
+                urlType = "videoUrl";
+                urlTop="video/upload";
+                upLoadImg(token);
+                break;
+            case AUDIOMODE:
+                contentType = 3;
+                urlType = "voiceUrl";
+                urlTop="audio/upload";
+                upLoadImg(token);
+                break;
+            case TEXTMODE:
+                contentType = 1;
+                upLoadInfo(token,etText.getText().toString(),null);
+
+                break;
+            default:
+                break;
+
+        }
+
+
     }
 
     //最大张数
-    private  int maxselectnum = 9;
+    private int maxselectnum = 9;
     //样式
     private final int THEMEID = R.style.picture_default_style;//R.style.picture_default_style,R.style.picture_white_style,R.style.picture_QQ_style,R.style.picture_Sina_style
     //是否开启点击声音
@@ -96,7 +151,9 @@ public class PhotoFragment extends LatteDelegate {
     private final int IMAGEMODE = 1;
     private final int VIDEOMODE = 2;
     private final int AUDIOMODE = 3;
-//    public int ALLMODE = PictureMimeType.ofAll();
+
+    private final int TEXTMODE = 4;
+    //    public int ALLMODE = PictureMimeType.ofAll();
 //    private final int IMAGEMODE = PictureMimeType.ofImage();
 //    private final int VIDEOMODE = PictureMimeType.ofVideo();
 //    private final int AUDIOMODE = PictureMimeType.ofAudio();
@@ -124,24 +181,24 @@ public class PhotoFragment extends LatteDelegate {
 
     private void init() {
 
-        switch (chooseMode){
+        switch (chooseMode) {
             case ALLMODE:
-                isGif=false;
+                isGif = false;
                 break;
             case IMAGEMODE:
-                previewVideo=false;
-                maxselectnum=9;
+                previewVideo = false;
+                maxselectnum = 9;
                 break;
             case VIDEOMODE:
-                previewImg=false;
-                isGif=false;
-                maxselectnum=1;
+                previewImg = false;
+                isGif = false;
+                maxselectnum = 1;
                 break;
             case AUDIOMODE:
-                previewImg=false;
-                previewAutio=true;
+                previewImg = false;
+                previewAutio = true;
 //                previewImg=true;
-                maxselectnum=1;
+                maxselectnum = 1;
                 break;
         }
         if (isCutCricle) {
@@ -242,7 +299,6 @@ public class PhotoFragment extends LatteDelegate {
     };
 
 
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -264,4 +320,93 @@ public class PhotoFragment extends LatteDelegate {
         final Bundle args = getArguments();
         chooseMode = args.getInt(YjIndexDelegate.PICKTYPE);
     }
+
+    private File[] getFiles() {
+        if (selectList != null) {
+            int size = selectList.size();
+            File[] files = new File[size];
+            for (int i = 0; i < size; i++) {
+                files[i] = new File(selectList.get(i).getPath());
+            }
+            return files;
+        } else {
+            return null;
+        }
+    }
+
+    private void upLoadImg(String token) {
+//        final String url = "picture/upload";
+        File[] files = getFiles();
+        if (files == null) {
+            return;
+        }
+        if(TextUtils.isEmpty(urlTop)){
+            return;
+        }
+        RxRestClient.builder()
+                .url(urlTop)
+                .params("yjtk", token)
+//                .params("files", new File[]{new File(imgPath)})
+                .files(files)
+                .build()
+                .uploadwithparams()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseObserver<String>(getContext()) {
+                    @Override
+                    public void onResponse(String response) {
+                        LatteLogger.json("picture/upload", response);
+                        final JSONObject object = JSON.parseObject(response);
+                        final String status = object.getString("status");
+                        if (TextUtils.equals(status, "1001")) {
+
+                            final JSONObject dataObject = object.getJSONObject("data");
+                            final String filePath = dataObject.getString("path");
+                            upLoadInfo(token, etText.getText().toString(),filePath);
+                        } else {
+                            Toast.makeText(getContext(), object.getString("msg"), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFail(Throwable e) {
+                        Toast.makeText(getContext(), "请稍后尝试", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void upLoadInfo(String token,  String content, String filesString) {
+        final String url = "circle/insert";
+        if (contentType == 1) {
+            filesString = null;
+        }
+        RxRestClient.builder()
+                .url(url)
+                .params("yjtk", token)
+                //contentType  1-文本，2-照片，3-语音，4-视频
+                .params("contentType", contentType)
+                .params("content", content)
+                .params(urlType, filesString)
+//                .params("location", location)
+//                .params("longitude", longitude)
+//                .params("latitude", latitude)
+                .build()
+                .post()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseObserver<String>(getContext()) {
+                    @Override
+                    public void onResponse(String response) {
+                        LatteLogger.json("circle/insert", response);
+                        getSupportDelegate().pop();
+                    }
+
+                    @Override
+                    public void onFail(Throwable e) {
+                        Toast.makeText(getContext(), "请稍后尝试", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+
 }

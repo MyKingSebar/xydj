@@ -43,11 +43,11 @@ public class YjSignHandler {
                     cardNo, gender, birthday, userStatus, isComplete, isCertification
                     ,imagePath);
 
+            YjDatabaseManager.getInstance().getDao().deleteAll();
+            YjDatabaseManager.getInstance().getDao().insert(profile);
             //已经注册并登录成功了
             if(isComplete==1){
 
-                YjDatabaseManager.getInstance().getDao().deleteAll();
-                YjDatabaseManager.getInstance().getDao().insert(profile);
                 AccountManager.setIsComplete(true);
                 signListener.onSignUpSecondSuccess();
             }else {
@@ -87,10 +87,12 @@ public class YjSignHandler {
                     cardNo, gender, birthday, userStatus, isComplete, isCertification
                     ,imagePath);
 
+            YjDatabaseManager.getInstance().getDao().deleteAll();
+            YjDatabaseManager.getInstance().getDao().insert(profile);
+
             //已经注册并登录成功了
             if(isComplete==1) {
-                YjDatabaseManager.getInstance().getDao().deleteAll();
-                YjDatabaseManager.getInstance().getDao().insert(profile);
+
                 AccountManager.setIsComplete(true);
                 signListener.onSignUpSecondSuccess();
             }else {

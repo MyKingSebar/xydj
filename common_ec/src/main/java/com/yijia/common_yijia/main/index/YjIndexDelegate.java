@@ -46,6 +46,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements View.OnFocusC
     private final int IMAGEMODE = 1;
     private final int VIDEOMODE = 2;
     private final int AUDIOMODE = 3;
+    private final int TEXTMODE = 4;
     private Bundle mArgs = null;
     public static final String PICKTYPE="PICKTYPE";
 
@@ -109,6 +110,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements View.OnFocusC
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
+        menu.add(1,TEXTMODE,1,"文字");
         menu.add(1,IMAGEMODE,1,"图片");
         menu.add(1,VIDEOMODE,1,"视频");
         menu.add(1,AUDIOMODE,1,"音频");

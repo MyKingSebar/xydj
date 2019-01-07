@@ -81,7 +81,7 @@ public class PhotoFragment extends LatteDelegate {
                 break;
             case AUDIOMODE:
                 contentType = 3;
-                urlType = "voiceUrl";
+                urlType = "audioUrl";
                 urlTop="audio/upload";
                 upLoadImg(token);
                 break;

@@ -29,8 +29,9 @@ public class YjIndexDataConverter extends DataConverter {
             final int contentType = data.getInteger("contentType");
             final String content = data.getString("content");
             final String pictureUrl = data.getString("pictureUrl");
-            final String voiceUrl = data.getString("voiceUrl");
+            final String voiceUrl = data.getString("audioUrl");
             final String videoUrl = data.getString("videoUrl");
+            final String videoCoverUrl = data.getString("videoCoverUrl");
             final String location = data.getString("location");
             final String longitude = data.getString("longitude");
             final String latitude = data.getString("latitude");
@@ -90,6 +91,7 @@ public class YjIndexDataConverter extends DataConverter {
                     .setField(YjIndexMultipleFields.IMGS, imgs)
                     .setField(YjIndexMultipleFields.VOICEURL, voiceUrl)
                     .setField(YjIndexMultipleFields.VIDEOURL, videoUrl)
+                    .setField(YjIndexMultipleFields.VIDEOCOVERURL, videoCoverUrl)
                     .build();
 
             ENTITIES.add(entity);

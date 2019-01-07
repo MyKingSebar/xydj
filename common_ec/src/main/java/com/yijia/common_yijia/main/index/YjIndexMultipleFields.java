@@ -14,5 +14,6 @@ public enum YjIndexMultipleFields {
     PICTUREURL,
     VOICEURL,
     VIDEOURL,
+    VIDEOCOVERURL,
     IMGS
 }

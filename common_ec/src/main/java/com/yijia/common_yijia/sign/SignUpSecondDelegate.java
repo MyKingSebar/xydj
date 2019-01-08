@@ -110,7 +110,7 @@ public class SignUpSecondDelegate extends LatteDelegate {
             if (!TextUtils.isEmpty(imgPath)) {
                 upLoadImg(token,name,word);
             } else {
-                upLoadInfo(token,null,name,word);
+                upLoadInfo(token,"",name,word);
             }
 
         }
@@ -172,7 +172,7 @@ public class SignUpSecondDelegate extends LatteDelegate {
 
                     @Override
                     public void onFail(Throwable e) {
-                        Toast.makeText(getContext(), "请稍后尝试", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), e.getMessage().toString(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }

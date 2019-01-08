@@ -18,11 +18,11 @@ public class RefreshHandler implements
         SwipeRefreshLayout.OnRefreshListener,
         BaseQuickAdapter.RequestLoadMoreListener {
 
-    private final SwipeRefreshLayout REFRESH_LAYOUT;
-    private final PagingBean BEAN;
-    private final RecyclerView RECYCLERVIEW;
-    private MultipleRecyclerAdapter mAdapter = null;
-    private final DataConverter CONVERTER;
+    public final SwipeRefreshLayout REFRESH_LAYOUT;
+    public final PagingBean BEAN;
+    public final RecyclerView RECYCLERVIEW;
+    public MultipleRecyclerAdapter mAdapter = null;
+    public final DataConverter CONVERTER;
 
     public RefreshHandler(SwipeRefreshLayout swipeRefreshLayout,
                           RecyclerView recyclerView,
@@ -83,7 +83,7 @@ public class RefreshHandler implements
                 @Override
                 public void run() {
                     RestClient.builder()
-                            .url(url)
+                            .url(url + index)
                             .success(new ISuccess() {
                                 @Override
                                 public void onSuccess(String response) {

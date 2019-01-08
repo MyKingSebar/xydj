@@ -38,10 +38,11 @@ public class YjSignHandler {
 //            final String createdTime = user.getString("createdTime");
 //            final String modifiedTime = user.getString("modifiedTime");
             final String imagePath = user.getString("imagePath");
+            final String rongCloudToken = user.getString("rongCloudToken");
 
             final YjUserProfile profile = new YjUserProfile( id, yjtk,nickname, realName, phone,
                     cardNo, gender, birthday, userStatus, isComplete, isCertification
-                    ,imagePath);
+                    ,imagePath,rongCloudToken);
 
             YjDatabaseManager.getInstance().getDao().deleteAll();
             YjDatabaseManager.getInstance().getDao().insert(profile);
@@ -82,21 +83,20 @@ public class YjSignHandler {
 //            final String createdTime = user.getString("createdTime");
 //            final String modifiedTime = user.getString("modifiedTime");
             final String imagePath = user.getString("imagePath");
+            final String rongCloudToken = user.getString("rongCloudToken");
 
             final YjUserProfile profile = new YjUserProfile( id, yjtk,nickname, realName, phone,
                     cardNo, gender, birthday, userStatus, isComplete, isCertification
-                    ,imagePath);
+                    ,imagePath,rongCloudToken);
 
             YjDatabaseManager.getInstance().getDao().deleteAll();
             YjDatabaseManager.getInstance().getDao().insert(profile);
 
             //已经注册并登录成功了
             if(isComplete==1) {
-
                 AccountManager.setIsComplete(true);
                 signListener.onSignUpSecondSuccess();
             }else {
-
                 signListener.onSignUpSuccess();
             }
         }else{

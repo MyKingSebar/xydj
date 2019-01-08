@@ -21,7 +21,6 @@ import com.example.latte.ec.main.index.search.SearchDelegate;
 import com.example.latte.net.rx.BaseObserver;
 import com.example.latte.net.rx.RxRestClient;
 import com.example.latte.ui.recycler.MultipleItemEntity;
-import com.example.latte.ui.refresh.RefreshHandler;
 import com.example.latte.util.callback.CallbackManager;
 import com.example.latte.util.callback.CallbackType;
 import com.example.latte.util.callback.IGlobalCallback;
@@ -48,7 +47,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements View.OnFocusC
     private final int AUDIOMODE = 3;
     private final int TEXTMODE = 4;
     private Bundle mArgs = null;
-    public static final String PICKTYPE="PICKTYPE";
+    public static final String PICKTYPE = "PICKTYPE";
 
 
     @BindView(R2.id.rv_index)
@@ -65,8 +64,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements View.OnFocusC
     IconTextView mSend = null;
 
 
-
-    private RefreshHandler mRefreshHandler = null;
+    private YjReFreshHandler mRefreshHandler = null;
 
     YjIndexAdapter mAdapter = null;
     IndexFriendsAdapter friendsAdapter = null;
@@ -87,7 +85,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements View.OnFocusC
     public void onBindView(@Nullable Bundle savedInstanceState, View rootView) {
 
 
-        mRefreshHandler = RefreshHandler.create(mRefreshLayout, mRecyclerView, new IndexDataConverter());
+        mRefreshHandler = YjReFreshHandler.create(mRefreshLayout, mRecyclerView, new IndexDataConverter(),this,this);
         CallbackManager.getInstance()
                 .addCallback(CallbackType.ON_SCAN, new IGlobalCallback<String>() {
                     @Override
@@ -103,17 +101,17 @@ public class YjIndexDelegate extends BottomItemDelegate implements View.OnFocusC
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mArgs=new Bundle();
+        mArgs = new Bundle();
 
     }
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
-        menu.add(1,TEXTMODE,1,"文字");
-        menu.add(1,IMAGEMODE,1,"图片");
-        menu.add(1,VIDEOMODE,1,"视频");
-        menu.add(1,AUDIOMODE,1,"音频");
+        menu.add(1, TEXTMODE, 1, "文字");
+        menu.add(1, IMAGEMODE, 1, "图片");
+        menu.add(1, VIDEOMODE, 1, "视频");
+        menu.add(1, AUDIOMODE, 1, "音频");
     }
 
     @Override
@@ -121,17 +119,22 @@ public class YjIndexDelegate extends BottomItemDelegate implements View.OnFocusC
         PhotoFragment delegate = new PhotoFragment();
         switch (item.getItemId()) {
             case IMAGEMODE:
-                mArgs.putInt(PICKTYPE,IMAGEMODE);
+                mArgs.putInt(PICKTYPE, IMAGEMODE);
                 delegate.setArguments(mArgs);
                 getParentDelegate().getSupportDelegate().start(delegate);
                 break;
             case VIDEOMODE:
-                mArgs.putInt(PICKTYPE,VIDEOMODE);
+                mArgs.putInt(PICKTYPE, VIDEOMODE);
                 delegate.setArguments(mArgs);
                 getParentDelegate().getSupportDelegate().start(delegate);
                 break;
             case AUDIOMODE:
-                mArgs.putInt(PICKTYPE,AUDIOMODE);
+                mArgs.putInt(PICKTYPE, AUDIOMODE);
+                delegate.setArguments(mArgs);
+                getParentDelegate().getSupportDelegate().start(delegate);
+                break;
+            case TEXTMODE:
+                mArgs.putInt(PICKTYPE, TEXTMODE);
                 delegate.setArguments(mArgs);
                 getParentDelegate().getSupportDelegate().start(delegate);
                 break;
@@ -161,7 +164,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements View.OnFocusC
                 new YjIndexDataConverter()
                         .setJsonData(response)
                         .convert();
-        mAdapter = new YjIndexAdapter(data,this);
+        mAdapter = new YjIndexAdapter(data, this);
         mAdapter.setIndexItemListener(this);
         final LinearLayoutManager manager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(manager);
@@ -235,7 +238,6 @@ public class YjIndexDelegate extends BottomItemDelegate implements View.OnFocusC
                 .url(url)
                 .params("yjtk", token)
                 .params("queryType", 1)
-                .params("yjtk", token)
                 .params("pageNo", 1)
                 .params("pageSize", 20)
                 .params("beginCircleId", 0)
@@ -269,8 +271,8 @@ public class YjIndexDelegate extends BottomItemDelegate implements View.OnFocusC
         initRefreshLayout();
         initRecyclerView();
         initFriendsRecyclerView();
-        initIndexRecyclerView();
-        mRefreshHandler.firstPage("index.php");
+//        initIndexRecyclerView();
+        mRefreshHandler.firstPage();
     }
 
     @Override

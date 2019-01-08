@@ -21,10 +21,12 @@ public class YjUserProfile {
     int isComplete = 0;
     int isCertification = 0;
     String imagePath=null;
-    @Generated(hash = 923891639)
+    String rongCloudToken=null;
+    @Generated(hash = 1800882688)
     public YjUserProfile(Long id, String yjtk, String nickname, String realName,
             String phone, String cardNo, int gender, String birthday,
-            int userStatus, int isComplete, int isCertification, String imagePath) {
+            int userStatus, int isComplete, int isCertification, String imagePath,
+            String rongCloudToken) {
         this.id = id;
         this.yjtk = yjtk;
         this.nickname = nickname;
@@ -37,6 +39,7 @@ public class YjUserProfile {
         this.isComplete = isComplete;
         this.isCertification = isCertification;
         this.imagePath = imagePath;
+        this.rongCloudToken = rongCloudToken;
     }
     @Generated(hash = 900997910)
     public YjUserProfile() {
@@ -112,6 +115,12 @@ public class YjUserProfile {
     }
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
+    }
+    public String getRongCloudToken() {
+        return this.rongCloudToken;
+    }
+    public void setRongCloudToken(String rongCloudToken) {
+        this.rongCloudToken = rongCloudToken;
     }
 
 

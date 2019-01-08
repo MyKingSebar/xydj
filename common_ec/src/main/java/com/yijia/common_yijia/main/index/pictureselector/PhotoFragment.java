@@ -54,15 +54,16 @@ public class PhotoFragment extends LatteDelegate {
     //朋友圈参数
     //1-文本，2-照片，3-语音，4-视频
     private int contentType = 0;
-    private String urlType = null;
+    private String urlType = "pictureUrl";
     private String urlTop = null;
 
     @OnClick(R2.id.tv_save)
     void save() {
 
         final String token = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getYjtk();
-
+LatteLogger.w("upLoadImg",""+chooseMode);
         switch (chooseMode) {
+
             case ALLMODE:
 
                 break;
@@ -87,7 +88,8 @@ public class PhotoFragment extends LatteDelegate {
                 break;
             case TEXTMODE:
                 contentType = 1;
-                upLoadInfo(token,etText.getText().toString(),null);
+
+                upLoadInfo(token,etText.getText().toString(),"");
 
                 break;
             default:
@@ -200,6 +202,9 @@ public class PhotoFragment extends LatteDelegate {
 //                previewImg=true;
                 maxselectnum = 1;
                 break;
+            case TEXTMODE:
+                recyclerView.setVisibility(View.GONE);
+                break;
         }
         if (isCutCricle) {
             aspect_ratio_x = 1;
@@ -307,6 +312,7 @@ public class PhotoFragment extends LatteDelegate {
                 case PictureConfig.CHOOSE_REQUEST:
                     // 图片选择
                     selectList = PictureSelector.obtainMultipleResult(data);
+
                     adapter.setList(selectList);
                     adapter.notifyDataSetChanged();
                     break;
@@ -327,20 +333,25 @@ public class PhotoFragment extends LatteDelegate {
             File[] files = new File[size];
             for (int i = 0; i < size; i++) {
                 files[i] = new File(selectList.get(i).getPath());
+                LatteLogger.w("upLoadImg","Path"+selectList.get(i).getPath());
             }
             return files;
         } else {
+            LatteLogger.w("upLoadImg","getFiles() == null");
             return null;
         }
     }
 
     private void upLoadImg(String token) {
+        LatteLogger.w("upLoadImg","upLoadImg");
 //        final String url = "picture/upload";
         File[] files = getFiles();
         if (files == null) {
+            LatteLogger.w("upLoadImg","files == null");
             return;
         }
         if(TextUtils.isEmpty(urlTop)){
+            LatteLogger.w("upLoadImg","urlTop == null");
             return;
         }
         RxRestClient.builder()
@@ -370,15 +381,16 @@ public class PhotoFragment extends LatteDelegate {
 
                     @Override
                     public void onFail(Throwable e) {
-                        Toast.makeText(getContext(), "请稍后尝试", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
 
     private void upLoadInfo(String token,  String content, String filesString) {
+        LatteLogger.w("upLoadImg","upLoadInfo");
         final String url = "circle/insert";
         if (contentType == 1) {
-            filesString = null;
+            filesString = "";
         }
         RxRestClient.builder()
                 .url(url)
@@ -403,7 +415,7 @@ public class PhotoFragment extends LatteDelegate {
 
                     @Override
                     public void onFail(Throwable e) {
-                        Toast.makeText(getContext(), "请稍后尝试", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }

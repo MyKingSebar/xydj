@@ -25,6 +25,7 @@
             android:layout_height="80dp">
 
             <ImageView
+                android:id="@+id/user_imagePath"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginLeft="15dp"
@@ -32,6 +33,7 @@
                 android:src="@drawable/ic_checked" />
 
             <TextView
+                android:id="@+id/user_nickname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"

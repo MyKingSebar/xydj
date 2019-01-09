@@ -176,7 +176,7 @@ public class HeadLayout extends LinearLayout implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         int i = v.getId();
-        if (i == R.id.head_return) {
+        if (i == R.id.head_left) {
             onClickHeadReturn.onClickHeadReturn();
 
         } else if (i == R.id.head_right_image) {

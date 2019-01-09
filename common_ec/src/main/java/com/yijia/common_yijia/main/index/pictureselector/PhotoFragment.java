@@ -27,6 +27,10 @@ import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.tools.PictureFileUtils;
+import com.mabeijianxi.smallvideorecord2.LocalMediaCompress;
+import com.mabeijianxi.smallvideorecord2.model.AutoVBRMode;
+import com.mabeijianxi.smallvideorecord2.model.LocalMediaConfig;
+import com.mabeijianxi.smallvideorecord2.model.OnlyCompressOverBean;
 import com.yijia.common_yijia.database.YjDatabaseManager;
 import com.yijia.common_yijia.main.index.YjIndexDelegate;
 import com.yijia.common_yijia.sign.YjBottomDelegate;
@@ -34,6 +38,7 @@ import com.yijia.common_yijia.sign.YjSignHandler;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -335,7 +340,35 @@ public class PhotoFragment extends LatteDelegate {
                     selectList = PictureSelector.obtainMultipleResult(data);
                     adapter.setList(selectList);
                     adapter.notifyDataSetChanged();
+                    switch (chooseMode){
+                        case VIDEOMODE:
+                            if(selectList.size()==0){
+                                return;
+                            }
+                            String time=getPlayTime(selectList.get(0).getPath());
+                            Long timeLong=Long.getLong(time);
+                            if(timeLong/1000>5){
+                                showToast("您的视频大于5秒，请裁剪后发送！");
+                            }else {
+                                // 选择本地视频压缩
+                                LocalMediaConfig.Buidler buidler = new LocalMediaConfig.Buidler();
+                                final LocalMediaConfig config = buidler
+                                        .setVideoPath(selectList.get(0).getPath())
+                                        .captureThumbnailsTime(1)
+                                        .doH264Compress(new AutoVBRMode())
+                                        .setFramerate(15)
+                                        .setScale(1.0f)
+                                        .build();
+                                OnlyCompressOverBean onlyCompressOverBean = new LocalMediaCompress(config).startCompress();
+                            }
+                            LatteLogger.d("selectList","selectList.getCompressPath:"+selectList.get(0).getCompressPath());
+                            break;
+                            default:
+                                break;
+                    }
                     break;
+
+
             }
         }
     }
@@ -530,6 +563,38 @@ public class PhotoFragment extends LatteDelegate {
                         Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+
+    private String getPlayTime(String mUri) {
+        android.media.MediaMetadataRetriever mmr = new android.media.MediaMetadataRetriever();
+        try {
+            if (mUri != null) {
+                HashMap<String, String> headers = null;
+                if (headers == null) {
+                    headers = new HashMap<String, String>();
+                    headers.put("User-Agent", "Mozilla/5.0 (Linux; U; Android 4.4.2; zh-CN; MW-KW-001 Build/JRO03C) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 UCBrowser/1.0.0.001 U4/0.8.0 Mobile Safari/533.1");
+                }
+                mmr.setDataSource(mUri, headers);
+            } else {
+                //mmr.setDataSource(mFD, mOffset, mLength);
+            }
+
+            String duration = mmr.extractMetadata(android.media.MediaMetadataRetriever.METADATA_KEY_DURATION);//时长(毫秒)
+//            String width = mmr.extractMetadata(android.media.MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH);//宽
+//            String height = mmr.extractMetadata(android.media.MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT);//高
+
+//            Toast.makeText(this, "playtime:" + duration + "w=" + width + "h=" + height, Toast.LENGTH_SHORT).show();
+            LatteLogger.d("duration", duration);
+
+            return duration;
+        } catch (Exception ex) {
+            LatteLogger.e("TAG", "MediaMetadataRetriever exception " + ex);
+        } finally {
+            mmr.release();
+        }
+
+        return null;
     }
 
 

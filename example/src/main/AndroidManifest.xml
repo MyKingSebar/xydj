@@ -26,12 +26,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         >
+        <!--今日头条适配 START-->
         <meta-data
             android:name="design_width_in_dp"
             android:value="375"/>
         <meta-data
             android:name="design_height_in_dp"
             android:value="667"/>
+        <!--今日头条适配 END-->
 
         <activity android:name=".ExampleActivity">
             <intent-filter>
@@ -40,6 +42,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
+        <!--small-video-record2 START-->
+        <activity android:name="com.mabeijianxi.smallvideorecord2.MediaRecorderActivity"/>
+        <!--small-video-record2 END-->
+
+
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:exported="true"
@@ -63,7 +72,7 @@
             android:theme="@style/Theme.AppCompat.Translucent" />
 
 
-
+        <!--极光推送 START-->
         <!-- Required SDK 核心功能-->
         <!-- 可配置android:process参数将PushService放在其他进程中 -->
         <service
@@ -168,7 +177,7 @@
         <meta-data
             android:name="JPUSH_APPKEY"
             android:value="26a34a494a1d5dc03b133b24" />
-        <!--极光推送结束-->
+        <!--极光推送 END-->
 
 
 

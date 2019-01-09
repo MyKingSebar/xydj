@@ -169,6 +169,6 @@ dependencies {
 
     //    api 'com.github.yalantis:ucrop:2.2.2-native'
 
-    //图片视频选取(包含ucrop)
+    //图片视频选取(包含ucrop、LuBan)
     api 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.3'
 }

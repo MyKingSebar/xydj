@@ -3,6 +3,7 @@ package com.yijia.common_yijia.main.index.pictureselector;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatEditText;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.example.latte.app.Latte;
 import com.example.latte.delegates.LatteDelegate;
 import com.example.latte.ec.R;
 import com.example.latte.ec.R2;
@@ -24,6 +26,7 @@ import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
+import com.luck.picture.lib.tools.PictureFileUtils;
 import com.yijia.common_yijia.database.YjDatabaseManager;
 import com.yijia.common_yijia.main.index.YjIndexDelegate;
 import com.yijia.common_yijia.sign.YjBottomDelegate;
@@ -37,9 +40,14 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import top.zibin.luban.CompressionPredicate;
+import top.zibin.luban.Luban;
+import top.zibin.luban.OnCompressListener;
 
 
 public class PhotoFragment extends LatteDelegate {
+
+    public static long mLong2 = 0;
 
     @BindView(R2.id.et_text)
     AppCompatEditText etText;
@@ -61,7 +69,7 @@ public class PhotoFragment extends LatteDelegate {
     void save() {
 
         final String token = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getYjtk();
-LatteLogger.w("upLoadImg",""+chooseMode);
+        LatteLogger.w("upLoadImg", "" + chooseMode);
         switch (chooseMode) {
 
             case ALLMODE:
@@ -71,25 +79,25 @@ LatteLogger.w("upLoadImg",""+chooseMode);
             case IMAGEMODE:
                 contentType = 2;
                 urlType = "pictureUrl";
-                urlTop="picture/upload";
+                urlTop = "picture/upload";
                 upLoadImg(token);
                 break;
             case VIDEOMODE:
                 contentType = 4;
                 urlType = "videoUrl";
-                urlTop="video/upload";
+                urlTop = "video/upload";
                 upLoadImg(token);
                 break;
             case AUDIOMODE:
                 contentType = 3;
                 urlType = "audioUrl";
-                urlTop="audio/upload";
+                urlTop = "audio/upload";
                 upLoadImg(token);
                 break;
             case TEXTMODE:
                 contentType = 1;
 
-                upLoadInfo(token,etText.getText().toString(),"");
+                upLoadInfo(token, etText.getText().toString(), "");
 
                 break;
             default:
@@ -168,6 +176,8 @@ LatteLogger.w("upLoadImg",""+chooseMode);
     private final static String TAG = PhotoFragment.class.getSimpleName();
     private View rootView;
     private List<LocalMedia> selectList = new ArrayList<>();
+
+    private static int successFiles = 0;
 
 
     @Override
@@ -258,10 +268,16 @@ LatteLogger.w("upLoadImg",""+chooseMode);
                         .selectionMode(numMode)
                         .previewImage(previewImg)
                         .previewVideo(previewVideo)
+                        .compress(isCompress)
+
                         .enablePreviewAudio(previewAutio) // 是否可播放音频
+                        .videoMaxSecond(15)// 显示多少秒以内的视频or音频也可适用 int
+                        .recordVideoSecond(15)//视频秒数录制 默认60s int
+                        .videoQuality(0)// 视频录制质量 0 or 1 int
+                        .cropCompressQuality(50)// 裁剪压缩质量 默认90 int
                         .isCamera(ISCAMERA)
                         .enableCrop(isCrop)
-                        .compress(isCompress)
+
                         .glideOverride(160, 160)
                         .previewEggs(true)
                         .withAspectRatio(aspect_ratio_x, aspect_ratio_y)
@@ -284,10 +300,15 @@ LatteLogger.w("upLoadImg",""+chooseMode);
                         .selectionMode(numMode)
                         .previewImage(previewImg)
                         .previewVideo(previewVideo)
+                        .compress(isCompress)
                         .enablePreviewAudio(previewAutio) // 是否可播放音频
+                        .videoMaxSecond(15)// 显示多少秒以内的视频or音频也可适用 int
+                        .recordVideoSecond(15)//视频秒数录制 默认60s int
+                        .videoQuality(0)// 视频录制质量 0 or 1 int
+                        .cropCompressQuality(10)// 裁剪压缩质量 默认90 int
                         .isCamera(ISCAMERA)
                         .enableCrop(isCrop)
-                        .compress(isCompress)
+
                         .glideOverride(160, 160)
                         .withAspectRatio(aspect_ratio_x, aspect_ratio_y)
                         .hideBottomControls(HIDEMENU)
@@ -312,7 +333,6 @@ LatteLogger.w("upLoadImg",""+chooseMode);
                 case PictureConfig.CHOOSE_REQUEST:
                     // 图片选择
                     selectList = PictureSelector.obtainMultipleResult(data);
-
                     adapter.setList(selectList);
                     adapter.notifyDataSetChanged();
                     break;
@@ -327,33 +347,35 @@ LatteLogger.w("upLoadImg",""+chooseMode);
         chooseMode = args.getInt(YjIndexDelegate.PICKTYPE);
     }
 
-    private File[] getFiles() {
-        if (selectList != null) {
-            int size = selectList.size();
+    private File[] getFiles(List<LocalMedia> list) {
+        if (list != null) {
+            int size = list.size();
             File[] files = new File[size];
             for (int i = 0; i < size; i++) {
-                files[i] = new File(selectList.get(i).getPath());
-                LatteLogger.w("upLoadImg","Path"+selectList.get(i).getPath());
+                files[i] = new File(list.get(i).getPath());
             }
             return files;
         } else {
-            LatteLogger.w("upLoadImg","getFiles() == null");
+            LatteLogger.w("upLoadImg", "getFiles() == null");
             return null;
         }
     }
 
-    private void upLoadImg(String token) {
-        LatteLogger.w("upLoadImg","upLoadImg");
-//        final String url = "picture/upload";
-        File[] files = getFiles();
-        if (files == null) {
-            LatteLogger.w("upLoadImg","files == null");
-            return;
+    private List<String> getFilesStringList() {
+        if (selectList != null) {
+            int size = selectList.size();
+            List<String> list = new ArrayList<>();
+            for (int i = 0; i < size; i++) {
+                list.add(selectList.get(i).getCompressPath());
+            }
+            return list;
+        } else {
+            LatteLogger.w("upLoadImg", "getFilesStringList == null");
+            return null;
         }
-        if(TextUtils.isEmpty(urlTop)){
-            LatteLogger.w("upLoadImg","urlTop == null");
-            return;
-        }
+    }
+
+    private void RxUpLoad(String token, File[] files) {
         RxRestClient.builder()
                 .url(urlTop)
                 .params("yjtk", token)
@@ -373,7 +395,7 @@ LatteLogger.w("upLoadImg",""+chooseMode);
 
                             final JSONObject dataObject = object.getJSONObject("data");
                             final String filePath = dataObject.getString("path");
-                            upLoadInfo(token, etText.getText().toString(),filePath);
+                            upLoadInfo(token, etText.getText().toString(), filePath);
                         } else {
                             Toast.makeText(getContext(), object.getString("msg"), Toast.LENGTH_SHORT).show();
                         }
@@ -386,8 +408,96 @@ LatteLogger.w("upLoadImg",""+chooseMode);
                 });
     }
 
-    private void upLoadInfo(String token,  String content, String filesString) {
-        LatteLogger.w("upLoadImg","upLoadInfo");
+    private void upLoadImg(String token) {
+        mLong2 = 0;
+        LatteLogger.w("upLoadImg", "upLoadImg");
+//        final String url = "picture/upload";
+
+        if (TextUtils.isEmpty(urlTop)) {
+            LatteLogger.w("upLoadImg", "urlTop == null");
+            return;
+        }
+        switch (chooseMode) {
+            case IMAGEMODE:
+                luBan(token);
+                break;
+            default:
+                File[] files = getFiles(selectList);
+                if (files == null) {
+                    LatteLogger.w("upLoadImg", "files == null");
+                    return;
+                }
+                RxUpLoad(token, files);
+                break;
+        }
+
+    }
+
+    private String getPath() {
+        String path = Environment.getExternalStorageDirectory() + "/Luban/image/";
+        File file = new File(path);
+        if (file.mkdirs()) {
+            return path;
+        }
+        return path;
+    }
+
+    private void luBan(String token) {
+        LatteLogger.w("upLoadImg", "luBan");
+//        File[] files = getFiles(selectList);
+//        long mLong=0;
+//
+//        for(int i=0;i<files.length;i++){
+//            mLong+=files[i].length();
+//        }
+//        LatteLogger.w("upLoadImg", "mLong"+mLong);
+        final List<String> filesString = getFilesStringList();
+        if (filesString == null) {
+            LatteLogger.e("filesString", "filesString==null");
+            return;
+        }
+        final int size = filesString.size();
+        File[] files = new File[size];
+        successFiles = 0;
+        Luban.with(Latte.getApplicationContext())
+                .load(filesString)
+                .ignoreBy(100)
+                .setTargetDir(getPath())
+                .setCompressListener(
+                        new OnCompressListener() {
+                            @Override
+                            public void onStart() {
+                                LatteLogger.w("upLoadImg", "onStart");
+                            }
+
+                            @Override
+                            public void onSuccess(File file) {
+                                files[successFiles] = file;
+                                successFiles++;
+                                if (successFiles == size) {
+                                    RxUpLoad(token, files);
+                                }
+//                        mLong2+=file.length();
+//                        LatteLogger.w("upLoadImg", "mLong2:" + mLong2);
+                            }
+
+//                    @Override
+//                                         public void onSuccess(List<LocalMedia> list) {
+//                                             LatteLogger.w("upLoadImg", "onSuccess" + list.size());
+//                                             RxUpLoad(token, getFiles(list));
+//                                         }
+
+
+                            @Override
+                            public void onError(Throwable e) {
+                                LatteLogger.w("upLoadImg", "onError" + e.getMessage());
+                            }
+                        }
+                ).launch();
+    }
+
+    private void upLoadInfo(String token, String content, String filesString) {
+        LatteLogger.w("upLoadImg", "upLoadInfo");
         final String url = "circle/insert";
         if (contentType == 1) {
             filesString = "";
@@ -411,6 +521,8 @@ LatteLogger.w("upLoadImg",""+chooseMode);
                     public void onResponse(String response) {
                         LatteLogger.json("circle/insert", response);
                         getSupportDelegate().pop();
+                        //清缓存
+                        PictureFileUtils.deleteCacheDirFile(Latte.getApplicationContext());
                     }
 
                     @Override

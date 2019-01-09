@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.latte.ui.camera.CameraImageBean;
@@ -35,6 +36,7 @@ public abstract class PermissionCheckerDelegate extends BaseDelegate {
         LatteCamera.start(this);
     }
 
+
     //这个是真正调用的方法
     public void startCameraWithCheck() {
         PermissionCheckerDelegatePermissionsDispatcher.startCameraWithCheck(this);
@@ -50,6 +52,15 @@ public abstract class PermissionCheckerDelegate extends BaseDelegate {
         PermissionCheckerDelegatePermissionsDispatcher.startScanWithCheck(this, delegate);
     }
 
+    //不是直接调用方法
+    @NeedsPermission({Manifest.permission.WRITE_EXTERNAL_STORAGE})
+    void useSDCard(View v) {
+        v.showContextMenu();
+    }
+
+    public void useSDCardWithCheck(View v) {
+        PermissionCheckerDelegatePermissionsDispatcher.useSDCardWithCheck(this,v);
+    }
 
     @OnPermissionDenied({Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE})
     void onCameraDenied() {

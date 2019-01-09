@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="transparent">#00000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="white_pressed">#d0d0d0</color>
+    <color name="white_f1">#fefaf1</color>
+    <color name="white_f0">#f0f0f0</color>
+    <color name="white_f3">#f3f3f3</color>
+    <color name="white_f4">#f3f3f4</color>
+    <color name="white_cb">#cbcbcb</color>
+    <color name="black">#000000</color>
+    <color name="black_10">#19000000</color>
+    <color name="light_black">#333333</color>
+    <color name="grey">#666666</color>
+    <color name="light_grey">#999999</color>
+    <color name="light_grey_01">#b2b2b2</color>
+    <color name="light_grey_02">#d7d7d7</color>
+    <color name="light_grey_03">#f4f4f4</color>
+    <color name="light_grey_04">#eeeeee</color>
+    <color name="light_grey_05">#cccccc</color>
+    <color name="light_grey_06">#ededed</color>
+    <color name="light_grey_07">#f2f2f2</color>
+    <color name="light_grey_08">#dddddd</color>
+    <color name="light_grey_09">#f4f5f7</color>
+    <color name="light_grey_10">#d7d7d7</color>
+    <color name="cba_red">#b01d36</color>
+    <color name="noti_red">#d6000f</color>
+    <color name="error_blue_01">#328ab2</color>
+    <color name="dialog_btn_blue">#017bff</color>
+    <color name="blue">#007dc2</color>
+    <color name="blue_top">#005ec9</color>
+    <color name="dialog_btn_blue_02">#0374fe</color>
+</resources>

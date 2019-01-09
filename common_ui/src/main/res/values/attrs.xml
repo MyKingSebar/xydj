@@ -9,4 +9,11 @@
         <attr name="icon_size" format="dimension" />
     </declare-styleable>
 
+    <declare-styleable name="UserTextLineView">
+        <attr format="reference" name="iconDrawable"/>
+        <attr format="string" name="text"/>
+        <attr format="dimension" name="textSize"/>
+        <attr format="color" name="textColor"/>
+        <attr format="boolean" name="hasArrow"/>
+    </declare-styleable>
 </resources>

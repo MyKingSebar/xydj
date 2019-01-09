@@ -5,8 +5,10 @@ import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -25,6 +27,8 @@ public class HeadLayout extends LinearLayout implements View.OnClickListener {
     private OnClickHeadReturn onClickHeadReturn;//返回键
     private OnClickHeadRighttext onClickHeadRighttext;//最右的textview
     private OnClickHeadHeadImage onClickHeadHeadImage;
+    private ViewGroup.LayoutParams layoutParams1;
+
     public HeadLayout(Context context) {
         super(context);
         initView(context, null, 0);
@@ -52,27 +56,82 @@ public class HeadLayout extends LinearLayout implements View.OnClickListener {
 //        headRightText1.setOnClickListener(this);
 //        headimage.setOnClickListener(this);
     }
+
+
+//    @Override
+//    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+//        int heightMode=MeasureSpec.getMode(heightMeasureSpec);
+//        ViewGroup.LayoutParams layoutParams1 =
+//                new ViewGroup.LayoutParams(LayoutParams.MATCH_PARENT, heightMode);
+//        headlayout.setLayoutParams(layoutParams1);
+//        ViewGroup.LayoutParams layoutParams = getLayoutParams();
+//        int width = measureSelfWidthOrHeight(MeasureSpec.getMode(widthMeasureSpec),
+//                MeasureSpec.getSize(widthMeasureSpec),
+//                getPaddingLeft() + getPaddingRight(),
+//                layoutParams.width, getSuggestedMinimumWidth());
+//        int height = measureSelfWidthOrHeight(MeasureSpec.getMode(heightMeasureSpec),
+//                MeasureSpec.getSize(heightMeasureSpec),
+//                getPaddingTop() + getPaddingBottom(),
+//                layoutParams.height, getSuggestedMinimumHeight());
+//        setMeasuredDimension(width, height);
+//        for (int i = 0; i < getChildCount(); i++) {
+//            if (getChildAt(i).getVisibility() != GONE) {
+//                getChildAt(i).measure(MeasureSpec.makeMeasureSpec(MeasureSpec.getSize(width), MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(MeasureSpec.getSize(height), MeasureSpec.EXACTLY));
+//            }
+//        }
+//    }
+//
+//    private int measureSelfWidthOrHeight(int heightMode, int heightSize, int extraHeight, int layoutParamHeight, int suggestedMinHeight) {
+//        int height = 0;
+//        switch (heightMode) {
+//            case MeasureSpec.EXACTLY: // 高度是确定的
+//                height = heightSize;
+//                break;
+//            case MeasureSpec.AT_MOST: // AT_MOST一般是因为设置了wrap_content属性获得，但不全是这
+//                if (layoutParamHeight == LayoutParams.WRAP_CONTENT) {
+//                    int disert = Math.max(suggestedMinHeight, extraHeight);
+//                    height = Math.min(disert, heightSize);
+//                } else if (layoutParamHeight == LayoutParams.MATCH_PARENT) {
+//                    height = heightSize;
+//                } else {
+//                    height = Math.min(layoutParamHeight + extraHeight, heightSize);
+//                }
+//                break;
+//            case MeasureSpec.UNSPECIFIED:
+//                if (layoutParamHeight == LayoutParams.WRAP_CONTENT || layoutParamHeight == LayoutParams.MATCH_PARENT) {
+//                    height = Math.max(suggestedMinHeight, extraHeight);
+//                } else {
+//                    height = layoutParamHeight + extraHeight;
+//                }
+//                break;
+//            default:
+//        }
+//        return height;
+//    }
+
+
     //设置左边图片 和是否显示 默认 true 显示。 false 显示，false 不显示(不显示时imgId可传null)
-    public void setHeadleftImg(boolean isimage, int imgId){
-        if (isimage){
+    public void setHeadleftImg(boolean isimage, int imgId) {
+        if (isimage) {
             //headreturn.setVisibility(VISIBLE);
             //headreturn.setImageDrawable(getResources().getDrawable(imgId));
             View inflate = headreturn.inflate();
             ImageView head_left = inflate.findViewById(R.id.head_left);
             head_left.setImageDrawable(getResources().getDrawable(imgId));
             head_left.setOnClickListener(this);
-        }else{
+        } else {
             headreturn.setVisibility(GONE);
             //headreturn.setImageDrawable(getResources().getDrawable(imgId));
         }
     }
 
     //设置头布局名字
-    public void setHeadName(String name,String textColor) {
+    public void setHeadName(String name, String textColor, int textsize) {
         View inflate = headname.inflate();
         TextView headname = inflate.findViewById(R.id.head_name);
         headname.setTextColor(Color.parseColor(textColor));
         headname.setText(name);
+        //headname.setTextSize(TypedValue.COMPLEX_UNIT_SP, textsize);
     }
 
     //设置右边的图片 和是否显示 默认 false 不显示。 true 显示，false 不显示
@@ -96,13 +155,13 @@ public class HeadLayout extends LinearLayout implements View.OnClickListener {
         /**
          * 注：最右边的图片和文字只能存在一个
          */
-            if (istext) {
-                View inflate = headRightText1.inflate();
+        if (istext) {
+            View inflate = headRightText1.inflate();
 //                headRightText1.setVisibility(VISIBLE);
-                TextView viewById = inflate.findViewById(R.id.head_right_text);
-                headimage.setVisibility(GONE);
-                viewById.setText(name);
-                viewById.setOnClickListener(this);
+            TextView viewById = inflate.findViewById(R.id.head_right_text);
+            headimage.setVisibility(GONE);
+            viewById.setText(name);
+            viewById.setOnClickListener(this);
         }
     }
     //设置整体背景颜色
@@ -110,14 +169,14 @@ public class HeadLayout extends LinearLayout implements View.OnClickListener {
     /***
      * 必须是十六进制 如红色 为 #ff0000
      */
-    public void setHeadlayoutColor(String color) {
+    public void setHeadlayoutBagColor(String color) {
         headlayout.setBackgroundColor(Color.parseColor(color));//
     }
 
     @Override
     public void onClick(View v) {
         int i = v.getId();
-        if (i == R.id.head_return) {
+        if (i == R.id.head_left) {
             onClickHeadReturn.onClickHeadReturn();
 
         } else if (i == R.id.head_right_image) {
@@ -138,8 +197,9 @@ public class HeadLayout extends LinearLayout implements View.OnClickListener {
     public void setOnClickHeadRighttext(OnClickHeadRighttext onClickHeadRighttext) {
         this.onClickHeadRighttext = onClickHeadRighttext;
     }
+
     //最右边的imageview的单击回调
-    public void setOnClickHeadRightImage(OnClickHeadHeadImage onClickHeadHeadImage){
+    public void setOnClickHeadRightImage(OnClickHeadHeadImage onClickHeadHeadImage) {
         this.onClickHeadHeadImage = onClickHeadHeadImage;
     }
 
@@ -150,7 +210,8 @@ public class HeadLayout extends LinearLayout implements View.OnClickListener {
     public interface OnClickHeadRighttext {
         void onClickHeadRighttext();
     }
-    public interface OnClickHeadHeadImage{
+
+    public interface OnClickHeadHeadImage {
         void onClickHeadHeadImage();
     }
 

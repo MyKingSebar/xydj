@@ -14,6 +14,8 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.example.latte.delegates.LatteDelegate;
 import com.example.latte.ec.R;
 import com.example.latte.ec.R2;
@@ -76,7 +78,7 @@ public class SignUpDelegate extends LatteDelegate implements ITimeListener {
             Toast.makeText(getContext(), "错误的手机格式", Toast.LENGTH_SHORT).show();
         } else {
 //            mPhoneL.setError(null);
-            mCount=60;
+            mCount = 60;
             mGetNote.setClickable(false);
             mGetNote.setTextColor(getResources().getColor(R.color.app_text_gray));
             mGetNote.setBackgroundResource(R.mipmap.buttom_logup_getnote_gray);
@@ -108,9 +110,10 @@ public class SignUpDelegate extends LatteDelegate implements ITimeListener {
     }
 
     @OnClick(R2.id.tv_back)
-    void back(){
+    void back() {
         getSupportDelegate().pop();
     }
+
     @OnClick(R2.id.btn_sign_up)
     void onClickSignUp() {
         if (checkForm()) {
@@ -127,18 +130,23 @@ public class SignUpDelegate extends LatteDelegate implements ITimeListener {
                         @Override
                         public void onResponse(String response) {
                             LatteLogger.json("USER_PROFILE", response);
-                            YjSignHandler.onSignUp(response, mISignListener);
+                            final JSONObject object = JSON.parseObject(response);
+                            final String status = object.getString("status");
+                            if (TextUtils.equals(status, "1001")) {
+                                getSupportDelegate().startWithPop(new SignInDelegate());
+                            }else {
+                                showToast(object.getString("smg"));
+                            }
                         }
 
                         @Override
                         public void onFail(Throwable e) {
-                            Toast.makeText(getContext(), "请稍后尝试", Toast.LENGTH_SHORT).show();
+                            showToast(e.getMessage());
                         }
                     });
-            Toast.makeText(getContext(), "验证通过", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getContext(), "验证通过", Toast.LENGTH_SHORT).show();
         }
     }
-
 
 
     private boolean checkForm() {
@@ -177,7 +185,7 @@ public class SignUpDelegate extends LatteDelegate implements ITimeListener {
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, View rootView) {
         mLogin.setClickable(false);
-        mTextWatcher=new TextWatcher() {
+        mTextWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -190,11 +198,11 @@ public class SignUpDelegate extends LatteDelegate implements ITimeListener {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(!TextUtils.isEmpty(mPhone.getText().toString())&&!TextUtils.isEmpty(mNote.getText().toString())){
+                if (!TextUtils.isEmpty(mPhone.getText().toString()) && !TextUtils.isEmpty(mNote.getText().toString())) {
                     mLogin.setClickable(true);
                     mLogin.setBackgroundResource(R.mipmap.buttom_login_orange);
                     mLogin.setTextColor(getResources().getColor(R.color.app_text_orange));
-                }else {
+                } else {
                     mLogin.setClickable(false);
                     mLogin.setBackgroundResource(R.mipmap.buttom_login_gray);
                     mLogin.setTextColor(getResources().getColor(R.color.app_text_gray));

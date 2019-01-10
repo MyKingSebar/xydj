@@ -19,8 +19,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.latte.R;
 import com.example.latte.app.Latte;
-import com.example.latte.ui.R;
 
 /**
  * @author vondear

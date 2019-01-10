@@ -7,7 +7,7 @@ import android.view.Gravity;
 import android.view.Window;
 import android.view.WindowManager.LayoutParams;
 
-import com.example.latte.ui.R;
+import com.example.latte.R;
 
 
 /**

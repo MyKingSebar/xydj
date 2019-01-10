@@ -48,7 +48,6 @@ public class YjSignHandler {
             YjDatabaseManager.getInstance().getDao().insert(profile);
             //已经注册并登录成功了
             if(isComplete==1){
-
                 AccountManager.setIsComplete(true);
                 signListener.onSignUpSecondSuccess();
             }else {

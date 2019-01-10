@@ -5,7 +5,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import com.example.latte.ui.R;
+import com.example.latte.R;
 import com.example.latte.ui.dialog.shapeloadingview.RxShapeLoadingView;
 import com.example.latte.ui.toast.RxToast;
 

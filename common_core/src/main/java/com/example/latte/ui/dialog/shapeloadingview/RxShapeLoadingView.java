@@ -17,7 +17,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.latte.ui.R;
+import com.example.latte.R;
 
 
 /**

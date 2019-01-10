@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 
-import com.example.latte.ui.R;
+import com.example.latte.R;
 
 
 /**

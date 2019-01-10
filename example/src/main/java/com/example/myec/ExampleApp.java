@@ -50,7 +50,7 @@ public class ExampleApp extends MultiDexApplication {
                 .configure();
         initStetho();
         initNineGrideView();
-        initSmallVideo();
+//        initSmallVideo();
         DatabaseManager.getInstance().init(this);
         YjDatabaseManager.getInstance().init(this);
 

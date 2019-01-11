@@ -71,7 +71,8 @@ public class YjIndexDelegate extends BottomItemDelegate implements View.OnFocusC
 
     @OnClick(R2.id.icon_index_message)
     void onCLickpublish() {
-        mSend.showContextMenu();
+        useSDCardWithCheck(mSend);
+//        mSend.showContextMenu();
 //        getSupportDelegate().start(new PhotoFragment());
     }
 

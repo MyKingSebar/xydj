@@ -1,5 +1,6 @@
 package com.example.myec;
 
+import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.multidex.MultiDexApplication;
 
@@ -17,7 +18,11 @@ import com.example.myec.event.TestEvent;
 import com.facebook.stetho.Stetho;
 import com.joanzapata.iconify.fonts.FontAwesomeModule;
 import com.lzy.ninegrid.NineGridView;
+import com.mabeijianxi.smallvideorecord2.DeviceUtils;
+import com.mabeijianxi.smallvideorecord2.JianXiCamera;
 import com.yijia.common_yijia.database.YjDatabaseManager;
+
+import java.io.File;
 
 import cn.jpush.android.api.JPushInterface;
 
@@ -45,6 +50,7 @@ public class ExampleApp extends MultiDexApplication {
                 .configure();
         initStetho();
         initNineGrideView();
+//        initSmallVideo();
         DatabaseManager.getInstance().init(this);
         YjDatabaseManager.getInstance().init(this);
 
@@ -91,4 +97,25 @@ public class ExampleApp extends MultiDexApplication {
                 .build()
         );
     }
+
+    public static void initSmallVideo() {
+        // 设置拍摄视频缓存路径
+        File dcim = Environment
+                .getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
+        if (DeviceUtils.isZte()) {
+            if (dcim.exists()) {
+                JianXiCamera.setVideoCachePath(dcim + "/mabeijianxi/");
+            } else {
+                JianXiCamera.setVideoCachePath(dcim.getPath().replace("/sdcard/",
+                        "/sdcard-ext/")
+                        + "/mabeijianxi/");
+            }
+        } else {
+            JianXiCamera.setVideoCachePath(dcim + "/mabeijianxi/");
+        }
+        // 初始化拍摄，遇到问题可选择开启此标记，以方便生成日志
+        JianXiCamera.initialize(false,null);
+    }
+
+
 }

@@ -179,7 +179,12 @@
             android:value="26a34a494a1d5dc03b133b24" />
         <!--极光推送 END-->
 
-
+        <!--视频剪辑 START-->
+        <activity
+            android:name="com.example.latte.ui.wxvideoedit.EsayVideoEditActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <!--视频剪辑 END-->
 
     </application>
 

@@ -1,9 +1,13 @@
 package com.yijia.common_yijia.main.index.pictureselector;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatEditText;
@@ -21,6 +25,7 @@ import com.example.latte.ec.R;
 import com.example.latte.ec.R2;
 import com.example.latte.net.rx.BaseObserver;
 import com.example.latte.net.rx.RxRestClient;
+import com.example.latte.ui.wxvideoedit.EsayVideoEditActivity;
 import com.example.latte.util.log.LatteLogger;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
@@ -37,7 +42,9 @@ import com.yijia.common_yijia.sign.YjBottomDelegate;
 import com.yijia.common_yijia.sign.YjSignHandler;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 
@@ -338,18 +345,29 @@ public class PhotoFragment extends LatteDelegate {
                 case PictureConfig.CHOOSE_REQUEST:
                     // 图片选择
                     selectList = PictureSelector.obtainMultipleResult(data);
-                    adapter.setList(selectList);
-                    adapter.notifyDataSetChanged();
-                    switch (chooseMode){
+
+                    switch (chooseMode) {
                         case VIDEOMODE:
-                            if(selectList.size()==0){
+                            if (selectList.size() == 0) {
                                 return;
                             }
-                            String time=getPlayTime(selectList.get(0).getPath());
-                            Long timeLong=Long.getLong(time);
-                            if(timeLong/1000>5){
+                            LatteLogger.d("path","path:"+selectList.get(0).getPath());
+                            int time = getPlayTime(selectList.get(0).getPath());
+                            LatteLogger.d("path","time:"+time);
+                            String path = selectList.get(0).getPath();
+//                            if (time == null) {
+//                                showToast("读取视频时间失败");
+//                                return;
+//                            }
+//                            Long timeLong = Long.getLong(time);
+//                            if (timeLong / 1000 > 5) {
+                            if (time/100 > 50) {
                                 showToast("您的视频大于5秒，请裁剪后发送！");
-                            }else {
+                                Intent intent = new Intent();
+                                intent.putExtra(EsayVideoEditActivity.PATH, path);
+                                intent.setClass(getContext(), EsayVideoEditActivity.class);
+                                startActivityForResult(intent, EsayVideoEditActivity.CHOOSEVIDEO_REQUEST);
+                            } else {
                                 // 选择本地视频压缩
                                 LocalMediaConfig.Buidler buidler = new LocalMediaConfig.Buidler();
                                 final LocalMediaConfig config = buidler
@@ -361,15 +379,34 @@ public class PhotoFragment extends LatteDelegate {
                                         .build();
                                 OnlyCompressOverBean onlyCompressOverBean = new LocalMediaCompress(config).startCompress();
                             }
-                            LatteLogger.d("selectList","selectList.getCompressPath:"+selectList.get(0).getCompressPath());
+                            LatteLogger.d("selectList", "selectList.getCompressPath:" + selectList.get(0).getCompressPath());
                             break;
-                            default:
-                                break;
+                        default:
+                            break;
                     }
+                    adapter.setList(selectList);
+                    adapter.notifyDataSetChanged();
+                    break;
+
+                case EsayVideoEditActivity.CHOOSEVIDEO_REQUEST:
+                    LatteLogger.d("jiancai","CHOOSEVIDEO_REQUEST");
+                    String videopath = data.getStringExtra(EsayVideoEditActivity.PATH);
+                    LatteLogger.d("jiancai","videopath"+videopath);
+                    if (!TextUtils.isEmpty(videopath)) {
+                        selectList.get(0).setPath(videopath);
+                        adapter.setList(selectList);
+                        adapter.notifyDataSetChanged();
+                    }
+
+                    break;
+
+                default:
                     break;
 
 
             }
+
+
         }
     }
 
@@ -566,35 +603,48 @@ public class PhotoFragment extends LatteDelegate {
     }
 
 
-    private String getPlayTime(String mUri) {
-        android.media.MediaMetadataRetriever mmr = new android.media.MediaMetadataRetriever();
+
+
+    private int getPlayTime(String mUri) {
+        MediaPlayer mediaPlayer = new MediaPlayer();
+        int durning=0;
         try {
-            if (mUri != null) {
-                HashMap<String, String> headers = null;
-                if (headers == null) {
-                    headers = new HashMap<String, String>();
-                    headers.put("User-Agent", "Mozilla/5.0 (Linux; U; Android 4.4.2; zh-CN; MW-KW-001 Build/JRO03C) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 UCBrowser/1.0.0.001 U4/0.8.0 Mobile Safari/533.1");
-                }
-                mmr.setDataSource(mUri, headers);
-            } else {
-                //mmr.setDataSource(mFD, mOffset, mLength);
-            }
+            mediaPlayer.setDataSource(mUri);
+            mediaPlayer.prepare();
+            durning=mediaPlayer.getDuration();
+        } catch (IOException e) {
+            e.printStackTrace();}
+            return durning;
 
-            String duration = mmr.extractMetadata(android.media.MediaMetadataRetriever.METADATA_KEY_DURATION);//时长(毫秒)
-//            String width = mmr.extractMetadata(android.media.MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH);//宽
-//            String height = mmr.extractMetadata(android.media.MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT);//高
 
-//            Toast.makeText(this, "playtime:" + duration + "w=" + width + "h=" + height, Toast.LENGTH_SHORT).show();
-            LatteLogger.d("duration", duration);
-
-            return duration;
-        } catch (Exception ex) {
-            LatteLogger.e("TAG", "MediaMetadataRetriever exception " + ex);
-        } finally {
-            mmr.release();
-        }
-
-        return null;
+//        android.media.MediaMetadataRetriever mmr = new android.media.MediaMetadataRetriever();
+//        try {
+//            if (mUri != null) {
+//                HashMap<String, String> headers = null;
+//                if (headers == null) {
+//                    headers = new HashMap<String, String>();
+//                    headers.put("User-Agent", "Mozilla/5.0 (Linux; U; Android 4.4.2; zh-CN; MW-KW-001 Build/JRO03C) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 UCBrowser/1.0.0.001 U4/0.8.0 Mobile Safari/533.1");
+//                }
+//                mmr.setDataSource(mUri, headers);
+//            } else {
+//                //mmr.setDataSource(mFD, mOffset, mLength);
+//            }
+//
+//            String duration = mmr.extractMetadata(android.media.MediaMetadataRetriever.METADATA_KEY_DURATION);//时长(毫秒)
+////            String width = mmr.extractMetadata(android.media.MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH);//宽
+////            String height = mmr.extractMetadata(android.media.MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT);//高
+//
+////            Toast.makeText(this, "playtime:" + duration + "w=" + width + "h=" + height, Toast.LENGTH_SHORT).show();
+//            LatteLogger.d("duration", duration);
+//
+//            return duration;
+//        } catch (Exception ex) {
+//            LatteLogger.e("TAG", "MediaMetadataRetriever exception " + ex);
+//        } finally {
+//            mmr.release();
+//        }
+//
+//        return null;
     }
 
 

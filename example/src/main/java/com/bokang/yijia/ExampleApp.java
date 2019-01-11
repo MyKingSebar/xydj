@@ -1,9 +1,10 @@
-package com.example.myec;
+package com.bokang.yijia;
 
 import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.multidex.MultiDexApplication;
 
+import com.bokang.yijia.event.TestEvent;
 import com.example.latte.app.Latte;
 import com.example.latte.ec.database.DatabaseManager;
 import com.example.latte.ec.icon.FontEcModule;
@@ -14,7 +15,6 @@ import com.example.latte.ui.ninegridview.GlideImageLoader;
 import com.example.latte.util.callback.CallbackManager;
 import com.example.latte.util.callback.CallbackType;
 import com.example.latte.util.callback.IGlobalCallback;
-import com.example.myec.event.TestEvent;
 import com.facebook.stetho.Stetho;
 import com.joanzapata.iconify.fonts.FontAwesomeModule;
 import com.lzy.ninegrid.NineGridView;
@@ -28,6 +28,7 @@ import cn.jpush.android.api.JPushInterface;
 
 
 public class ExampleApp extends MultiDexApplication {
+    public static final String PACKAGENAME="com.bokang.yijia";
     @Override
     public void onCreate() {
         super.onCreate();

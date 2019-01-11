@@ -5,7 +5,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.example.myec"
+        applicationId "com.bokang.yijia"
         minSdkVersion 19
         targetSdkVersion 28
         versionCode 1

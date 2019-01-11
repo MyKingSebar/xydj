@@ -102,6 +102,7 @@ public class SignInDelegate extends LatteDelegate {
                         public void onResponse(String response) {
                             LatteLogger.json("user/login", response);
                             YjSignHandler.onSignIn(response, mISignListener);
+
                         }
 
                         @Override

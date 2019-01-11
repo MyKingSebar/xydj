@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+    <com.example.latte.ui.widget.HeadLayout
+        android:id="@+id/head_layout"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:gravity="center_vertical"
+        />
+
+    <RelativeLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="281dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginRight="15dp"
+        android:background="#ffffff">
+
+        <ImageView
+            android:id="@+id/yijialog"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="30dp"
+            android:src="@color/light_black"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal" />
+
+        <TextView
+            android:id="@+id/yijiabanben"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/yijialog"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:text="壹家 1.0"
+            android:textColor="#333333"
+            android:textSize="15sp" />
+        <LinearLayout
+            android:id="@+id/newversionimglayot"
+            android:layout_below="@+id/yijiabanben"
+            android:layout_marginTop="52dp"
+            android:layout_marginLeft="15sp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="版本更新"
+                android:textColor="#333333"
+                android:textSize="15sp"
+                />
+            <ViewStub
+                android:id="@+id/newversionimg"
+                android:layout_width="37dp"
+                android:layout_height="16dp"
+                android:layout_marginLeft="5dp"
+                android:layout="@layout/newversionimg"
+                />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/function_introduction"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/newversionimglayot"
+            android:layout_marginTop="31dp"
+            android:layout_marginLeft="15dp"
+            android:text="功能介绍"
+            android:textColor="#333333"
+            android:textSize="15sp" />
+    </RelativeLayout>
+</LinearLayout>

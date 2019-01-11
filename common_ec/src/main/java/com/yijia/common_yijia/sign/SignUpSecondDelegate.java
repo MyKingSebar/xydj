@@ -141,6 +141,7 @@ public class SignUpSecondDelegate extends LatteDelegate {
                         }else{
                             Toast.makeText(getContext(), object.getString("msg"), Toast.LENGTH_SHORT).show();
                         }
+
                     }
 
                     @Override
@@ -168,6 +169,7 @@ public class SignUpSecondDelegate extends LatteDelegate {
                         LatteLogger.json("picture/upload", response);
                         YjSignHandler.onSignUp(response, mISignListener);
                         getSupportDelegate().startWithPop(new YjBottomDelegate());
+
                     }
 
                     @Override

@@ -97,6 +97,7 @@ public class ForgetPasswordDelegate extends LatteDelegate implements ITimeListen
                             LatteLogger.json("USER_PROFILE", response);
 
                             Toast.makeText(getContext(), "发送成功", Toast.LENGTH_SHORT).show();
+
                         }
 
                         @Override
@@ -129,6 +130,7 @@ public class ForgetPasswordDelegate extends LatteDelegate implements ITimeListen
                         public void onResponse(String response) {
                             LatteLogger.json("USER_PROFILE", response);
                             YjSignHandler.onSignUp(response, mISignListener);
+
                         }
 
                         @Override

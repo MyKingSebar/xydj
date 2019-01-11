@@ -131,18 +131,17 @@ public class HeadLayout extends LinearLayout implements View.OnClickListener {
         TextView headname = inflate.findViewById(R.id.head_name);
         headname.setTextColor(Color.parseColor(textColor));
         headname.setText(name);
-        //headname.setTextSize(TypedValue.COMPLEX_UNIT_SP, textsize);
+        headname.setTextSize(TypedValue.COMPLEX_UNIT_SP, textsize);
     }
 
     //设置右边的图片 和是否显示 默认 false 不显示。 true 显示，false 不显示
-    public void setHeadImage(int imgId, boolean isimage) {
+    public void setRightHeadImage(int imgId, boolean isimage) {
         /**
          * 注：最右边的图片和文字只能存在一个
          */
         if (isimage) {
             View inflate = headimage.inflate();
             ImageView headrightimage = inflate.findViewById(R.id.head_right_image);
-
             headRightText1.setVisibility(GONE);
             headrightimage.setImageDrawable(getResources().getDrawable(imgId));
             headrightimage.setOnClickListener(this);
@@ -151,7 +150,7 @@ public class HeadLayout extends LinearLayout implements View.OnClickListener {
 
     //设置右边的文字是否显示 和设置文字，默认false 不显示。true 显示，false 不显示
 
-    public void setHeadRightText(String name, boolean istext) {
+    public void setHeadRightText(String name, boolean istext,String textColor) {
         /**
          * 注：最右边的图片和文字只能存在一个
          */
@@ -161,6 +160,7 @@ public class HeadLayout extends LinearLayout implements View.OnClickListener {
             TextView viewById = inflate.findViewById(R.id.head_right_text);
             headimage.setVisibility(GONE);
             viewById.setText(name);
+            viewById.setTextColor(Color.parseColor(textColor));
             viewById.setOnClickListener(this);
         }
     }

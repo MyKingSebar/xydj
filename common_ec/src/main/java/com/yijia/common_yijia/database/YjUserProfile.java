@@ -6,8 +6,6 @@ import org.greenrobot.greendao.annotation.Generated;
 
 @Entity(nameInDb = "yj_user_profile")
 public class YjUserProfile {
-
-
     @Id
     Long id = null;
     String yjtk = null;

@@ -37,4 +37,6 @@ dependencies {
 
     //视频处理
     api 'com.mabeijianxi:small-video-record2:2.0.3@aar'
+
+
 }

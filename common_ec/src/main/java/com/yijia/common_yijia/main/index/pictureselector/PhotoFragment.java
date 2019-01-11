@@ -26,8 +26,6 @@ import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.yijia.common_yijia.database.YjDatabaseManager;
 import com.yijia.common_yijia.main.index.YjIndexDelegate;
-import com.yijia.common_yijia.sign.YjBottomDelegate;
-import com.yijia.common_yijia.sign.YjSignHandler;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -411,6 +409,7 @@ LatteLogger.w("upLoadImg",""+chooseMode);
                     public void onResponse(String response) {
                         LatteLogger.json("circle/insert", response);
                         getSupportDelegate().pop();
+
                     }
 
                     @Override

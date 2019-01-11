@@ -222,6 +222,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements View.OnFocusC
                             final String msg = JSON.parseObject(response).getString("msg");
                             Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
                         }
+
                     }
 
                     @Override
@@ -256,6 +257,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements View.OnFocusC
                             final String msg = JSON.parseObject(response).getString("msg");
                             Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
                         }
+
                     }
 
                     @Override

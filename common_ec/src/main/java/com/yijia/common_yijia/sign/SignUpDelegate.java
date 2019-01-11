@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
-import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatTextView;
 import android.text.Editable;
@@ -17,8 +16,6 @@ import android.widget.Toast;
 import com.example.latte.delegates.LatteDelegate;
 import com.example.latte.ec.R;
 import com.example.latte.ec.R2;
-import com.example.latte.net.RestClient;
-import com.example.latte.net.callback.ISuccess;
 import com.example.latte.net.rx.BaseObserver;
 import com.example.latte.net.rx.RxRestClient;
 import com.example.latte.util.log.LatteLogger;
@@ -96,6 +93,7 @@ public class SignUpDelegate extends LatteDelegate implements ITimeListener {
                             LatteLogger.json("USER_PROFILE", response);
 
                             Toast.makeText(getContext(), "发送成功", Toast.LENGTH_SHORT).show();
+
                         }
 
                         @Override
@@ -128,6 +126,7 @@ public class SignUpDelegate extends LatteDelegate implements ITimeListener {
                         public void onResponse(String response) {
                             LatteLogger.json("USER_PROFILE", response);
                             YjSignHandler.onSignUp(response, mISignListener);
+
                         }
 
                         @Override

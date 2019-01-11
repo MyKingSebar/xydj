@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+    <com.example.latte.ui.widget.HeadLayout
+        android:id="@+id/head_layout"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:gravity="center_vertical"/>
+    
+    <EditText
+        android:id="@+id/set_name"
+        android:layout_width="match_parent"
+        android:background="#ffffff"
+        android:layout_marginTop="13dp"
+        android:layout_marginLeft="15dp"
+        android:textSize="15sp"
+        android:paddingLeft="10dp"
+        android:textColor="#333333"
+        android:layout_marginRight="15dp"
+        android:layout_height="41dp" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#CFCFCF "
+        android:textSize="13sp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        android:text="请不要超过10个字，支持中文、英文"
+        />
+</LinearLayout>

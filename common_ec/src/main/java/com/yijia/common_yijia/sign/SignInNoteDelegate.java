@@ -93,6 +93,7 @@ public class SignInNoteDelegate extends LatteDelegate implements ITimeListener {
                             LatteLogger.json("USER_PROFILE", response);
 //                            SignHandler.onSignIn(response, mISignListener);
                             Toast.makeText(getContext(), "发送成功", Toast.LENGTH_SHORT).show();
+
                         }
 
                         @Override
@@ -132,6 +133,7 @@ public class SignInNoteDelegate extends LatteDelegate implements ITimeListener {
                         public void onResponse(String response) {
                             LatteLogger.json("USER_PROFILE", response);
                             YjSignHandler.onSignIn(response, mISignListener);
+
                         }
 
                         @Override

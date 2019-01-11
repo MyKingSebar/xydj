@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
-import android.support.v4.widget.TextViewCompat;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutCompat;
@@ -357,6 +356,7 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
                         }
                         mInputManager.hideSoftInputFromWindow(inputComment.getWindowToken(), 0);
                         popupWindow.dismiss();
+
                     }
 
                     @Override
@@ -404,6 +404,7 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
                             final String msg = JSON.parseObject(response).getString("status");
                             Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
                         }
+
                     }
 
                     @Override

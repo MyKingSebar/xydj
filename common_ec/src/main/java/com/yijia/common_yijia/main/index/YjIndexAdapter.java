@@ -431,14 +431,16 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
             player.seekTo(currentWindow, playbackPosition);
         }
         final int mediaUrlSize = mediaUrl.length;
+        LatteLogger.d("jialei","mediaUrlSize:"+mediaUrlSize);
         MediaSource[] mediaSources = new MediaSource[mediaUrlSize];
         for (int i = 0; i < mediaUrlSize; i++) {
+            LatteLogger.d("jialei","i:"+i);
             Uri uri = Uri.parse(mediaUrl[i]);
             mediaSources[i] = buildMediaSource(uri);
 
         }
-
-        player.prepare(new ConcatenatingMediaSource(mediaSources), false, true);
+        LatteLogger.d("jialei","mediaSources.size:"+mediaSources.length);
+        player.prepare(new ConcatenatingMediaSource(mediaSources), true, true);
     }
 
     private MediaSource buildMediaSource(Uri uri) {

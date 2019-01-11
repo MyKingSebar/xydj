@@ -72,7 +72,7 @@ public class SetUpDelegate extends LatteDelegate implements HeadLayout.OnClickHe
     }
 
     //是否退出的 dialog
-    private void showDialog() {
+    public void showDialog() {
 //        TextView msg = new TextView(_mActivity);
 //        msg.setText("是否确定退出？");
 //        msg.setPadding(10, 10, 10, 10);

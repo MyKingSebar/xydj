@@ -23,8 +23,6 @@ import qiu.niorgai.StatusBarCompat;
 public class ExampleActivity extends ProxyActivity implements
         ISignListener,
         ILauncherListener {
-
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +53,6 @@ public class ExampleActivity extends ProxyActivity implements
             public void onSignIn() {
                 getSupportDelegate().startWithPop(new SignInDelegate());
             }
-
             @Override
             public void onNoSignIn() {
                 getSupportDelegate().startWithPop(new SignUpSecondDelegate());

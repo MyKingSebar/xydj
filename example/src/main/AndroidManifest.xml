@@ -34,6 +34,11 @@
             android:name="design_height_in_dp"
             android:value="667"/>
         <!--今日头条适配 END-->
+        <!--高德地图 START-->
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="180909d107c7f1ab21c4f8bc4a49b17f"/>
+        <!--高德地图 END-->
 
         <activity android:name="com.bokang.yijia.ExampleActivity">
             <intent-filter>
@@ -187,5 +192,4 @@
         <!--视频剪辑 END-->
 
     </application>
-
 </manifest>

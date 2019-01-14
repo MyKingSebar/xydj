@@ -190,18 +190,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <!--视频剪辑 END-->
-        <!--融云FileProvider 相关配置 START-->
-        <provider
-            android:name="android.support.v4.content.FileProvider"
-            android:authorities="com.bokang.yijia.FileProvider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/rc_file_path" />
-        </provider>
-        <!--融云FileProvider 相关配置 END-->
 
     </application>
-
 </manifest>

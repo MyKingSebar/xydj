@@ -2,9 +2,6 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 28
-
-
-
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 28
@@ -33,4 +30,11 @@ dependencies {
     api project(':IMLib')
     api project(':IMKit')
     api files('libs/MiPush_SDK_Client_3_6_9.jar')
+    implementation project(':CallKit')
+    implementation project(':CallLib')
+    implementation project(':RCSticker')
+    implementation files('libs/Amap_2DMap_V5.2.0_20170627.jar')
+    implementation files('libs/AMap_Channel_Location_V1.4.0_20160708.jar')
+    implementation files('libs/AMap_Search_V6.5.0_20180930.jar')
+    implementation files('libs/Android_Map3D_SDK_V6.5.0_20180930.jar')
 }

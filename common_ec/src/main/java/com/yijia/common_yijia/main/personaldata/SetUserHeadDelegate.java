@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,25 +21,36 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.latte.app.AccountManager;
+import com.example.latte.app.IUserChecker;
 import com.example.latte.delegates.LatteDelegate;
 import com.example.latte.ec.R;
 import com.example.latte.ec.R2;
+import com.example.latte.net.rx.BaseObserver;
+import com.example.latte.net.rx.RxRestClient;
 import com.example.latte.ui.widget.HeadLayout;
+import com.example.latte.util.log.LatteLogger;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
+import com.luck.picture.lib.rxbus2.RxBus;
 import com.yijia.common_yijia.database.YjDatabaseManager;
 import com.yijia.common_yijia.database.YjUserProfile;
 import com.yijia.common_yijia.main.mine.setup.UpDateUtils;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 public class SetUserHeadDelegate extends LatteDelegate implements HeadLayout.OnClickHeadReturn, HeadLayout.OnClickHeadHeadImage, View.OnClickListener {
     @BindView(R2.id.head_layout)
@@ -61,9 +73,18 @@ public class SetUserHeadDelegate extends LatteDelegate implements HeadLayout.OnC
 
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, @NonNull View rootView) {
+        //初始化头布局
+
         initHead();
+        String imagePath = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getImagePath();
+        if (imagePath != null) {
+            Glide.with(_mActivity)
+                    .load(imagePath)
+                    .into(bigHead);
+        }
     }
 
+    //初始化头布局
     private void initHead() {
         headLayout.setHeadleftImg(true, R.mipmap.fanhui);
         headLayout.setHeadName("头像", "#FDBA63", 18);
@@ -71,15 +92,6 @@ public class SetUserHeadDelegate extends LatteDelegate implements HeadLayout.OnC
         headLayout.setHeadlayoutBagColor("#000000");
         headLayout.setOnClickHeadReturn(this);
         headLayout.setOnClickHeadRightImage(this);
-    }
-    @Override
-    public void onSupportVisible() {
-        super.onSupportVisible();
-        String imagePath = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getImagePath();
-        Glide.with(_mActivity)
-                .load(imagePath)
-                .into(bigHead);
-
     }
 
     @Override
@@ -133,7 +145,7 @@ public class SetUserHeadDelegate extends LatteDelegate implements HeadLayout.OnC
             //图片选择
             getImage();
             mPopWindow.dismiss();
-        }else if (i == R.id.cancel){
+        } else if (i == R.id.cancel) {
             Toast.makeText(_mActivity, "取消", Toast.LENGTH_SHORT).show();
             mPopWindow.dismiss();
         }
@@ -170,28 +182,94 @@ public class SetUserHeadDelegate extends LatteDelegate implements HeadLayout.OnC
                     // 图片选择
                     selectList = PictureSelector.obtainMultipleResult(data);
                     if (!selectList.isEmpty()) {
-                        String imgPath = selectList.get(0).getPath();
-                        UpDateUtils.updatePersonalData(_mActivity, null, imgPath, new UpDateUtils.UpDateSuccessAndError() {
-                            @Override
-                            public void successAndError(UpDateUtils.UpDatePersonal upDatePersonal) {
-                                if (upDatePersonal==UpDateUtils.UpDatePersonal.SUCCESS){
-                                    YjUserProfile profile = YjDatabaseManager.getInstance().getDao().loadAll().get(0);
-                                    profile.setImagePath(imgPath);
-                                    YjDatabaseManager.getInstance().getDao().update(profile);
-                                    Glide.with(_mActivity)
-                                            .load(imgPath)
-                                            .into(bigHead);
-                                    Toast.makeText(_mActivity, "修改头像成功", Toast.LENGTH_SHORT).show();
-                                }else{
-                                    Toast.makeText(_mActivity, "修改头像失败", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
-
+                        //上传头像
+                        uploadYourHead(selectList);
                     }
                     break;
             }
         }
     }
 
+    private void uploadYourHead(List<LocalMedia> imgPath) {
+        final String url = "/picture/upload";
+
+        if (imgPath != null) {
+            AccountManager.checkAccont(new IUserChecker() {
+                @Override
+                public void onSignIn() {
+                    String token = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getYjtk();
+                    File[] files = getFiles(imgPath);
+                    RxRestClient.builder()
+                            .url(url)
+                            .params("yjtk", token)
+//                .params("files", new File[]{new File(imgPath)})
+                            .files(files)
+                            .build()
+                            .uploadwithparams()
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new BaseObserver<String>(getContext()) {
+                                @Override
+                                public void onResponse(String response) {
+                                    LatteLogger.json("picture/upload", response);
+                                    final JSONObject object = JSON.parseObject(response);
+                                    final String status = object.getString("status");
+                                    if (TextUtils.equals(status, "1001")) {
+                                        final JSONObject dataObject = object.getJSONObject("data");
+                                        String serverAddr = dataObject.getString("serverAddr");
+                                        final String imgPath = dataObject.getString("path");
+                                        YjUserProfile profile = YjDatabaseManager.getInstance().getDao().loadAll().get(0);
+                                        String s = serverAddr + imgPath;
+                                        profile.setImagePath(s);
+                                        YjDatabaseManager.getInstance().getDao().update(profile);
+                                        //修改头像
+                                        setupHead(s,imgPath);
+                                    } else {
+                                        Toast.makeText(getContext(), object.getString("msg"), Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                                @Override
+                                public void onFail(Throwable e) {
+                                    Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                }
+
+                @Override
+                public void onNoSignIn() {
+
+                }
+            });
+        }
+    }
+
+    private File[] getFiles(List<LocalMedia> list) {
+        if (list != null) {
+            int size = list.size();
+            File[] files = new File[size];
+            for (int i = 0; i < size; i++) {
+                files[i] = new File(list.get(i).getPath());
+            }
+            return files;
+        } else {
+            LatteLogger.w("upLoadImg", "getFiles() == null");
+            return null;
+        }
+    }
+    //修改头像
+    private void setupHead(String serverAddr, String s) {
+        UpDateUtils.updatePersonalData(_mActivity, null, s, new UpDateUtils.UpDateSuccessAndError() {
+            @Override
+            public void successAndError(UpDateUtils.UpDatePersonal upDatePersonal) {
+                if (upDatePersonal == UpDateUtils.UpDatePersonal.SUCCESS) {
+                    Glide.with(_mActivity)
+                            .load(serverAddr)
+                            .into(bigHead);
+                    Toast.makeText(_mActivity, "修改头像成功", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(_mActivity, "修改头像失败", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
 }

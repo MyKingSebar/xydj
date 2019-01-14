@@ -38,6 +38,8 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import io.rong.imkit.RongIM;
+import io.rong.imlib.RongIMClient;
 
 public class YjIndexDelegate extends BottomItemDelegate implements View.OnFocusChangeListener, IFriendsItemListener, IIndexItemListener {
 
@@ -84,8 +86,6 @@ public class YjIndexDelegate extends BottomItemDelegate implements View.OnFocusC
 
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, View rootView) {
-
-
         mRefreshHandler = YjReFreshHandler.create(mRefreshLayout, mRecyclerView, new IndexDataConverter(),this,this);
         CallbackManager.getInstance()
                 .addCallback(CallbackType.ON_SCAN, new IGlobalCallback<String>() {

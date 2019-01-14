@@ -51,6 +51,7 @@ public class MineDelegate extends BottomItemDelegate {
     @BindView(R2.id.user_nickname)
     TextView userNickname;
     RequestOptions mRequestOptions;
+
     @Override
     public Object setLayout() {
         return R.layout.delegate_mine;
@@ -59,8 +60,8 @@ public class MineDelegate extends BottomItemDelegate {
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, @NonNull View rootView) {
         initMine();
-      mRequestOptions = RequestOptions.circleCropTransform()
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
+        mRequestOptions = RequestOptions.circleCropTransform()
+               // .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .skipMemoryCache(true);
     }
 
@@ -73,26 +74,27 @@ public class MineDelegate extends BottomItemDelegate {
             public void onSignIn() {
                 String nickname = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getNickname();
                 String imagePath = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getImagePath();
-                if (imagePath!=null){
+                if (imagePath != null) {
                     Glide.with(_mActivity)
                             .load(imagePath)
                             .apply(mRequestOptions)
                             .into(userImagePath);
-                }else{
+                } else {
                     Glide.with(_mActivity)
                             .load(R.mipmap.ic_launcher)
                             .apply(mRequestOptions)
                             .into(userImagePath);
                 }
-                if (nickname!=null){
+                if (nickname != null) {
                     userNickname.setText(nickname);
-                }else{
+                } else {
                     userNickname.setText("点击设置您的昵称");
                 }
             }
 
             @Override
-            public void onNoSignIn() {}
+            public void onNoSignIn() {
+            }
         });
     }
 
@@ -101,6 +103,7 @@ public class MineDelegate extends BottomItemDelegate {
         headLayout.setHeadName("个人中心", "#FDBA63", 18);
         headLayout.setHeadlayoutBagColor("#ffffff");
     }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -161,6 +164,7 @@ public class MineDelegate extends BottomItemDelegate {
     public void onDestroyView() {
         super.onDestroyView();
     }
+
     //点击每个条目的事件
     @OnClick({R2.id.head_portrait, R2.id.photo_album, R2.id.sayings, R2.id.About_us, R2.id.help, R2.id.set_up})
     public void onViewClicked(View view) {

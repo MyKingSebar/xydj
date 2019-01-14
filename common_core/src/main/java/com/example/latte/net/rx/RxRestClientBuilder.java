@@ -34,7 +34,6 @@ public class RxRestClientBuilder {
     public final RxRestClientBuilder params(WeakHashMap<String, Object> params) {
         this.PARAMS.putAll(params);
         return this;
-
     }
 
     public final RxRestClientBuilder params(String key, Object value) {

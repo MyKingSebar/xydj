@@ -25,12 +25,15 @@ import com.yijia.common_yijia.database.YjDatabaseManager;
 import java.io.File;
 
 import cn.jpush.android.api.JPushInterface;
+import io.rong.imkit.RongIM;
 
 
 public class ExampleApp extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        //初始化融云IM
+        initRongIm();
 
         Latte.init(this)
                 .withIcon(new FontAwesomeModule())
@@ -60,8 +63,6 @@ public class ExampleApp extends MultiDexApplication {
         JPushInterface.init(this);
 
 
-
-
         CallbackManager.getInstance()
                 .addCallback(CallbackType.TAG_OPEN_PUSH, new IGlobalCallback() {
                     @Override
@@ -83,6 +84,11 @@ public class ExampleApp extends MultiDexApplication {
                         }
                     }
                 });
+    }
+
+    //初始化融云IM
+    private void initRongIm() {
+        RongIM.init(this);
     }
 
     private void initNineGrideView() {
@@ -114,8 +120,6 @@ public class ExampleApp extends MultiDexApplication {
             JianXiCamera.setVideoCachePath(dcim + "/mabeijianxi/");
         }
         // 初始化拍摄，遇到问题可选择开启此标记，以方便生成日志
-        JianXiCamera.initialize(false,null);
+        JianXiCamera.initialize(false, null);
     }
-
-
 }

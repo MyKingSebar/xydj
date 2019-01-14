@@ -30,13 +30,10 @@ dependencies {
     //    implementation fileTree(include: ['*.jar'], dir: 'libs')
     api project(':common_ui')
     annotationProcessor 'com.jakewharton:butterknife-compiler:9.0.0-rc2'
-
     implementation files('libs/alipaySdk-20180601.jar')
     //音视频exoplayer
     implementation 'com.google.android.exoplayer:exoplayer:2.9.3'
-
     //视频处理
     api 'com.mabeijianxi:small-video-record2:2.0.3@aar'
-
-
+    api project(':common_im')
 }

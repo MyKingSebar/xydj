@@ -1,8 +1,10 @@
 package com.bokang.yijia;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
+import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.example.latte.activities.ProxyActivity;
@@ -13,11 +15,15 @@ import com.example.latte.delegates.LatteDelegate;
 import com.example.latte.ec.launcher.LauncherDelegate;
 import com.example.latte.ui.launcher.ILauncherListener;
 import com.example.latte.ui.launcher.OnLauncherFinishTag;
+import com.yijia.common_yijia.database.YjDatabaseManager;
 import com.yijia.common_yijia.sign.ISignListener;
 import com.yijia.common_yijia.sign.SignInDelegate;
 import com.yijia.common_yijia.sign.SignUpSecondDelegate;
 import com.yijia.common_yijia.main.YjBottomDelegate;
 
+import io.rong.imkit.MainActivity;
+import io.rong.imkit.RongIM;
+import io.rong.imlib.RongIMClient;
 import qiu.niorgai.StatusBarCompat;
 
 public class ExampleActivity extends ProxyActivity implements
@@ -53,6 +59,7 @@ public class ExampleActivity extends ProxyActivity implements
             public void onSignIn() {
                 getSupportDelegate().startWithPop(new SignInDelegate());
             }
+
             @Override
             public void onNoSignIn() {
                 getSupportDelegate().startWithPop(new SignUpSecondDelegate());
@@ -103,6 +110,11 @@ public class ExampleActivity extends ProxyActivity implements
             case SIGNED:
                 Toast.makeText(this, "启动成功，用户登录了", Toast.LENGTH_LONG).show();
                 getSupportDelegate().startWithPop(new YjBottomDelegate());
+                String rongToken=YjDatabaseManager.getInstance().getDao().loadAll().get(0).getRongCloudToken();
+                if(!TextUtils.isEmpty(rongToken)){
+
+                    connectRong(rongToken);
+                }
                 break;
             case NOT_SIGNED:
                 Toast.makeText(this, "启动成功，用户没登录", Toast.LENGTH_LONG).show();
@@ -113,5 +125,27 @@ public class ExampleActivity extends ProxyActivity implements
                 break;
         }
     }
+
+    private void connectRong(String token) {
+        RongIM.connect(token, new RongIMClient.ConnectCallback() {
+            @Override
+            public void onTokenIncorrect() {
+
+            }
+
+            @Override
+            public void onSuccess(String s) {
+
+            }
+
+            @Override
+            public void onError(RongIMClient.ErrorCode errorCode) {
+
+            }
+        });
+
+    }
+
+
 
 }

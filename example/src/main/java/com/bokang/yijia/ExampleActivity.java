@@ -16,7 +16,7 @@ import com.example.latte.ui.launcher.OnLauncherFinishTag;
 import com.yijia.common_yijia.sign.ISignListener;
 import com.yijia.common_yijia.sign.SignInDelegate;
 import com.yijia.common_yijia.sign.SignUpSecondDelegate;
-import com.yijia.common_yijia.sign.YjBottomDelegate;
+import com.yijia.common_yijia.main.YjBottomDelegate;
 
 import qiu.niorgai.StatusBarCompat;
 

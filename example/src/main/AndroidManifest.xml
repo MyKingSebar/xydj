@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.myec">
+    package="com.bokang.yijia">
 
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -18,7 +18,7 @@
 
     <application
         tools:replace="android:name"
-        android:name=".ExampleApp"
+        android:name="com.bokang.yijia.ExampleApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -35,7 +35,7 @@
             android:value="667"/>
         <!--今日头条适配 END-->
 
-        <activity android:name=".ExampleActivity">
+        <activity android:name="com.bokang.yijia.ExampleActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -147,7 +147,7 @@
 
         <!-- User defined. 用户自定义的广播接收器-->
         <receiver
-            android:name=".push.PushReceiver"
+            android:name="com.bokang.yijia.push.PushReceiver"
             android:enabled="true">
             <intent-filter>
                 <!--Required 用户注册SDK的intent-->

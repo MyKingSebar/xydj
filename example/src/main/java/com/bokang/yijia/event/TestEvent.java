@@ -1,4 +1,4 @@
-package com.example.myec.event;
+package com.bokang.yijia.event;
 
 import android.webkit.WebView;
 import android.widget.Toast;

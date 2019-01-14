@@ -14,11 +14,13 @@ import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.esay.ffmtool.FfmpegTool;
 import com.example.latte.app.Latte;
 import com.example.latte.delegates.LatteDelegate;
 import com.example.latte.ec.R;
@@ -335,8 +337,6 @@ public class PhotoFragment extends LatteDelegate {
             }
         }
     };
-
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -368,16 +368,16 @@ public class PhotoFragment extends LatteDelegate {
                                 intent.setClass(getContext(), EsayVideoEditActivity.class);
                                 startActivityForResult(intent, EsayVideoEditActivity.CHOOSEVIDEO_REQUEST);
                             } else {
-                                // 选择本地视频压缩
-                                LocalMediaConfig.Buidler buidler = new LocalMediaConfig.Buidler();
-                                final LocalMediaConfig config = buidler
-                                        .setVideoPath(selectList.get(0).getPath())
-                                        .captureThumbnailsTime(1)
-                                        .doH264Compress(new AutoVBRMode())
-                                        .setFramerate(15)
-                                        .setScale(1.0f)
-                                        .build();
-                                OnlyCompressOverBean onlyCompressOverBean = new LocalMediaCompress(config).startCompress();
+//                                // 选择本地视频压缩
+//                                LocalMediaConfig.Buidler buidler = new LocalMediaConfig.Buidler();
+//                                final LocalMediaConfig config = buidler
+//                                        .setVideoPath(selectList.get(0).getPath())
+//                                        .captureThumbnailsTime(1)
+//                                        .doH264Compress(new AutoVBRMode())
+//                                        .setFramerate(15)
+//                                        .setScale(1.0f)
+//                                        .build();
+//                                OnlyCompressOverBean onlyCompressOverBean = new LocalMediaCompress(config).startCompress();
                             }
                             LatteLogger.d("selectList", "selectList.getCompressPath:" + selectList.get(0).getCompressPath());
                             break;
@@ -409,6 +409,8 @@ public class PhotoFragment extends LatteDelegate {
 
         }
     }
+
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

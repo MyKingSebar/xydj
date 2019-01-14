@@ -1,4 +1,4 @@
-package com.example.myec.push;
+package com.bokang.yijia.push;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -8,7 +8,7 @@ import android.support.v4.content.ContextCompat;
 
 import com.alibaba.fastjson.JSONObject;
 import com.example.latte.util.log.LatteLogger;
-import com.example.myec.ExampleActivity;
+import com.bokang.yijia.ExampleActivity;
 
 import java.util.Set;
 

@@ -1,4 +1,4 @@
-package com.yijia.common_yijia.main.personaldata;
+package com.yijia.common_yijia.main.mine.personaldata;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;

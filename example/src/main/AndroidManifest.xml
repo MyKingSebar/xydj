@@ -34,6 +34,11 @@
             android:name="design_height_in_dp"
             android:value="667"/>
         <!--今日头条适配 END-->
+        <!--高德地图 START-->
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="180909d107c7f1ab21c4f8bc4a49b17f"/>
+        <!--高德地图 END-->
 
         <activity android:name="com.bokang.yijia.ExampleActivity">
             <intent-filter>
@@ -185,6 +190,17 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <!--视频剪辑 END-->
+        <!--融云FileProvider 相关配置 START-->
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.bokang.yijia.FileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/rc_file_path" />
+        </provider>
+        <!--融云FileProvider 相关配置 END-->
 
     </application>
 

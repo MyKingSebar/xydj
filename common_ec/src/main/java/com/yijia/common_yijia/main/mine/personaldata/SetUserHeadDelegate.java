@@ -1,4 +1,4 @@
-package com.yijia.common_yijia.main.personaldata;
+package com.yijia.common_yijia.main.mine.personaldata;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -39,7 +39,6 @@ import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
-import com.luck.picture.lib.rxbus2.RxBus;
 import com.yijia.common_yijia.database.YjDatabaseManager;
 import com.yijia.common_yijia.database.YjUserProfile;
 import com.yijia.common_yijia.main.mine.setup.UpDateUtils;

@@ -59,32 +59,32 @@ public class ExampleApp extends MultiDexApplication {
         YjDatabaseManager.getInstance().init(this);
 
 
-        //开启极光推送
-        JPushInterface.setDebugMode(true);
-        JPushInterface.init(this);
-
-
-        CallbackManager.getInstance()
-                .addCallback(CallbackType.TAG_OPEN_PUSH, new IGlobalCallback() {
-                    @Override
-                    public void executeCallback(@Nullable Object args) {
-                        if (JPushInterface.isPushStopped(Latte.getApplicationContext())) {
-                            //开启极光推送
-                            JPushInterface.setDebugMode(true);
-                            JPushInterface.init(Latte.getApplicationContext());
-                        }
-                    }
-                })
-                .addCallback(CallbackType.TAG_STOP_PUSH, new IGlobalCallback() {
-                    @Override
-                    public void executeCallback(@Nullable Object args) {
-                        if (!JPushInterface.isPushStopped(Latte.getApplicationContext())) {
-                            //开启极光推送
-                            JPushInterface.setDebugMode(true);
-                            JPushInterface.stopPush(Latte.getApplicationContext());
-                        }
-                    }
-                });
+//        //开启极光推送
+//        JPushInterface.setDebugMode(true);
+//        JPushInterface.init(this);
+//
+//
+//        CallbackManager.getInstance()
+//                .addCallback(CallbackType.TAG_OPEN_PUSH, new IGlobalCallback() {
+//                    @Override
+//                    public void executeCallback(@Nullable Object args) {
+//                        if (JPushInterface.isPushStopped(Latte.getApplicationContext())) {
+//                            //开启极光推送
+//                            JPushInterface.setDebugMode(true);
+//                            JPushInterface.init(Latte.getApplicationContext());
+//                        }
+//                    }
+//                })
+//                .addCallback(CallbackType.TAG_STOP_PUSH, new IGlobalCallback() {
+//                    @Override
+//                    public void executeCallback(@Nullable Object args) {
+//                        if (!JPushInterface.isPushStopped(Latte.getApplicationContext())) {
+//                            //开启极光推送
+//                            JPushInterface.setDebugMode(true);
+//                            JPushInterface.stopPush(Latte.getApplicationContext());
+//                        }
+//                    }
+//                });
     }
 
     //初始化融云IM

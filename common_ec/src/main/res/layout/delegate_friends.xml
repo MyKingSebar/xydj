@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="match_parent">
+        <com.example.latte.ui.widget.HeadLayout
+            android:id="@+id/head_layout"
+            android:layout_width="match_parent"
+            android:gravity="center_vertical"
+            android:layout_height="64dp"/>
+        <LinearLayout
+            app:layout_constraintTop_toBottomOf="@+id/head_layout"
+            android:layout_marginTop="13dp"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="15dp"
+            android:orientation="vertical"
+            android:background="#ffffff"
+            android:layout_marginRight="15dp"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="51dp"
+                android:text="监护人 | 被监护人"
+                android:layout_marginLeft="15dp"
+                android:gravity="center_vertical"
+                android:textColor="#333333"
+                android:textSize="15sp" />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/guardianship_recycler"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <LinearLayout
+            app:layout_constraintTop_toBottomOf="@+id/head_layout"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="15dp"
+            android:orientation="vertical"
+            android:background="#ffffff"
+            android:layout_marginRight="15dp"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="51dp"
+                android:text="家庭医生"
+                android:layout_marginLeft="15dp"
+                android:gravity="center_vertical"
+                android:textColor="#333333"
+                android:textSize="15sp" />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/doctor_recycler"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <LinearLayout
+            app:layout_constraintTop_toBottomOf="@+id/head_layout"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="15dp"
+            android:orientation="vertical"
+            android:background="#ffffff"
+            android:layout_marginRight="15dp"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="51dp"
+                android:text="亲友团"
+                android:layout_marginLeft="15dp"
+                android:gravity="center_vertical"
+                android:textColor="#333333"
+                android:textSize="15sp" />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/friends_recycler"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</ScrollView>

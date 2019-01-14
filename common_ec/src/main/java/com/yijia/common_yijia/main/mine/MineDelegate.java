@@ -59,7 +59,8 @@ public class MineDelegate extends BottomItemDelegate {
 
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, @NonNull View rootView) {
-        initMine();
+        //初始化头布局
+        initMineHead();
         mRequestOptions = RequestOptions.circleCropTransform()
                // .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .skipMemoryCache(true);
@@ -98,7 +99,7 @@ public class MineDelegate extends BottomItemDelegate {
         });
     }
 
-    private void initMine() {
+    private void initMineHead() {
         //初始化头布局
         headLayout.setHeadName("个人中心", "#FDBA63", 18);
         headLayout.setHeadlayoutBagColor("#ffffff");

@@ -59,16 +59,18 @@ public class SetUpDelegate extends LatteDelegate implements HeadLayout.OnClickHe
     //点击条目事件
     @OnClick({R2.id.setup_pwd, R2.id.nodisturb, R2.id.log_out})
     public void onViewClicked(View view) {
-        int i = view.getId();
-        if (i == R.id.setup_pwd) {
-            //跳转到修改密码
-            getSupportDelegate().start(new ChangePasswordDelegate());
-        } else if (i == R.id.nodisturb) {
-            //跳转到勿扰模式
-            getSupportDelegate().start(new NodisturbDelegate());
-        } else if (i == R.id.log_out) {
-            showDialog();
-        }
+//        getSupportDelegate().pop();
+        getSupportDelegate().popTo(SignInDelegate.class,false);
+//        int i = view.getId();
+//        if (i == R.id.setup_pwd) {
+//            //跳转到修改密码
+//            getSupportDelegate().start(new ChangePasswordDelegate());
+//        } else if (i == R.id.nodisturb) {
+//            //跳转到勿扰模式
+//            getSupportDelegate().start(new NodisturbDelegate());
+//        } else if (i == R.id.log_out) {
+//            showDialog();
+//        }
     }
 
     //是否退出的 dialog

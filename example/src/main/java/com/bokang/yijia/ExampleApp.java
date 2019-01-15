@@ -24,7 +24,6 @@ import com.yijia.common_yijia.database.YjDatabaseManager;
 
 import java.io.File;
 
-import cn.jpush.android.api.JPushInterface;
 import io.rong.imkit.RongIM;
 
 

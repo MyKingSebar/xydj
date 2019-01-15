@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.example.latte.delegates.bottom.BottomItemDelegate;
+import com.example.latte.ec.R;
 import com.example.latte.ec.R2;
 
 import butterknife.BindView;
@@ -30,7 +31,7 @@ public class MessageDelagate extends BottomItemDelegate {
 
     @Override
     public Object setLayout() {
-        return null;
+        return R.layout.delegate_message;
     }
 
     @Override

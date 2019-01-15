@@ -21,8 +21,8 @@ import com.example.latte.ec.R2;
 import com.example.latte.ui.widget.HeadLayout;
 import com.example.latte.ui.widget.UserTextLineView;
 import com.yijia.common_yijia.database.YjDatabaseManager;
-import com.yijia.common_yijia.main.mine.setup.SetUpDelegate;
 import com.yijia.common_yijia.main.mine.personaldata.PersonalDataDelegate;
+import com.yijia.common_yijia.main.mine.setup.SetUpDelegate;
 
 import butterknife.BindView;
 import butterknife.OnClick;

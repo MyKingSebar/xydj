@@ -49,6 +49,8 @@ public class PhotoFragment extends LatteDelegate {
 
     public static long mLong2 = 0;
 
+    boolean isfirst = false;
+
     @BindView(R2.id.et_text)
     AppCompatEditText etText;
     @BindView(R2.id.rv_imgs)
@@ -161,7 +163,6 @@ public class PhotoFragment extends LatteDelegate {
     private final int IMAGEMODE = 1;
     private final int VIDEOMODE = 2;
     private final int AUDIOMODE = 3;
-
     private final int TEXTMODE = 4;
     //    public int ALLMODE = PictureMimeType.ofAll();
 //    private final int IMAGEMODE = PictureMimeType.ofImage();
@@ -187,6 +188,9 @@ public class PhotoFragment extends LatteDelegate {
 
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, @NonNull View rootView) {
+        if (chooseMode == IMAGEMODE || chooseMode == VIDEOMODE || chooseMode == AUDIOMODE) {
+            isfirst = true;
+        }
         init();
     }
 
@@ -252,77 +256,88 @@ public class PhotoFragment extends LatteDelegate {
                 }
             }
         });
+
+        if (isfirst) {
+            intoPick();
+            isfirst = false;
+        }
+
+    }
+
+    private void intoPick() {
+        boolean mode = ALBUMORNOT;
+        if (mode) {
+            // 进入相册 以下是例子：不需要的api可以不写
+            PictureSelector.create(PhotoFragment.this)
+                    .openGallery(chooseMode)
+                    .theme(THEMEID)
+                    .maxSelectNum(maxselectnum)
+                    .minSelectNum(1)
+                    .selectionMode(numMode)
+                    .previewImage(previewImg)
+                    .previewVideo(previewVideo)
+                    .compress(isCompress)
+
+                    .enablePreviewAudio(previewAutio) // 是否可播放音频
+                    .videoMaxSecond(15)// 显示多少秒以内的视频or音频也可适用 int
+                    .recordVideoSecond(15)//视频秒数录制 默认60s int
+                    .videoQuality(0)// 视频录制质量 0 or 1 int
+                    .cropCompressQuality(50)// 裁剪压缩质量 默认90 int
+                    .isCamera(ISCAMERA)
+                    .enableCrop(isCrop)
+
+                    .glideOverride(160, 160)
+                    .previewEggs(true)
+                    .withAspectRatio(aspect_ratio_x, aspect_ratio_y)
+                    .hideBottomControls(HIDEMENU)
+                    .isGif(isGif)
+                    .freeStyleCropEnabled(cutStyle)
+                    .circleDimmedLayer(isCutCricle)
+                    .showCropFrame(isShowCutFrame)
+                    .showCropGrid(isShowCutGride)
+                    .openClickSound(VOICE)
+                    .selectionMedia(selectList)
+                    .forResult(PictureConfig.CHOOSE_REQUEST);
+        } else {
+            // 单独拍照
+            PictureSelector.create(PhotoFragment.this)
+                    .openCamera(chooseMode)
+                    .theme(THEMEID)
+                    .maxSelectNum(maxselectnum)
+                    .minSelectNum(1)
+                    .selectionMode(numMode)
+                    .previewImage(previewImg)
+                    .previewVideo(previewVideo)
+                    .compress(isCompress)
+                    .enablePreviewAudio(previewAutio) // 是否可播放音频
+                    .videoMaxSecond(15)// 显示多少秒以内的视频or音频也可适用 int
+                    .recordVideoSecond(15)//视频秒数录制 默认60s int
+                    .videoQuality(0)// 视频录制质量 0 or 1 int
+                    .cropCompressQuality(10)// 裁剪压缩质量 默认90 int
+                    .isCamera(ISCAMERA)
+                    .enableCrop(isCrop)
+
+                    .glideOverride(160, 160)
+                    .withAspectRatio(aspect_ratio_x, aspect_ratio_y)
+                    .hideBottomControls(HIDEMENU)
+                    .isGif(isGif)
+                    .freeStyleCropEnabled(cutStyle)
+                    .circleDimmedLayer(isCutCricle)
+                    .showCropFrame(isShowCutFrame)
+                    .showCropGrid(isShowCutGride)
+                    .openClickSound(VOICE)
+                    .selectionMedia(selectList)
+                    .forResult(PictureConfig.CHOOSE_REQUEST);
+        }
     }
 
     private GridImageAdapter.onAddPicClickListener onAddPicClickListener = new GridImageAdapter.onAddPicClickListener() {
         @Override
         public void onAddPicClick() {
-            boolean mode = ALBUMORNOT;
-            if (mode) {
-                // 进入相册 以下是例子：不需要的api可以不写
-                PictureSelector.create(PhotoFragment.this)
-                        .openGallery(chooseMode)
-                        .theme(THEMEID)
-                        .maxSelectNum(maxselectnum)
-                        .minSelectNum(1)
-                        .selectionMode(numMode)
-                        .previewImage(previewImg)
-                        .previewVideo(previewVideo)
-                        .compress(isCompress)
-
-                        .enablePreviewAudio(previewAutio) // 是否可播放音频
-                        .videoMaxSecond(15)// 显示多少秒以内的视频or音频也可适用 int
-                        .recordVideoSecond(15)//视频秒数录制 默认60s int
-                        .videoQuality(0)// 视频录制质量 0 or 1 int
-                        .cropCompressQuality(50)// 裁剪压缩质量 默认90 int
-                        .isCamera(ISCAMERA)
-                        .enableCrop(isCrop)
-
-                        .glideOverride(160, 160)
-                        .previewEggs(true)
-                        .withAspectRatio(aspect_ratio_x, aspect_ratio_y)
-                        .hideBottomControls(HIDEMENU)
-                        .isGif(isGif)
-                        .freeStyleCropEnabled(cutStyle)
-                        .circleDimmedLayer(isCutCricle)
-                        .showCropFrame(isShowCutFrame)
-                        .showCropGrid(isShowCutGride)
-                        .openClickSound(VOICE)
-                        .selectionMedia(selectList)
-                        .forResult(PictureConfig.CHOOSE_REQUEST);
-            } else {
-                // 单独拍照
-                PictureSelector.create(PhotoFragment.this)
-                        .openCamera(chooseMode)
-                        .theme(THEMEID)
-                        .maxSelectNum(maxselectnum)
-                        .minSelectNum(1)
-                        .selectionMode(numMode)
-                        .previewImage(previewImg)
-                        .previewVideo(previewVideo)
-                        .compress(isCompress)
-                        .enablePreviewAudio(previewAutio) // 是否可播放音频
-                        .videoMaxSecond(15)// 显示多少秒以内的视频or音频也可适用 int
-                        .recordVideoSecond(15)//视频秒数录制 默认60s int
-                        .videoQuality(0)// 视频录制质量 0 or 1 int
-                        .cropCompressQuality(10)// 裁剪压缩质量 默认90 int
-                        .isCamera(ISCAMERA)
-                        .enableCrop(isCrop)
-
-                        .glideOverride(160, 160)
-                        .withAspectRatio(aspect_ratio_x, aspect_ratio_y)
-                        .hideBottomControls(HIDEMENU)
-                        .isGif(isGif)
-                        .freeStyleCropEnabled(cutStyle)
-                        .circleDimmedLayer(isCutCricle)
-                        .showCropFrame(isShowCutFrame)
-                        .showCropGrid(isShowCutGride)
-                        .openClickSound(VOICE)
-                        .selectionMedia(selectList)
-                        .forResult(PictureConfig.CHOOSE_REQUEST);
-            }
+            intoPick();
         }
     };
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -337,9 +352,9 @@ public class PhotoFragment extends LatteDelegate {
                             if (selectList.size() == 0) {
                                 return;
                             }
-                            LatteLogger.d("path","path:"+selectList.get(0).getPath());
+                            LatteLogger.d("path", "path:" + selectList.get(0).getPath());
                             int time = getPlayTime(selectList.get(0).getPath());
-                            LatteLogger.d("path","time:"+time);
+                            LatteLogger.d("path", "time:" + time);
                             String path = selectList.get(0).getPath();
 //                            if (time == null) {
 //                                showToast("读取视频时间失败");
@@ -347,7 +362,7 @@ public class PhotoFragment extends LatteDelegate {
 //                            }
 //                            Long timeLong = Long.getLong(time);
 //                            if (timeLong / 1000 > 5) {
-                            if (time/100 > 50) {
+                            if (time / 100 > 50) {
                                 showToast("您的视频大于5秒，请裁剪后发送！");
                                 Intent intent = new Intent();
                                 intent.putExtra(EsayVideoEditActivity.PATH, path);
@@ -375,9 +390,9 @@ public class PhotoFragment extends LatteDelegate {
                     break;
 
                 case EsayVideoEditActivity.CHOOSEVIDEO_REQUEST:
-                    LatteLogger.d("jiancai","CHOOSEVIDEO_REQUEST");
+                    LatteLogger.d("jiancai", "CHOOSEVIDEO_REQUEST");
                     String videopath = data.getStringExtra(EsayVideoEditActivity.PATH);
-                    LatteLogger.d("jiancai","videopath"+videopath);
+                    LatteLogger.d("jiancai", "videopath" + videopath);
                     if (!TextUtils.isEmpty(videopath)) {
                         selectList.get(0).setPath(videopath);
                         adapter.setList(selectList);
@@ -395,7 +410,6 @@ public class PhotoFragment extends LatteDelegate {
 
         }
     }
-
 
 
     @Override
@@ -591,18 +605,17 @@ public class PhotoFragment extends LatteDelegate {
     }
 
 
-
-
     private int getPlayTime(String mUri) {
         MediaPlayer mediaPlayer = new MediaPlayer();
-        int durning=0;
+        int durning = 0;
         try {
             mediaPlayer.setDataSource(mUri);
             mediaPlayer.prepare();
-            durning=mediaPlayer.getDuration();
+            durning = mediaPlayer.getDuration();
         } catch (IOException e) {
-            e.printStackTrace();}
-            return durning;
+            e.printStackTrace();
+        }
+        return durning;
 
 
 //        android.media.MediaMetadataRetriever mmr = new android.media.MediaMetadataRetriever();

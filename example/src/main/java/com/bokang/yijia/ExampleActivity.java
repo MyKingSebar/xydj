@@ -15,6 +15,7 @@ import com.example.latte.delegates.LatteDelegate;
 import com.example.latte.ec.launcher.LauncherDelegate;
 import com.example.latte.ui.launcher.ILauncherListener;
 import com.example.latte.ui.launcher.OnLauncherFinishTag;
+import com.example.latte.util.log.LatteLogger;
 import com.yijia.common_yijia.database.YjDatabaseManager;
 import com.yijia.common_yijia.sign.ISignListener;
 import com.yijia.common_yijia.sign.SignInDelegate;
@@ -130,17 +131,17 @@ public class ExampleActivity extends ProxyActivity implements
         RongIM.connect(token, new RongIMClient.ConnectCallback() {
             @Override
             public void onTokenIncorrect() {
-
+                LatteLogger.d("rong","onTokenIncorrect");
             }
 
             @Override
             public void onSuccess(String s) {
-
+                LatteLogger.d("rong","onSuccess:"+s);
             }
 
             @Override
             public void onError(RongIMClient.ErrorCode errorCode) {
-
+                LatteLogger.d("rong","onError:"+errorCode.getMessage());
             }
         });
 

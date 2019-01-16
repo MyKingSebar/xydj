@@ -9,23 +9,27 @@ import com.alibaba.fastjson.JSONObject;
 import com.example.latte.ec.detail.ImageDelegate;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class MessageTabPagerAdapter extends FragmentStatePagerAdapter {
 
-    private final ArrayList<String> TAB_TITLES = new ArrayList<>();
+//    private final ArrayList<String> TAB_TITLES = new ArrayList<>();
+    private final String[] TAB_TITLES = {"对话","通知"};
+
     private final ArrayList<ArrayList<String>> PICTURES = new ArrayList<>();
 
-    public MessageTabPagerAdapter(FragmentManager fm, JSONObject data) {
+    public MessageTabPagerAdapter(FragmentManager fm) {
         super(fm);
     }
 
     @Override
     public Fragment getItem(int position) {
         if (position == 0) {
-            return ImageDelegate.create(PICTURES.get(0));
+            return new ConversationDelegate();
         } else if (position == 1) {
-            return ImageDelegate.create(PICTURES.get(1));
+            return new RecyeleDelegate();
+//            return ImageDelegate.create(PICTURES.get(1));
         }
         return null;
     }
@@ -37,6 +41,6 @@ public class MessageTabPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return TAB_TITLES.get(position);
+        return TAB_TITLES[position];
     }
 }

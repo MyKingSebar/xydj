@@ -23,6 +23,7 @@ public class YjIndexFriendsDataConverter extends DataConverter {
             final String nickname = data.getString("nickname");
             final String realName = data.getString("realName");
             final String phone = data.getString("phone");
+            final String rongCloudToken = data.getString("rongCloudToken");
 //            final String cardNo = data.getString("cardNo");
 //            final String cardImage = data.getString("cardImage");
 //            final String gender = data.getString("gender");
@@ -41,6 +42,7 @@ public class YjIndexFriendsDataConverter extends DataConverter {
                     .setField(MultipleFields.ID,friendUserId)
                     .setField(MultipleFields.IMAGE_URL,userHead)
                     .setField(MultipleFields.NAME,nickname)
+                    .setField(MultipleFields.RONGID,rongCloudToken)
                     .build();
 
             ENTITIES.add(entity);

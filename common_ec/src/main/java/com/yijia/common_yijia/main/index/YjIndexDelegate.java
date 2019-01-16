@@ -31,6 +31,7 @@ import com.yijia.common_yijia.main.index.friends.IFriendsItemListener;
 import com.yijia.common_yijia.main.index.friends.IndexFriendsAdapter;
 import com.yijia.common_yijia.main.index.friends.YjIndexFriendsDataConverter;
 import com.yijia.common_yijia.main.index.pictureselector.PhotoFragment;
+import com.yijia.common_yijia.main.message.ConversationDelegate;
 
 import java.util.ArrayList;
 
@@ -292,11 +293,13 @@ public class YjIndexDelegate extends BottomItemDelegate implements View.OnFocusC
     }
 
     @Override
-    public void onFriendsItemClick(Long id) {
+    public void onFriendsItemClick(Long id,String rongId,String name) {
         if (id == 0) {
             //TODO 邀请
         } else {
             //TODO IM
+            RongIM.getInstance().startPrivateChat(getContext(), rongId, name);
+//            getParentDelegate().getSupportDelegate().start(new ConversationDelegate());
         }
     }
 

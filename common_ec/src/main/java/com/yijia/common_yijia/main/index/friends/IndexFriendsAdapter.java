@@ -48,6 +48,7 @@ public final class IndexFriendsAdapter extends MultipleRecyclerAdapter {
                 final Long id = entity.getField(MultipleFields.ID);
                 final String name = entity.getField(MultipleFields.NAME);
                 final String imgUrl = entity.getField(MultipleFields.IMAGE_URL);
+                final String rongCloudToken = entity.getField(MultipleFields.RONGID);
                 //取出所以控件
                 final AppCompatImageView ivImage = holder.getView(R.id.iv_img);
                 final AppCompatTextView tvName = holder.getView(R.id.tv_name);
@@ -70,13 +71,10 @@ public final class IndexFriendsAdapter extends MultipleRecyclerAdapter {
                             .into(ivImage);
                 }
 
-                llc.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (mIndexFriendsItemListener != null) {
-                            final Long id = entity.getField(MultipleFields.ID);
-                            mIndexFriendsItemListener.onFriendsItemClick(id);
-                        }
+                llc.setOnClickListener(v -> {
+                    if (mIndexFriendsItemListener != null) {
+                        final Long id1 = entity.getField(MultipleFields.ID);
+                        mIndexFriendsItemListener.onFriendsItemClick(id1,rongCloudToken,name);
                     }
                 });
 

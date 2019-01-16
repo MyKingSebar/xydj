@@ -61,16 +61,16 @@ public class SetUpDelegate extends LatteDelegate implements HeadLayout.OnClickHe
     public void onViewClicked(View view) {
 //        getSupportDelegate().pop();
         getSupportDelegate().popTo(SignInDelegate.class,false);
-//        int i = view.getId();
-//        if (i == R.id.setup_pwd) {
-//            //跳转到修改密码
-//            getSupportDelegate().start(new ChangePasswordDelegate());
-//        } else if (i == R.id.nodisturb) {
-//            //跳转到勿扰模式
-//            getSupportDelegate().start(new NodisturbDelegate());
-//        } else if (i == R.id.log_out) {
-//            showDialog();
-//        }
+        int i = view.getId();
+        if (i == R.id.setup_pwd) {
+            //跳转到修改密码
+            getSupportDelegate().start(new ChangePasswordDelegate());
+        } else if (i == R.id.nodisturb) {
+            //跳转到勿扰模式
+            getSupportDelegate().start(new NodisturbDelegate());
+        } else if (i == R.id.log_out) {
+            showDialog();
+        }
     }
 
     //是否退出的 dialog

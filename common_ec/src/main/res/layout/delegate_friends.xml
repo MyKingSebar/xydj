@@ -36,6 +36,11 @@
                 android:layout_marginLeft="15dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/oldmapuserlist_recycler"
+                android:layout_marginLeft="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
         </LinearLayout>
 
         <LinearLayout

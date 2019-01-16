@@ -1,8 +1,6 @@
 package com.yijia.common_yijia.friends.adapter;
 
-import android.content.Context;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -11,32 +9,30 @@ import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.latte.ec.R;
-import com.yijia.common_yijia.friends.bean.FriendsBean;
+import com.yijia.common_yijia.friends.bean.GuardianBean;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class MyFriendsAdapter extends BaseQuickAdapter<FriendsBean, BaseViewHolder> {
+public class MyGuardianAdapter extends BaseQuickAdapter<GuardianBean,BaseViewHolder> {
 
-    private Context context = null;
-    private RequestOptions requestOptions = null;
+    private RequestOptions requestOptions;
 
-    public MyFriendsAdapter(int layoutResId, @Nullable List<FriendsBean> data) {
+    public MyGuardianAdapter(int layoutResId, @Nullable List<GuardianBean> data) {
         super(layoutResId, data);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, FriendsBean item) {
-        helper.setText(R.id.nickname, item.getNickname());
-        ImageView userHead = helper.getView(R.id.userHead);
+    protected void convert(BaseViewHolder helper, GuardianBean item) {
+        helper.setText(R.id.nickname,item.getNickname());
+        ImageView helperView = helper.getView(R.id.headImage);
         if (requestOptions == null) {
             requestOptions = RequestOptions.circleCropTransform()
                     // .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true);
         }
         Glide.with(mContext)
-                .load(item.getUserHead())
+                .load(item.getHeadImage())
                 .apply(requestOptions)
-                .into(userHead);
+                .into(helperView);
     }
 }

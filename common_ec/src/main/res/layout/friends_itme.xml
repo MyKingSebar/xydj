@@ -1,12 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:layout_height="56dp">
+
+    <ImageView
+        android:id="@+id/userHead"
+        android:layout_width="35dp"
+        android:layout_height="35dp" />
+
     <TextView
-        android:id="@+id/friends_itme"
+        android:gravity="center_vertical"
+        android:textColor="#333333"
+        android:textSize="14sp"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/nickname"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:text="1111"
-        />
+        android:text="1111" />
 
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>

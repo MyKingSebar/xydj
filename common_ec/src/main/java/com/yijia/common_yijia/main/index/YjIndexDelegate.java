@@ -40,7 +40,9 @@ import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import io.rong.imkit.RongIM;
+import io.rong.imkit.fragment.ConversationFragment;
 import io.rong.imlib.RongIMClient;
+import io.rong.imlib.model.Conversation;
 
 public class YjIndexDelegate extends BottomItemDelegate implements View.OnFocusChangeListener, IFriendsItemListener, IIndexItemListener {
 
@@ -298,7 +300,10 @@ public class YjIndexDelegate extends BottomItemDelegate implements View.OnFocusC
             //TODO 邀请
         } else {
             //TODO IM
-            RongIM.getInstance().startPrivateChat(getContext(), rongId, name);
+//            Conversation.ConversationType type=Conversation.ConversationType.PRIVATE;
+//            getParentDelegate().getSupportDelegate().start(new ConversationDelegate());
+
+
 //            getParentDelegate().getSupportDelegate().start(new ConversationDelegate());
         }
     }

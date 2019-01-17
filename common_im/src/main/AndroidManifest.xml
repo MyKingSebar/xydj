@@ -24,7 +24,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data
-                    android:host="io.rong.fast"
+                    android:host="com.bokang.yijia"
                     android:pathPrefix="/conversation/"
                     android:scheme="rong" />
             </intent-filter>

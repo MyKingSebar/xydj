@@ -10,7 +10,7 @@ public class ConversationActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.delegate_conversation);
+        setContentView(R.layout.delegate_imconversation);
     }
 
 }

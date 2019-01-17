@@ -112,6 +112,7 @@ public class ExampleActivity extends ProxyActivity implements
                 Toast.makeText(this, "启动成功，用户登录了", Toast.LENGTH_LONG).show();
                 getSupportDelegate().startWithPop(new YjBottomDelegate());
                 String rongToken=YjDatabaseManager.getInstance().getDao().loadAll().get(0).getRongCloudToken();
+                LatteLogger.e("rongtoken","rongtoken:"+rongToken);
                 if(!TextUtils.isEmpty(rongToken)){
 
                     connectRong(rongToken);
@@ -128,25 +129,28 @@ public class ExampleActivity extends ProxyActivity implements
     }
 
     private void connectRong(String token) {
-        RongIM.connect(token, new RongIMClient.ConnectCallback() {
-            @Override
-            public void onTokenIncorrect() {
-                LatteLogger.d("rong","onTokenIncorrect");
-            }
+        LatteLogger.e("rong", "connectRong");
+        LatteLogger.e("rong", "packageName:"+getApplicationInfo().packageName+",getCurProcessName:"+ExampleApp.getCurProcessName(getApplicationContext()));
+        if (getApplicationInfo().packageName.equals(ExampleApp.getCurProcessName(getApplicationContext()))) {
+            RongIM.connect(token, new RongIMClient.ConnectCallback() {
+                @Override
+                public void onTokenIncorrect() {
+                    LatteLogger.e("rong", "onTokenIncorrect");
+                }
 
-            @Override
-            public void onSuccess(String s) {
-                LatteLogger.d("rong","onSuccess:"+s);
-            }
+                @Override
+                public void onSuccess(String s) {
+                    LatteLogger.e("rong", "onSuccess:" + s);
+                }
 
-            @Override
-            public void onError(RongIMClient.ErrorCode errorCode) {
-                LatteLogger.d("rong","onError:"+errorCode.getMessage());
-            }
-        });
+                @Override
+                public void onError(RongIMClient.ErrorCode errorCode) {
+                    LatteLogger.e("rong", "onError:" + errorCode.getMessage());
+                }
+            });
+
+        }
 
     }
-
-
 
 }

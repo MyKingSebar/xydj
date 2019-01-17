@@ -90,7 +90,6 @@ public class ExampleApp extends MultiDexApplication {
     private void initRongIm() {
         RongIM.init(this);
     }
-
     private void initNineGrideView() {
         NineGridView.setImageLoader(new GlideImageLoader());
 

@@ -1,4 +1,4 @@
-package com.yijia.common_yijia.friends.base;
+package com.yijia.common_yijia.main.friends.base;
 
 public class BasePresenter <V extends BaseView>{
     public V view;

@@ -101,6 +101,5 @@ public class YjSignHandler {
         }else{
             signListener.onSignUpFailure(object.getString("msg"));
         }
-
     }
 }

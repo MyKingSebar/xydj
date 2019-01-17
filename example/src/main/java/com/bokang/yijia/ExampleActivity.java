@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.example.latte.activities.ProxyActivity;
@@ -128,6 +129,7 @@ public class ExampleActivity extends ProxyActivity implements
     }
 
     private void connectRong(String token) {
+        Log.e("rong", "connectRong: "+token );
         RongIM.connect(token, new RongIMClient.ConnectCallback() {
             @Override
             public void onTokenIncorrect() {

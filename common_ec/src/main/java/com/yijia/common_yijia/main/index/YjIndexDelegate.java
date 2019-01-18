@@ -298,7 +298,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements View.OnFocusC
             //TODO 邀请
         } else {
             //TODO IM
-            RongIM.getInstance().startPrivateChat(_mActivity, rongId, name);
+            RongIM.getInstance().startPrivateChat(getContext(), "app_"+id, name);
 //            getParentDelegate().getSupportDelegate().start(new ConversationDelegate());
         }
     }

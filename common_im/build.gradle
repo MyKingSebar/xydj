@@ -21,6 +21,14 @@ android {
         }
     }
 
+    sourceSets {
+        main {
+            manifest.srcFile '/src/main/AndroidManifest.xml'
+            res.srcDirs = ['/src/main/res']
+            jniLibs.srcDirs = ['/src/main/jniLibs']
+        }
+    }
+
 }
 
 dependencies {

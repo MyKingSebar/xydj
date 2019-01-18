@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.example.latte.activities.ProxyActivity;
@@ -129,26 +128,28 @@ public class ExampleActivity extends ProxyActivity implements
     }
 
     private void connectRong(String token) {
-        Log.e("rong", "connectRong: "+token );
-        RongIM.connect(token, new RongIMClient.ConnectCallback() {
-            @Override
-            public void onTokenIncorrect() {
-                LatteLogger.d("rong","onTokenIncorrect");
-            }
+        LatteLogger.e("rong", "connectRong");
+        LatteLogger.e("rong", "packageName:"+getApplicationInfo().packageName+",getCurProcessName:"+ExampleApp.getCurProcessName(getApplicationContext()));
+        if (getApplicationInfo().packageName.equals(ExampleApp.getCurProcessName(getApplicationContext()))) {
+            RongIM.connect(token, new RongIMClient.ConnectCallback() {
+                @Override
+                public void onTokenIncorrect() {
+                    LatteLogger.e("rong", "onTokenIncorrect");
+                }
 
-            @Override
-            public void onSuccess(String s) {
-                LatteLogger.d("rong","onSuccess:"+s);
-            }
+                @Override
+                public void onSuccess(String s) {
+                    LatteLogger.e("rong", "onSuccess:" + s);
+                }
 
-            @Override
-            public void onError(RongIMClient.ErrorCode errorCode) {
-                LatteLogger.d("rong","onError:"+errorCode.getMessage());
-            }
-        });
+                @Override
+                public void onError(RongIMClient.ErrorCode errorCode) {
+                    LatteLogger.e("rong", "onError:" + errorCode.getMessage());
+                }
+            });
+
+        }
 
     }
-
-
 
 }

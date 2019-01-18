@@ -31,7 +31,7 @@ import com.yijia.common_yijia.main.index.friends.IFriendsItemListener;
 import com.yijia.common_yijia.main.index.friends.IndexFriendsAdapter;
 import com.yijia.common_yijia.main.index.friends.YjIndexFriendsDataConverter;
 import com.yijia.common_yijia.main.index.pictureselector.PhotoFragment;
-import com.yijia.common_yijia.main.message.ConversationDelegate;
+
 
 import java.util.ArrayList;
 

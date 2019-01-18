@@ -12,8 +12,7 @@ import com.example.latte.ec.R2;
 
 import butterknife.BindView;
 
-
-public class ConversationListDelegate extends LatteDelegate {
+public class ConversationDelegate extends LatteDelegate {
 
 //    @BindView(R2.id.conversation)
 //    Fragment conversation=null;

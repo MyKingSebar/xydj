@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.multidex.MultiDexApplication;
 
 import com.bokang.yijia.event.TestEvent;
+import com.example.commcon_xfyun.XunFei;
 import com.example.latte.app.Latte;
 import com.example.latte.ec.database.DatabaseManager;
 import com.example.latte.ec.icon.FontEcModule;
@@ -18,6 +19,8 @@ import com.example.latte.util.callback.CallbackManager;
 import com.example.latte.util.callback.CallbackType;
 import com.example.latte.util.callback.IGlobalCallback;
 import com.facebook.stetho.Stetho;
+import com.iflytek.cloud.SpeechConstant;
+import com.iflytek.cloud.SpeechUtility;
 import com.joanzapata.iconify.fonts.FontAwesomeModule;
 import com.lzy.ninegrid.NineGridView;
 import com.mabeijianxi.smallvideorecord2.DeviceUtils;
@@ -56,6 +59,7 @@ public class ExampleApp extends MultiDexApplication {
         initStetho();
         initNineGrideView();
 //        initSmallVideo();
+        initXfYun();
         DatabaseManager.getInstance().init(this);
         YjDatabaseManager.getInstance().init(this);
 
@@ -86,6 +90,10 @@ public class ExampleApp extends MultiDexApplication {
 //                        }
 //                    }
 //                });
+    }
+
+    private void initXfYun() {
+        SpeechUtility.createUtility(getApplicationContext(), SpeechConstant.APPID +"="+XunFei.APPID);
     }
 
     //初始化融云IM

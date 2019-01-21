@@ -1,0 +1,118 @@
+<resources>
+    <string name="app_name">commcon_xfyun</string>
+
+    <string-array name="voicer_cloud_entries">
+        <item>小燕</item>
+        <item>许久</item>
+        <item>小萍</item>
+        <item>小婧</item>
+        <item>许小宝</item>
+    </string-array>
+
+    <string-array name="voicer_cloud_values">
+        <item>xiaoyan</item>
+        <item>aisjiuxu</item>
+        <item>aisxping</item>
+        <item>aisjinger</item>
+        <item>aisbabyxu</item>
+    </string-array>
+
+
+    <string-array name="stream_entries">
+        <item>通话</item>
+        <item>系统</item>
+        <item>铃声</item>
+        <item>音乐</item>
+        <item>闹铃</item>
+        <item>通知</item>
+    </string-array>
+    <string-array name="stream_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+    <string formatted="false" name="tts_toast_format">缓冲进度为%d%%，播放进度为%d%%</string>
+
+    <!-- 语言 -->
+    <string-array name="machine_entries">
+        <item>鲁谷</item>
+        <item>广州</item>
+        <item>森华</item>
+    </string-array>
+    <string-array name="machine_values">
+        <item>http://bj.voicecloud.cn/msp.do</item>
+        <item>http://gz.voicecloud.cn/msp.do</item>
+        <item>http://dx.xf-yun.com/msp.do</item>
+    </string-array>
+
+    <string-array name="ise_language_entries">
+        <item>英语</item>
+        <item>汉语</item>
+    </string-array>
+    <string-array name="ise_language_values">
+        <item>en_us</item>
+        <item>zh_cn</item>
+    </string-array>
+    <string-array name="category_entries">
+        <item>单字</item>
+        <item>词语</item>
+        <item>句子</item>
+    </string-array>
+    <string-array name="category_values">
+        <item>read_syllable</item>
+        <item>read_word</item>
+        <item>read_sentence</item>
+    </string-array>
+    <string-array name="result_level_entries">
+        <item>plain</item>
+        <item>complete</item>
+    </string-array>
+
+    <!-- 语言 -->
+    <string-array name="language_entries">
+        <item>普通话</item>
+        <item>粤语</item>
+        <item>英语</item>
+    </string-array>
+    <string-array name="language_values">
+        <item>mandarin</item>
+        <item>cantonese</item>
+        <item>en_us</item>
+    </string-array>
+
+    <!-- 标点符号 -->
+    <string-array name="punc_entries">
+        <item>有标点</item>
+        <item>无标点</item>
+    </string-array>
+    <string-array name="punc_values">
+        <item>1</item>
+        <item>0</item>
+    </string-array>
+    <string-array name="dwa_entries">
+        <item>开启</item>
+        <item>关闭</item>
+    </string-array>
+
+
+    <string name="pref_key_translate">translate</string>
+    <string name="pref_title_translate">翻译</string>pref_key_translate
+
+
+    <!-- 听写 -->
+    <string name="text_begin">请开始说话…</string>
+    <string name="text_begin_recognizer">开始音频流识别</string>
+    <string name="text_begin_ise">开始音频流评测</string>
+    <string name="text_upload_contacts">上传联系人</string>
+    <string name="text_upload_userwords">上传用户词表</string>
+    <string name="text_upload_success">上传成功</string>
+    <string name="text_userword_empty">词表下载失败或内容为空</string>
+    <string name="text_download_success">下载成功</string>
+    <string name="pref_key_iat_show">iat_show</string>
+    <string name="pref_title_iat_show">显示听写界面</string>
+    <string name="text_show_contacts">上传联系人/词表显示</string>
+    <string name="text_show_iat_result">听写结果显示</string>
+</resources>

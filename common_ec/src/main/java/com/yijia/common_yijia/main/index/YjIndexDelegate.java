@@ -31,7 +31,7 @@ import com.yijia.common_yijia.main.index.friends.IFriendsItemListener;
 import com.yijia.common_yijia.main.index.friends.IndexFriendsAdapter;
 import com.yijia.common_yijia.main.index.friends.YjIndexFriendsDataConverter;
 import com.yijia.common_yijia.main.index.pictureselector.PhotoFragment;
-
+import com.yijia.common_yijia.main.message.ConversationDelegate;
 
 import java.util.ArrayList;
 
@@ -40,7 +40,9 @@ import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import io.rong.imkit.RongIM;
+import io.rong.imkit.fragment.ConversationFragment;
 import io.rong.imlib.RongIMClient;
+import io.rong.imlib.model.Conversation;
 
 public class YjIndexDelegate extends BottomItemDelegate implements View.OnFocusChangeListener, IFriendsItemListener, IIndexItemListener {
 
@@ -298,7 +300,9 @@ public class YjIndexDelegate extends BottomItemDelegate implements View.OnFocusC
             //TODO 邀请
         } else {
             //TODO IM
-            RongIM.getInstance().startPrivateChat(getContext(), "app_"+id, name);
+//            Conversation.ConversationType type=Conversation.ConversationType.PRIVATE;
+//            getParentDelegate().getSupportDelegate().start(new ConversationDelegate());
+//            RongIM.getInstance().startPrivateChat(getContext(),"app_"+id, name);
 //            getParentDelegate().getSupportDelegate().start(new ConversationDelegate());
         }
     }

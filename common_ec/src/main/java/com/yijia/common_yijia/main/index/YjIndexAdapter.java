@@ -13,6 +13,7 @@ import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -32,6 +33,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.commcon_xfyun.Tts;
 import com.example.latte.delegates.LatteDelegate;
 import com.example.latte.ec.R;
 import com.example.latte.net.rx.BaseObserver;
@@ -66,6 +68,8 @@ import io.reactivex.schedulers.Schedulers;
 
 
 public final class YjIndexAdapter extends MultipleRecyclerAdapter {
+    private Tts tts = null;
+
 
     private YjIndexCommentAdapter mCommentAdapter = null;
     private LatteDelegate latteDelegate = null;
@@ -89,6 +93,7 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
         addItemType(YjIndexItemType.INDEX_VOICE_ITEM, R.layout.item_index_voice);
         addItemType(YjIndexItemType.INDEX_VIDEO_ITEM, R.layout.item_index_video);
         addItemType(YjIndexItemType.INDEX_IMAGES_ITEM, R.layout.item_index_images);
+
     }
 
 
@@ -100,6 +105,8 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
     @Override
     protected void convert(MultipleViewHolder holder, final MultipleItemEntity entity) {
         super.convert(holder, entity);
+        Log.e("jialei","YjIndexAdapter.mContext==null"+(mContext==null));
+        initTts();
         //先取出所有值
         final Long userId = entity.getField(MultipleFields.ID);
         final String content = entity.getField(MultipleFields.TEXT);
@@ -138,22 +145,22 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
             case YjIndexItemType.INDEX_IMAGES_ITEM:
 
                 initViewText(holder, circleId, userNickname, content, createdTime, likes, commentList.toJSONString());
-                initImages(holder,imgs,imgs);
+                initImages(holder, imgs, imgs);
 
 
                 break;
             case YjIndexItemType.INDEX_VOICE_ITEM:
                 String[] voiceString = voiceUrl.split(",");
-                LatteLogger.d("jialei","voiceString"+voiceUrl);
+                LatteLogger.d("jialei", "voiceString" + voiceUrl);
                 initViewText(holder, circleId, userNickname, content, createdTime, likes, commentList.toJSONString());
-                initMedias(holder,voiceString);
+                initMedias(holder, voiceString);
 
                 break;
             case YjIndexItemType.INDEX_VIDEO_ITEM:
                 String[] videoString = videoUrl.split(",");
-                LatteLogger.d("jialei","videoString"+videoUrl);
+                LatteLogger.d("jialei", "videoString" + videoUrl);
                 initViewText(holder, circleId, userNickname, content, createdTime, likes, commentList.toJSONString());
-                initMedias(holder,videoString);
+                initMedias(holder, videoString);
                 break;
 
 
@@ -275,6 +282,14 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
         } else {
 
             tvContent.setText(content);
+            tvContent.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    readContent(content);
+                }
+
+
+            });
         }
         tvTime.setText(String.valueOf(createdTime));
         if (TextUtils.isEmpty(likes)) {
@@ -312,11 +327,11 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
         });
     }
 
-    private void initImages(MultipleViewHolder holder,String[] imgs,String[] bigImgs){
+    private void initImages(MultipleViewHolder holder, String[] imgs, String[] bigImgs) {
         final NineGridView ngImgs = holder.getView(R.id.ng_imgs);
         ArrayList<ImageInfo> imageInfo = new ArrayList<>();
-        final int imgsSize=imgs.length;
-        for(int i=0;i<imgsSize;i++){
+        final int imgsSize = imgs.length;
+        for (int i = 0; i < imgsSize; i++) {
             ImageInfo info = new ImageInfo();
             info.setThumbnailUrl(imgs[i]);
             info.setBigImageUrl(bigImgs[i]);
@@ -324,7 +339,8 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
         }
         ngImgs.setAdapter(new NineGridViewClickAdapter(mContext, imageInfo));
     }
-    private void initMedias(MultipleViewHolder holder,String[] medias){
+
+    private void initMedias(MultipleViewHolder holder, String[] medias) {
         final PlayerView playerView = holder.getView(R.id.video_view);
         initializePlayer(playerView, medias);
     }
@@ -431,15 +447,15 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
             player.seekTo(currentWindow, playbackPosition);
         }
         final int mediaUrlSize = mediaUrl.length;
-        LatteLogger.d("jialei","mediaUrlSize:"+mediaUrlSize);
+        LatteLogger.d("jialei", "mediaUrlSize:" + mediaUrlSize);
         MediaSource[] mediaSources = new MediaSource[mediaUrlSize];
         for (int i = 0; i < mediaUrlSize; i++) {
-            LatteLogger.d("jialei","i:"+i);
+            LatteLogger.d("jialei", "i:" + i);
             Uri uri = Uri.parse(mediaUrl[i]);
             mediaSources[i] = buildMediaSource(uri);
 
         }
-        LatteLogger.d("jialei","mediaSources.size:"+mediaSources.length);
+        LatteLogger.d("jialei", "mediaSources.size:" + mediaSources.length);
         player.prepare(new ConcatenatingMediaSource(mediaSources), true, true);
     }
 
@@ -459,5 +475,13 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
         }
     }
 
+    private void initTts() {
+        if (null == tts) {
+            tts = new Tts(mContext);
+        }
+    }
 
+    private void readContent(String text) {
+        tts.start(text);
+    }
 }

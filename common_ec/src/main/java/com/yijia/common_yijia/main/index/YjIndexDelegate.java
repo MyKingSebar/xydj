@@ -302,7 +302,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements View.OnFocusC
             //TODO IM
 //            Conversation.ConversationType type=Conversation.ConversationType.PRIVATE;
 //            getParentDelegate().getSupportDelegate().start(new ConversationDelegate());
-            RongIM.getInstance().startPrivateChat(getContext(),"app_"+id, name);
+//            RongIM.getInstance().startPrivateChat(getContext(),"app_"+id, name);
 //            getParentDelegate().getSupportDelegate().start(new ConversationDelegate());
         }
     }

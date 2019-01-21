@@ -1,4 +1,4 @@
-package com.yijia.common_yijia.friends.bean;
+package com.yijia.common_yijia.main.friends.bean;
 
 public class GuardianBean {
     String userId;

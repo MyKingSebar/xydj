@@ -1,4 +1,4 @@
-package com.yijia.common_yijia.friends.presenter;
+package com.yijia.common_yijia.main.friends.presenter;
 
 import android.annotation.SuppressLint;
 import android.text.TextUtils;
@@ -8,12 +8,9 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.example.latte.app.AccountManager;
 import com.example.latte.app.IUserChecker;
-import com.example.latte.net.RestClientBuilder;
 import com.example.latte.net.rx.RxRestClient;
-import com.luck.picture.lib.rxbus2.RxBus;
-import com.yijia.common_yijia.database.YjDatabaseManager;
-import com.yijia.common_yijia.friends.base.BasePresenter;
-import com.yijia.common_yijia.friends.view.FriendsView;
+import com.yijia.common_yijia.main.friends.base.BasePresenter;
+import com.yijia.common_yijia.main.friends.view.iview.FriendsView;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;

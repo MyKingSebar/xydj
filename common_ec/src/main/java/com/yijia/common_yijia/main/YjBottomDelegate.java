@@ -7,7 +7,7 @@ import com.example.latte.delegates.bottom.BottomItemDelegate;
 import com.example.latte.delegates.bottom.BottomTabBean;
 import com.example.latte.delegates.bottom.ItemBuilder;
 import com.example.latte.ec.R;
-import com.yijia.common_yijia.friends.FriendsDelegate;
+import com.yijia.common_yijia.main.friends.FriendsDelegate;
 import com.yijia.common_yijia.main.index.YjIndexDelegate;
 import com.yijia.common_yijia.main.message.MessageDelagate;
 import com.yijia.common_yijia.main.mine.MineDelegate;

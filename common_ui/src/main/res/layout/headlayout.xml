@@ -12,43 +12,42 @@
        >
 
         <ViewStub
+            android:layout_marginTop="30dp"
             android:id="@+id/head_return"
             android:layout_width="9dp"
             android:layout_height="17dp"
-            android:layout_marginLeft="12dp"
+            android:layout_marginLeft="15dp"
             android:padding="2dp"
-            android:layout_centerVertical="true"
             android:layout="@layout/head_left" />
 
         <ViewStub
             android:id="@+id/head_name"
+            android:layout_marginTop="30dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerInParent="true"
-            android:layout_centerVertical="true"
             android:layout="@layout/head_name" />
 
         <ViewStub
+            android:layout_marginTop="30dp"
             android:id="@+id/head_right_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:layout_centerVertical="true"
             android:layout_marginRight="12dp"
             android:layout="@layout/head_right_text"
         />
-
         <ViewStub
             android:id="@+id/head_right_image"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:layout_centerVertical="true"
             android:layout_marginRight="12dp"
             android:padding="2dp"
+            android:layout_marginTop="30dp"
             android:layout="@layout/head_right_image"
              />
     </RelativeLayout>

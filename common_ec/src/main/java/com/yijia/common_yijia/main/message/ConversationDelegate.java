@@ -19,7 +19,7 @@ public class ConversationDelegate extends LatteDelegate {
 
     @Override
     public Object setLayout() {
-        return R.layout.delegate_conversation;
+        return R.layout.delegate_conversationlist;
     }
 
     @Override

@@ -112,7 +112,6 @@ public class ExampleActivity extends ProxyActivity implements
                 Toast.makeText(this, "启动成功，用户登录了", Toast.LENGTH_LONG).show();
                 getSupportDelegate().startWithPop(new YjBottomDelegate());
                 String rongToken=YjDatabaseManager.getInstance().getDao().loadAll().get(0).getRongCloudToken();
-                LatteLogger.e("rongtoken","rongtoken:"+rongToken);
                 if(!TextUtils.isEmpty(rongToken)){
 
                     connectRong(rongToken);

@@ -22,14 +22,32 @@
             android:background="#ffffff"
             android:layout_marginRight="15dp"
             android:layout_height="wrap_content">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="51dp"
-                android:text="监护人 | 被监护人"
-                android:layout_marginLeft="15dp"
-                android:gravity="center_vertical"
-                android:textColor="#333333"
-                android:textSize="15sp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="51dp"
+                    android:text="监护人 | 被监护人"
+                    android:layout_marginLeft="15dp"
+                    android:gravity="center_vertical"
+                    android:textColor="#333333"
+                    android:textSize="15sp" />
+                <TextView
+                    android:id="@+id/no_guardian"
+                    android:layout_width="wrap_content"
+                    android:gravity="center"
+                    android:layout_height="match_parent"
+                    android:textSize="13sp"
+                    android:textColor="#999999"
+                    android:visibility="gone"
+                    android:layout_marginRight="15dp"
+                    android:text="暂无监护人，去添加 >"
+                    />
+            </LinearLayout>
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/guardianship_recycler"
                 android:layout_marginTop="10dp"
@@ -44,7 +62,7 @@
         </LinearLayout>
 
         <LinearLayout
-            app:layout_constraintTop_toBottomOf="@+id/head_layout"
+
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_marginLeft="15dp"
@@ -52,14 +70,31 @@
             android:background="#ffffff"
             android:layout_marginRight="15dp"
             android:layout_height="wrap_content">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="51dp"
-                android:text="家庭医生"
-                android:layout_marginLeft="15dp"
-                android:gravity="center_vertical"
-                android:textColor="#333333"
-                android:textSize="15sp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="51dp"
+                    android:text="家庭医生"
+                    android:layout_marginLeft="15dp"
+                    android:gravity="center_vertical"
+                    android:textColor="#333333"
+                    android:textSize="15sp" />
+                <TextView
+                    android:id="@+id/no_doctor"
+                    android:layout_width="wrap_content"
+                    android:gravity="center"
+                    android:layout_height="match_parent"
+                    android:textSize="13sp"
+                    android:textColor="#999999"
+                    android:layout_marginRight="15dp"
+                    android:visibility="gone"
+                    android:text="暂未开通"
+                    />
+            </LinearLayout>
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/doctor_recycler"
                 android:layout_marginTop="10dp"
@@ -77,14 +112,31 @@
             android:background="#ffffff"
             android:layout_marginRight="15dp"
             android:layout_height="wrap_content">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="51dp"
-                android:text="亲友团"
-                android:layout_marginLeft="15dp"
-                android:gravity="center_vertical"
-                android:textColor="#333333"
-                android:textSize="15sp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="51dp"
+                    android:text="亲友团"
+                    android:layout_marginLeft="15dp"
+                    android:gravity="center_vertical"
+                    android:textColor="#333333"
+                    android:textSize="15sp" />
+                <TextView
+                    android:id="@+id/no_friends"
+                    android:layout_width="wrap_content"
+                    android:gravity="center"
+                    android:layout_height="match_parent"
+                    android:textSize="13sp"
+                    android:textColor="#999999"
+                    android:visibility="gone"
+                    android:layout_marginRight="15dp"
+                    android:text="暂无好友，去添加 >"
+                    />
+            </LinearLayout>
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/friends_recycler"
                 android:layout_marginTop="10dp"

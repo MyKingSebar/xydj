@@ -30,8 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.Unbinder;
-import io.rong.imkit.RongIM;
+
 /**
  * 亲友团列表
  */
@@ -141,7 +140,6 @@ public class FriendsDelegate extends BottomItemDelegate implements HeadLayout.On
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 String nickname = friendsBeans.get(position).getNickname();
                 Log.e("qqqq", "onItemClick: "+nickname );
-                RongIM.getInstance().startPrivateChat(_mActivity, "app_"+friendsBeans.get(position).getFriendUserId(), nickname);
             }
         });
     }

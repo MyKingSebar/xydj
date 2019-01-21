@@ -39,10 +39,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-import io.rong.imkit.RongIM;
-import io.rong.imkit.fragment.ConversationFragment;
-import io.rong.imlib.RongIMClient;
-import io.rong.imlib.model.Conversation;
+
 
 public class YjIndexDelegate extends BottomItemDelegate implements View.OnFocusChangeListener, IFriendsItemListener, IIndexItemListener {
 

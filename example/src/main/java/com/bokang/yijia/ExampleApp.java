@@ -29,7 +29,6 @@ import com.yijia.common_yijia.database.YjDatabaseManager;
 
 import java.io.File;
 
-import io.rong.imkit.RongIM;
 
 
 public class ExampleApp extends MultiDexApplication {
@@ -37,8 +36,7 @@ public class ExampleApp extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        //初始化融云IM
-        initRongIm();
+
 
         Latte.init(this)
                 .withIcon(new FontAwesomeModule())
@@ -96,10 +94,8 @@ public class ExampleApp extends MultiDexApplication {
         SpeechUtility.createUtility(getApplicationContext(), SpeechConstant.APPID +"="+XunFei.APPID);
     }
 
-    //初始化融云IM
-    private void initRongIm() {
-        RongIM.init(this);
-    }
+
+
     private void initNineGrideView() {
         NineGridView.setImageLoader(new GlideImageLoader());
 

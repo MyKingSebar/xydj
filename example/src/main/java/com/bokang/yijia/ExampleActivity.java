@@ -22,9 +22,7 @@ import com.yijia.common_yijia.sign.SignInDelegate;
 import com.yijia.common_yijia.sign.SignUpSecondDelegate;
 import com.yijia.common_yijia.main.YjBottomDelegate;
 
-import io.rong.imkit.MainActivity;
-import io.rong.imkit.RongIM;
-import io.rong.imlib.RongIMClient;
+
 import qiu.niorgai.StatusBarCompat;
 
 public class ExampleActivity extends ProxyActivity implements
@@ -112,10 +110,7 @@ public class ExampleActivity extends ProxyActivity implements
                 Toast.makeText(this, "启动成功，用户登录了", Toast.LENGTH_LONG).show();
                 getSupportDelegate().startWithPop(new YjBottomDelegate());
                 String rongToken=YjDatabaseManager.getInstance().getDao().loadAll().get(0).getRongCloudToken();
-                if(!TextUtils.isEmpty(rongToken)){
 
-                    connectRong(rongToken);
-                }
                 break;
             case NOT_SIGNED:
                 Toast.makeText(this, "启动成功，用户没登录", Toast.LENGTH_LONG).show();
@@ -127,29 +122,5 @@ public class ExampleActivity extends ProxyActivity implements
         }
     }
 
-    private void connectRong(String token) {
-        LatteLogger.e("rong", "connectRong");
-        LatteLogger.e("rong", "packageName:"+getApplicationInfo().packageName+",getCurProcessName:"+ExampleApp.getCurProcessName(getApplicationContext()));
-        if (getApplicationInfo().packageName.equals(ExampleApp.getCurProcessName(getApplicationContext()))) {
-            RongIM.connect(token, new RongIMClient.ConnectCallback() {
-                @Override
-                public void onTokenIncorrect() {
-                    LatteLogger.e("rong", "onTokenIncorrect");
-                }
-
-                @Override
-                public void onSuccess(String s) {
-                    LatteLogger.e("rong", "onSuccess:" + s);
-                }
-
-                @Override
-                public void onError(RongIMClient.ErrorCode errorCode) {
-                    LatteLogger.e("rong", "onError:" + errorCode.getMessage());
-                }
-            });
-
-        }
-
-    }
 
 }

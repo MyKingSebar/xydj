@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.multidex.MultiDexApplication;
+import android.util.Log;
 
 import com.bokang.yijia.event.TestEvent;
 import com.example.commcon_xfyun.XunFei;
@@ -25,10 +26,16 @@ import com.joanzapata.iconify.fonts.FontAwesomeModule;
 import com.lzy.ninegrid.NineGridView;
 import com.mabeijianxi.smallvideorecord2.DeviceUtils;
 import com.mabeijianxi.smallvideorecord2.JianXiCamera;
+import com.tencent.TIMConnListener;
+import com.tencent.TIMLogListener;
+import com.tencent.TIMManager;
+import com.tencent.TIMMessage;
+import com.tencent.TIMMessageListener;
+import com.tencent.TIMUserStatusListener;
 import com.yijia.common_yijia.database.YjDatabaseManager;
 
 import java.io.File;
-
+import java.util.List;
 
 
 public class ExampleApp extends MultiDexApplication {
@@ -37,7 +44,7 @@ public class ExampleApp extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
 
-
+        initTencentIm();
         Latte.init(this)
                 .withIcon(new FontAwesomeModule())
                 .withIcon(new FontEcModule())
@@ -90,6 +97,7 @@ public class ExampleApp extends MultiDexApplication {
 //                });
     }
 
+
     private void initXfYun() {
         SpeechUtility.createUtility(getApplicationContext(), SpeechConstant.APPID +"="+XunFei.APPID);
     }
@@ -138,5 +146,49 @@ public class ExampleApp extends MultiDexApplication {
             }
         }
         return null;
+    }
+
+    //腾讯IM
+    private void initTencentIm() {
+        //设置消息监听器，收到新消息时，通过此监听器回调
+        TIMManager.getInstance().addMessageListener(new TIMMessageListener() {//消息监听器
+
+            @Override
+            public boolean onNewMessages(List<TIMMessage> msgs) {//收到新消息
+                //消息的内容解析请参考消息解析
+                return true; //返回 true 将终止回调链，不再调用下一个新消息监听器
+            }
+        });
+
+        //设置网络连接监听器，连接建立／断开时回调
+        TIMManager.getInstance().setConnectionListener(new TIMConnListener() {//连接监听器
+            @Override
+            public void onConnected() {//连接建立
+                Log.e("tengxun", "connected");
+            }
+
+            @Override
+            public void onDisconnected(int code, String desc) {//连接断开
+                //接口返回了错误码 code 和错误描述 desc，可用于定位连接断开原因
+                //错误码 code 含义请参见错误码表
+                Log.e("tengxun", "disconnected");
+            }
+
+            @Override
+            public void onWifiNeedAuth(String s) {
+                Log.e("tengxun", "wifiNeedAuth");
+            }
+        });
+
+        //设置日志回调，SDK 输出的日志将通过此接口回传一份副本
+        //[NOTE] 请注意 level 定义在 TIMManager 中，如 TIMManager.ERROR 等， 并不同于 Android 系统定义
+        TIMManager.getInstance().setLogListener(new TIMLogListener() {
+            @Override
+            public void log(int level, String tag, String msg) {
+                //可以通过此回调将 SDK 的 log 输出到自己的日志系统中
+
+            }
+        });
+        TIMManager.getInstance().init(getApplicationContext());
     }
 }

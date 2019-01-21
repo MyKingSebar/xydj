@@ -178,6 +178,7 @@ public class MineDelegate extends BottomItemDelegate {
         } else if (i == R.id.sayings) {
             Toast.makeText(_mActivity, "语录", Toast.LENGTH_SHORT).show();
         } else if (i == R.id.About_us) {
+            //跳转到关于我们
             getParentDelegate().getSupportDelegate().start(new AboutUsDelegate());
         } else if (i == R.id.help) {
             Toast.makeText(_mActivity, "帮助", Toast.LENGTH_SHORT).show();

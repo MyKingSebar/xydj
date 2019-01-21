@@ -1,93 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:background="#ffffff"
-        android:layout_height="64dp">
+        android:layout_height="64dp"
+        android:background="#ffffff">
+
         <RelativeLayout
             android:id="@+id/return_button"
             android:layout_width="23dp"
             android:layout_height="match_parent">
+
             <ImageView
                 android:layout_width="8dp"
                 android:layout_height="16dp"
-                android:src="@mipmap/fanhui"
                 android:layout_alignParentRight="true"
                 android:layout_marginTop="31dp"
-                />
+                android:src="@mipmap/fanhui" />
         </RelativeLayout>
+
         <EditText
             android:id="@+id/search_edittext"
-            android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:background="@null"
-            android:textCursorDrawable="@drawable/color_cursor"
-            android:hint="搜索好友：手机号搜索好友"
-            android:textSize="15sp"
-            android:layout_marginTop="15dp"
             android:layout_marginLeft="37dp"
-            />
+            android:layout_marginTop="15dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:hint="搜索好友：手机号搜索好友"
+            android:textCursorDrawable="@drawable/color_cursor"
+            android:textSize="15sp" />
+        <ImageView
+            android:id="@+id/cancel_edit"
+            android:layout_width="14dp"
+            android:src="@mipmap/qvxiao"
+            android:visibility="gone"
+            android:layout_marginTop="35dp"
+            android:layout_marginRight="20dp"
+            android:layout_height="14dp" />
+
         <TextView
             android:id="@+id/search_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="搜索"
-            android:textSize="15sp"
-            android:textColor="#FDBE6C"
-            android:layout_marginRight="15dp"
             android:layout_marginTop="15dp"
-            />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:background="#ffffff"
-        android:layout_marginTop="13dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginLeft="15dp"
-        android:visibility="gone"
-        android:layout_height="63dp">
-        <ImageView
-            android:layout_width="43dp"
-            android:layout_height="43dp"
-            android:layout_marginLeft="15dp"
-            android:layout_gravity="center_vertical"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="10dp"
-            android:textColor="#333333"
-            android:text="xxx"
-            />
+            android:layout_marginRight="15dp"
+            android:text="搜索"
+            android:textColor="#FDBE6C"
+            android:textSize="15sp" />
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/thecontact_layout"
         android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:layout_height="match_parent">
+        android:layout_height="63dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginRight="15dp"
+        android:background="#ffffff"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/user_head"
+            android:layout_width="43dp"
+            android:layout_height="43dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="15dp" />
+
+        <TextView
+            android:id="@+id/user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:text="xxx"
+            android:textColor="#333333"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/no_friends"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
         <ImageView
             android:layout_width="104dp"
             android:layout_height="84dp"
-            android:layout_marginTop="156dp"
             android:layout_marginLeft="136dp"
+            android:layout_marginTop="156dp"
             android:layout_marginRight="135dp"
-            />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="没有找到相关结果"
-                android:textColor="#9F9F9F"
-                android:textSize="13sp"
-                android:layout_marginLeft="136dp"
-                android:layout_marginTop="20dp"
-                />
+            android:src="@mipmap/no_people" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="136dp"
+            android:layout_marginTop="20dp"
+            android:text="没有找到相关结果"
+            android:textColor="#9F9F9F"
+            android:textSize="13sp" />
     </LinearLayout>
 
 </LinearLayout>

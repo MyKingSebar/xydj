@@ -40,7 +40,9 @@
             android:value="180909d107c7f1ab21c4f8bc4a49b17f"/>
         <!--高德地图 END-->
 
-        <activity android:name="com.bokang.yijia.ExampleActivity">
+        <activity android:name="com.bokang.yijia.ExampleActivity"
+            android:screenOrientation="portrait"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

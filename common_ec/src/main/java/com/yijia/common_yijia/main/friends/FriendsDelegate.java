@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,6 +32,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.Unbinder;
 import io.rong.imkit.RongIM;
+/**
+ * 亲友团列表
+ */
 
 public class FriendsDelegate extends BottomItemDelegate implements HeadLayout.OnClickHeadHeadImage, FriendsView {
     @BindView(R2.id.head_layout)
@@ -49,7 +53,6 @@ public class FriendsDelegate extends BottomItemDelegate implements HeadLayout.On
     TextView noDoctor;
     @BindView(R2.id.no_friends)
     TextView noFriends;
-    Unbinder unbinder;
     //亲友团好友列表
     private List<FriendsBean> friendsBeans;
     private FriendsPresenter friendsPresenter;
@@ -99,13 +102,14 @@ public class FriendsDelegate extends BottomItemDelegate implements HeadLayout.On
 
     @Override
     public void respFriendsSuccess(JSONArray friends) {
-        if (friends == null) {
+        if (friends.size()==0) {
             // 没有好友的处理
             noFriends.setVisibility(View.VISIBLE);
             noFriends.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //todo 没有好友点击 跳转添加好友的操作
+                    // 没有好友点击 跳转添加好友的操作
+                    getParentDelegate().getSupportDelegate().start(new AddFriendsDelegate());
                 }
             });
             return;
@@ -135,7 +139,9 @@ public class FriendsDelegate extends BottomItemDelegate implements HeadLayout.On
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                RongIM.getInstance().startPrivateChat(_mActivity, "app_"+friendsBeans.get(position).getFriendUserId(), friendsBeans.get(position).getNickname());
+                String nickname = friendsBeans.get(position).getNickname();
+                Log.e("qqqq", "onItemClick: "+nickname );
+                RongIM.getInstance().startPrivateChat(_mActivity, "app_"+friendsBeans.get(position).getFriendUserId(), nickname);
             }
         });
     }

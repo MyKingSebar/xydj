@@ -66,7 +66,6 @@ public class SetNicknameDelegate extends LatteDelegate implements HeadLayout.OnC
     @Override
     public void onClickHeadRighttext() {
         String new_name = setName.getText().toString();
-
      UpDateUtils.updatePersonalData(_mActivity, new_name, null, new UpDateUtils.UpDateSuccessAndError() {
             @Override
             public void successAndError(UpDateUtils.UpDatePersonal upDatePersonal) {
@@ -75,12 +74,13 @@ public class SetNicknameDelegate extends LatteDelegate implements HeadLayout.OnC
                     profile.setNickname(new_name);
                     YjDatabaseManager.getInstance().getDao().update(profile);
                     Toast.makeText(_mActivity, "修改昵称成功", Toast.LENGTH_SHORT).show();
+                    getSupportDelegate().pop();
                 }else{
                     Toast.makeText(_mActivity, "修改昵称失败", Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
-        getSupportDelegate().pop();
+
     }
 }

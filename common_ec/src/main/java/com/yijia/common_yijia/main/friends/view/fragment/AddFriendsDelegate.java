@@ -17,7 +17,9 @@ import com.example.latte.ui.widget.HeadLayout;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-
+/**
+ *添加好友页面
+ */
 public class AddFriendsDelegate extends LatteDelegate implements HeadLayout.OnClickHeadReturn {
     @BindView(R2.id.head_layout)
     HeadLayout headLayout;

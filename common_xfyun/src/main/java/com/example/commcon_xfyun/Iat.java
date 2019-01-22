@@ -40,10 +40,20 @@ import java.util.LinkedHashMap;
 public class Iat {
     private static String TAG = Iat.class.getSimpleName();
 
+    private int mtype = 0;//1.本地文件 2.现场录入
+    private int inPutType = 0;
+    public final int INPUTLOCAL = 1;
+    public final int INPUTASS = 2;
+
     private Context mContext = null;
 
-    public Iat(Context mContext) {
+    private LatCallbackInterface mLatCallbackInterface=null;
+
+    public Iat(Context mContext, int type,LatCallbackInterface latCallbackInterface) {
         this.mContext = mContext;
+        this.mtype = type;
+        this.mLatCallbackInterface=latCallbackInterface;
+        onCreate();
     }
 
     // 语音听写对象
@@ -53,8 +63,6 @@ public class Iat {
     // 用HashMap存储听写结果
     private HashMap<String, String> mIatResults = new LinkedHashMap<String, String>();
 
-    private EditText mResultText;
-    private EditText showContacts;
     private Toast mToast;
     private SharedPreferences mSharedPreferences;
     // 引擎类型
@@ -62,26 +70,20 @@ public class Iat {
 
     private boolean mTranslateEnable = false;
 
-    private boolean cyclic = false;//音频流识别是否循环调用
+//    private boolean cyclic = false;//音频流识别是否循环调用
 
-//    Handler han = new Handler((Message msg)->{
-//            super();
+//    Handler han = new Handler() {
+//        @Override
+//        public void handleMessage(Message msg) {
+//            super.handleMessage(msg);
 //            if (msg.what == 0x001) {
-//                executeStream();
+//                executeStream(inPutType,Environment.getExternalStorageDirectory() + "/bokang/msc/iat.wav");
 //            }
-//    }
-//    );
-    Handler han = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            if (msg.what == 0x001) {
-                executeStream();
-            }
-        }
-    };
+//        }
+//    };
 
     private void onCreate() {
+
         // 初始化识别无UI识别对象
         // 使用SpeechRecognizer对象，可根据回调消息自定义界面；
         mIat = SpeechRecognizer.createRecognizer(mContext, mInitListener);
@@ -118,8 +120,6 @@ public class Iat {
     public void iatStart() {
         // 移动数据分析，收集开始听写事件
         FlowerCollector.onEvent(mContext, "iat_recognize");
-
-        mResultText.setText(null);// 清空显示内容
         mIatResults.clear();
         // 设置参数
         setParam();
@@ -142,8 +142,8 @@ public class Iat {
     }
 
     // 音频流识别
-    public void iatRecognize() {
-        executeStream();
+    public void iatRecognize(int type,String path) {
+        executeStream(inPutType, path);
     }
 
     // 停止听写
@@ -170,7 +170,6 @@ public class Iat {
     public void iatUploadUserwords() {
         showTip(mContext.getString(R.string.text_upload_userwords));
         String contents = FucUtil.readFile(mContext, "userwords", "utf-8");
-        showContacts.setText(contents);
 
         // 指定引擎类型
         mIat.setParameter(SpeechConstant.ENGINE_TYPE, SpeechConstant.TYPE_CLOUD);
@@ -247,12 +246,12 @@ public class Iat {
                 printResult(results);
             }
 
-            if (isLast & cyclic) {
-                // TODO 最后的结果
-                Message message = Message.obtain();
-                message.what = 0x001;
-                han.sendMessageDelayed(message, 100);
-            }
+//            if (isLast & cyclic) {
+//                // TODO 最后的结果
+//                Message message = Message.obtain();
+//                message.what = 0x001;
+//                han.sendMessageDelayed(message, 100);
+//            }
         }
 
         @Override
@@ -290,9 +289,9 @@ public class Iat {
         for (String key : mIatResults.keySet()) {
             resultBuffer.append(mIatResults.get(key));
         }
-
-        mResultText.setText(resultBuffer.toString());
-        mResultText.setSelection(mResultText.length());
+if(mLatCallbackInterface!=null){
+    mLatCallbackInterface.latSuccess(resultBuffer.toString());
+}
     }
 
     /**
@@ -332,9 +331,9 @@ public class Iat {
             // 每当联系人发生变化，该接口都将会被回调，可通过ContactManager.destroy()销毁对象，解除回调。
             // if(changeFlag) {
             // 指定引擎类型
-            ((Activity)mContext).runOnUiThread(new Runnable() {
+            ((Activity) mContext).runOnUiThread(new Runnable() {
                 public void run() {
-                    showContacts.setText(contactInfos);
+//                    showContacts.setText(contactInfos);
                 }
             });
 
@@ -410,7 +409,7 @@ public class Iat {
 
         // 设置音频保存路径，保存音频格式支持pcm、wav，设置路径为sd卡请注意WRITE_EXTERNAL_STORAGE权限
         mIat.setParameter(SpeechConstant.AUDIO_FORMAT, "wav");
-        mIat.setParameter(SpeechConstant.ASR_AUDIO_PATH, Environment.getExternalStorageDirectory() + "/msc/iat.wav");
+        mIat.setParameter(SpeechConstant.ASR_AUDIO_PATH, Environment.getExternalStorageDirectory() + "/bokang/msc/iat.wav");
     }
 
     private void printTransResult(RecognizerResult results) {
@@ -420,7 +419,7 @@ public class Iat {
         if (TextUtils.isEmpty(trans) || TextUtils.isEmpty(oris)) {
             showTip("解析结果失败，请确认是否已开通翻译功能。");
         } else {
-            mResultText.setText("原始语言:\n" + oris + "\n目标语言:\n" + trans);
+//            mResultText.setText("原始语言:\n" + oris + "\n目标语言:\n" + trans);
         }
 
     }
@@ -446,22 +445,30 @@ public class Iat {
     }
 
     //执行音频流识别操作
-    private void executeStream() {
-        mResultText.setText(null);// 清空显示内容
+    private void executeStream(int type, String filepath) {
         mIatResults.clear();
         // 设置参数
         setParam();
-        // 设置音频来源为外部文件
-        mIat.setParameter(SpeechConstant.AUDIO_SOURCE, "-1");
-        // 也可以像以下这样直接设置音频文件路径识别（要求设置文件在sdcard上的全路径）：
-        // mIat.setParameter(SpeechConstant.AUDIO_SOURCE, "-2");
-        //mIat.setParameter(SpeechConstant.ASR_SOURCE_PATH, "sdcard/XXX/XXX.pcm");
+        if (type == INPUTASS) {
+
+            //设置音频来源为外部文件
+            mIat.setParameter(SpeechConstant.AUDIO_SOURCE, "-1");
+        } else {
+
+            // 也可以像以下这样直接设置音频文件路径识别（要求设置文件在sdcard上的全路径）：
+            mIat.setParameter(SpeechConstant.AUDIO_SOURCE, "-2");
+            mIat.setParameter(SpeechConstant.ASR_SOURCE_PATH, filepath);
+        }
         ret = mIat.startListening(mRecognizerListener);
         if (ret != ErrorCode.SUCCESS) {
             showTip("识别失败,错误码：" + ret);
         } else {
-            byte[] audioData = FucUtil.readAudioFile(mContext, "iattest.wav");
-
+            byte[] audioData = null;
+            if (inPutType == INPUTASS) {
+                audioData = FucUtil.readAudioFileAss(mContext, filepath);
+            } else {
+                audioData = FucUtil.readAudioFileSDCard(mContext, filepath);
+            }
             if (null != audioData) {
                 showTip(mContext.getString(R.string.text_begin_recognizer));
                 // 一次（也可以分多次）写入音频文件数据，数据格式必须是采样率为8KHz或16KHz（本地识别只支持16K采样率，云端都支持），

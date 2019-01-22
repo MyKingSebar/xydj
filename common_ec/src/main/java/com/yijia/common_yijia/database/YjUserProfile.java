@@ -9,35 +9,30 @@ public class YjUserProfile {
     @Id
     Long id = null;
     String yjtk = null;
-    String nickname = null;
-    String realName = null;
+    String username = null;
     String phone = null;
-    String cardNo = null;
-    int gender = 0;
-    String birthday = null;
-    int userStatus = 0;
+    String email = null;
+    String nickname = null;
+    String imagePath = null;
     int isComplete = 0;
-    int isCertification = 0;
-    String imagePath=null;
-    String rongCloudToken=null;
-    @Generated(hash = 1800882688)
-    public YjUserProfile(Long id, String yjtk, String nickname, String realName,
-            String phone, String cardNo, int gender, String birthday,
-            int userStatus, int isComplete, int isCertification, String imagePath,
-            String rongCloudToken) {
+    int userStatus = 0;
+    String identifier = null;
+    String userSig = null;
+    @Generated(hash = 1939936807)
+    public YjUserProfile(Long id, String yjtk, String username, String phone,
+            String email, String nickname, String imagePath, int isComplete,
+            int userStatus, String identifier, String userSig) {
         this.id = id;
         this.yjtk = yjtk;
-        this.nickname = nickname;
-        this.realName = realName;
+        this.username = username;
         this.phone = phone;
-        this.cardNo = cardNo;
-        this.gender = gender;
-        this.birthday = birthday;
-        this.userStatus = userStatus;
-        this.isComplete = isComplete;
-        this.isCertification = isCertification;
+        this.email = email;
+        this.nickname = nickname;
         this.imagePath = imagePath;
-        this.rongCloudToken = rongCloudToken;
+        this.isComplete = isComplete;
+        this.userStatus = userStatus;
+        this.identifier = identifier;
+        this.userSig = userSig;
     }
     @Generated(hash = 900997910)
     public YjUserProfile() {
@@ -54,17 +49,11 @@ public class YjUserProfile {
     public void setYjtk(String yjtk) {
         this.yjtk = yjtk;
     }
-    public String getNickname() {
-        return this.nickname;
+    public String getUsername() {
+        return this.username;
     }
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-    public String getRealName() {
-        return this.realName;
-    }
-    public void setRealName(String realName) {
-        this.realName = realName;
+    public void setUsername(String username) {
+        this.username = username;
     }
     public String getPhone() {
         return this.phone;
@@ -72,41 +61,17 @@ public class YjUserProfile {
     public void setPhone(String phone) {
         this.phone = phone;
     }
-    public String getCardNo() {
-        return this.cardNo;
+    public String getEmail() {
+        return this.email;
     }
-    public void setCardNo(String cardNo) {
-        this.cardNo = cardNo;
+    public void setEmail(String email) {
+        this.email = email;
     }
-    public int getGender() {
-        return this.gender;
+    public String getNickname() {
+        return this.nickname;
     }
-    public void setGender(int gender) {
-        this.gender = gender;
-    }
-    public String getBirthday() {
-        return this.birthday;
-    }
-    public void setBirthday(String birthday) {
-        this.birthday = birthday;
-    }
-    public int getUserStatus() {
-        return this.userStatus;
-    }
-    public void setUserStatus(int userStatus) {
-        this.userStatus = userStatus;
-    }
-    public int getIsComplete() {
-        return this.isComplete;
-    }
-    public void setIsComplete(int isComplete) {
-        this.isComplete = isComplete;
-    }
-    public int getIsCertification() {
-        return this.isCertification;
-    }
-    public void setIsCertification(int isCertification) {
-        this.isCertification = isCertification;
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
     public String getImagePath() {
         return this.imagePath;
@@ -114,14 +79,31 @@ public class YjUserProfile {
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
     }
-    public String getRongCloudToken() {
-        return this.rongCloudToken;
+    public int getIsComplete() {
+        return this.isComplete;
     }
-    public void setRongCloudToken(String rongCloudToken) {
-        this.rongCloudToken = rongCloudToken;
+    public void setIsComplete(int isComplete) {
+        this.isComplete = isComplete;
+    }
+    public int getUserStatus() {
+        return this.userStatus;
+    }
+    public void setUserStatus(int userStatus) {
+        this.userStatus = userStatus;
+    }
+    public String getIdentifier() {
+        return this.identifier;
+    }
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
+    }
+    public String getUserSig() {
+        return this.userSig;
+    }
+    public void setUserSig(String userSig) {
+        this.userSig = userSig;
     }
 
 
 
-    
 }

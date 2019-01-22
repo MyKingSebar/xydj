@@ -19,6 +19,7 @@ import com.example.latte.util.log.LatteLogger;
 import com.yijia.common_yijia.database.YjDatabaseManager;
 import com.yijia.common_yijia.sign.ISignListener;
 import com.yijia.common_yijia.sign.SignInDelegate;
+import com.yijia.common_yijia.sign.SignInNoteOnlyDelegate;
 import com.yijia.common_yijia.sign.SignUpSecondDelegate;
 import com.yijia.common_yijia.main.YjBottomDelegate;
 
@@ -56,7 +57,7 @@ public class ExampleActivity extends ProxyActivity implements
         AccountManager.checkAccont(new IUserChecker() {
             @Override
             public void onSignIn() {
-                getSupportDelegate().startWithPop(new SignInDelegate());
+                getSupportDelegate().startWithPop(new SignInNoteOnlyDelegate());
             }
 
             @Override
@@ -85,7 +86,7 @@ public class ExampleActivity extends ProxyActivity implements
         AccountManager.checkAccont(new IUserChecker() {
             @Override
             public void onSignIn() {
-                getSupportDelegate().startWithPop(new SignInDelegate());
+                getSupportDelegate().startWithPop(new SignInNoteOnlyDelegate());
             }
 
             @Override
@@ -109,13 +110,12 @@ public class ExampleActivity extends ProxyActivity implements
             case SIGNED:
                 Toast.makeText(this, "启动成功，用户登录了", Toast.LENGTH_LONG).show();
                 getSupportDelegate().startWithPop(new YjBottomDelegate());
-                String rongToken=YjDatabaseManager.getInstance().getDao().loadAll().get(0).getRongCloudToken();
 
                 break;
             case NOT_SIGNED:
                 Toast.makeText(this, "启动成功，用户没登录", Toast.LENGTH_LONG).show();
 //                startWithPop(new SignInDelegate());
-                getSupportDelegate().startWithPop(new SignInDelegate());
+                getSupportDelegate().startWithPop(new SignInNoteOnlyDelegate());
                 break;
             default:
                 break;

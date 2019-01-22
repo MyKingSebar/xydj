@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<!--text-->
+<dimen name="first_title_18">12sp</dimen>
+<dimen name="second_title_14">9sp</dimen>
+<dimen name="third_title_13">9sp</dimen>
+<dimen name="forth_title_12">8sp</dimen>
+
+<!--distance-->
+
+<dimen name="d_sp15">10sp</dimen>
+<dimen name="d_sp12">10sp</dimen>
+<dimen name="d_sp30">20sp</dimen>
+<dimen name="d_sp10">7sp</dimen>
+<dimen name="d_sp5">3sp</dimen>
+
+    <!--main_circularbead-->
+<dimen name="c_sp5">3sp</dimen>
+<dimen name="c_sp13">9sp</dimen>
+
+
+
+</resources>
+

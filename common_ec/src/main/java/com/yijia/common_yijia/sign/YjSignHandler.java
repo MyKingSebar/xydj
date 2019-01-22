@@ -14,8 +14,6 @@ public class YjSignHandler {
     public static final String CODE_ILLEGAL_ARGUMENT="1003";
     public static final String CODE_REGISTERED="1004";
     public static final String CODE_ERROR_PHONE="0008";
-    public static final String CODE_ERROR_AUTH_CODE="0009";
-
     public static void onSignIn(String response, ISignListener signListener) {
         final JSONObject object=JSON.parseObject(response);
         final String status=object.getString("status");
@@ -24,25 +22,19 @@ public class YjSignHandler {
             final String yjtk= profileJson.getString("yjtk");
             final JSONObject user=profileJson.getJSONObject("user");
             final Long id = user.getLong("id");
-            final String nickname = user.getString("nickname");
-            final String realName = user.getString("realName");
+            final String username = user.getString("username");
             final String phone = user.getString("phone");
-            final String cardNo = user.getString("cardNo");
-//            final String cardImage = user.getString("cardImage");
-            final int gender = user.getInteger("gender");
-            final String birthday = user.getString("birthday");
-            final int userStatus = user.getInteger("userStatus");
-            final int isComplete = user.getInteger("isComplete");
-            final int isCertification = user.getInteger("isCertification");
-//            final int inviterId = user.getInteger("inviterId");
-//            final String createdTime = user.getString("createdTime");
-//            final String modifiedTime = user.getString("modifiedTime");
+            final String email = user.getString("email");
+            final String nickname = user.getString("nickname");
             final String imagePath = user.getString("imagePath");
-            final String rongCloudToken = user.getString("rongCloudToken");
+            final int isComplete = user.getInteger("isComplete");
+            final int userStatus = user.getInteger("userStatus");
+            final String identifier = user.getString("identifier");
+            final String userSig = user.getString("userSig");
 
-            final YjUserProfile profile = new YjUserProfile( id, yjtk,nickname, realName, phone,
-                    cardNo, gender, birthday, userStatus, isComplete, isCertification
-                    ,imagePath,rongCloudToken);
+
+            final YjUserProfile profile = new YjUserProfile( id, yjtk,username,phone,email,nickname, imagePath, isComplete,
+                    userStatus, identifier,userSig);
 
             YjDatabaseManager.getInstance().getDao().deleteAll();
             YjDatabaseManager.getInstance().getDao().insert(profile);
@@ -68,25 +60,19 @@ public class YjSignHandler {
             final String yjtk= profileJson.getString("yjtk");
             final JSONObject user=profileJson.getJSONObject("user");
             final Long id = user.getLong("id");
-            final String nickname = user.getString("nickname");
-            final String realName = user.getString("realName");
+            final String username = user.getString("username");
             final String phone = user.getString("phone");
-            final String cardNo = user.getString("cardNo");
-//            final String cardImage = user.getString("cardImage");
-            final int gender = user.getInteger("gender");
-            final String birthday = user.getString("birthday");
-            final int userStatus = user.getInteger("userStatus");
-            final int isComplete = user.getInteger("isComplete");
-            final int isCertification = user.getInteger("isCertification");
-//            final int inviterId = user.getInteger("inviterId");
-//            final String createdTime = user.getString("createdTime");
-//            final String modifiedTime = user.getString("modifiedTime");
+            final String email = user.getString("email");
+            final String nickname = user.getString("nickname");
             final String imagePath = user.getString("imagePath");
-            final String rongCloudToken = user.getString("rongCloudToken");
+            final int isComplete = user.getInteger("isComplete");
+            final int userStatus = user.getInteger("userStatus");
+            final String identifier = user.getString("identifier");
+            final String userSig = user.getString("userSig");
 
-            final YjUserProfile profile = new YjUserProfile( id, yjtk,nickname, realName, phone,
-                    cardNo, gender, birthday, userStatus, isComplete, isCertification
-                    ,imagePath,rongCloudToken);
+
+            final YjUserProfile profile = new YjUserProfile( id, yjtk,username,phone,email,nickname, imagePath, isComplete,
+                    userStatus, identifier,userSig);
 
             YjDatabaseManager.getInstance().getDao().deleteAll();
             YjDatabaseManager.getInstance().getDao().insert(profile);

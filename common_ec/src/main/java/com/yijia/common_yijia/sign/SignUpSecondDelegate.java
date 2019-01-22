@@ -53,8 +53,8 @@ public class SignUpSecondDelegate extends LatteDelegate {
 
     @BindView(R2.id.edit_name)
     TextInputEditText mName = null;
-    @BindView(R2.id.edit_password)
-    TextInputEditText mWord = null;
+//    @BindView(R2.id.edit_password)
+//    TextInputEditText mWord = null;
 
     @BindView(R2.id.ci_img)
     CircleImageView cvImg = null;
@@ -105,24 +105,23 @@ public class SignUpSecondDelegate extends LatteDelegate {
     @OnClick(R2.id.btn_sign_in)
     void onClickSignUp() {
         final String name = mName.getText().toString();
-        final String word = mWord.getText().toString();
-        if (checkForm(name,word)) {
+//        final String word = mWord.getText().toString();
+        if (checkForm(name)) {
             final String token = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getYjtk();
             if (!TextUtils.isEmpty(imgPath)) {
-                upLoadImg(token,name,word);
+                upLoadImg(token,name);
             } else {
-                upLoadInfo(token,"",name,word);
+                upLoadInfo(token,"",name);
             }
 
         }
     }
 
-    private void upLoadImg(String token,String name,String word) {
+    private void upLoadImg(String token,String name) {
         final String url = "picture/upload";
         RxRestClient.builder()
                 .url(url)
                 .params("yjtk", token)
-//                .params("files", new File[]{new File(imgPath)})
                 .files(new File[]{new File(imgPath)})
                 .build()
                 .uploadwithparams()
@@ -137,8 +136,8 @@ public class SignUpSecondDelegate extends LatteDelegate {
                         if(TextUtils.equals(status,"1001")){
 
                             final JSONObject dataObject = object.getJSONObject("data");
-                            final String filePath = dataObject.getString("filePath");
-                            upLoadInfo(token,filePath,name,word);
+                            final String filePath = dataObject.getString("path");
+                            upLoadInfo(token,filePath,name);
                         }else{
                             Toast.makeText(getContext(), object.getString("msg"), Toast.LENGTH_SHORT).show();
                         }
@@ -152,12 +151,11 @@ public class SignUpSecondDelegate extends LatteDelegate {
                 });
     }
 
-    private void upLoadInfo(String token,String path,String name,String word) {
-        final String url = "user/insertInfo";
+    private void upLoadInfo(String token,String path,String name) {
+        final String url = "user/ complete_info";
         RxRestClient.builder()
                 .url(url)
                 .params("yjtk", token)
-                .params("password", word)
                 .params("nickname", name)
                 .params("imagePath", path)
                 .build()
@@ -181,7 +179,7 @@ public class SignUpSecondDelegate extends LatteDelegate {
     }
 
 
-    private boolean checkForm(String name ,String word) {
+    private boolean checkForm(String name ) {
 
         boolean isPass = true;
 
@@ -193,15 +191,6 @@ public class SignUpSecondDelegate extends LatteDelegate {
         } else {
 //            mPhoneL.setError(null);
         }
-        if (word.isEmpty()) {
-            Toast.makeText(getContext(), "密码不能为空", Toast.LENGTH_SHORT).show();
-//            mNoteL.setError("验证码不能为空");
-            isPass = false;
-            return false;
-        } else {
-//            mNoteL.setError(null);
-        }
-
 
         return isPass;
     }
@@ -228,7 +217,7 @@ public class SignUpSecondDelegate extends LatteDelegate {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (!TextUtils.isEmpty(mName.getText().toString()) && !TextUtils.isEmpty(mWord.getText().toString())) {
+                if (!TextUtils.isEmpty(mName.getText().toString()) ) {
                     mLogin.setClickable(true);
                     mLogin.setBackgroundResource(R.mipmap.buttom_login_orange);
                     mLogin.setTextColor(getResources().getColor(R.color.app_text_orange));
@@ -240,7 +229,6 @@ public class SignUpSecondDelegate extends LatteDelegate {
             }
         };
         mName.addTextChangedListener(mTextWatcher);
-        mWord.addTextChangedListener(mTextWatcher);
 
     }
 

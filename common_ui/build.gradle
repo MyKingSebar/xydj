@@ -57,4 +57,7 @@ dependencies {
 
     //视频剪裁
     api 'com.github.kui92:FFmpegLibrary:3.2'
+
+    //BasePopup
+    api 'com.github.razerdp:BasePopup:2.1.7'
 }

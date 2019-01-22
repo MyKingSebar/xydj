@@ -5,4 +5,25 @@
     <color name="circle">#aa738ffe</color>
     <color name="rect">#aae84e40</color>
     <color name="gray_80_25">#25808080</color>
+
+
+    <color name="main_text_black_dark">#333333</color>
+    <color name="main_text_orange">#FDBA63</color>
+    <color name="main_text_gary_dark">#626262</color>
+    <color name="main_text_gary">#999999</color>
+    <color name="main_text_white">#ffffff</color>
+
+    <color name="main_background_f5">#F5F5F5</color>
+    <color name="main_background_f6">#F6F6F6</color>
+    <color name="main_background_e4">#E4E4E4</color>
+
+    <color name="main_line_f9">#F9F9F9</color>
+    <color name="main_line_ef">#EFEFEF</color>
+    <color name="main_buttom">#fdba63</color>
+
+
+    <color name="main_background_remind_black">#40000000</color>
+    <color name="main_background_remind_gray">#80727272</color>
+
+
 </resources>

@@ -9,6 +9,8 @@ import com.iflytek.cloud.SpeechUtility;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -122,10 +124,10 @@ public class FucUtil {
 	
 	/**
 	 * 读取asset目录下音频文件。
-	 * 
+	 * filename eg:"iattest.wav"
 	 * @return 二进制文件数据
 	 */
-	public static byte[] readAudioFile(Context context, String filename) {
+	public static byte[] readAudioFileAss(Context context, String filename) {
 		try {
 			InputStream ins = context.getAssets().open(filename);
 			byte[] data = new byte[ins.available()];
@@ -141,5 +143,27 @@ public class FucUtil {
 		
 		return null;
 	}
-	
+	/**
+	 * 读取本地目录下音频文件。
+	 *filename eg:sdcard/xx/xxx.mp4
+	 * @return 二进制文件数据
+	 */
+	public static byte[] readAudioFileSDCard(Context context, String filename) {
+		try {
+			File mfile=new File(filename);
+			InputStream ins = new FileInputStream(mfile);
+			byte[] data = new byte[ins.available()];
+
+			ins.read(data);
+			ins.close();
+
+			return data;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
 }

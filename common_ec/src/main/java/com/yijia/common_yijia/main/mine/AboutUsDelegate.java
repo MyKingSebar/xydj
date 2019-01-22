@@ -23,7 +23,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-
+/**
+ *
+ * 关于我们
+ */
 public class AboutUsDelegate extends LatteDelegate {
     @BindView(R2.id.head_layout)
     HeadLayout headLayout;

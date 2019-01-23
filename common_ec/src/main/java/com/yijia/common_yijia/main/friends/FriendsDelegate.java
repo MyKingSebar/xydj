@@ -17,6 +17,12 @@ import com.example.latte.delegates.bottom.BottomItemDelegate;
 import com.example.latte.ec.R;
 import com.example.latte.ec.R2;
 import com.example.latte.ui.widget.HeadLayout;
+import com.tencent.TIMConversation;
+import com.tencent.TIMConversationType;
+import com.tencent.TIMManager;
+import com.tencent.TIMMessage;
+import com.tencent.TIMTextElem;
+import com.tencent.TIMValueCallBack;
 import com.yijia.common_yijia.database.YjDatabaseManager;
 import com.yijia.common_yijia.main.friends.adapter.MyFriendsAdapter;
 import com.yijia.common_yijia.main.friends.adapter.MyGuardianAdapter;
@@ -30,6 +36,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+
+import static com.example.latte.ec.R2.id.nickname;
 
 /**
  * 亲友团列表
@@ -57,6 +65,7 @@ public class FriendsDelegate extends BottomItemDelegate implements HeadLayout.On
     private FriendsPresenter friendsPresenter;
     //监护人列表
     private List<GuardianBean> guardianBeans;
+    TIMConversation conversation;
 
     @Override
     public Object setLayout() {
@@ -101,7 +110,7 @@ public class FriendsDelegate extends BottomItemDelegate implements HeadLayout.On
 
     @Override
     public void respFriendsSuccess(JSONArray friends) {
-        if (friends.size()==0) {
+        if (friends.size() == 0) {
             // 没有好友的处理
             noFriends.setVisibility(View.VISIBLE);
             noFriends.setOnClickListener(new View.OnClickListener() {
@@ -113,7 +122,7 @@ public class FriendsDelegate extends BottomItemDelegate implements HeadLayout.On
             });
             return;
         }
-        //有监护人的处理
+        //有好友的处理
         noFriends.setVisibility(View.GONE);
         for (int i = 0; i < friends.size(); i++) {
             final JSONObject jsonObject = friends.getJSONObject(i);
@@ -122,8 +131,8 @@ public class FriendsDelegate extends BottomItemDelegate implements HeadLayout.On
             final String realName = jsonObject.getString("realName");
             final String userStatus = jsonObject.getString("userStatus");
             final String userHead = jsonObject.getString("userHead");
-            final String rongCloudToken = jsonObject.getString("rongCloudToken");
-            FriendsBean friendsBean = new FriendsBean(friendUserId, nickname, realName, userStatus, userHead, rongCloudToken);
+            final String identifier = jsonObject.getString("identifier");
+            FriendsBean friendsBean = new FriendsBean(friendUserId, nickname, realName, userStatus, userHead, identifier);
             friendsBeans.add(friendsBean);
         }
         LinearLayoutManager layoutManager = new LinearLayoutManager(_mActivity) {
@@ -138,8 +147,8 @@ public class FriendsDelegate extends BottomItemDelegate implements HeadLayout.On
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                String nickname = friendsBeans.get(position).getNickname();
-                Log.e("qqqq", "onItemClick: "+nickname );
+                String identifier = friendsBeans.get(position).getIdentifier();
+                Log.e("qqqq", "onItemClick: " + identifier);
             }
         });
     }

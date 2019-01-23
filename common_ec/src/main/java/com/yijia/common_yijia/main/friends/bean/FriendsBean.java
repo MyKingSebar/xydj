@@ -6,19 +6,18 @@ public class FriendsBean {
     private String realName;
     private String userStatus;
     private String userHead;
-    private String rongCloudToken;
+    private String identifier;
 
-    public FriendsBean() {
-
-    }
-
-    public FriendsBean(String friendUserId, String nickname, String realName, String userStatus, String userHead, String rongCloudToken) {
+    public FriendsBean(String friendUserId, String nickname, String realName, String userStatus, String userHead, String identifier) {
         this.friendUserId = friendUserId;
         this.nickname = nickname;
         this.realName = realName;
         this.userStatus = userStatus;
         this.userHead = userHead;
-        this.rongCloudToken = rongCloudToken;
+        this.identifier = identifier;
+    }
+
+    public FriendsBean() {
     }
 
     public String getFriendUserId() {
@@ -61,23 +60,11 @@ public class FriendsBean {
         this.userHead = userHead;
     }
 
-    public String getRongCloudToken() {
-        return rongCloudToken;
+    public String getIdentifier() {
+        return identifier;
     }
 
-    public void setRongCloudToken(String rongCloudToken) {
-        this.rongCloudToken = rongCloudToken;
-    }
-
-    @Override
-    public String toString() {
-        return "FriendsBean{" +
-                "friendUserId='" + friendUserId + '\'' +
-                ", nickname='" + nickname + '\'' +
-                ", realName='" + realName + '\'' +
-                ", userStatus='" + userStatus + '\'' +
-                ", userHead='" + userHead + '\'' +
-                ", rongCloudToken='" + rongCloudToken + '\'' +
-                '}';
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
     }
 }

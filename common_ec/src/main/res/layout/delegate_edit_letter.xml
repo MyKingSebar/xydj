@@ -1,30 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/include_edit_top"/>
-    <android.support.v7.widget.AppCompatEditText
-        android:id="@+id/et_text"
-        android:hint="开始记录你的生活吧！"
-        android:textCursorDrawable="@color/black"
+    <include layout="@layout/include_edit_top" />
+
+    <android.support.v7.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginEnd="15dp"
+        android:layout_weight="1"
+        android:background="@drawable/et_send_text"
+        android:orientation="vertical">
+
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/et_text"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="top|start"
+            android:hint="开始给亲朋写信吧！只有自己和收件人可见"
+            android:padding="15dp"
+            android:textColor="@color/app_text_dark"
+            android:textColorHint="@color/app_text_gray"
+            android:textCursorDrawable="@color/black"
+            android:textSize="@dimen/third_title_16" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:background="@color/main_line_f9" />
+        <android.support.v7.widget.LinearLayoutCompat
+            android:id="@+id/ll_recipients"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="28dp"
+            android:layout_height="44dp"
+            android:gravity="center_vertical">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="收件人："
+                android:textColor="@color/main_text_black_dark"
+                android:textSize="@dimen/third_title_16" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tv_recipients"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tv_add"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@mipmap/index_edit_addrecipients" />
+
+        </android.support.v7.widget.LinearLayoutCompat>
+
+    </android.support.v7.widget.LinearLayoutCompat>
+
+    <!--<android.support.v7.widget.AppCompatTextView
+        android:id="@+id/bt_say"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp"
-        android:background="@drawable/et_send_text"
-        android:gravity="top|start"
-        android:padding="10dp"
-        android:textSize="13sp"
-        android:textColor="@color/app_text_dark"
-        android:textColorHint="@color/app_text_gray"
-        android:layout_width="match_parent"
-        android:layout_weight="1"
-        android:layout_height="0dp" />
-    <Button
-        android:id="@+id/bt_say"
-        android:text="语音"
-        android:layout_width="match_parent"
-        android:layout_height="30dp" />
+        android:layout_marginBottom="28dp"
+        android:gravity="center"
+        android:textColor="@color/main_text_orange"
+        android:drawableStart="@mipmap/index_edit_say"
+        android:drawablePadding="0dp"
+        android:text="语音" />-->
 
 
 </android.support.v7.widget.LinearLayoutCompat>

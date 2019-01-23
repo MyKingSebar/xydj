@@ -196,7 +196,6 @@ private void checkLat(){
 
     @Override
     public void latSuccess(String s) {
-        Log.e("jialei","latSuccess:"+s);
         mStringBuffer.setLength(0);
         mStringBuffer.append(etText.getText().toString());
         if (index < 0 || index >= mStringBuffer.length() ){

@@ -273,7 +273,6 @@ public class Lat {
 
     private void printResult(RecognizerResult results) {
         String text = JsonParser.parseIatResult(results.getResultString());
-Log.e("jialei","printResult:"+text);
 //        String sn = null;
 //        // 读取json结果中的sn字段
 //        try {

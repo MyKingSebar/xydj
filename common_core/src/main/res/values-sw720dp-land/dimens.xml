@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 <!--text-->
-<dimen name="first_title_18">14sp</dimen>
-<dimen name="second_title_14">11sp</dimen>
-<dimen name="third_title_13">10sp</dimen>
-<dimen name="forth_title_12">10sp</dimen>
+<dimen name="first_title_20">14sp</dimen>
+<dimen name="second_title_18">11sp</dimen>
+<dimen name="third_title_16">10sp</dimen>
+<dimen name="forth_title_15">10sp</dimen>
 
 <!--distance-->
 

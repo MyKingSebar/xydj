@@ -29,12 +29,12 @@ public class YjSignHandler {
             final String imagePath = user.getString("imagePath");
             final int isComplete = user.getInteger("isComplete");
             final int userStatus = user.getInteger("userStatus");
-            final String identifier = user.getString("identifier");
-            final String userSig = user.getString("userSig");
+            final String tencentImUserId = user.getString("tencentImUserId");
+            final String tencentImUserSig = user.getString("tencentImUserSig");
 
 
             final YjUserProfile profile = new YjUserProfile( id, yjtk,username,phone,email,nickname, imagePath, isComplete,
-                    userStatus, identifier,userSig);
+                    userStatus, tencentImUserId,tencentImUserSig);
 
             YjDatabaseManager.getInstance().getDao().deleteAll();
             YjDatabaseManager.getInstance().getDao().insert(profile);
@@ -67,12 +67,12 @@ public class YjSignHandler {
             final String imagePath = user.getString("imagePath");
             final int isComplete = user.getInteger("isComplete");
             final int userStatus = user.getInteger("userStatus");
-            final String identifier = user.getString("identifier");
-            final String userSig = user.getString("userSig");
+            final String tencentImUserId = user.getString("tencentImUserId");
+            final String tencentImUserSig = user.getString("tencentImUserSig");
 
 
             final YjUserProfile profile = new YjUserProfile( id, yjtk,username,phone,email,nickname, imagePath, isComplete,
-                    userStatus, identifier,userSig);
+                    userStatus, tencentImUserId,tencentImUserSig);
 
             YjDatabaseManager.getInstance().getDao().deleteAll();
             YjDatabaseManager.getInstance().getDao().insert(profile);

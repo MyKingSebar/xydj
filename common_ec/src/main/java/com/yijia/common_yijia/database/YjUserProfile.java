@@ -16,12 +16,12 @@ public class YjUserProfile {
     String imagePath = null;
     int isComplete = 0;
     int userStatus = 0;
-    String identifier = null;
-    String userSig = null;
-    @Generated(hash = 1939936807)
+    String tencentImUserId = null;
+    String tencentImUserSig = null;
+    @Generated(hash = 57744088)
     public YjUserProfile(Long id, String yjtk, String username, String phone,
             String email, String nickname, String imagePath, int isComplete,
-            int userStatus, String identifier, String userSig) {
+            int userStatus, String tencentImUserId, String tencentImUserSig) {
         this.id = id;
         this.yjtk = yjtk;
         this.username = username;
@@ -31,8 +31,8 @@ public class YjUserProfile {
         this.imagePath = imagePath;
         this.isComplete = isComplete;
         this.userStatus = userStatus;
-        this.identifier = identifier;
-        this.userSig = userSig;
+        this.tencentImUserId = tencentImUserId;
+        this.tencentImUserSig = tencentImUserSig;
     }
     @Generated(hash = 900997910)
     public YjUserProfile() {
@@ -91,18 +91,19 @@ public class YjUserProfile {
     public void setUserStatus(int userStatus) {
         this.userStatus = userStatus;
     }
-    public String getIdentifier() {
-        return this.identifier;
+    public String getTencentImUserId() {
+        return this.tencentImUserId;
     }
-    public void setIdentifier(String identifier) {
-        this.identifier = identifier;
+    public void setTencentImUserId(String tencentImUserId) {
+        this.tencentImUserId = tencentImUserId;
     }
-    public String getUserSig() {
-        return this.userSig;
+    public String getTencentImUserSig() {
+        return this.tencentImUserSig;
     }
-    public void setUserSig(String userSig) {
-        this.userSig = userSig;
+    public void setTencentImUserSig(String tencentImUserSig) {
+        this.tencentImUserSig = tencentImUserSig;
     }
+    
 
 
 

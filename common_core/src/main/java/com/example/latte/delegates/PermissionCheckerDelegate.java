@@ -11,6 +11,7 @@ import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.latte.lisener.BaseLisener;
 import com.example.latte.ui.camera.CameraImageBean;
 import com.example.latte.ui.camera.LatteCamera;
 import com.example.latte.ui.camera.RequestCodes;
@@ -54,12 +55,12 @@ public abstract class PermissionCheckerDelegate extends BaseDelegate {
 
     //不是直接调用方法
     @NeedsPermission({Manifest.permission.WRITE_EXTERNAL_STORAGE})
-    void useSDCard(View v) {
-        v.showContextMenu();
+    void useSDCard(View v,BaseLisener listener) {
+        listener.ok(v);
     }
 
-    public void useSDCardWithCheck(View v) {
-        PermissionCheckerDelegatePermissionsDispatcher.useSDCardWithCheck(this,v);
+    public void useSDCardWithCheck(View v,BaseLisener listener) {
+        PermissionCheckerDelegatePermissionsDispatcher.useSDCardWithCheck(this,v,listener);
     }
 
     @OnPermissionDenied({Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE})

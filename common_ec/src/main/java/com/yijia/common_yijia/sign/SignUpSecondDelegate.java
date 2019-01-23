@@ -152,7 +152,7 @@ public class SignUpSecondDelegate extends LatteDelegate {
     }
 
     private void upLoadInfo(String token,String path,String name) {
-        final String url = "user/ complete_info";
+        final String url = "user/complete_info";
         RxRestClient.builder()
                 .url(url)
                 .params("yjtk", token)

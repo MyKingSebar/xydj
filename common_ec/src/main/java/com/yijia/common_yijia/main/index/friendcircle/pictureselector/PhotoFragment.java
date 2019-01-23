@@ -1,4 +1,4 @@
-package com.yijia.common_yijia.main.index.pictureselector;
+package com.yijia.common_yijia.main.index.friendcircle.pictureselector;
 
 import android.app.Activity;
 import android.content.Intent;

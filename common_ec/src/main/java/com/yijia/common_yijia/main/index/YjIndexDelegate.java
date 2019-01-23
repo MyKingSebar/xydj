@@ -1,5 +1,6 @@
 package com.yijia.common_yijia.main.index;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -7,9 +8,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.view.ContextMenu;
-import android.view.MenuItem;
+import android.view.Gravity;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.TranslateAnimation;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
@@ -27,11 +30,12 @@ import com.example.latte.util.callback.IGlobalCallback;
 import com.example.latte.util.log.LatteLogger;
 import com.joanzapata.iconify.widget.IconTextView;
 import com.yijia.common_yijia.database.YjDatabaseManager;
+import com.yijia.common_yijia.main.index.friendcircle.IndexCameraCheckInstener;
+import com.yijia.common_yijia.main.index.friendcircle.LetterFragment;
 import com.yijia.common_yijia.main.index.friends.IFriendsItemListener;
 import com.yijia.common_yijia.main.index.friends.IndexFriendsAdapter;
 import com.yijia.common_yijia.main.index.friends.YjIndexFriendsDataConverter;
-import com.yijia.common_yijia.main.index.pictureselector.PhotoFragment;
-import com.yijia.common_yijia.main.message.ConversationDelegate;
+import com.yijia.common_yijia.main.index.friendcircle.pictureselector.PhotoFragment;
 
 import java.util.ArrayList;
 
@@ -39,9 +43,13 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import razerdp.basepopup.BasePopupWindow;
+import razerdp.basepopup.QuickPopupBuilder;
+import razerdp.basepopup.QuickPopupConfig;
+import razerdp.blur.PopupBlurOption;
 
 
-public class YjIndexDelegate extends BottomItemDelegate implements View.OnFocusChangeListener, IFriendsItemListener, IIndexItemListener {
+public class YjIndexDelegate extends BottomItemDelegate implements View.OnFocusChangeListener, IFriendsItemListener, IIndexItemListener ,IndexCameraCheckInstener {
 
     private final int ALLMODE = 0;
     private final int IMAGEMODE = 1;
@@ -70,12 +78,18 @@ public class YjIndexDelegate extends BottomItemDelegate implements View.OnFocusC
 
     YjIndexAdapter mAdapter = null;
     IndexFriendsAdapter friendsAdapter = null;
+    /*popu START*/
+    Animation enterAnimation = null;
+    Animation dismissAnimation = null;
+    int gravity;
+    /*popu END*/
 
     @OnClick(R2.id.icon_index_message)
-    void onCLickpublish() {
-        useSDCardWithCheck(mSend);
+    void onCLickpublish(View v) {
+        useSDCardWithCheck(v,this);
 //        mSend.showContextMenu();
 //        getSupportDelegate().start(new PhotoFragment());
+
     }
 
 
@@ -86,7 +100,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements View.OnFocusC
 
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, View rootView) {
-        mRefreshHandler = YjReFreshHandler.create(mRefreshLayout, mRecyclerView, new IndexDataConverter(),this,this);
+        mRefreshHandler = YjReFreshHandler.create(mRefreshLayout, mRecyclerView, new IndexDataConverter(), this, this);
         CallbackManager.getInstance()
                 .addCallback(CallbackType.ON_SCAN, new IGlobalCallback<String>() {
                     @Override
@@ -97,6 +111,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements View.OnFocusC
 
         this.registerForContextMenu(mSend);
 //        mSend.setOnCreateContextMenuListener(this);
+        initPopup();
     }
 
     @Override
@@ -106,45 +121,45 @@ public class YjIndexDelegate extends BottomItemDelegate implements View.OnFocusC
 
     }
 
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-        menu.add(1, TEXTMODE, 1, "文字");
-        menu.add(1, IMAGEMODE, 1, "图片");
-        menu.add(1, VIDEOMODE, 1, "视频");
-        menu.add(1, AUDIOMODE, 1, "音频");
-    }
-
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        PhotoFragment delegate = new PhotoFragment();
-        switch (item.getItemId()) {
-            case IMAGEMODE:
-                mArgs.putInt(PICKTYPE, IMAGEMODE);
-                delegate.setArguments(mArgs);
-                getParentDelegate().getSupportDelegate().start(delegate);
-                break;
-            case VIDEOMODE:
-                mArgs.putInt(PICKTYPE, VIDEOMODE);
-                delegate.setArguments(mArgs);
-                getParentDelegate().getSupportDelegate().start(delegate);
-                break;
-            case AUDIOMODE:
-                mArgs.putInt(PICKTYPE, AUDIOMODE);
-                delegate.setArguments(mArgs);
-                getParentDelegate().getSupportDelegate().start(delegate);
-                break;
-            case TEXTMODE:
-                mArgs.putInt(PICKTYPE, TEXTMODE);
-                delegate.setArguments(mArgs);
-                getParentDelegate().getSupportDelegate().start(delegate);
-                break;
-
-            default:
-                break;
-        }
-        return super.onContextItemSelected(item);
-    }
+//    @Override
+//    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+//        super.onCreateContextMenu(menu, v, menuInfo);
+//        menu.add(1, TEXTMODE, 1, "文字");
+//        menu.add(1, IMAGEMODE, 1, "图片");
+//        menu.add(1, VIDEOMODE, 1, "视频");
+//        menu.add(1, AUDIOMODE, 1, "音频");
+//    }
+//
+//    @Override
+//    public boolean onContextItemSelected(MenuItem item) {
+//        PhotoFragment delegate = new PhotoFragment();
+//        switch (item.getItemId()) {
+//            case IMAGEMODE:
+//                mArgs.putInt(PICKTYPE, IMAGEMODE);
+//                delegate.setArguments(mArgs);
+//                getParentDelegate().getSupportDelegate().start(delegate);
+//                break;
+//            case VIDEOMODE:
+//                mArgs.putInt(PICKTYPE, VIDEOMODE);
+//                delegate.setArguments(mArgs);
+//                getParentDelegate().getSupportDelegate().start(delegate);
+//                break;
+//            case AUDIOMODE:
+//                mArgs.putInt(PICKTYPE, AUDIOMODE);
+//                delegate.setArguments(mArgs);
+//                getParentDelegate().getSupportDelegate().start(delegate);
+//                break;
+//            case TEXTMODE:
+//                mArgs.putInt(PICKTYPE, TEXTMODE);
+//                delegate.setArguments(mArgs);
+//                getParentDelegate().getSupportDelegate().start(delegate);
+//                break;
+//
+//            default:
+//                break;
+//        }
+//        return super.onContextItemSelected(item);
+//    }
 
     private void getFriendsSucceed(String response) {
         final ArrayList<MultipleItemEntity> data =
@@ -292,7 +307,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements View.OnFocusC
     }
 
     @Override
-    public void onFriendsItemClick(Long id,String rongId,String name) {
+    public void onFriendsItemClick(Long id, String rongId, String name) {
         if (id == 0) {
             //TODO 邀请
         } else {
@@ -304,8 +319,95 @@ public class YjIndexDelegate extends BottomItemDelegate implements View.OnFocusC
         }
     }
 
+    /*popup START*/
     @Override
     public void onIndexItemClick(double itemTotalPrice) {
 
     }
+
+    void initPopup() {
+        enterAnimation = createVerticalAnimation(-1f, 0);
+        dismissAnimation = createVerticalAnimation(0, -1f);
+        gravity = Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL;
+    }
+
+    private Animation createVerticalAnimation(float fromY, float toY) {
+        Animation animation = new TranslateAnimation(Animation.RELATIVE_TO_SELF,
+                0f,
+                Animation.RELATIVE_TO_SELF,
+                0f,
+                Animation.RELATIVE_TO_SELF,
+                fromY,
+                Animation.RELATIVE_TO_SELF,
+                toY);
+        animation.setDuration(500);
+        animation.setInterpolator(new DecelerateInterpolator());
+        return animation;
+    }
+
+    private Animation createHorizontalAnimation(float fromX, float toX) {
+        Animation animation = new TranslateAnimation(Animation.RELATIVE_TO_SELF,
+                fromX,
+                Animation.RELATIVE_TO_SELF,
+                toX,
+                Animation.RELATIVE_TO_SELF,
+                0f,
+                Animation.RELATIVE_TO_SELF,
+                0f);
+        animation.setDuration(500);
+        animation.setInterpolator(new DecelerateInterpolator());
+        return animation;
+    }
+
+    @Override
+    public void ok() {
+    }
+
+    @Override
+    public void ok(View v) {
+        showIndexPopup(v);
+    }
+
+
+
+    void showIndexPopup(View v){
+        QuickPopupBuilder.with(getContext())
+                .contentView(R.layout.basepopu_index)
+                .config(new QuickPopupConfig()
+                        .clipChildren(true)
+                        .backgroundColor(Color.parseColor("#8C617D8A"))
+                        .withShowAnimation(enterAnimation)
+                        .withDismissAnimation(dismissAnimation)
+                        .gravity(gravity)
+                        .blurBackground(true, new BasePopupWindow.OnBlurOptionInitListener() {
+                            @Override
+                            public void onCreateBlurOption(PopupBlurOption option) {
+                                option.setBlurRadius(6)
+                                        .setBlurPreScaleRatio(0.9f);
+                            }
+                        })
+                        .withClick(R.id.ll_camera, v1 -> {
+                            PhotoFragment delegate = new PhotoFragment();
+                            mArgs.putInt(PICKTYPE, IMAGEMODE);
+                            delegate.setArguments(mArgs);
+                            getParentDelegate().getSupportDelegate().start(delegate);
+                        }, true)
+                        .withClick(R.id.ll_vodeo, v1 -> {
+                            PhotoFragment delegate = new PhotoFragment();
+                            mArgs.putInt(PICKTYPE, VIDEOMODE);
+                            delegate.setArguments(mArgs);
+                            getParentDelegate().getSupportDelegate().start(delegate);
+                        }, true)
+                        .withClick(R.id.ll_letter, v1 -> {
+                            getParentDelegate().getSupportDelegate().start(new LetterFragment());
+                        }, true))
+                .show(v);
+    }
+
+    @Override
+    public void checkok(View v) {
+
+    }
+    /*popup END*/
+
 }

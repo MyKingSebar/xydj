@@ -6,11 +6,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
-import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.commcon_xfyun.setting.IatSettings;
@@ -37,22 +34,22 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 //语音听写
-public class Iat {
-    private static String TAG = Iat.class.getSimpleName();
+public class Lat {
+    private static String TAG = Lat.class.getSimpleName();
 
     private int mtype = 0;//1.本地文件 2.现场录入
     private int inPutType = 0;
-    public final int INPUTLOCAL = 1;
-    public final int INPUTASS = 2;
+    public static final int INPUTLOCAL = 1;
+    public static final int INPUTASS = 2;
 
     private Context mContext = null;
 
-    private LatCallbackInterface mLatCallbackInterface=null;
+    private LatCallbackInterface mLatCallbackInterface = null;
 
-    public Iat(Context mContext, int type,LatCallbackInterface latCallbackInterface) {
+    public Lat(Context mContext, int type, LatCallbackInterface latCallbackInterface) {
         this.mContext = mContext;
         this.mtype = type;
-        this.mLatCallbackInterface=latCallbackInterface;
+        this.mLatCallbackInterface = latCallbackInterface;
         onCreate();
     }
 
@@ -118,6 +115,9 @@ public class Iat {
     // 开始听写
     // 如何判断一次听写结束：OnResult isLast=true 或者 onError
     public void iatStart() {
+        if (!check()) {
+            return;
+        }
         // 移动数据分析，收集开始听写事件
         FlowerCollector.onEvent(mContext, "iat_recognize");
         mIatResults.clear();
@@ -142,7 +142,7 @@ public class Iat {
     }
 
     // 音频流识别
-    public void iatRecognize(int type,String path) {
+    public void iatRecognize(int type, String path) {
         executeStream(inPutType, path);
     }
 
@@ -273,25 +273,25 @@ public class Iat {
 
     private void printResult(RecognizerResult results) {
         String text = JsonParser.parseIatResult(results.getResultString());
-
-        String sn = null;
-        // 读取json结果中的sn字段
-        try {
-            JSONObject resultJson = new JSONObject(results.getResultString());
-            sn = resultJson.optString("sn");
-        } catch (JSONException e) {
-            e.printStackTrace();
+Log.e("jialei","printResult:"+text);
+//        String sn = null;
+//        // 读取json结果中的sn字段
+//        try {
+//            JSONObject resultJson = new JSONObject(results.getResultString());
+//            sn = resultJson.optString("sn");
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//
+//        mIatResults.put(sn, text);
+//
+//        StringBuffer resultBuffer = new StringBuffer();
+//        for (String key : mIatResults.keySet()) {
+//            resultBuffer.append(mIatResults.get(key));
+//        }
+        if (mLatCallbackInterface != null) {
+            mLatCallbackInterface.latSuccess(text);
         }
-
-        mIatResults.put(sn, text);
-
-        StringBuffer resultBuffer = new StringBuffer();
-        for (String key : mIatResults.keySet()) {
-            resultBuffer.append(mIatResults.get(key));
-        }
-if(mLatCallbackInterface!=null){
-    mLatCallbackInterface.latSuccess(resultBuffer.toString());
-}
     }
 
     /**

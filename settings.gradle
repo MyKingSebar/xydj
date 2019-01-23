@@ -1,2 +1,2 @@
-include ':example', ':common_annotations', ':common_compiler', ':common_core', ':common_ec', ':common_ui', ':common_rongim', ':CallLib', ':IMLib', ':IMKit', ':CallKit', ':RCSticker', ':common_xfyun'
+include ':example', ':common_annotations', ':common_compiler', ':common_core', ':common_ec', ':common_ui', ':common_rongim', ':CallLib', ':IMLib', ':IMKit', ':CallKit', ':RCSticker', ':common_xfyun',':common_tencentim'
 

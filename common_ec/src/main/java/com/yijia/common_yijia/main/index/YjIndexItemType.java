@@ -8,6 +8,7 @@ class YjIndexItemType {
     static final int INDEX_IMAGES_ITEM = 103;
     static final int INDEX_VOICE_ITEM = 104;
     static final int INDEX_VIDEO_ITEM = 105;
+    static final int INDEX_LETTER_ITEM = 106;
 
 
     static final int INDEX_COMMENTLIST_ITEM = 100;

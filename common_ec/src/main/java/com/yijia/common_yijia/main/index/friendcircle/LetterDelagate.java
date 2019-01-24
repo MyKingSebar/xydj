@@ -1,18 +1,11 @@
 package com.yijia.common_yijia.main.index.friendcircle;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatEditText;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -26,32 +19,19 @@ import com.example.latte.ec.R;
 import com.example.latte.ec.R2;
 import com.example.latte.net.rx.BaseObserver;
 import com.example.latte.net.rx.RxRestClient;
-import com.example.latte.ui.wxvideoedit.EsayVideoEditActivity;
 import com.example.latte.util.log.LatteLogger;
-import com.luck.picture.lib.PictureSelector;
-import com.luck.picture.lib.config.PictureConfig;
-import com.luck.picture.lib.config.PictureMimeType;
-import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.tools.PictureFileUtils;
 import com.yijia.common_yijia.database.YjDatabaseManager;
-import com.yijia.common_yijia.main.index.YjIndexDelegate;
-import com.yijia.common_yijia.main.index.friendcircle.pictureselector.FullyGridLayoutManager;
-import com.yijia.common_yijia.main.index.friendcircle.pictureselector.GridImageAdapter;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-import top.zibin.luban.Luban;
-import top.zibin.luban.OnCompressListener;
 
 
-public class LetterFragment extends LatteDelegate implements LatCallbackInterface {
+public class LetterDelagate extends LatteDelegate implements LatCallbackInterface {
     private Lat mlat = null;
     StringBuffer mStringBuffer=null;
     //光标所在位置
@@ -87,7 +67,7 @@ public class LetterFragment extends LatteDelegate implements LatCallbackInterfac
     }
 
 
-    private final static String TAG = LetterFragment.class.getSimpleName();
+    private final static String TAG = LetterDelagate.class.getSimpleName();
 
 
     @Override

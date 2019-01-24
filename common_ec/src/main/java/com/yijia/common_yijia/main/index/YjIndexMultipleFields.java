@@ -5,6 +5,7 @@ public enum YjIndexMultipleFields {
     USER_REAL_NAME,
     ISOWN,
     CIRCLEID,
+    CONTENTTYPE,
     LOCATION,
     LONGITUDE,
     LATITUDE,
@@ -15,5 +16,6 @@ public enum YjIndexMultipleFields {
     VOICEURL,
     VIDEOURL,
     VIDEOCOVERURL,
+    VISIBLETYPE,
     IMGS
 }

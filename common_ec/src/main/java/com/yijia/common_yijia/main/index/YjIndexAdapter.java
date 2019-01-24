@@ -93,6 +93,8 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
         addItemType(YjIndexItemType.INDEX_VOICE_ITEM, R.layout.item_index_voice);
         addItemType(YjIndexItemType.INDEX_VIDEO_ITEM, R.layout.item_index_video);
         addItemType(YjIndexItemType.INDEX_IMAGES_ITEM, R.layout.item_index_images);
+        //TODO
+        addItemType(YjIndexItemType.INDEX_LETTER_ITEM, R.layout.item_index_images);
 
     }
 
@@ -115,6 +117,8 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
         final String userRealName = entity.getField(YjIndexMultipleFields.USER_REAL_NAME);
         final int isOwn = entity.getField(YjIndexMultipleFields.ISOWN);
         final int circleId = entity.getField(YjIndexMultipleFields.CIRCLEID);
+        final int contentType = entity.getField(YjIndexMultipleFields.CONTENTTYPE);
+        final int visibleType = entity.getField(YjIndexMultipleFields.VISIBLETYPE);
         final String location = entity.getField(YjIndexMultipleFields.LOCATION);
         final String longitude = entity.getField(YjIndexMultipleFields.LONGITUDE);
         final String createdTime = entity.getField(YjIndexMultipleFields.CREATEDTIME);

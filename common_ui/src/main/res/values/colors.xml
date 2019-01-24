@@ -35,5 +35,6 @@
     <color name="blue_top">#005ec9</color>
     <color name="dialog_btn_blue_02">#0374fe</color>
 
-
+    <drawable name="charIndexColor">#33000000</drawable>
+    <color name="charIndexColor">#33000000</color>
 </resources>

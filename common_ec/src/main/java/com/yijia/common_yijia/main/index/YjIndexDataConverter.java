@@ -22,16 +22,18 @@ public class YjIndexDataConverter extends DataConverter {
 
             final Long userId = data.getLong("userId");
             final String userNickname = data.getString("userNickname");
-            final String userRealName = data.getString("userRealName");
+//            final String userRealName = data.getString("userRealName");
             final String userHead = data.getString("userHead");
             final int isOwn = data.getInteger("isOwn");
             final int circleId = data.getInteger("circleId");
-            final int contentType = data.getInteger("contentType");
+            final int circleType = data.getInteger("circleType");//动态类型：1-文本，2-照片，3-语音，4-视频，5-家书
+            final int contentType = data.getInteger("contentType");//内容类型：1-文字，2-语音
             final String content = data.getString("content");
             final String pictureUrl = data.getString("pictureUrl");
             final String voiceUrl = data.getString("audioUrl");
             final String videoUrl = data.getString("videoUrl");
             final String videoCoverUrl = data.getString("videoCoverUrl");
+            final int visibleType = data.getInteger("visibleType");//可见类型：1-全部可见，2-部分可见，3-部分不可见
             final String location = data.getString("location");
             final String longitude = data.getString("longitude");
             final String latitude = data.getString("latitude");
@@ -51,7 +53,7 @@ public class YjIndexDataConverter extends DataConverter {
             }
 
             int type = 0;
-            switch (contentType) {
+            switch (circleType) {
                 //1-文本，2-照片，3-语音，4-视频
                 case 1:
                     type=YjIndexItemType.INDEX_TEXT_ITEM;
@@ -69,6 +71,9 @@ public class YjIndexDataConverter extends DataConverter {
                 case 4:
                     type=YjIndexItemType.INDEX_VIDEO_ITEM;
                     break;
+                case 5:
+                    type=YjIndexItemType.INDEX_LETTER_ITEM;
+                    break;
                 default:
                     break;
 
@@ -79,9 +84,10 @@ public class YjIndexDataConverter extends DataConverter {
                     .setField(MultipleFields.TEXT, content)
                     .setField(MultipleFields.IMAGE_URL, userHead)
                     .setField(YjIndexMultipleFields.USER_NICK_NAME, userNickname)
-                    .setField(YjIndexMultipleFields.USER_REAL_NAME, userRealName)
+//                    .setField(YjIndexMultipleFields.USER_REAL_NAME, userRealName)
                     .setField(YjIndexMultipleFields.ISOWN, isOwn)
                     .setField(YjIndexMultipleFields.CIRCLEID, circleId)
+                    .setField(YjIndexMultipleFields.CONTENTTYPE, contentType)
                     .setField(YjIndexMultipleFields.LOCATION, location)
                     .setField(YjIndexMultipleFields.LONGITUDE, longitude)
                     .setField(YjIndexMultipleFields.LATITUDE, latitude)
@@ -92,6 +98,7 @@ public class YjIndexDataConverter extends DataConverter {
                     .setField(YjIndexMultipleFields.VOICEURL, voiceUrl)
                     .setField(YjIndexMultipleFields.VIDEOURL, videoUrl)
                     .setField(YjIndexMultipleFields.VIDEOCOVERURL, videoCoverUrl)
+                    .setField(YjIndexMultipleFields.VISIBLETYPE, visibleType)
                     .build();
 
             ENTITIES.add(entity);

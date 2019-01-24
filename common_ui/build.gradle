@@ -60,4 +60,8 @@ dependencies {
 
     //BasePopup
     api 'com.github.razerdp:BasePopup:2.1.7'
+
+    //拼音
+    api 'com.github.promeg:tinypinyin:2.0.3'
+    api 'io.reactivex:rxandroid:1.2.1'
 }

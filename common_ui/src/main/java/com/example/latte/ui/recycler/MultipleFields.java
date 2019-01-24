@@ -11,5 +11,6 @@ public enum MultipleFields {
     ID,
     NAME,
     TAG,
-    RONGID
+    RONGID,
+    TENCENTIMUSERID
 }

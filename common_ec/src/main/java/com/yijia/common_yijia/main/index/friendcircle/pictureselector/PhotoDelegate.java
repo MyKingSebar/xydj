@@ -45,9 +45,10 @@ import top.zibin.luban.Luban;
 import top.zibin.luban.OnCompressListener;
 
 
-public class PhotoFragment extends LatteDelegate {
+public class PhotoDelegate extends LatteDelegate {
 
     public static long mLong2 = 0;
+
 
     boolean isfirst = false;
 
@@ -63,7 +64,16 @@ public class PhotoFragment extends LatteDelegate {
 
     //朋友圈参数
     //1-文本，2-照片，3-语音，4-视频
-    private int contentType = 0;
+    private int circleType = 0;
+    ////1-文字，2-语音
+    private int contentType = 1;
+    //可见类型：1-全部可见，2-部分可见，3-部分不可见
+    private int visibleType = 1;
+    private int[] visibleOrInvisibleUserIds = null;
+    private String location=null;
+    private double longitude=0;
+    private double latitude=0;
+
     private String urlType = "pictureUrl";
     private String urlTop = null;
 
@@ -79,25 +89,25 @@ public class PhotoFragment extends LatteDelegate {
                 break;
 
             case IMAGEMODE:
-                contentType = 2;
+                circleType = 2;
                 urlType = "pictureUrl";
                 urlTop = "picture/upload";
                 upLoadImg(token);
                 break;
             case VIDEOMODE:
-                contentType = 4;
+                circleType = 4;
                 urlType = "videoUrl";
                 urlTop = "video/upload";
                 upLoadImg(token);
                 break;
             case AUDIOMODE:
-                contentType = 3;
+                circleType = 3;
                 urlType = "audioUrl";
                 urlTop = "audio/upload";
                 upLoadImg(token);
                 break;
             case TEXTMODE:
-                contentType = 1;
+                circleType = 1;
 
                 upLoadInfo(token, etText.getText().toString(), "");
 
@@ -174,7 +184,7 @@ public class PhotoFragment extends LatteDelegate {
     private GridImageAdapter adapter;
 
 
-    private final static String TAG = PhotoFragment.class.getSimpleName();
+    private final static String TAG = PhotoDelegate.class.getSimpleName();
     private View rootView;
     private List<LocalMedia> selectList = new ArrayList<>();
 
@@ -243,15 +253,15 @@ public class PhotoFragment extends LatteDelegate {
                 switch (mediaType) {
                     case 1:
                         // 预览图片
-                        PictureSelector.create(PhotoFragment.this).themeStyle(THEMEID).openExternalPreview(position, selectList);
+                        PictureSelector.create(PhotoDelegate.this).themeStyle(THEMEID).openExternalPreview(position, selectList);
                         break;
                     case 2:
                         // 预览视频
-                        PictureSelector.create(PhotoFragment.this).externalPictureVideo(media.getPath());
+                        PictureSelector.create(PhotoDelegate.this).externalPictureVideo(media.getPath());
                         break;
                     case 3:
                         // 预览音频
-                        PictureSelector.create(PhotoFragment.this).externalPictureAudio(media.getPath());
+                        PictureSelector.create(PhotoDelegate.this).externalPictureAudio(media.getPath());
                         break;
                 }
             }
@@ -268,7 +278,7 @@ public class PhotoFragment extends LatteDelegate {
         boolean mode = ALBUMORNOT;
         if (mode) {
             // 进入相册 以下是例子：不需要的api可以不写
-            PictureSelector.create(PhotoFragment.this)
+            PictureSelector.create(PhotoDelegate.this)
                     .openGallery(chooseMode)
                     .theme(THEMEID)
                     .maxSelectNum(maxselectnum)
@@ -300,7 +310,7 @@ public class PhotoFragment extends LatteDelegate {
                     .forResult(PictureConfig.CHOOSE_REQUEST);
         } else {
             // 单独拍照
-            PictureSelector.create(PhotoFragment.this)
+            PictureSelector.create(PhotoDelegate.this)
                     .openCamera(chooseMode)
                     .theme(THEMEID)
                     .maxSelectNum(maxselectnum)
@@ -571,19 +581,23 @@ public class PhotoFragment extends LatteDelegate {
     private void upLoadInfo(String token, String content, String filesString) {
         LatteLogger.w("upLoadImg", "upLoadInfo");
         final String url = "circle/insert";
-        if (contentType == 1) {
+        if (circleType == 1) {
             filesString = "";
         }
         RxRestClient.builder()
                 .url(url)
                 .params("yjtk", token)
-                //contentType  1-文本，2-照片，3-语音，4-视频
-                .params("contentType", contentType)
+                //circleType  1-文本，2-照片，3-语音，4-视频
+                .params("circleType", circleType)
+                .params("contentType", contentType)//1-文字，2-语音
                 .params("content", content)
                 .params(urlType, filesString)
-//                .params("location", location)
-//                .params("longitude", longitude)
-//                .params("latitude", latitude)
+                .params("visibleType", visibleType)
+                .params("visibleOrInvisibleUserIds", visibleOrInvisibleUserIds)
+                .params(urlType, filesString)
+                .params("location", location)
+                .params("longitude", longitude)
+                .params("latitude", latitude)
                 .build()
                 .post()
                 .subscribeOn(Schedulers.io())

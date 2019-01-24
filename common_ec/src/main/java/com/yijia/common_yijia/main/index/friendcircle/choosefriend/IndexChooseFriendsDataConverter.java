@@ -1,19 +1,20 @@
-package com.yijia.common_yijia.main.index.friends;
+package com.yijia.common_yijia.main.index.friendcircle.choosefriend;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.example.latte.ui.recycler.DataConverter;
-import com.example.latte.ui.recycler.MultipleFields;
-import com.example.latte.ui.recycler.MultipleItemEntity;
 
 import java.util.ArrayList;
 
-public class YjIndexFriendsDataConverter extends DataConverter {
+public class IndexChooseFriendsDataConverter {
+    String response=null;
+    final ArrayList<ChooseFriendData> ENTITIES=new ArrayList<>();
+    public IndexChooseFriendsDataConverter(String response) {
+        this.response=response;
+    }
 
-    @Override
-    public ArrayList<MultipleItemEntity> convert() {
-        final JSONObject dataObject=JSON.parseObject(getJsonData()).getJSONObject("data");
+    public ArrayList<ChooseFriendData> convert() {
+        final JSONObject dataObject=JSON.parseObject(response).getJSONObject("data");
         final JSONArray dataArray=dataObject.getJSONArray("friends");
         final int size=dataArray.size();
         for(int i=0;i<size;i++){
@@ -37,23 +38,17 @@ public class YjIndexFriendsDataConverter extends DataConverter {
 //            final String modifiedTime = data.getString("modifiedTime");
 
 
-            final MultipleItemEntity entity = MultipleItemEntity.builder()
-                    .setField(MultipleFields.ITEM_TYPE,FriendsItemType.INDEX_FRIENDS_ITEM)
-                    .setField(MultipleFields.ID,friendUserId)
-                    .setField(MultipleFields.IMAGE_URL,userHead)
-                    .setField(MultipleFields.NAME,nickname)
-                    .setField(MultipleFields.TENCENTIMUSERID,tencentImUserId)
-                    .build();
-
+            final ChooseFriendData entity =new ChooseFriendData();
+            entity.setFriendUserId(friendUserId);
+            entity.setUserStatus(userStatus);
+            entity.setNickname(nickname);
+            entity.setUserHead(userHead);
+            entity.setTencentImUserId(tencentImUserId);
             ENTITIES.add(entity);
 
 
+
         }
-        final MultipleItemEntity entity = MultipleItemEntity.builder()
-                .setField(MultipleFields.ITEM_TYPE,FriendsItemType.INDEX_FRIENDS_ITEM)
-                .setField(MultipleFields.ID,0L)
-                .build();
-        ENTITIES.add(entity);
 
         return ENTITIES;
     }

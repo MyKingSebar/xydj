@@ -31,11 +31,11 @@ import com.example.latte.util.log.LatteLogger;
 import com.joanzapata.iconify.widget.IconTextView;
 import com.yijia.common_yijia.database.YjDatabaseManager;
 import com.yijia.common_yijia.main.index.friendcircle.IndexCameraCheckInstener;
-import com.yijia.common_yijia.main.index.friendcircle.LetterFragment;
+import com.yijia.common_yijia.main.index.friendcircle.LetterDelagate;
+import com.yijia.common_yijia.main.index.friendcircle.pictureselector.PhotoDelegate;
 import com.yijia.common_yijia.main.index.friends.IFriendsItemListener;
 import com.yijia.common_yijia.main.index.friends.IndexFriendsAdapter;
 import com.yijia.common_yijia.main.index.friends.YjIndexFriendsDataConverter;
-import com.yijia.common_yijia.main.index.friendcircle.pictureselector.PhotoFragment;
 
 import java.util.ArrayList;
 
@@ -88,7 +88,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements View.OnFocusC
     void onCLickpublish(View v) {
         useSDCardWithCheck(v,this);
 //        mSend.showContextMenu();
-//        getSupportDelegate().start(new PhotoFragment());
+//        getSupportDelegate().start(new PhotoDelegate());
 
     }
 
@@ -132,7 +132,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements View.OnFocusC
 //
 //    @Override
 //    public boolean onContextItemSelected(MenuItem item) {
-//        PhotoFragment delegate = new PhotoFragment();
+//        PhotoDelegate delegate = new PhotoDelegate();
 //        switch (item.getItemId()) {
 //            case IMAGEMODE:
 //                mArgs.putInt(PICKTYPE, IMAGEMODE);
@@ -387,19 +387,19 @@ public class YjIndexDelegate extends BottomItemDelegate implements View.OnFocusC
                             }
                         })
                         .withClick(R.id.ll_camera, v1 -> {
-                            PhotoFragment delegate = new PhotoFragment();
+                            PhotoDelegate delegate = new PhotoDelegate();
                             mArgs.putInt(PICKTYPE, IMAGEMODE);
                             delegate.setArguments(mArgs);
                             getParentDelegate().getSupportDelegate().start(delegate);
                         }, true)
                         .withClick(R.id.ll_vodeo, v1 -> {
-                            PhotoFragment delegate = new PhotoFragment();
+                            PhotoDelegate delegate = new PhotoDelegate();
                             mArgs.putInt(PICKTYPE, VIDEOMODE);
                             delegate.setArguments(mArgs);
                             getParentDelegate().getSupportDelegate().start(delegate);
                         }, true)
                         .withClick(R.id.ll_letter, v1 -> {
-                            getParentDelegate().getSupportDelegate().start(new LetterFragment());
+                            getParentDelegate().getSupportDelegate().start(new LetterDelagate());
                         }, true))
                 .show(v);
     }

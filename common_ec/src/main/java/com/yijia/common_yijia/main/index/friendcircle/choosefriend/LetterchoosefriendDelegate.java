@@ -40,10 +40,6 @@ import butterknife.OnClick;
 
 
 public class LetterchoosefriendDelegate extends LatteDelegate  {
-    private Lat mlat = null;
-    StringBuffer mStringBuffer=null;
-    //光标所在位置
-    int index=0;
     @BindView(R2.id.tv_save)
     AppCompatTextView tvSave;
     @BindView(R2.id.tv_title)
@@ -64,9 +60,9 @@ public class LetterchoosefriendDelegate extends LatteDelegate  {
     void back() {
         getSupportDelegate().pop();
     }
-    @OnClick(R2.id.bt_search)
+    @OnClick(R2.id.rl_search)
     void bt_search() {
-//        SearchActivity.lanuch(getContext(), contactList);
+        SearchActivity.lanuch(getContext(), contactList);
     }
 
 
@@ -88,7 +84,6 @@ public class LetterchoosefriendDelegate extends LatteDelegate  {
     private void init() {
         tvTitle.setText("选择好友");
         tvSave.setVisibility(View.GONE);
-        mStringBuffer=new StringBuffer();
         final LinearLayoutManager manager = new LinearLayoutManager(getContext());
         rv_main.setLayoutManager(manager);
 
@@ -115,9 +110,10 @@ public class LetterchoosefriendDelegate extends LatteDelegate  {
         });
 
 
-        adapter = new ContactAdapter(contactList);
+        adapter = new ContactAdapter(getContext(),contactList);
         rv_main.setAdapter(adapter);
         rv_main.addItemDecoration(new StickyHeaderDecoration(adapter));
+        initFriendsRecyclerView();
 
     }
 

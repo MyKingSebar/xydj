@@ -1,37 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="80dp"
-    android:padding="10dp">
+    android:layout_height="64dp"
+    android:layout_marginTop="10dp"
+    android:orientation="horizontal"
+    android:padding="12dp">
 
     <ImageView
         android:id="@+id/iv_header"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:src="@drawable/header0"/>
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="3dp"
+        android:src="@drawable/header0" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="15dp">
+        android:layout_marginStart="10dp">
 
         <TextView
             android:id="@+id/tv_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="15sp"
             android:layout_centerVertical="true"
-            android:text="王二麻子"/>
+            android:text="王二麻子"
+            android:textColor="@color/main_text_black_dark"
+            android:textSize="20sp" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:layout_alignParentBottom="true"
-            android:background="#e0e0e0"/>
+            android:background="#e0e0e0" />
 
     </RelativeLayout>
-
 
 
 </LinearLayout>

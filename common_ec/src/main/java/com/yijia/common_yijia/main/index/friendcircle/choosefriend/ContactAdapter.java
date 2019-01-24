@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.latte.ui.R;
+import com.example.latte.ec.R;
 import com.example.latte.ui.contactlist.adapter.ContactHolder;
 import com.example.latte.ui.contactlist.adapter.HeaderHolder;
 import com.example.latte.ui.contactlist.cn.CNPinyin;
@@ -24,7 +24,7 @@ import java.util.List;
 public class ContactAdapter extends RecyclerView.Adapter<ContactHolder> implements StickyHeaderAdapter<HeaderHolder> {
 
     private static final RequestOptions OPTIONS = new RequestOptions()
-            .placeholder(com.example.latte.ec.R.color.app_text_gray)
+            .placeholder(R.mipmap.default_head)
             .diskCacheStrategy(DiskCacheStrategy.ALL)
             .centerCrop()
             .dontAnimate();

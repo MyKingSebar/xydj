@@ -8,11 +8,23 @@
 
     <include layout="@layout/include_edit_top"/>
 
-    <Button android:id="@+id/bt_search"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="查找"/>
 
+<RelativeLayout
+    android:id="@+id/rl_search"
+    android:layout_marginStart="15dp"
+    android:layout_marginEnd="15dp"
+    android:layout_width="match_parent"
+    android:layout_height="35dp">
+    <android.support.v7.widget.AppCompatTextView
+        android:text="搜索亲友"
+        android:textSize="@dimen/third_title_16"
+        android:drawableLeft="@mipmap/index_edit_choosefriend_searsh"
+        android:drawablePadding="10dp"
+        android:textColor="@color/main_text_gary"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">

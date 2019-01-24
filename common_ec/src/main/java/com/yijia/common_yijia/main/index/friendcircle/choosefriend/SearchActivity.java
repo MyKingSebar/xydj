@@ -1,4 +1,4 @@
-package com.example.latte.ui.contactlist;
+package com.yijia.common_yijia.main.index.friendcircle.choosefriend;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,11 +15,10 @@ import android.view.ViewTreeObserver;
 import android.widget.EditText;
 
 import com.example.latte.ui.R;
-import com.example.latte.ui.contactlist.adapter.SearchAdapter;
+import com.example.latte.ui.contactlist.ConfigUtils;
 import com.example.latte.ui.contactlist.cn.CNPinyin;
 import com.example.latte.ui.contactlist.cn.CNPinyinIndex;
 import com.example.latte.ui.contactlist.cn.CNPinyinIndexFactory;
-import com.example.latte.ui.contactlist.search.Contact;
 import com.example.latte.ui.contactlist.search.TextViewChangedOnSubscribe;
 
 import java.util.ArrayList;
@@ -53,13 +52,13 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     private RecyclerView rv_main;
     private SearchAdapter adapter;
 
-    private ArrayList<CNPinyin<Contact>> contactList;
+    private ArrayList<CNPinyin<ChooseFriendData>> ChooseFriendDataList;
     private Subscription subscription;
 
-    public static void lanuch(Context context, ArrayList<CNPinyin<Contact>> contactList) {
-        if (contactList == null) return;
+    public static void lanuch(Context context, ArrayList<CNPinyin<ChooseFriendData>> ChooseFriendDataList) {
+        if (ChooseFriendDataList == null) return;
         Intent intent = new Intent(context, SearchActivity.class);
-        intent.putExtra("contactList", contactList);
+        intent.putExtra("ChooseFriendDataList", ChooseFriendDataList);
         context.startActivity(intent);
     }
 
@@ -67,7 +66,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
-        contactList = (ArrayList<CNPinyin<Contact>>) getIntent().getSerializableExtra("contactList");
+        ChooseFriendDataList = (ArrayList<CNPinyin<ChooseFriendData>>) getIntent().getSerializableExtra("ChooseFriendDataList");
 
         ll_root = findViewById(R.id.ll_root);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -76,7 +75,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         rv_main = (RecyclerView) findViewById(R.id.rv_main);
         final LinearLayoutManager manager = new LinearLayoutManager(this);
         rv_main.setLayoutManager(manager);
-        adapter = new SearchAdapter(new ArrayList<CNPinyinIndex<Contact>>());
+        adapter = new SearchAdapter(this,new ArrayList<CNPinyinIndex<ChooseFriendData>>());
         rv_main.setAdapter(adapter);
 
         final View decorView = this.getWindow().getDecorView();
@@ -114,22 +113,24 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         TextViewChangedOnSubscribe plateSubscribe = new TextViewChangedOnSubscribe();
         plateSubscribe.addTextViewWatcher(et_search);
         subscription = Observable.create(plateSubscribe).debounce(300, TimeUnit.MILLISECONDS, AndroidSchedulers.mainThread())
-                .switchMap(new Func1<String, Observable<ArrayList<CNPinyinIndex<Contact>>>>() {
+                .switchMap(new Func1<String, Observable<ArrayList<CNPinyinIndex<ChooseFriendData>>>>() {
                     @Override
-                    public Observable<ArrayList<CNPinyinIndex<Contact>>> call(final String s) {
+                    public Observable<ArrayList<CNPinyinIndex<ChooseFriendData>>> call(final String s) {
                         return createObservable(s).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
                     }
-                }).subscribe(new Subscriber<ArrayList<CNPinyinIndex<Contact>>>() {
+                }).subscribe(new Subscriber<ArrayList<CNPinyinIndex<ChooseFriendData>>>() {
                     @Override
                     public void onCompleted() {
+
                     }
 
                     @Override
                     public void onError(Throwable e) {
+
                     }
 
                     @Override
-                    public void onNext(ArrayList<CNPinyinIndex<Contact>> cnPinyinIndices) {
+                    public void onNext(ArrayList<CNPinyinIndex<ChooseFriendData>> cnPinyinIndices) {
                         adapter.setNewDatas(cnPinyinIndices);
                     }
                 });
@@ -137,10 +138,10 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.iv_return:
-                finish();
-                break;
+        int i = v.getId();
+        if (i == R.id.iv_return) {
+            finish();
+
         }
     }
 
@@ -157,12 +158,12 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
      *
      * @return
      */
-    private Observable<ArrayList<CNPinyinIndex<Contact>>> createObservable(final String keywork) {
-        return Observable.create(new Observable.OnSubscribe<ArrayList<CNPinyinIndex<Contact>>>() {
+    private Observable<ArrayList<CNPinyinIndex<ChooseFriendData>>> createObservable(final String keywork) {
+        return Observable.create(new Observable.OnSubscribe<ArrayList<CNPinyinIndex<ChooseFriendData>>>() {
             @Override
-            public void call(Subscriber<? super ArrayList<CNPinyinIndex<Contact>>> subscriber) {
+            public void call(Subscriber<? super ArrayList<CNPinyinIndex<ChooseFriendData>>> subscriber) {
                 if (!subscriber.isUnsubscribed()) {
-                    subscriber.onNext(CNPinyinIndexFactory.indexList(contactList, keywork));
+                    subscriber.onNext(CNPinyinIndexFactory.indexList(ChooseFriendDataList, keywork));
                 }
             }
         });

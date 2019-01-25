@@ -53,6 +53,6 @@ public class ChooseFriendData implements CN {
 
     @Override
     public String chinese() {
-        return null;
+        return nickname;
     }
 }

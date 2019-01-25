@@ -22,6 +22,8 @@ import com.example.latte.net.rx.RxRestClient;
 import com.example.latte.util.log.LatteLogger;
 import com.luck.picture.lib.tools.PictureFileUtils;
 import com.yijia.common_yijia.database.YjDatabaseManager;
+import com.yijia.common_yijia.main.index.friendcircle.choosefriend.LetterchoosefriendDelegate;
+import com.yijia.common_yijia.main.mine.setup.ChangePasswordDelegate;
 
 import java.io.File;
 
@@ -49,6 +51,10 @@ public class LetterDelagate extends LatteDelegate implements LatCallbackInterfac
         checkLat();
         index=etText.getSelectionStart();
         mlat.iatStart();
+    }
+    @OnClick(R2.id.ll_recipients)
+    void recipients() {
+        getSupportDelegate().start(new LetterchoosefriendDelegate());
     }
 
 

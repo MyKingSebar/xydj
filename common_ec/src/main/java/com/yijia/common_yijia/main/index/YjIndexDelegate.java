@@ -288,7 +288,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements View.OnFocusC
         super.onLazyInitView(savedInstanceState);
         initRefreshLayout();
         initRecyclerView();
-        initFriendsRecyclerView();
+//        initFriendsRecyclerView();
 //        initIndexRecyclerView();
         mRefreshHandler.firstPage();
     }

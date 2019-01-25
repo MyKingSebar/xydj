@@ -69,8 +69,8 @@ public class CharIndexView extends View {
         if (attrs != null) {
             TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CharIndexView);
             textSize = a.getDimension(R.styleable.CharIndexView_indexTextSize, textSize);
-            textColor = a.getColor(R.styleable.CharIndexView_charTextColor, textColor);
-            indexTextColor = a.getColor(R.styleable.CharIndexView_indexTextColor, indexTextColor);
+            textColor = a.getColor(R.styleable.CharIndexView_charTextColor, getResources().getColor(R.color.main_text_black_dark));
+            indexTextColor = a.getColor(R.styleable.CharIndexView_indexTextColor, getResources().getColor(R.color.main_text_gary_99));
             a.recycle();
         }
         indexDrawable = context.getResources().getDrawable(R.drawable.charIndexColor);

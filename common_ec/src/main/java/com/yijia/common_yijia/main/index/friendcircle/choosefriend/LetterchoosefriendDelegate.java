@@ -7,6 +7,7 @@ import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -186,7 +187,6 @@ public class LetterchoosefriendDelegate extends LatteDelegate  {
 
                     @Override
                     public void onError(Throwable e) {
-
                     }
 
                     @Override

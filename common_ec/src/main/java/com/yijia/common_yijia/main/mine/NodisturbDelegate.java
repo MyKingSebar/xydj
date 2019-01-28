@@ -33,7 +33,7 @@ public class NodisturbDelegate extends LatteDelegate implements HeadLayout.OnCli
 
     private void initHead() {
         headLayout.setHeadleftImg(true, R.mipmap.fanhui);
-        headLayout.setHeadName("勿扰模式", "#FDBA63", 18);
+        headLayout.setHeadName("勿扰模式", "#333333", 18);
         headLayout.setHeadlayoutBagColor("#ffffff");
         headLayout.setOnClickHeadReturn(this);
     }

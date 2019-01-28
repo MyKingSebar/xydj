@@ -16,16 +16,16 @@
         android:background="#ffffff"
         android:layout_marginTop="13dp"
         android:layout_marginLeft="15dp"
-        android:textSize="15sp"
+        android:textSize="16sp"
         android:paddingLeft="10dp"
         android:textColor="#333333"
         android:layout_marginRight="15dp"
-        android:layout_height="41dp" />
+        android:layout_height="46dp" />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="#CFCFCF "
-        android:textSize="13sp"
+        android:textSize="16sp"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="10dp"
         android:text="请不要超过10个字，支持中文、英文"

@@ -99,7 +99,7 @@ public class ChangePasswordDelegate extends LatteDelegate implements HeadLayout.
     //初始化头布局
     private void initHead() {
         headLayout.setHeadleftImg(true, R.mipmap.fanhui);
-        headLayout.setHeadName("修改密码", "#FDBA63", 18);
+        headLayout.setHeadName("修改密码", "#333333", 18);
         headLayout.setHeadlayoutBagColor("#ffffff");
         headLayout.setOnClickHeadReturn(this);
     }

@@ -38,8 +38,15 @@ public class MineDelegate extends BottomItemDelegate {
     LinearLayout headPortrait;
     @BindView(R2.id.photo_album)
     UserTextLineView photoAlbum;
-    @BindView(R2.id.sayings)
-    UserTextLineView sayings;
+    @BindView(R2.id.letter)
+    UserTextLineView letter;
+
+    @BindView(R2.id.remote_supervision)
+    UserTextLineView remotesupervision;
+
+    @BindView(R2.id.pro_card)
+    UserTextLineView pro_card;
+
     @BindView(R2.id.About_us)
     UserTextLineView AboutUs;
     @BindView(R2.id.help)
@@ -62,7 +69,7 @@ public class MineDelegate extends BottomItemDelegate {
         //初始化头布局
         initMineHead();
         mRequestOptions = RequestOptions.circleCropTransform()
-               // .diskCacheStrategy(DiskCacheStrategy.NONE)
+                // .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .skipMemoryCache(true);
     }
 
@@ -101,7 +108,7 @@ public class MineDelegate extends BottomItemDelegate {
 
     private void initMineHead() {
         //初始化头布局
-        headLayout.setHeadName("个人中心", "#FDBA63", 18);
+        headLayout.setHeadName("个人中心", "#333333", 18);
         headLayout.setHeadlayoutBagColor("#ffffff");
     }
 
@@ -167,16 +174,22 @@ public class MineDelegate extends BottomItemDelegate {
     }
 
     //点击每个条目的事件
-    @OnClick({R2.id.head_portrait, R2.id.photo_album, R2.id.sayings, R2.id.About_us, R2.id.help, R2.id.set_up})
+    @OnClick({R2.id.head_portrait, R2.id.photo_album, R2.id.letter, R2.id.About_us, R2.id.help, R2.id.set_up, R2.id.pro_card, R2.id.remote_supervision})
     public void onViewClicked(View view) {
         int i = view.getId();
         if (i == R.id.head_portrait) {
             //点击头像条目  跳转到个人资料页面
             getParentDelegate().getSupportDelegate().start(new PersonalDataDelegate());
+        }
+        else if (i == R.id.remote_supervision) {
+            Toast.makeText(_mActivity, "远程监护", Toast.LENGTH_SHORT).show();
+        }
+        else if (i == R.id.pro_card) {
+            Toast.makeText(_mActivity, "亲属卡", Toast.LENGTH_SHORT).show();
         } else if (i == R.id.photo_album) {
             Toast.makeText(_mActivity, "相册", Toast.LENGTH_SHORT).show();
-        } else if (i == R.id.sayings) {
-            Toast.makeText(_mActivity, "语录", Toast.LENGTH_SHORT).show();
+        } else if (i == R.id.letter) {
+            Toast.makeText(_mActivity, "家书", Toast.LENGTH_SHORT).show();
         } else if (i == R.id.About_us) {
             //跳转到关于我们
             getParentDelegate().getSupportDelegate().start(new AboutUsDelegate());

@@ -17,12 +17,7 @@ import com.example.latte.delegates.bottom.BottomItemDelegate;
 import com.example.latte.ec.R;
 import com.example.latte.ec.R2;
 import com.example.latte.ui.widget.HeadLayout;
-import com.tencent.TIMConversation;
-import com.tencent.TIMConversationType;
-import com.tencent.TIMManager;
-import com.tencent.TIMMessage;
-import com.tencent.TIMTextElem;
-import com.tencent.TIMValueCallBack;
+
 import com.yijia.common_yijia.database.YjDatabaseManager;
 import com.yijia.common_yijia.main.friends.adapter.MyFriendsAdapter;
 import com.yijia.common_yijia.main.friends.adapter.MyGuardianAdapter;
@@ -65,7 +60,7 @@ public class FriendsDelegate extends BottomItemDelegate implements HeadLayout.On
     private FriendsPresenter friendsPresenter;
     //监护人列表
     private List<GuardianBean> guardianBeans;
-    TIMConversation conversation;
+
 
     @Override
     public Object setLayout() {

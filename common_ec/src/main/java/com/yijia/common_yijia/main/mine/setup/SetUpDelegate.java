@@ -5,23 +5,25 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.example.latte.app.AccountManager;
 import com.example.latte.delegates.LatteDelegate;
 import com.example.latte.ec.R;
 import com.example.latte.ec.R2;
 import com.example.latte.ui.widget.HeadLayout;
-import com.tencent.TIMCallBack;
-import com.tencent.TIMManager;
 import com.yijia.common_yijia.database.YjDatabaseManager;
 import com.yijia.common_yijia.main.mine.NodisturbDelegate;
 import com.yijia.common_yijia.sign.SignInDelegate;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 
 /**
  * 设置页面
@@ -35,6 +37,9 @@ public class SetUpDelegate extends LatteDelegate implements HeadLayout.OnClickHe
     LinearLayout nodisturb;
     @BindView(R2.id.log_out)
     LinearLayout logOut;
+    @BindView(R2.id.specified)
+    LinearLayout specified;
+    Unbinder unbinder;
 
     @Override
     public Object setLayout() {
@@ -49,7 +54,7 @@ public class SetUpDelegate extends LatteDelegate implements HeadLayout.OnClickHe
     //初始化头布局
     private void initHead() {
         headLayout.setHeadleftImg(true, R.mipmap.fanhui);
-        headLayout.setHeadName("设置", "#FDBA63", 18);
+        headLayout.setHeadName("设置", "#333333", 18);
         headLayout.setHeadlayoutBagColor("#ffffff");
         headLayout.setOnClickHeadReturn(this);
 
@@ -61,7 +66,7 @@ public class SetUpDelegate extends LatteDelegate implements HeadLayout.OnClickHe
     }
 
     //点击条目事件
-    @OnClick({R2.id.setup_pwd, R2.id.nodisturb, R2.id.log_out})
+    @OnClick({R2.id.setup_pwd, R2.id.nodisturb, R2.id.log_out,R2.id.specified})
     public void onViewClicked(View view) {
 //        getSupportDelegate().pop();
         getSupportDelegate().popTo(SignInDelegate.class, false);
@@ -74,6 +79,8 @@ public class SetUpDelegate extends LatteDelegate implements HeadLayout.OnClickHe
             getSupportDelegate().start(new NodisturbDelegate());
         } else if (i == R.id.log_out) {
             showDialog();
+        }else if (i == R.id.specified){
+            Toast.makeText(_mActivity, "指定关系", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -116,5 +123,19 @@ public class SetUpDelegate extends LatteDelegate implements HeadLayout.OnClickHe
         builder.setNegativeButton("取消", null);
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        unbinder = ButterKnife.bind(this, rootView);
+        return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 }

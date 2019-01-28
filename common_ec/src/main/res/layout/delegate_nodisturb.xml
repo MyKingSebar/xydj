@@ -29,7 +29,7 @@
             android:layout_weight="1"
             android:text="勿扰模式"
             android:textColor="#333333"
-            android:textSize="15sp" />
+            android:textSize="16sp" />
 
         <android.support.v7.widget.SwitchCompat
             android:layout_width="wrap_content"
@@ -38,5 +38,13 @@
             android:layout_gravity="center_vertical"
             />
     </LinearLayout>
-
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="开启后，收到的新消息是不会响铃或震动"
+        android:textSize="16sp"
+        android:textColor="#999999"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="5dp"
+        />
 </LinearLayout>

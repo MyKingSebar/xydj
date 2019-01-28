@@ -37,9 +37,8 @@
             android:layout_below="@+id/yijialog"
             android:gravity="center_horizontal"
             android:layout_marginTop="10dp"
-            android:text="壹家 1.0"
             android:textColor="#333333"
-            android:textSize="15sp" />
+            android:textSize="16sp" />
         <LinearLayout
             android:id="@+id/newversionimglayot"
             android:layout_below="@+id/yijiabanben"
@@ -53,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:text="版本更新"
                 android:textColor="#333333"
-                android:textSize="15sp"
+                android:textSize="16sp"
                 />
             <ViewStub
                 android:id="@+id/newversionimg"
@@ -73,6 +72,6 @@
             android:layout_marginLeft="15dp"
             android:text="功能介绍"
             android:textColor="#333333"
-            android:textSize="15sp" />
+            android:textSize="16sp" />
     </RelativeLayout>
 </LinearLayout>

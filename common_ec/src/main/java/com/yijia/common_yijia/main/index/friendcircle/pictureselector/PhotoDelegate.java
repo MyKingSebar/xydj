@@ -587,14 +587,13 @@ public class PhotoDelegate extends LatteDelegate {
         RxRestClient.builder()
                 .url(url)
                 .params("yjtk", token)
-                //circleType  1-文本，2-照片，3-语音，4-视频
+                //circleType  1-文本，2-照片，3-语音，4-视频，5-家书
                 .params("circleType", circleType)
                 .params("contentType", contentType)//1-文字，2-语音
                 .params("content", content)
                 .params(urlType, filesString)
                 .params("visibleType", visibleType)
                 .params("visibleOrInvisibleUserIds", visibleOrInvisibleUserIds)
-                .params(urlType, filesString)
                 .params("location", location)
                 .params("longitude", longitude)
                 .params("latitude", latitude)

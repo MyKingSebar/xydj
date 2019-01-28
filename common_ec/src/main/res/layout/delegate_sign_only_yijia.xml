@@ -61,7 +61,7 @@
                 android:gravity="center_vertical"
                 android:hint="请输入您的手机号码"
                 android:inputType="textPhonetic"
-                android:textColorHint="@color/main_text_gary"
+                android:textColorHint="@color/main_text_gary_99"
                 android:textSize="@dimen/second_title_18"
                 tools:ignore="HardcodedText" />
         </android.support.design.widget.TextInputLayout>
@@ -102,7 +102,7 @@
                 android:gravity="center_vertical"
                 android:hint="请输入您的验证码"
                 android:inputType="textPassword"
-                android:textColorHint="@color/main_text_gary"
+                android:textColorHint="@color/main_text_gary_99"
                 android:textSize="@dimen/third_title_16"
                 tools:ignore="HardcodedText" />
 

@@ -1,2 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.latte.ui" />
+    package="com.example.latte.ui" >
+
+
+</manifest>

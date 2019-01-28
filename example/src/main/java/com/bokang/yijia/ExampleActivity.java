@@ -24,6 +24,7 @@ import com.yijia.common_yijia.sign.SignUpSecondDelegate;
 import com.yijia.common_yijia.main.YjBottomDelegate;
 
 
+import me.yokeyword.fragmentation.Fragmentation;
 import qiu.niorgai.StatusBarCompat;
 
 public class ExampleActivity extends ProxyActivity implements
@@ -38,6 +39,7 @@ public class ExampleActivity extends ProxyActivity implements
         }
         Latte.getConfigurator().withActivity(this);
         StatusBarCompat.translucentStatusBar(this, true);
+
     }
 
     @Override

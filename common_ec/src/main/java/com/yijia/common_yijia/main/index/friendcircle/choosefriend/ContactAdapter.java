@@ -3,6 +3,7 @@ package com.yijia.common_yijia.main.index.friendcircle.choosefriend;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
@@ -31,10 +32,12 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactHolder> implemen
 
     private final List<CNPinyin<ChooseFriendData>> cnPinyinList;
     private Context mContext=null;
+    private ChooseFriendItemLisener mLisener=null;
 
-    public ContactAdapter(Context context,List<CNPinyin<ChooseFriendData>> cnPinyinList) {
+    public ContactAdapter(Context context,List<CNPinyin<ChooseFriendData>> cnPinyinList,ChooseFriendItemLisener lisener) {
         this.cnPinyinList = cnPinyinList;
         this.mContext=context;
+        this.mLisener=lisener;
     }
 
     @Override
@@ -57,6 +60,15 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactHolder> implemen
                 .apply(OPTIONS)
                 .into(holder.iv_header);
         holder.tv_name.setText(contact.getNickname());
+        if(null!=mLisener){
+            holder.ll_choosefriend.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mLisener.onItemClick(contact);
+                }
+            });
+        }
+
     }
 
     @Override

@@ -24,6 +24,7 @@ import com.example.latte.ui.contactlist.search.CharIndexView;
 import com.example.latte.ui.contactlist.stickyheader.StickyHeaderDecoration;
 import com.example.latte.util.log.LatteLogger;
 import com.yijia.common_yijia.database.YjDatabaseManager;
+import com.yijia.common_yijia.main.index.friendcircle.LetterDelagate;
 
 
 import java.util.ArrayList;
@@ -39,8 +40,7 @@ import rx.Subscription;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-
-public class LetterchoosefriendDelegate extends LatteDelegate  {
+public class LetterchoosefriendDelegate extends LatteDelegate implements ChooseFriendItemLisener {
     @BindView(R2.id.tv_save)
     AppCompatTextView tvSave;
     @BindView(R2.id.tv_title)
@@ -59,13 +59,18 @@ public class LetterchoosefriendDelegate extends LatteDelegate  {
 
     @OnClick(R2.id.tv_back)
     void back() {
+        Bundle bundle = new Bundle();
+        bundle.putLong("friendId", 1);
+        bundle.putString("friendName", "1111111111");
+        getSupportDelegate().setFragmentResult(RESULT_OK, bundle);
         getSupportDelegate().pop();
+//        getSupportDelegate().pop();
     }
+
     @OnClick(R2.id.rl_search)
     void bt_search() {
         SearchActivity.lanuch(getContext(), contactList);
     }
-
 
 
     private final static String TAG = LetterchoosefriendDelegate.class.getSimpleName();
@@ -91,7 +96,7 @@ public class LetterchoosefriendDelegate extends LatteDelegate  {
         iv_main.setOnCharIndexChangedListener(new CharIndexView.OnCharIndexChangedListener() {
             @Override
             public void onCharIndexChanged(char currentIndex) {
-                for (int i=0; i<contactList.size(); i++) {
+                for (int i = 0; i < contactList.size(); i++) {
                     if (contactList.get(i).getFirstChar() == currentIndex) {
                         manager.scrollToPositionWithOffset(i, 0);
                         return;
@@ -111,7 +116,7 @@ public class LetterchoosefriendDelegate extends LatteDelegate  {
         });
 
 
-        adapter = new ContactAdapter(getContext(),contactList);
+        adapter = new ContactAdapter(getContext(), contactList, this);
         rv_main.setAdapter(adapter);
         rv_main.addItemDecoration(new StickyHeaderDecoration(adapter));
         initFriendsRecyclerView();
@@ -206,4 +211,15 @@ public class LetterchoosefriendDelegate extends LatteDelegate  {
         super.onDestroyView();
 
     }
+
+    @Override
+    public void onItemClick(ChooseFriendData contact) {
+        Bundle bundle = new Bundle();
+        bundle.putLong("friendId", contact.getFriendUserId());
+        bundle.putString("friendName", contact.getNickname());
+        getSupportDelegate().setFragmentResult(4, bundle);
+        getSupportDelegate().pop();
+    }
+
+
 }

@@ -85,9 +85,9 @@ public class SetUserHeadDelegate extends LatteDelegate implements HeadLayout.OnC
 
     //初始化头布局
     private void initHead() {
-        headLayout.setHeadleftImg(true, R.mipmap.fanhui);
-        headLayout.setHeadName("头像", "#FDBA63", 18);
-        headLayout.setRightHeadImage(R.mipmap.sangedian, true);
+        headLayout.setHeadleftImg(true, R.mipmap.fanhui_bai);
+        headLayout.setHeadName("头像", "#ffffff", 18);
+        headLayout.setRightHeadImage(R.mipmap.sangedin, true);
         headLayout.setHeadlayoutBagColor("#000000");
         headLayout.setOnClickHeadReturn(this);
         headLayout.setOnClickHeadRightImage(this);

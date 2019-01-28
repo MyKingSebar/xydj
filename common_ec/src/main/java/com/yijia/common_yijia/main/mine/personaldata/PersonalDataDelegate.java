@@ -80,7 +80,7 @@ public class PersonalDataDelegate extends LatteDelegate implements HeadLayout.On
     //初始化头布局
     private void initHeade() {
         headLayout.setHeadleftImg(true, R.mipmap.fanhui);
-        headLayout.setHeadName("个人资料", "#FDBA63", 18);
+        headLayout.setHeadName("个人资料", "#333333", 18);
         headLayout.setHeadlayoutBagColor("#ffffff");
         headLayout.setOnClickHeadReturn(this);
     }

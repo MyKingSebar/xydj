@@ -9,7 +9,38 @@
         android:id="@+id/head_layout"
         android:layout_width="match_parent"
         android:gravity="center_vertical"
-        android:layout_height="64dp"></com.example.latte.ui.widget.HeadLayout>
+        android:layout_height="64dp"/>
+
+    <LinearLayout
+        android:id="@+id/specified"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="13dp"
+        android:background="#ffffff"
+        android:orientation="horizontal"
+        android:layout_height="51dp">
+        <TextView
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="指定关系"
+            android:layout_gravity="center_vertical"
+            android:textSize="16sp"
+            android:layout_marginLeft="15dp"
+            android:textColor="#333333"
+            />
+
+        <ImageView
+            android:layout_width="5dp"
+            android:layout_height="10dp"
+            android:layout_gravity="center_vertical"
+            android:src="@mipmap/youjiantou"
+            android:layout_marginRight="14dp"
+            />
+
+    </LinearLayout>
+
 
     <LinearLayout
         android:id="@+id/setup_pwd"
@@ -26,7 +57,7 @@
             android:layout_height="wrap_content"
             android:text="修改密码"
             android:layout_gravity="center_vertical"
-            android:textSize="15sp"
+            android:textSize="16sp"
             android:layout_marginLeft="15dp"
             android:textColor="#333333"
             />
@@ -56,7 +87,7 @@
             android:layout_height="wrap_content"
             android:text="勿扰模式"
             android:layout_gravity="center_vertical"
-            android:textSize="15sp"
+            android:textSize="16sp"
             android:layout_marginLeft="15dp"
             android:textColor="#333333"
             />

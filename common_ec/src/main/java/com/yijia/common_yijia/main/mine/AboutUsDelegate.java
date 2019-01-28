@@ -27,7 +27,7 @@ import butterknife.Unbinder;
  *
  * 关于我们
  */
-public class AboutUsDelegate extends LatteDelegate {
+public class AboutUsDelegate extends LatteDelegate implements HeadLayout.OnClickHeadReturn {
     @BindView(R2.id.head_layout)
     HeadLayout headLayout;
     @BindView(R2.id.yijialog)
@@ -48,9 +48,19 @@ public class AboutUsDelegate extends LatteDelegate {
 
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, @NonNull View rootView) {
+        //初始化头布局
+        initHead();
         //获取版本号
         setcode();
     }
+
+    private void initHead() {
+        headLayout.setHeadleftImg(true, R.mipmap.fanhui);
+        headLayout.setHeadName("关于我们", "#333333", 18);
+        headLayout.setHeadlayoutBagColor("#ffffff");
+        headLayout.setOnClickHeadReturn(this);
+    }
+
     //获取版本号
     private void setcode() {
         PackageManager manager = _mActivity.getPackageManager();
@@ -72,5 +82,10 @@ public class AboutUsDelegate extends LatteDelegate {
         } else if (i == R.id.function_introduction) {
             //todo 功能介绍
         }
+    }
+
+    @Override
+    public void onClickHeadReturn() {
+        getSupportDelegate().pop();
     }
 }

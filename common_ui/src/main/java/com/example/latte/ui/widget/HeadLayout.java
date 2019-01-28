@@ -28,6 +28,7 @@ public class HeadLayout extends LinearLayout implements View.OnClickListener {
     private OnClickHeadRighttext onClickHeadRighttext;//最右的textview
     private OnClickHeadHeadImage onClickHeadHeadImage;
     private ViewGroup.LayoutParams layoutParams1;
+    private LinearLayout head_left_linear;
 
     public HeadLayout(Context context) {
         super(context);
@@ -52,6 +53,7 @@ public class HeadLayout extends LinearLayout implements View.OnClickListener {
         headreturn = findViewById(R.id.head_return);
         headRightText1 = findViewById(R.id.head_right_text);
         headlayout = findViewById(R.id.head_layout);
+        head_left_linear = findViewById(R.id.head_return_linear);
 //        headreturn.setOnClickListener(this);
 //        headRightText1.setOnClickListener(this);
 //        headimage.setOnClickListener(this);
@@ -113,12 +115,13 @@ public class HeadLayout extends LinearLayout implements View.OnClickListener {
     //设置左边图片 和是否显示 默认 true 显示。 false 显示，false 不显示(不显示时imgId可传null)
     public void setHeadleftImg(boolean isimage, int imgId) {
         if (isimage) {
+            head_left_linear.setVisibility(VISIBLE);
             //headreturn.setVisibility(VISIBLE);
             //headreturn.setImageDrawable(getResources().getDrawable(imgId));
             View inflate = headreturn.inflate();
             ImageView head_left = inflate.findViewById(R.id.head_left);
             head_left.setImageDrawable(getResources().getDrawable(imgId));
-            head_left.setOnClickListener(this);
+            head_left_linear.setOnClickListener(this);
         } else {
             headreturn.setVisibility(GONE);
             //headreturn.setImageDrawable(getResources().getDrawable(imgId));
@@ -176,7 +179,7 @@ public class HeadLayout extends LinearLayout implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         int i = v.getId();
-        if (i == R.id.head_left) {
+        if (i == R.id.head_return_linear) {
             onClickHeadReturn.onClickHeadReturn();
 
         } else if (i == R.id.head_right_image) {

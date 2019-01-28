@@ -41,8 +41,8 @@ public class SetNicknameDelegate extends LatteDelegate implements HeadLayout.OnC
     //初始化头布局
     private void initHeade() {
         headLayout.setHeadleftImg(true, R.mipmap.fanhui);
-        headLayout.setHeadName("更改昵称", "#FDBA63", 18);
-        headLayout.setHeadRightText("保存", true, "#FDBA63");
+        headLayout.setHeadName("更改昵称", "#333333", 18);
+        headLayout.setHeadRightText("保存", true, "#333333");
         headLayout.setHeadlayoutBagColor("#ffffff");
         headLayout.setOnClickHeadReturn(this);
         headLayout.setOnClickHeadRighttext(this);

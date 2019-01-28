@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -9,83 +8,120 @@
         android:id="@+id/head_layout"
         android:layout_width="match_parent"
         android:layout_height="64dp"
-        android:gravity="center_vertical"></com.example.latte.ui.widget.HeadLayout>
+        android:gravity="center_vertical"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <ScrollView
         android:layout_below="@+id/head_layout"
         android:layout_margin="15dp"
         android:background="#ffffff"
-        android:orientation="vertical">
-
+        android:scrollbars="none"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
         <LinearLayout
-            android:id="@+id/head_portrait"
             android:layout_width="match_parent"
-            android:layout_height="80dp">
+            android:layout_height="match_parent"
 
-            <ImageView
-                android:id="@+id/user_imagePath"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="20dp" />
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/user_nickname"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="32dp"
-                android:textColor="@color/light_black"
-                android:textSize="15sp" />
+            <LinearLayout
+                android:id="@+id/head_portrait"
+                android:layout_width="match_parent"
+                android:layout_height="90dp">
+
+                <ImageView
+                    android:id="@+id/user_imagePath"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="20dp" />
+
+                <TextView
+                    android:layout_weight="1"
+                    android:id="@+id/user_nickname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="32dp"
+                    android:textColor="@color/light_black"
+                    android:textSize="22sp" />
+                <ImageView
+                    android:layout_width="6dp"
+                    android:layout_height="12dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@mipmap/youjiantou"/>
+            </LinearLayout>
+
+            <com.example.latte.ui.widget.UserTextLineView
+                android:id="@+id/remote_supervision"
+                android:layout_width="match_parent"
+                android:layout_height="68dp"
+                app:hasArrow="true"
+                app:iconDrawable="@mipmap/mine_yuancheng"
+                app:text="远程看护"
+                app:textColor="@color/light_black"/>
+
+            <com.example.latte.ui.widget.UserTextLineView
+                android:id="@+id/pro_card"
+                android:layout_width="match_parent"
+                android:layout_height="68dp"
+                app:hasArrow="true"
+                app:iconDrawable="@mipmap/mine_qinshuka"
+                app:text="亲属卡"
+                app:textColor="@color/light_black"/>
+
+            <com.example.latte.ui.widget.UserTextLineView
+                android:id="@+id/photo_album"
+                android:layout_width="match_parent"
+                android:layout_height="68dp"
+                app:hasArrow="true"
+                app:iconDrawable="@mipmap/mine_xiangce"
+                app:text="看护相册"
+                app:textColor="@color/light_black"/>
+
+            <com.example.latte.ui.widget.UserTextLineView
+                android:id="@+id/letter"
+                android:layout_width="match_parent"
+                android:layout_height="68dp"
+                app:hasArrow="true"
+                app:iconDrawable="@mipmap/mine_jiashu"
+                app:text="我的家书"
+                app:textColor="@color/light_black"/>
+
+            <com.example.latte.ui.widget.UserTextLineView
+                android:id="@+id/About_us"
+                android:layout_width="match_parent"
+                android:layout_height="68dp"
+                app:hasArrow="true"
+                app:iconDrawable="@mipmap/mine_guanyuwomen"
+                app:text="关于我们"
+                app:textColor="@color/light_black"/>
+
+            <com.example.latte.ui.widget.UserTextLineView
+                android:id="@+id/help"
+                android:layout_width="match_parent"
+                android:layout_height="68dp"
+                app:hasArrow="true"
+                app:iconDrawable="@mipmap/mine_bangzhu"
+                app:text="帮助"
+                app:textColor="@color/light_black"/>
+
+            <com.example.latte.ui.widget.UserTextLineView
+                android:id="@+id/set_up"
+                android:layout_width="match_parent"
+                android:layout_height="68dp"
+                app:hasArrow="true"
+                app:iconDrawable="@mipmap/mine_shezhi"
+                app:text="设置"
+                app:textColor="@color/light_black"/>
         </LinearLayout>
 
-        <com.example.latte.ui.widget.UserTextLineView
-            android:id="@+id/photo_album"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            app:hasArrow="true"
-            app:iconDrawable="@mipmap/mine_xiangce"
-            app:text="壹家相册"
-            app:textColor="@color/light_black"></com.example.latte.ui.widget.UserTextLineView>
+    </ScrollView>
 
-        <com.example.latte.ui.widget.UserTextLineView
-            android:id="@+id/sayings"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            app:hasArrow="true"
-            app:iconDrawable="@mipmap/mine_shenghuo"
-            app:text="生活语录"
-            app:textColor="@color/light_black"></com.example.latte.ui.widget.UserTextLineView>
 
-        <com.example.latte.ui.widget.UserTextLineView
-            android:id="@+id/About_us"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            app:hasArrow="true"
-            app:iconDrawable="@mipmap/mine_guanyuwomen"
-            app:text="关于我们"
-            app:textColor="@color/light_black"></com.example.latte.ui.widget.UserTextLineView>
 
-        <com.example.latte.ui.widget.UserTextLineView
-            android:id="@+id/help"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            app:hasArrow="true"
-            app:iconDrawable="@mipmap/mine_bangzhu"
-            app:text="帮助"
-            app:textColor="@color/light_black"></com.example.latte.ui.widget.UserTextLineView>
 
-        <com.example.latte.ui.widget.UserTextLineView
-            android:id="@+id/set_up"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            app:hasArrow="true"
-            app:iconDrawable="@mipmap/mine_shezhi"
-            app:text="设置"
-            app:textColor="@color/light_black"></com.example.latte.ui.widget.UserTextLineView>
-    </LinearLayout>
 
 
 </RelativeLayout>

@@ -29,11 +29,11 @@ android {
         /*basepopuwindow End*/
 
 
-//        manifestPlaceholders = [
-//                JPUSH_PKGNAME: applicationId,
-//                JPUSH_APPKEY : "26a34a494a1d5dc03b133b24",
-//                JPUSH_CHANNEL: "developer-default",
-//        ]
+        manifestPlaceholders = [
+                JPUSH_PKGNAME: applicationId,
+                JPUSH_APPKEY : "92d47be47c94c2172b6dad0e",
+                JPUSH_CHANNEL: "developer-default",
+        ]
 
     }
     //指定jdk版本
@@ -102,8 +102,8 @@ dependencies {
     //    implementation 'com.android.support:appcompat-v7:26.1.0'
     api 'com.facebook.stetho:stetho:1.5.0'
     api 'com.facebook.stetho:stetho-okhttp3:1.5.0'
-//    api 'cn.jiguang.sdk:jpush:3.0.1'
-//    api 'cn.jiguang.sdk:jcore:1.1.0'
+    api 'cn.jiguang.sdk:jpush:3.1.8'
+    api 'cn.jiguang.sdk:jcore:1.2.7'
     api 'com.android.support:multidex:1.0.3'
     annotationProcessor "com.github.hotchemi:permissionsdispatcher-processor:2.4.0"
 

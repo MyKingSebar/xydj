@@ -5,14 +5,18 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.example.latte.activities.ProxyActivity;
 import com.example.latte.app.AccountManager;
 import com.example.latte.app.IUserChecker;
 import com.example.latte.app.Latte;
 import com.example.latte.delegates.LatteDelegate;
 import com.example.latte.ec.launcher.LauncherDelegate;
+import com.example.latte.net.rx.BaseObserver;
+import com.example.latte.net.rx.RxRestClient;
 import com.example.latte.ui.launcher.ILauncherListener;
 import com.example.latte.ui.launcher.OnLauncherFinishTag;
 import com.example.latte.util.log.LatteLogger;
@@ -24,6 +28,9 @@ import com.yijia.common_yijia.sign.SignUpSecondDelegate;
 import com.yijia.common_yijia.main.YjBottomDelegate;
 
 
+import cn.jpush.android.api.JPushInterface;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import me.yokeyword.fragmentation.Fragmentation;
 import qiu.niorgai.StatusBarCompat;
 
@@ -72,7 +79,8 @@ public class ExampleActivity extends ProxyActivity implements
 
     @Override
     public void onSignUpSecondSuccess() {
-        getSupportDelegate().startWithPop(new YjBottomDelegate());
+        goMain();
+
 
     }
 
@@ -99,6 +107,7 @@ public class ExampleActivity extends ProxyActivity implements
         });
     }
 
+
     @Override
     public void onSignUpFailure(String msg) {
         Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
@@ -111,7 +120,7 @@ public class ExampleActivity extends ProxyActivity implements
         switch (tag) {
             case SIGNED:
                 Toast.makeText(this, "启动成功，用户登录了", Toast.LENGTH_LONG).show();
-                getSupportDelegate().startWithPop(new YjBottomDelegate());
+                goMain();
 
                 break;
             case NOT_SIGNED:
@@ -124,5 +133,43 @@ public class ExampleActivity extends ProxyActivity implements
         }
     }
 
+    private void goMain() {
+        String jRegistrationID = JPushInterface.getRegistrationID(getApplicationContext());
+        LatteLogger.e("jialei","jRegistrationID:"+jRegistrationID);
+        Log.e("jialei","jRegistrationID:"+jRegistrationID);
+        initJRegistrationID(jRegistrationID);
+        getSupportDelegate().startWithPop(new YjBottomDelegate());
+    }
 
+    private void initJRegistrationID(String jRegistrationID) {
+        final String url = "push/addAlias";
+        String token = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getYjtk();
+        RxRestClient.builder()
+                .url(url)
+                .params("yjtk", token)
+                .params("machineTyp e", 1)//1-手机，2-机器人
+                .params("registrationId", jRegistrationID)
+                .build()
+                .post()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseObserver<String>(getApplicationContext()) {
+                    @Override
+                    public void onResponse(String response) {
+                        LatteLogger.json("query_timeline", response);
+                        final String status = JSON.parseObject(response).getString("status");
+                        if (TextUtils.equals(status, "1001")) {
+
+                        } else {
+                            final String msg = JSON.parseObject(response).getString("msg");
+                            Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFail(Throwable e) {
+                        Toast.makeText(getApplicationContext(), "请稍后尝试", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
 }

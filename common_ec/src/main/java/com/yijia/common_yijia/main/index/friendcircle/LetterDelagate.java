@@ -60,8 +60,8 @@ public class LetterDelagate extends LatteDelegate implements LatCallbackInterfac
     private int contentType = 1;
     //可见类型：1-全部可见，2-部分可见，3-部分不可见
     private int visibleType = 2;
-    private int[] visibleOrInvisibleUserIds = null;
-    private String location=null;
+    private int[] visibleOrInvisibleUserIds = {};
+    private String location="";
     private double longitude=0;
     private double latitude=0;
 

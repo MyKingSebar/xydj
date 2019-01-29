@@ -26,6 +26,7 @@ import com.joanzapata.iconify.fonts.FontAwesomeModule;
 import com.lzy.ninegrid.NineGridView;
 import com.mabeijianxi.smallvideorecord2.DeviceUtils;
 import com.mabeijianxi.smallvideorecord2.JianXiCamera;
+
 import com.yijia.common_yijia.database.YjDatabaseManager;
 
 import java.io.File;

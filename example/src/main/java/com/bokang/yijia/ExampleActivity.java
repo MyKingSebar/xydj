@@ -123,6 +123,4 @@ public class ExampleActivity extends ProxyActivity implements
                 break;
         }
     }
-
-
 }

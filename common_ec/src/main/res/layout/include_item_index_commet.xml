@@ -11,7 +11,7 @@
         android:layout_marginStart="42dp"
         android:layout_marginTop="10dp"
         android:textColor="@color/app_text_gray"
-        android:textSize="13sp"
+        android:textSize="15sp"
         tools:text="10分钟前" />
 
     <android.support.v7.widget.AppCompatTextView
@@ -58,7 +58,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="3dp"
             android:layout_marginTop="3dp"
-            android:textColor="@color/app_text_dark"
+            android:textColor="@color/main_text_blue_57"
             android:textSize="13sp"
             tools:text="爸爸爸爸爸爸爸爸爸爸爸爸爸爸爸爸爸爸爸爸爸爸爸爸爸爸爸爸爸爸爸爸爸" />
 
@@ -88,6 +88,6 @@
         android:layout_marginBottom="8dp"
         android:paddingStart="27dp"
         android:text="我也说一句"
-        android:textColor="@color/app_text_gray"
-        android:textSize="13sp" />
+        android:textColor="@color/main_text_gary_99"
+        android:textSize="16sp" />
 </RelativeLayout>

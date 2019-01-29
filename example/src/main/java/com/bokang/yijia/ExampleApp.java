@@ -7,6 +7,9 @@ import android.support.annotation.Nullable;
 import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
+
+import com.bokang.common_tencentmonitor.utils.InitBusinessHelper;
+import com.bokang.common_tencentmonitor.utils.SxbLogImpl;
 import com.bokang.yijia.event.TestEvent;
 import com.example.commcon_xfyun.XunFei;
 import com.example.latte.app.Latte;
@@ -36,9 +39,20 @@ import me.yokeyword.fragmentation.helper.ExceptionHandler;
 
 public class ExampleApp extends MultiDexApplication {
     public static final String PACKAGENAME="com.bokang.yijia";
+    private static ExampleApp app;
+    private static Context context;
     @Override
     public void onCreate() {
         super.onCreate();
+        app = this;
+        context = getApplicationContext();
+
+        if (shouldInit()) {
+            SxbLogImpl.init(getApplicationContext());
+
+            //初始化APP
+            InitBusinessHelper.initApp(context);
+        }
 
 
         Latte.init(this)
@@ -107,6 +121,20 @@ public class ExampleApp extends MultiDexApplication {
 //                });
     }
 
+    private boolean shouldInit() {
+        ActivityManager am = ((ActivityManager) getSystemService(Context.ACTIVITY_SERVICE));
+        List<ActivityManager.RunningAppProcessInfo> processInfos = am.getRunningAppProcesses();
+        String mainProcessName = getPackageName();
+        int myPid = android.os.Process.myPid();
+
+        for (ActivityManager.RunningAppProcessInfo info : processInfos) {
+            if (info.pid == myPid && mainProcessName.equals(info.processName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     private void initXfYun() {
         SpeechUtility.createUtility(getApplicationContext(), SpeechConstant.APPID +"="+XunFei.APPID);
@@ -159,7 +187,13 @@ public class ExampleApp extends MultiDexApplication {
     }
 
 
+    public static Context getContext() {
+        return context;
+    }
 
+    public static ExampleApp getInstance() {
+        return app;
+    }
 
 
 }

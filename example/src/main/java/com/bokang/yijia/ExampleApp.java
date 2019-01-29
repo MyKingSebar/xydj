@@ -19,7 +19,9 @@ import com.example.latte.ec.icon.FontYJModule;
 import com.example.latte.net.Interceptors.DebugInterceptor;
 import com.example.latte.net.rx.AddCookieInterceptor;
 import com.example.latte.ui.ninegridview.GlideImageLoader;
-
+import com.example.latte.util.callback.CallbackManager;
+import com.example.latte.util.callback.CallbackType;
+import com.example.latte.util.callback.IGlobalCallback;
 import com.facebook.stetho.Stetho;
 import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechUtility;
@@ -33,6 +35,7 @@ import com.yijia.common_yijia.database.YjDatabaseManager;
 import java.io.File;
 import java.util.List;
 
+import cn.jpush.android.api.JPushInterface;
 import me.yokeyword.fragmentation.Fragmentation;
 import me.yokeyword.fragmentation.helper.ExceptionHandler;
 
@@ -53,7 +56,6 @@ public class ExampleApp extends MultiDexApplication {
             //初始化APP
             InitBusinessHelper.initApp(context);
         }
-
 
         Latte.init(this)
                 .withIcon(new FontAwesomeModule())
@@ -93,32 +95,32 @@ public class ExampleApp extends MultiDexApplication {
                 .install();
 
 
-//        //开启极光推送
-//        JPushInterface.setDebugMode(true);
-//        JPushInterface.init(this);
-//
-//
-//        CallbackManager.getInstance()
-//                .addCallback(CallbackType.TAG_OPEN_PUSH, new IGlobalCallback() {
-//                    @Override
-//                    public void executeCallback(@Nullable Object args) {
-//                        if (JPushInterface.isPushStopped(Latte.getApplicationContext())) {
-//                            //开启极光推送
-//                            JPushInterface.setDebugMode(true);
-//                            JPushInterface.init(Latte.getApplicationContext());
-//                        }
-//                    }
-//                })
-//                .addCallback(CallbackType.TAG_STOP_PUSH, new IGlobalCallback() {
-//                    @Override
-//                    public void executeCallback(@Nullable Object args) {
-//                        if (!JPushInterface.isPushStopped(Latte.getApplicationContext())) {
-//                            //开启极光推送
-//                            JPushInterface.setDebugMode(true);
-//                            JPushInterface.stopPush(Latte.getApplicationContext());
-//                        }
-//                    }
-//                });
+        //开启极光推送
+        JPushInterface.setDebugMode(true);
+        JPushInterface.init(this);
+
+
+        CallbackManager.getInstance()
+                .addCallback(CallbackType.TAG_OPEN_PUSH, new IGlobalCallback() {
+                    @Override
+                    public void executeCallback(@Nullable Object args) {
+                        if (JPushInterface.isPushStopped(Latte.getApplicationContext())) {
+                            //开启极光推送
+                            JPushInterface.setDebugMode(true);
+                            JPushInterface.init(Latte.getApplicationContext());
+                        }
+                    }
+                })
+                .addCallback(CallbackType.TAG_STOP_PUSH, new IGlobalCallback() {
+                    @Override
+                    public void executeCallback(@Nullable Object args) {
+                        if (!JPushInterface.isPushStopped(Latte.getApplicationContext())) {
+                            //开启极光推送
+                            JPushInterface.setDebugMode(true);
+                            JPushInterface.stopPush(Latte.getApplicationContext());
+                        }
+                    }
+                });
     }
 
     private boolean shouldInit() {

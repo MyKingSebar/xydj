@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.example.latte.app.Latte;
 import com.example.latte.delegates.LatteDelegate;
@@ -24,6 +25,7 @@ import com.example.latte.net.rx.BaseObserver;
 import com.example.latte.net.rx.RxRestClient;
 import com.example.latte.ui.wxvideoedit.EsayVideoEditActivity;
 import com.example.latte.util.log.LatteLogger;
+import com.google.gson.JsonArray;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
@@ -35,7 +37,11 @@ import com.yijia.common_yijia.main.index.YjIndexDelegate;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.WeakHashMap;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -69,8 +75,9 @@ public class PhotoDelegate extends LatteDelegate {
     private int contentType = 1;
     //可见类型：1-全部可见，2-部分可见，3-部分不可见
     private int visibleType = 1;
-    private int[] visibleOrInvisibleUserIds = null;
-    private String location=null;
+    private int[] visibleOrInvisibleUserIds = {};
+    private List<Integer> visibleOrInvisibleUserIds2 = new ArrayList<>();
+    private String location="";
     private double longitude=0;
     private double latitude=0;
 
@@ -137,7 +144,7 @@ public class PhotoDelegate extends LatteDelegate {
      * PictureConfig.MULTIPLE
      * PictureConfig.SINGLE
      */
-    private final int numMode = PictureConfig.MULTIPLE;
+    private final int numMode = PictureConfig.SINGLE;
     //相册or单独拍照
     private final boolean ALBUMORNOT = true;
     //相册列表是否隐藏拍摄
@@ -458,6 +465,7 @@ public class PhotoDelegate extends LatteDelegate {
     }
 
     private void RxUpLoad(String token, File[] files) {
+        LatteLogger.e("jialei","RxUpLoad:"+urlTop);
         RxRestClient.builder()
                 .url(urlTop)
                 .params("yjtk", token)
@@ -485,6 +493,7 @@ public class PhotoDelegate extends LatteDelegate {
 
                     @Override
                     public void onFail(Throwable e) {
+                        LatteLogger.e("picture/upload","onFail:"+e.getMessage());
                         Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -584,6 +593,8 @@ public class PhotoDelegate extends LatteDelegate {
         if (circleType == 1) {
             filesString = "";
         }
+        LatteLogger.w("upLoadImg", "yjtk:"+token+"circleType:"+circleType+"contentType:"+contentType+"content:"+content+urlType+":"+filesString+"visibleType:"+visibleType+"visibleOrInvisibleUserIds:"+Arrays.toString(visibleOrInvisibleUserIds)+
+                "location:"+location+"longitude:"+longitude+"latitude:"+latitude);
         RxRestClient.builder()
                 .url(url)
                 .params("yjtk", token)
@@ -593,7 +604,8 @@ public class PhotoDelegate extends LatteDelegate {
                 .params("content", content)
                 .params(urlType, filesString)
                 .params("visibleType", visibleType)
-                .params("visibleOrInvisibleUserIds", visibleOrInvisibleUserIds)
+//                .params("visibleOrInvisibleUserIds",JSONArray.parseArray(JSON.toJSONString(visibleOrInvisibleUserIds2)))
+                .params("visibleOrInvisibleUserIds",Arrays.toString(visibleOrInvisibleUserIds))
                 .params("location", location)
                 .params("longitude", longitude)
                 .params("latitude", latitude)
@@ -612,6 +624,7 @@ public class PhotoDelegate extends LatteDelegate {
 
                     @Override
                     public void onFail(Throwable e) {
+                        LatteLogger.json("circle/insert", "onFail:"+e.getMessage());
                         Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });

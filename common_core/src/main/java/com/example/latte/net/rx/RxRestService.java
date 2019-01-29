@@ -22,6 +22,7 @@ import retrofit2.http.Url;
 
 public interface RxRestService {
 
+
     @GET
     Observable<String> get(@Url String url, @QueryMap Map<String, Object> params);
 

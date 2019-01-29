@@ -31,12 +31,12 @@ public class RxRestClient {
 
 
     public RxRestClient(String url,
-                      Map<String, Object> params,
-                      RequestBody body,
-                      File file,
-                      File[] files,
-                      Context context,
-                      LoaderStyle loaderStyle) {
+                        Map<String, Object> params,
+                        RequestBody body,
+                        File file,
+                        File[] files,
+                        Context context,
+                        LoaderStyle loaderStyle) {
         this.URL = url;
         PARAMS.putAll(params);
         this.BODY = body;
@@ -52,8 +52,7 @@ public class RxRestClient {
 
     private Observable<String> request(HttpMethod method) {
         final RxRestService service = RestCreator.getRxRestService();
-        Observable<String> observable=null;
-
+        Observable<String> observable = null;
 
 
         if (LOADER_STYLE != null) {
@@ -88,15 +87,15 @@ public class RxRestClient {
                 break;
             case UPLOADWITHPARAM:
                 List<MultipartBody.Part> parts = new ArrayList<>(FILES.length);
-                for(File file : FILES){
+                for (File file : FILES) {
                     RequestBody requestBody2 =
                             RequestBody.create(MediaType.parse(MultipartBody.FORM.toString()), file);
                     MultipartBody.Part body2 =
-                            MultipartBody.Part.createFormData("files", file.getName(),requestBody2);
+                            MultipartBody.Part.createFormData("files", file.getName(), requestBody2);
                     parts.add(body2);
                 }
 
-                observable = RestCreator.getRxRestService().uploadwithParam(URL, PARAMS,parts);
+                observable = RestCreator.getRxRestService().uploadwithParam(URL, PARAMS, parts);
                 break;
             default:
                 break;
@@ -104,7 +103,6 @@ public class RxRestClient {
         }
         return observable;
     }
-
 
 
     public final Observable<String> get() {
@@ -140,13 +138,14 @@ public class RxRestClient {
     public final Observable<String> upload() {
         return request(HttpMethod.UPLOAD);
     }
+
     public final Observable<String> uploadwithparams() {
         return request(HttpMethod.UPLOADWITHPARAM);
     }
 
     public final Observable<ResponseBody> download() {
-        final  Observable<ResponseBody> responseBodyObservable=RestCreator.getRxRestService().download(URL,PARAMS);
-return responseBodyObservable;
+        final Observable<ResponseBody> responseBodyObservable = RestCreator.getRxRestService().download(URL, PARAMS);
+        return responseBodyObservable;
 
     }
 }

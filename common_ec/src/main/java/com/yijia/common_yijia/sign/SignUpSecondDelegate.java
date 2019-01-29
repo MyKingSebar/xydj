@@ -167,7 +167,7 @@ public class SignUpSecondDelegate extends LatteDelegate {
                     public void onResponse(String response) {
                         LatteLogger.json("picture/upload", response);
                         YjSignHandler.onSignUp(response, mISignListener);
-                        getSupportDelegate().startWithPop(new YjBottomDelegate());
+//                        getSupportDelegate().startWithPop(new YjBottomDelegate());
 
                     }
 

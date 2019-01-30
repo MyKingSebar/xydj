@@ -6,6 +6,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.animation.AccelerateInterpolator;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
@@ -20,6 +22,9 @@ import com.example.latte.net.rx.RxRestClient;
 import com.example.latte.ui.launcher.ILauncherListener;
 import com.example.latte.ui.launcher.OnLauncherFinishTag;
 import com.example.latte.util.log.LatteLogger;
+import com.yhao.floatwindow.FloatWindow;
+import com.yhao.floatwindow.MoveType;
+import com.yhao.floatwindow.Screen;
 import com.yijia.common_yijia.database.YjDatabaseManager;
 import com.yijia.common_yijia.sign.ISignListener;
 import com.yijia.common_yijia.sign.SignInDelegate;
@@ -46,6 +51,7 @@ public class ExampleActivity extends ProxyActivity implements
         }
         Latte.getConfigurator().withActivity(this);
         StatusBarCompat.translucentStatusBar(this, true);
+        showFlout();
 
     }
 
@@ -171,5 +177,25 @@ public class ExampleActivity extends ProxyActivity implements
                         Toast.makeText(getApplicationContext(), "请稍后尝试", Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+    private void showFlout(){
+        if(TextUtils.equals(ExampleApp.MODE,ExampleApp.MODE_DEBUG)){
+            ImageView imageView = new ImageView(getApplicationContext());
+            imageView.setImageResource(R.mipmap.icon_kanhu);
+
+            FloatWindow
+                    .with(getApplicationContext())
+                    .setView(imageView)
+                    .setWidth(100)                               //设置控件宽高
+                    .setHeight(Screen.width,0.2f)
+                    .setX(100)                                   //设置控件初始位置
+                    .setY(Screen.height,0.3f)
+                    .setDesktopShow(true)                        //桌面显示
+//                    .setViewStateListener(mViewStateListener)    //监听悬浮控件状态改变
+//                    .setPermissionListener(mPermissionListener)  //监听权限申请结果
+                    .setMoveType(MoveType.active )
+//                    .setMoveStyle(500, new AccelerateInterpolator())  //贴边动画时长为500ms，加速插值器
+                    .build();
+        }
     }
 }

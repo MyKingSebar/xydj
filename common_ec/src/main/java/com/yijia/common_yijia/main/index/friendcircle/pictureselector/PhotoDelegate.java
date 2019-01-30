@@ -617,9 +617,16 @@ public class PhotoDelegate extends LatteDelegate {
                     @Override
                     public void onResponse(String response) {
                         LatteLogger.json("circle/insert", response);
-                        getSupportDelegate().pop();
-                        //清缓存
-                        PictureFileUtils.deleteCacheDirFile(Latte.getApplicationContext());
+                        final String status = JSON.parseObject(response).getString("status");
+                        if (TextUtils.equals(status, "1001")) {
+                            getSupportDelegate().pop();
+                            //清缓存
+                            PictureFileUtils.deleteCacheDirFile(Latte.getApplicationContext());
+                        } else {
+                            final String msg = JSON.parseObject(response).getString("msg");
+                            Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+                        }
+
                     }
 
                     @Override

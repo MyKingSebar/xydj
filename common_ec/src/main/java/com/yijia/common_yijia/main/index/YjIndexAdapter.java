@@ -27,6 +27,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import android.text.format.Time;
+
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -58,7 +60,11 @@ import com.lzy.ninegrid.NineGridView;
 import com.lzy.ninegrid.preview.NineGridViewClickAdapter;
 import com.yijia.common_yijia.database.YjDatabaseManager;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -107,7 +113,7 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
     @Override
     protected void convert(MultipleViewHolder holder, final MultipleItemEntity entity) {
         super.convert(holder, entity);
-        Log.e("jialei","YjIndexAdapter.mContext==null"+(mContext==null));
+        Log.e("jialei", "YjIndexAdapter.mContext==null" + (mContext == null));
         initTts();
         //先取出所有值
         final Long userId = entity.getField(MultipleFields.ID);
@@ -295,7 +301,26 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
 
             });
         }
-        tvTime.setText(String.valueOf(createdTime));
+       //当前时间
+        String now = CurrentTimeUtils.now();//createdTime
+
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        try {
+            //todo 时间比较
+            Date now_d = df.parse(now);
+            Date createdTime_d = df.parse(createdTime);
+            long diff = now_d.getTime() - createdTime_d.getTime();//这样得到的差值是微秒级别
+            long days = diff / (1000 * 60 * 60 * 24);
+            long hours = (diff-days*(1000 * 60 * 60 * 24))/(1000* 60 * 60);
+            long minutes = (diff-days*(1000 * 60 * 60 * 24)-hours*(1000* 60 * 60))/(1000* 60);
+            tvTime.setText(""+days+"天"+hours+"小时"+minutes+"分");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
+
         if (TextUtils.isEmpty(likes)) {
             llZan.setVisibility(View.GONE);
         } else {
@@ -487,5 +512,15 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
 
     private void readContent(String text) {
         tts.start(text);
+    }
+
+
+
+    public static class CurrentTimeUtils {
+        public static String now() {
+            Time localTime = new Time("Asia/Hong_Kong");
+            localTime.setToNow();
+            return localTime.format("%Y-%m-%d %H:%M:%S");
+        }
     }
 }

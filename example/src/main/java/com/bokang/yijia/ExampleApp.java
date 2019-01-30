@@ -59,6 +59,7 @@ public class ExampleApp extends MultiDexApplication {
         initFragmentDeBug();
         initJpush();
         initCallBack();
+        initTencentLive();
     }
 
     private void initSpiderMan() {
@@ -84,6 +85,29 @@ public class ExampleApp extends MultiDexApplication {
                 .withInterceptor(new AddCookieInterceptor())
                 .configure();
     }
+
+    private void initTencentLive(){
+        if (shouldInit()) {
+            SxbLogImpl.init(getApplicationContext());
+
+            //初始化APP
+            InitBusinessHelper.initApp(context);
+        }
+    }
+    private boolean initTencentShouldLive() {
+        ActivityManager am = ((ActivityManager) getSystemService(Context.ACTIVITY_SERVICE));
+        List<ActivityManager.RunningAppProcessInfo> processInfos = am.getRunningAppProcesses();
+        String mainProcessName = getPackageName();
+        int myPid = android.os.Process.myPid();
+
+        for (ActivityManager.RunningAppProcessInfo info : processInfos) {
+            if (info.pid == myPid && mainProcessName.equals(info.processName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     private void initXfYun() {
         SpeechUtility.createUtility(getApplicationContext(), SpeechConstant.APPID + "=" + XunFei.APPID);

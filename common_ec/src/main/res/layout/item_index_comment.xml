@@ -9,7 +9,7 @@
         android:id="@+id/tv_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/app_text_dark"
+        android:textColor="@color/main_text_blue_57"
         android:textSize="13sp"
         tools:text="张三:" />
 
@@ -18,8 +18,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:textColor="@color/app_text_gray"
-        android:textSize="13sp"
+        android:textColor="@color/main_text_black_dark"
+        android:textSize="16sp"
         tools:text="\@张三 水水水水水" />
 
 </android.support.v7.widget.LinearLayoutCompat>

@@ -7,6 +7,8 @@ import android.support.annotation.Nullable;
 import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
+import com.bokang.common_tencentmonitor.utils.InitBusinessHelper;
+import com.bokang.common_tencentmonitor.utils.SxbLogImpl;
 import com.bokang.yijia.event.TestEvent;
 import com.example.commcon_xfyun.XunFei;
 import com.example.latte.app.Latte;
@@ -87,11 +89,10 @@ public class ExampleApp extends MultiDexApplication {
     }
 
     private void initTencentLive(){
-        if (shouldInit()) {
+        if (initTencentShouldLive()) {
             SxbLogImpl.init(getApplicationContext());
-
             //初始化APP
-            InitBusinessHelper.initApp(context);
+            InitBusinessHelper.initApp(getApplicationContext());
         }
     }
     private boolean initTencentShouldLive() {

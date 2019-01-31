@@ -8,8 +8,7 @@ import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
 
-import com.bokang.common_tencentmonitor.utils.InitBusinessHelper;
-import com.bokang.common_tencentmonitor.utils.SxbLogImpl;
+
 import com.bokang.yijia.event.TestEvent;
 import com.example.commcon_xfyun.XunFei;
 import com.example.latte.app.Latte;
@@ -50,12 +49,6 @@ public class ExampleApp extends MultiDexApplication {
         app = this;
         context = getApplicationContext();
 
-        if (shouldInit()) {
-            SxbLogImpl.init(getApplicationContext());
-
-            //初始化APP
-            InitBusinessHelper.initApp(context);
-        }
 
         Latte.init(this)
                 .withIcon(new FontAwesomeModule())

@@ -4,6 +4,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.yijia.common_yijia.main.message.view.fragment.NoticeDelegate;
+import com.yijia.common_yijia.main.message.view.fragment.SessionDelegate;
+
 import java.util.ArrayList;
 
 
@@ -22,10 +25,10 @@ public class MessageTabPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
         if (position == 0) {
-            return new RecyeleDelegate();
+            return new SessionDelegate();
 
         } else if (position == 1) {
-            return new RecyeleDelegate();
+            return new NoticeDelegate();
 //            return ImageDelegate.create(PICTURES.get(1));
         }
         return null;

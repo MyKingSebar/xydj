@@ -6,7 +6,7 @@ android {
 
 
     defaultConfig {
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -31,12 +31,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
-    implementation 'com.tencent.ilivesdk:ilivesdk:1.8.5.5'
-    implementation 'com.tencent.livesdk:livesdk:1.1.4'
-    implementation 'com.tencent.ilivefilter:liteav_pitu:1.1.21'
 
 
-    implementation files('libs/cos-sdk-android-1.4.3.jar')
-    implementation files('libs/liteavsdk.jar')
-    implementation files('libs/sha1utils.jar')
+
 }

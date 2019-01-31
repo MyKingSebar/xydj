@@ -218,7 +218,7 @@
         <activity
             android:name="com.yijia.common_yijia.main.index.friendcircle.choosefriend.SearchActivity"
             />
-        <!-- 互动直播 远程监控-->
+        <!-- 互动直播 远程监控
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.bokang.yijia.fileProvider"
@@ -228,6 +228,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-        <!-- 互动直播 远程监控-->
+         互动直播 远程监控-->
     </application>
 </manifest>

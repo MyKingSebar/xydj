@@ -5,12 +5,10 @@ import android.content.Context;
 import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.multidex.MultiDexApplication;
-import android.util.Log;
 
-import com.bokang.common_tencentmonitor.utils.InitBusinessHelper;
-import com.bokang.common_tencentmonitor.utils.SxbLogImpl;
 import com.bokang.yijia.event.TestEvent;
 import com.example.commcon_xfyun.XunFei;
+import com.example.common_tencent_tuikit.TuiKitConfig;
 import com.example.latte.app.Latte;
 import com.example.latte.ec.database.DatabaseManager;
 import com.example.latte.ec.icon.FontEcModule;
@@ -28,7 +26,6 @@ import com.joanzapata.iconify.fonts.FontAwesomeModule;
 import com.lzy.ninegrid.NineGridView;
 import com.mabeijianxi.smallvideorecord2.DeviceUtils;
 import com.mabeijianxi.smallvideorecord2.JianXiCamera;
-
 import com.simple.spiderman.SpiderMan;
 import com.yijia.common_yijia.database.YjDatabaseManager;
 
@@ -61,7 +58,8 @@ public class ExampleApp extends MultiDexApplication {
         initFragmentDeBug();
         initJpush();
         initCallBack();
-        initTencentLive();
+//        initTencentLive();
+        initTencentTuiKit();
     }
 
     private void initSpiderMan() {
@@ -88,13 +86,6 @@ public class ExampleApp extends MultiDexApplication {
                 .configure();
     }
 
-    private void initTencentLive(){
-        if (initTencentShouldLive()) {
-            SxbLogImpl.init(getApplicationContext());
-            //初始化APP
-            InitBusinessHelper.initApp(getApplicationContext());
-        }
-    }
     private boolean initTencentShouldLive() {
         ActivityManager am = ((ActivityManager) getSystemService(Context.ACTIVITY_SERVICE));
         List<ActivityManager.RunningAppProcessInfo> processInfos = am.getRunningAppProcesses();
@@ -192,6 +183,10 @@ public class ExampleApp extends MultiDexApplication {
                     }
                 })
                 .install();
+    }
+
+    private void initTencentTuiKit() {
+        TuiKitConfig.initTencentTuiKit(getApplicationContext());
     }
 
     public static String getCurProcessName(Context context) {

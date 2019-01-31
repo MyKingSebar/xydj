@@ -58,7 +58,6 @@ public class ExampleApp extends MultiDexApplication {
         initFragmentDeBug();
         initJpush();
         initCallBack();
-//        initTencentLive();
         initTencentTuiKit();
     }
 
@@ -86,19 +85,6 @@ public class ExampleApp extends MultiDexApplication {
                 .configure();
     }
 
-    private boolean initTencentShouldLive() {
-        ActivityManager am = ((ActivityManager) getSystemService(Context.ACTIVITY_SERVICE));
-        List<ActivityManager.RunningAppProcessInfo> processInfos = am.getRunningAppProcesses();
-        String mainProcessName = getPackageName();
-        int myPid = android.os.Process.myPid();
-
-        for (ActivityManager.RunningAppProcessInfo info : processInfos) {
-            if (info.pid == myPid && mainProcessName.equals(info.processName)) {
-                return true;
-            }
-        }
-        return false;
-    }
 
 
     private void initXfYun() {

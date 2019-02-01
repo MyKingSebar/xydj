@@ -71,7 +71,7 @@ public class YjSignHandler {
         if(isComplete==1) {
             AccountManager.setIsComplete(true);
             signListener.onSignUpSecondSuccess();
-            loginTencentIM();
+
         }else {
             if(TextUtils.equals(type,SIGNIN)){
                 signListener.onSignInSuccess();
@@ -82,19 +82,5 @@ public class YjSignHandler {
         }
     }
 
-    private static void loginTencentIM() {
-        String tencentImUserId = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getTencentImUserId();
-        String tencentImUserSig = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getTencentImUserSig();
-        TUIKit.login(tencentImUserId, tencentImUserSig, new IUIKitCallBack() {
-            @Override
-            public void onSuccess(Object data) {
-                Log.e("qqqq", "onSuccess: login成功" );
-            }
 
-            @Override
-            public void onError(String module, int errCode, String errMsg) {
-                Log.e("qqqq", errMsg);
-            }
-        });
-    }
 }

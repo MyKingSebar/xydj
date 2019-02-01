@@ -23,6 +23,8 @@ import com.example.latte.net.rx.RxRestClient;
 import com.example.latte.ui.launcher.ILauncherListener;
 import com.example.latte.ui.launcher.OnLauncherFinishTag;
 import com.example.latte.util.log.LatteLogger;
+import com.tencent.qcloud.uikit.TUIKit;
+import com.tencent.qcloud.uikit.common.IUIKitCallBack;
 import com.yhao.floatwindow.FloatWindow;
 import com.yhao.floatwindow.MoveType;
 import com.yhao.floatwindow.PermissionListener;
@@ -153,8 +155,26 @@ public static boolean isShowFlout=false;
 //        LatteLogger.e("jialei", "jRegistrationID:" + jRegistrationID);
 //        Log.e("jialei", "jRegistrationID:" + jRegistrationID);
 //        initJRegistrationID(jRegistrationID);
+        loginTencentIM();
         getSupportDelegate().startWithPop(new YjBottomDelegate());
     }
+
+    private static void loginTencentIM() {
+        String tencentImUserId = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getTencentImUserId();
+        String tencentImUserSig = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getTencentImUserSig();
+        TUIKit.login(tencentImUserId, tencentImUserSig, new IUIKitCallBack() {
+            @Override
+            public void onSuccess(Object data) {
+                Log.e("qqqq", "onSuccess: login成功" );
+            }
+
+            @Override
+            public void onError(String module, int errCode, String errMsg) {
+                Log.e("qqqq", errMsg);
+            }
+        });
+    }
+
 
     private void initJRegistrationID(String jRegistrationID) {
         final String url = "push/addAlias";

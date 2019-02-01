@@ -6,6 +6,9 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
@@ -20,6 +23,11 @@ import com.example.latte.net.rx.RxRestClient;
 import com.example.latte.ui.launcher.ILauncherListener;
 import com.example.latte.ui.launcher.OnLauncherFinishTag;
 import com.example.latte.util.log.LatteLogger;
+import com.yhao.floatwindow.FloatWindow;
+import com.yhao.floatwindow.MoveType;
+import com.yhao.floatwindow.PermissionListener;
+import com.yhao.floatwindow.Screen;
+import com.yhao.floatwindow.ViewStateListener;
 import com.yijia.common_yijia.database.YjDatabaseManager;
 import com.yijia.common_yijia.sign.ISignListener;
 import com.yijia.common_yijia.sign.SignInDelegate;
@@ -37,6 +45,8 @@ import qiu.niorgai.StatusBarCompat;
 public class ExampleActivity extends ProxyActivity implements
         ISignListener,
         ILauncherListener {
+    String TAG = "ExampleActivity.DEBUG";
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +56,7 @@ public class ExampleActivity extends ProxyActivity implements
         }
         Latte.getConfigurator().withActivity(this);
         StatusBarCompat.translucentStatusBar(this, true);
+        showFlout();
 
     }
 
@@ -135,8 +146,8 @@ public class ExampleActivity extends ProxyActivity implements
 
     private void goMain() {
         String jRegistrationID = JPushInterface.getRegistrationID(getApplicationContext());
-        LatteLogger.e("jialei","jRegistrationID:"+jRegistrationID);
-        Log.e("jialei","jRegistrationID:"+jRegistrationID);
+        LatteLogger.e("jialei", "jRegistrationID:" + jRegistrationID);
+        Log.e("jialei", "jRegistrationID:" + jRegistrationID);
         initJRegistrationID(jRegistrationID);
         getSupportDelegate().startWithPop(new YjBottomDelegate());
     }
@@ -172,4 +183,80 @@ public class ExampleActivity extends ProxyActivity implements
                     }
                 });
     }
+
+    private void showFlout() {
+        if (TextUtils.equals(ExampleApp.MODE, ExampleApp.MODE_DEBUG)) {
+            ImageView imageView = new ImageView(getApplicationContext());
+            imageView.setImageResource(R.mipmap.ic_launcher);
+
+            FloatWindow
+                    .with(getApplicationContext())
+                    .setView(imageView)
+                    .setWidth(100)                               //设置控件宽高
+                    .setHeight(Screen.width, 0.2f)
+                    .setX(100)                                   //设置控件初始位置
+                    .setY(Screen.height, 0.3f)
+                    .setDesktopShow(true)                        //桌面显示
+                    .setViewStateListener(mViewStateListener)    //监听悬浮控件状态改变
+                    .setPermissionListener(mPermissionListener)  //监听权限申请结果
+                    //MoveType.slide : 可拖动，释放后自动贴边 （默认）
+                    //MoveType.back : 可拖动，释放后自动回到原位置
+                    //MoveType.active : 可拖动
+                    //MoveType.inactive : 不可拖动
+                    .setMoveType(MoveType.active)
+//                    .setMoveStyle(500, new AccelerateInterpolator())  //贴边动画时长为500ms，加速插值器
+                    .build();
+
+            imageView.setOnClickListener(v -> Toast.makeText(getApplicationContext(), "别点了笨蛋！", Toast.LENGTH_SHORT).show());
+        }
+    }
+
+    private PermissionListener mPermissionListener = new PermissionListener() {
+        @Override
+        public void onSuccess() {
+            Log.d(TAG, "onSuccess");
+        }
+
+        @Override
+        public void onFail() {
+            Log.d(TAG, "onFail");
+        }
+    };
+
+    private ViewStateListener mViewStateListener = new ViewStateListener() {
+        @Override
+        public void onPositionUpdate(int x, int y) {
+            Log.d(TAG, "onPositionUpdate: x=" + x + " y=" + y);
+        }
+
+        @Override
+        public void onShow() {
+            Log.d(TAG, "onShow");
+        }
+
+        @Override
+        public void onHide() {
+            Log.d(TAG, "onHide");
+        }
+
+        @Override
+        public void onDismiss() {
+            Log.d(TAG, "onDismiss");
+        }
+
+        @Override
+        public void onMoveAnimStart() {
+            Log.d(TAG, "onMoveAnimStart");
+        }
+
+        @Override
+        public void onMoveAnimEnd() {
+            Log.d(TAG, "onMoveAnimEnd");
+        }
+
+        @Override
+        public void onBackToDesktop() {
+            Log.d(TAG, "onBackToDesktop");
+        }
+    };
 }

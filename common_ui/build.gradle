@@ -64,4 +64,6 @@ dependencies {
     //拼音
     api 'com.github.promeg:tinypinyin:2.0.3'
     api 'io.reactivex:rxandroid:1.2.1'
+    //FloatWindow
+    api 'com.github.yhaolpz:FloatWindow:1.0.9'
 }

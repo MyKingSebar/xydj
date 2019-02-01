@@ -36,6 +36,5 @@ dependencies {
     //视频处理
     api 'com.mabeijianxi:small-video-record2:2.0.3@aar'
     api project(':common_xfyun')
-    //腾讯互动直播  远程监控
-    api project(':common_tencentmonitor')
+    api project(':common_tencent_tuikit')
 }

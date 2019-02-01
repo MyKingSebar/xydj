@@ -147,7 +147,12 @@ public class FriendsDelegate extends BottomItemDelegate implements HeadLayout.On
                 String identifier = friendsBeans.get(position).getIdentifier();
                 String nickname = friendsBeans.get(position).getNickname();
                 Log.e("qqqq", "onItemClick: " + nickname);
-                 getParentDelegate().getSupportDelegate().start(new ConversationTencentDelegate(identifier,nickname));
+                ConversationTencentDelegate delegate=new ConversationTencentDelegate();
+                 Bundle mArgs = new Bundle();
+                mArgs.putString("identifier",identifier);
+                mArgs.putString("nickname",nickname);
+                delegate.setArguments(mArgs);
+                 getParentDelegate().getSupportDelegate().start(delegate);
             }
         });
     }

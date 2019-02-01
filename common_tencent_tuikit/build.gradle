@@ -28,4 +28,5 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     api project(':tuikit')
+    annotationProcessor 'com.jakewharton:butterknife-compiler:9.0.0-rc2'
 }

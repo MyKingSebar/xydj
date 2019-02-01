@@ -17,13 +17,20 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 
-@SuppressLint("ValidFragment")
 public class ConversationTencentDelegate extends LatteDelegate {
     private String identifier;
     private String nickName;
 
     @BindView(R2.id.text_chat)
     TextView text_chat=null;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        final Bundle args = getArguments();
+        identifier=args.getString("identifier");
+        nickName=args.getString("nickname");
+    }
 
     @Override
     public Object setLayout() {
@@ -49,12 +56,6 @@ public class ConversationTencentDelegate extends LatteDelegate {
 //        chatPanel.setBaseChatId(identifier);
     }
 
-    @SuppressLint("ValidFragment")
-    public ConversationTencentDelegate(String identifier, String nickName) {
-        super();
-        this.identifier = identifier;
-        this.nickName = nickName;
-    }
 
 
 

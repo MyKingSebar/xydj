@@ -46,7 +46,7 @@ public class ExampleActivity extends ProxyActivity implements
         ISignListener,
         ILauncherListener {
     String TAG = "ExampleActivity.DEBUG";
-
+public static boolean isShowFlout=false;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +56,11 @@ public class ExampleActivity extends ProxyActivity implements
         }
         Latte.getConfigurator().withActivity(this);
         StatusBarCompat.translucentStatusBar(this, true);
-        showFlout();
+        if(!isShowFlout){
+            showFlout();
+            isShowFlout=true;
+        }
+
 
     }
 
@@ -145,10 +149,10 @@ public class ExampleActivity extends ProxyActivity implements
     }
 
     private void goMain() {
-        String jRegistrationID = JPushInterface.getRegistrationID(getApplicationContext());
-        LatteLogger.e("jialei", "jRegistrationID:" + jRegistrationID);
-        Log.e("jialei", "jRegistrationID:" + jRegistrationID);
-        initJRegistrationID(jRegistrationID);
+//        String jRegistrationID = JPushInterface.getRegistrationID(getApplicationContext());
+//        LatteLogger.e("jialei", "jRegistrationID:" + jRegistrationID);
+//        Log.e("jialei", "jRegistrationID:" + jRegistrationID);
+//        initJRegistrationID(jRegistrationID);
         getSupportDelegate().startWithPop(new YjBottomDelegate());
     }
 

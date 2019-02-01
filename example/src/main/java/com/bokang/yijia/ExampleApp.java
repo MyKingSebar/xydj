@@ -48,6 +48,7 @@ public class ExampleApp extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
         initSpiderMan();
+        initTencentTuiKit();
         initLatte();
         initStetho();
         initNineGrideView();
@@ -58,10 +59,9 @@ public class ExampleApp extends MultiDexApplication {
         initFragmentDeBug();
         initJpush();
         initCallBack();
-        initTencentTuiKit();
     }
 
-    private void initSpiderMan() {
+    private void initSpiderMan(){
         //放在其他库初始化前
         SpiderMan.init(this);
     }

@@ -12,7 +12,9 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.example.common_tencent_tuikit.ConversationTencentDelegate;
 import com.example.latte.delegates.bottom.BottomItemDelegate;
 import com.example.latte.ec.R;
 import com.example.latte.ec.R2;
@@ -32,7 +34,6 @@ import java.util.List;
 
 import butterknife.BindView;
 
-import static com.example.latte.ec.R2.id.nickname;
 
 /**
  * 亲友团列表
@@ -121,12 +122,13 @@ public class FriendsDelegate extends BottomItemDelegate implements HeadLayout.On
         noFriends.setVisibility(View.GONE);
         for (int i = 0; i < friends.size(); i++) {
             final JSONObject jsonObject = friends.getJSONObject(i);
+            Log.e("qqqq", "respFriendsSuccess: "+jsonObject.toJSONString() );
             final String friendUserId = jsonObject.getString("friendUserId");
             final String nickname = jsonObject.getString("nickname");
             final String realName = jsonObject.getString("realName");
             final String userStatus = jsonObject.getString("userStatus");
             final String userHead = jsonObject.getString("userHead");
-            final String identifier = jsonObject.getString("identifier");
+            final String identifier = jsonObject.getString("tencentImUserId");
             FriendsBean friendsBean = new FriendsBean(friendUserId, nickname, realName, userStatus, userHead, identifier);
             friendsBeans.add(friendsBean);
         }
@@ -143,7 +145,9 @@ public class FriendsDelegate extends BottomItemDelegate implements HeadLayout.On
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 String identifier = friendsBeans.get(position).getIdentifier();
-                Log.e("qqqq", "onItemClick: " + identifier);
+                String nickname = friendsBeans.get(position).getNickname();
+                Log.e("qqqq", "onItemClick: " + nickname);
+                 getParentDelegate().getSupportDelegate().start(new ConversationTencentDelegate(identifier,nickname));
             }
         });
     }

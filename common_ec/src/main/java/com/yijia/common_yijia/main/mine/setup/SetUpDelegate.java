@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +17,12 @@ import com.example.latte.delegates.LatteDelegate;
 import com.example.latte.ec.R;
 import com.example.latte.ec.R2;
 import com.example.latte.ui.widget.HeadLayout;
+import com.tencent.imsdk.TIMCallBack;
+import com.tencent.imsdk.TIMManager;
 import com.yijia.common_yijia.database.YjDatabaseManager;
 import com.yijia.common_yijia.main.mine.NodisturbDelegate;
 import com.yijia.common_yijia.sign.SignInDelegate;
+import com.yijia.common_yijia.sign.SignInNoteOnlyDelegate;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -101,23 +105,23 @@ public class SetUpDelegate extends LatteDelegate implements HeadLayout.OnClickHe
                 AccountManager.setSignState(false);
                 YjDatabaseManager.getInstance().getDao().deleteAll();
                 // TODO: 腾讯登出操作
-//                //腾讯IM登出
-//                TIMManager.getInstance().logout(new TIMCallBack() {
-//                    @Override
-//                    public void onError(int code, String desc) {
-//                        //错误码 code 和错误描述 desc，可用于定位请求失败原因
-//                        //错误码 code 列表请参见错误码表
-//                        Log.d("tengxun", "logout failed. code: " + code + " errmsg: " + desc);
-//                    }
-//                    @Override
-//                    public void onSuccess() {
-//                        //登出成功
-//                        Log.d("tengxun", "登出成功");
-//                    }
-//                });
+                //腾讯IM登出
+                TIMManager.getInstance().logout(new TIMCallBack() {
+                    @Override
+                    public void onError(int code, String desc) {
+                        //错误码 code 和错误描述 desc，可用于定位请求失败原因
+                        //错误码 code 列表请参见错误码表
+                        Log.d("tengxun", "logout failed. code: " + code + " errmsg: " + desc);
+                    }
+                    @Override
+                    public void onSuccess() {
+                        //登出成功
+                        Log.d("tengxun", "登出成功");
+                    }
+                });
 
                 getSupportDelegate().pop();
-                getSupportDelegate().startWithPop(new SignInDelegate());
+                getSupportDelegate().startWithPop(new SignInNoteOnlyDelegate());
             }
         });
         builder.setNegativeButton("取消", null);

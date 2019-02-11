@@ -14,7 +14,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-
+import com.example.common_tencent_tuikit.ConversationTencentDelegate;
 import com.example.latte.delegates.bottom.BottomItemDelegate;
 import com.example.latte.ec.R;
 import com.example.latte.ec.R2;
@@ -147,7 +147,12 @@ public class FriendsDelegate extends BottomItemDelegate implements HeadLayout.On
                 String identifier = friendsBeans.get(position).getIdentifier();
                 String nickname = friendsBeans.get(position).getNickname();
                 Log.e("qqqq", "onItemClick: " + nickname);
-                // getParentDelegate().getSupportDelegate().start(new ConversationTencentDelegate(identifier,nickname));
+                ConversationTencentDelegate delegate=new ConversationTencentDelegate();
+                 Bundle mArgs = new Bundle();
+                mArgs.putString("identifier",identifier);
+                mArgs.putString("nickname",nickname);
+                delegate.setArguments(mArgs);
+                 getParentDelegate().getSupportDelegate().start(delegate);
             }
         });
     }

@@ -9,6 +9,6 @@ public class TuiKitConfig {
     public static final int SDKAPPID=1400181535;
 
     public static void initTencentTuiKit(Context context){
-        TUIKit.init(context,1400181535, BaseUIKitConfigs.getDefaultConfigs());
+        TUIKit.init(context,SDKAPPID, BaseUIKitConfigs.getDefaultConfigs());
     }
 }

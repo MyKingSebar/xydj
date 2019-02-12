@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.example.session.SessionFragment;
 import com.yijia.common_yijia.main.message.view.fragment.NoticeDelegate;
 import com.yijia.common_yijia.main.message.view.fragment.SessionDelegate;
 
@@ -25,7 +26,7 @@ public class MessageTabPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
         if (position == 0) {
-            return new SessionDelegate();
+            return new SessionFragment();
 
         } else if (position == 1) {
             return new NoticeDelegate();

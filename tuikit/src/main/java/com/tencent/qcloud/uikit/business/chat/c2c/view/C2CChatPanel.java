@@ -21,9 +21,6 @@ import com.tencent.qcloud.uikit.common.component.titlebar.PageTitleBar;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by valxehuang on 2018/7/18.
- */
 
 public class C2CChatPanel extends ChatPanel implements IChatPanel {
 

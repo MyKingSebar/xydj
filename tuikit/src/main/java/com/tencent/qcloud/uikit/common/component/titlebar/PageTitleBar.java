@@ -2,6 +2,7 @@ package com.tencent.qcloud.uikit.common.component.titlebar;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -9,9 +10,6 @@ import android.widget.TextView;
 
 import com.tencent.qcloud.uikit.R;
 
-/**
- * Created by valxehuang on 2018/7/27.
- */
 
 public class PageTitleBar extends LinearLayout {
     public enum POSITION {
@@ -19,10 +17,16 @@ public class PageTitleBar extends LinearLayout {
         CENTER,
         RIGHT;
     }
+    public enum BOTTOMRECYCLETYPE {
+        SELF,
+        DOCTEAM,
+        FRIEND;
+    }
 
     public LinearLayout mLeftGroup, mRightGroup;
     public TextView mLeftTitle, mRightTitle, mCenterTitle;
     public ImageView mLeftIcon, mRightIcon;
+    public RecyclerView mBottomRecycle;
 
     public PageTitleBar(Context context) {
         super(context);
@@ -48,6 +52,7 @@ public class PageTitleBar extends LinearLayout {
         mCenterTitle = findViewById(R.id.page_title);
         mLeftIcon = findViewById(R.id.page_title_left_icon);
         mRightIcon = findViewById(R.id.page_title_right_icon);
+        mBottomRecycle = findViewById(R.id.page_title_bottom_recycle);
 
     }
 
@@ -63,6 +68,9 @@ public class PageTitleBar extends LinearLayout {
                 mCenterTitle.setText(title);
                 break;
         }
+    }
+    public RecyclerView getmBottomRecycle(){
+        return mBottomRecycle;
     }
 
     public LinearLayout getLeftGroup() {

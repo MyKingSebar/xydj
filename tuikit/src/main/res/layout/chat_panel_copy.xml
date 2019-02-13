@@ -14,7 +14,7 @@
     <com.tencent.qcloud.uikit.common.component.titlebar.PageTitleBar
         android:id="@+id/chat_page_title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="@dimen/page_title_height" />
 
     <com.tencent.qcloud.uikit.business.chat.view.ChatBottomInputGroup
         android:id="@+id/chat_bottom_box"

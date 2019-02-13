@@ -3,20 +3,24 @@ package com.example.common_tencent_tuikit.chat;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.common_tencent_tuikit.Constants;
 import com.example.common_tencent_tuikit.R;
+import com.example.common_tencent_tuikit.chat.title_bottom.ChatTitieBottomAdapter;
+import com.example.common_tencent_tuikit.chat.title_bottom.TitleBottomItemListener;
+import com.example.common_tencent_tuikit.chat.title_bottom.TitleBottomPersonalChatDataConverter;
 import com.example.latte.delegates.LatteDelegate;
+import com.example.latte.ui.recycler.MultipleItemEntity;
 import com.tencent.qcloud.uikit.business.chat.c2c.view.C2CChatPanel;
-import com.tencent.qcloud.uikit.business.chat.view.ChatBottomInputGroup;
 import com.tencent.qcloud.uikit.common.component.titlebar.PageTitleBar;
 
-/**
- * Created by valxehuang on 2018/7/30.
- */
+import java.util.ArrayList;
+
 
 public class PersonalChatFragment extends LatteDelegate {
     private View mBaseView;
@@ -24,6 +28,10 @@ public class PersonalChatFragment extends LatteDelegate {
     private PageTitleBar chatTitleBar;
 //    private ChatBottomInputGroup mInputGroup;
     private String chatId;
+
+    private RecyclerView mRecycleView=null;
+    private ChatTitieBottomAdapter mChatTitieBottomAdapter=null;
+    private TitleBottomItemListener mTitleBottomItemListener=null;
 
     @Override
     public Object setLayout() {
@@ -76,6 +84,32 @@ public class PersonalChatFragment extends LatteDelegate {
                 getSupportDelegate().pop();
             }
         });
+        //单聊面板 标题下方功能栏
+        mRecycleView=chatTitleBar.getmBottomRecycle();
+        initBottomRecycle();
+
+    }
+    private void initBottomRecycle() {
+        mChatTitieBottomAdapter = new ChatTitieBottomAdapter(initTitleBottomData());
+        mChatTitieBottomAdapter.setCartItemListener(initTitleBottomItemListener());
+        final LinearLayoutManager manager = new LinearLayoutManager(getContext());
+        //调整RecyclerView的排列方向
+        manager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        mRecycleView.setLayoutManager(manager);
+        mRecycleView.setAdapter(mChatTitieBottomAdapter);
+    }
+
+    private TitleBottomItemListener initTitleBottomItemListener() {
+        mTitleBottomItemListener= (id, rongId, name) -> {
+
+        };
+        return mTitleBottomItemListener;
+    }
+    private ArrayList<MultipleItemEntity> initTitleBottomData(){
+        final ArrayList<MultipleItemEntity> data =
+                new TitleBottomPersonalChatDataConverter()
+                        .convert();
+        return data;
     }
 
 }

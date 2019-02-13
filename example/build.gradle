@@ -21,7 +21,9 @@ android {
 
         ndk {
             //选择要添加的对应cpu类型的.so库。
-            abiFilters 'armeabi', 'armeabi-v7a', 'armeabi-v8a', 'x86', 'x86_64', 'mips', 'mips64'
+//            abiFilters 'armeabi', 'armeabi-v7a', 'armeabi-v8a', 'x86', 'x86_64', 'mips', 'mips64'
+            //目前 TRTC SDK 支持 armeabi 和 armeabi-v7a
+            abiFilters "armeabi", "armeabi-v7a"
         }
         /*basepopuwindow Start*/
         renderscriptTargetApi 25
@@ -48,6 +50,12 @@ android {
         }
     }
     buildToolsVersion '28.0.3'
+
+    repositories{
+        flatDir{
+            dirs 'libs', '/../tencent_trtc_sdk/libs'
+        }
+    }
 }
 
 

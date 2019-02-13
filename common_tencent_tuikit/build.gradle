@@ -27,10 +27,17 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    repositories{
+        flatDir{
+            dirs 'libs', '/../tencent_trtc_sdk/libs'
+        }
+    }
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     api project(':tuikit')
     annotationProcessor 'com.jakewharton:butterknife-compiler:9.0.0-rc2'
+    api project(':tencent_trtc_sdk')
 }

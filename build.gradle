@@ -22,7 +22,18 @@ buildscript {
     }
 }
 
-
+allprojects {
+    repositories {
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/'}
+        google()
+        mavenCentral()
+        maven { url 'https://maven.google.com' }
+        jcenter()
+        flatDir {
+            dirs 'libs'
+        }
+    }
+}
 
 //subprojects {
 //    project.configurations.all {

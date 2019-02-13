@@ -1,0 +1,37 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        minSdkVersion 16
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+//        ndk {
+//            //目前 TRTC SDK 支持 armeabi 和 armeabi-v7a
+//            abiFilters "armeabi", "armeabi-v7a"
+//        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+repositories{
+    flatDir{
+        dirs 'libs'
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    //TRTC SDK
+//    api 'com.tencent.liteav:LiteAVSDK_TRTC:6.0.1688'
+    api(name: 'LiteAVSDK_TRTC_6.1.6454', ext: 'aar')
+}

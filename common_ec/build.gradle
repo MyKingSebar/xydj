@@ -24,6 +24,11 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
     buildToolsVersion '28.0.3'
+    repositories{
+        flatDir{
+            dirs 'libs', '/../tencent_trtc_sdk/libs'
+        }
+    }
 }
 
 dependencies {

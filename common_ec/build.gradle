@@ -42,4 +42,7 @@ dependencies {
     api 'com.mabeijianxi:small-video-record2:2.0.3@aar'
     api project(':common_xfyun')
     api project(':common_tencent_tuikit')
+    //极光
+    api 'cn.jiguang.sdk:jpush:3.1.8'
+    api 'cn.jiguang.sdk:jcore:1.2.7'
 }

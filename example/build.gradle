@@ -23,7 +23,9 @@ android {
             //选择要添加的对应cpu类型的.so库。
 //            abiFilters 'armeabi', 'armeabi-v7a', 'armeabi-v8a', 'x86', 'x86_64', 'mips', 'mips64'
             //目前 TRTC SDK 支持 armeabi 和 armeabi-v7a
-            abiFilters "armeabi", "armeabi-v7a"
+//            abiFilters "armeabi", "armeabi-v7a"
+            //TUIKIT目前仅提供armeabi-v7a的so库
+            abiFilters 'armeabi-v7a'
         }
         /*basepopuwindow Start*/
         renderscriptTargetApi 25
@@ -110,8 +112,7 @@ dependencies {
     //    implementation 'com.android.support:appcompat-v7:26.1.0'
     api 'com.facebook.stetho:stetho:1.5.0'
     api 'com.facebook.stetho:stetho-okhttp3:1.5.0'
-    api 'cn.jiguang.sdk:jpush:3.1.8'
-    api 'cn.jiguang.sdk:jcore:1.2.7'
+
     api 'com.android.support:multidex:1.0.3'
     annotationProcessor "com.github.hotchemi:permissionsdispatcher-processor:2.4.0"
     implementation 'me.jessyan:autosize:1.1.1'

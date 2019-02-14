@@ -53,7 +53,7 @@ public final class ChatTitieBottomAdapter extends MultipleRecyclerAdapter {
                 llc.setOnClickListener(v -> {
                     if (mTitleBottomItemListener != null) {
 //                        final Long id1 = entity.getField(MultipleFields.ID);
-//                        mTitleBottomItemListener.onFriendsItemClick(id1, rongCloudToken, name);
+//                        mTitleBottomItemListener.onTitleBottomItemClick(,childType,name);
                     }
                 });
 

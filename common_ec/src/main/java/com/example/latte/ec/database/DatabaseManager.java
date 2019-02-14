@@ -35,6 +35,7 @@ public class DatabaseManager {
         mDao = mDaoSession.getUserProfileDao();
     }
 
+
     public final UserProfileDao getDao(){
         return mDao;
     }

@@ -48,17 +48,18 @@ public class ExampleApp extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
         initSpiderMan();
+//        initJpush();
+//        initCallBack();
         initTencentTuiKit();
         initLatte();
         initStetho();
         initNineGrideView();
 //        initSmallVideo();
         initXfYun();
-        DatabaseManager.getInstance().init(this);
+//        DatabaseManager.getInstance().init(this);
         YjDatabaseManager.getInstance().init(this);
-        initFragmentDeBug();
-        initJpush();
-        initCallBack();
+//        initFragmentDeBug();
+
     }
 
     private void initSpiderMan(){
@@ -74,14 +75,14 @@ public class ExampleApp extends MultiDexApplication {
                 .withLoaderDelayed(1000)
                 .withApiHost("http://47.104.86.251:8080/")
                 .withInterceptor(new DebugInterceptor("test", R.raw.test))
-                .withWeChatAppId("你的微信AppKey")
-                .withWeChatAppSecret("你的微信AppSecret")
-                .withJavascriptInterface("latte")
-                .withWebEvent("test", new TestEvent())
+//                .withWeChatAppId("你的微信AppKey")
+//                .withWeChatAppSecret("你的微信AppSecret")
+//                .withJavascriptInterface("latte")
+//                .withWebEvent("test", new TestEvent())
 //                .withWebEvent("share", new ShareEvent())
                 //添加Cookie同步拦截器
-                .withWebHost("www.baidu.com/")
-                .withInterceptor(new AddCookieInterceptor())
+//                .withWebHost("www.baidu.com/")
+//                .withInterceptor(new AddCookieInterceptor())
                 .configure();
     }
 

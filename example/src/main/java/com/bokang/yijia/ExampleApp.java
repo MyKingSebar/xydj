@@ -48,8 +48,8 @@ public class ExampleApp extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
         initSpiderMan();
-//        initJpush();
-//        initCallBack();
+        initJpush();
+        initCallBack();
         initTencentTuiKit();
         initLatte();
         initStetho();

@@ -4,9 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.example.session.SessionFragment;
+import com.yijia.common_yijia.main.message.trtc.session.SessionFragment;
 import com.yijia.common_yijia.main.message.view.fragment.NoticeDelegate;
-import com.yijia.common_yijia.main.message.view.fragment.SessionDelegate;
 
 import java.util.ArrayList;
 

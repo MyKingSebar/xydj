@@ -40,6 +40,7 @@ public class ConversationTencentDelegate extends LatteDelegate {
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, @NonNull View rootView) {
 //        text_chat.setText(111+"");
+        String s="1";
         initview(rootView);
     }
 

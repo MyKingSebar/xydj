@@ -50,7 +50,7 @@ public class ExampleApp extends MultiDexApplication {
         initSpiderMan();
         initJpush();
         initCallBack();
-        initTencentTuiKit();
+//        initTencentTuiKit();
         initLatte();
         initStetho();
         initNineGrideView();
@@ -58,7 +58,7 @@ public class ExampleApp extends MultiDexApplication {
         initXfYun();
 //        DatabaseManager.getInstance().init(this);
         YjDatabaseManager.getInstance().init(this);
-//        initFragmentDeBug();
+        initFragmentDeBug();
 
     }
 

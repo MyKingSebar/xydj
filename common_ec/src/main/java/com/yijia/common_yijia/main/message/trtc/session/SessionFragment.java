@@ -1,4 +1,4 @@
-package com.example.session;
+package com.yijia.common_yijia.main.message.trtc.session;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -7,12 +7,12 @@ import android.view.View;
 
 import com.example.common_tencent_tuikit.Constants;
 import com.example.common_tencent_tuikit.R;
-import com.example.common_tencent_tuikit.chat.GroupChatFragment;
-import com.example.common_tencent_tuikit.chat.PersonalChatFragment;
 import com.example.latte.delegates.LatteDelegate;
 import com.tencent.qcloud.uikit.business.session.model.SessionInfo;
 import com.tencent.qcloud.uikit.business.session.view.SessionPanel;
 import com.tencent.qcloud.uikit.business.session.view.wedgit.SessionClickListener;
+import com.yijia.common_yijia.main.message.trtc.GroupChatFragment;
+import com.yijia.common_yijia.main.message.trtc.PersonalChatFragment;
 
 
 public class SessionFragment extends LatteDelegate implements SessionClickListener {

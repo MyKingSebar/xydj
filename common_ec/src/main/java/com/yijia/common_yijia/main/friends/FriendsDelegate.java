@@ -14,6 +14,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.example.common_tencent_tuikit.Constants;
 import com.example.common_tencent_tuikit.ConversationTencentDelegate;
 import com.example.latte.delegates.bottom.BottomItemDelegate;
 import com.example.latte.ec.R;
@@ -28,6 +29,7 @@ import com.yijia.common_yijia.main.friends.bean.GuardianBean;
 import com.yijia.common_yijia.main.friends.presenter.FriendsPresenter;
 import com.yijia.common_yijia.main.friends.view.iview.FriendsView;
 import com.yijia.common_yijia.main.friends.view.fragment.AddFriendsDelegate;
+import com.yijia.common_yijia.main.message.trtc.PersonalChatFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,6 +64,7 @@ public class FriendsDelegate extends BottomItemDelegate implements HeadLayout.On
     //监护人列表
     private List<GuardianBean> guardianBeans;
 
+    PersonalChatFragment mCurrentFragment=null;
 
     @Override
     public Object setLayout() {
@@ -147,12 +150,18 @@ public class FriendsDelegate extends BottomItemDelegate implements HeadLayout.On
                 String identifier = friendsBeans.get(position).getIdentifier();
                 String nickname = friendsBeans.get(position).getNickname();
                 Log.e("qqqq", "onItemClick: " + nickname);
-                ConversationTencentDelegate delegate=new ConversationTencentDelegate();
-                 Bundle mArgs = new Bundle();
-                mArgs.putString("identifier",identifier);
-                mArgs.putString("nickname",nickname);
-                delegate.setArguments(mArgs);
-                 getParentDelegate().getSupportDelegate().start(delegate);
+                Bundle mArgs = new Bundle();
+                mArgs.putString(Constants.INTENT_DATA, identifier);
+                mCurrentFragment = new PersonalChatFragment();
+                mCurrentFragment.setArguments(mArgs);
+                getParentDelegate().getSupportDelegate().start(mCurrentFragment);
+
+//                ConversationTencentDelegate delegate=new ConversationTencentDelegate();
+//                 Bundle mArgs = new Bundle();
+//                mArgs.putString("identifier",identifier);
+//                mArgs.putString("nickname",nickname);
+//                delegate.setArguments(mArgs);
+//                 getParentDelegate().getSupportDelegate().start(delegate);
             }
         });
     }

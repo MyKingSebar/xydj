@@ -1,4 +1,4 @@
-package com.example.common_tencent_tuikit.chat;
+package com.yijia.common_yijia.main.message.trtc;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;

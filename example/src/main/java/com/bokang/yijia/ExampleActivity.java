@@ -12,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
+import com.bokang.tencent_trtc_sdk.TrtcConfig;
+import com.example.common_tencent_tuikit.TuiKitConfig;
 import com.example.latte.activities.ProxyActivity;
 import com.example.latte.app.AccountManager;
 import com.example.latte.app.IUserChecker;
@@ -31,6 +33,7 @@ import com.yhao.floatwindow.PermissionListener;
 import com.yhao.floatwindow.Screen;
 import com.yhao.floatwindow.ViewStateListener;
 import com.yijia.common_yijia.database.YjDatabaseManager;
+import com.yijia.common_yijia.main.message.trtc.TRTCMainActivity;
 import com.yijia.common_yijia.sign.ISignListener;
 import com.yijia.common_yijia.sign.SignInDelegate;
 import com.yijia.common_yijia.sign.SignInNoteOnlyDelegate;
@@ -63,7 +66,7 @@ public static boolean isShowFlout=false;
             isShowFlout=true;
         }
 
-
+        initTencentTuiKit();
     }
 
     @Override
@@ -78,7 +81,7 @@ public static boolean isShowFlout=false;
 
     @Override
     public void onSignInSuccess() {
-        Toast.makeText(this, "登录成功", Toast.LENGTH_LONG).show();
+//        Toast.makeText(this, "登录成功", Toast.LENGTH_LONG).show();
 //        getSupportDelegate().startWithPop(new YjBottomDelegate());
         AccountManager.checkAccont(new IUserChecker() {
             @Override
@@ -151,6 +154,7 @@ public static boolean isShowFlout=false;
     }
 
     private void goMain() {
+        Log.e("qqqq","goMain");
 //        String jRegistrationID = JPushInterface.getRegistrationID(getApplicationContext());
 //        LatteLogger.e("jialei", "jRegistrationID:" + jRegistrationID);
 //        Log.e("jialei", "jRegistrationID:" + jRegistrationID);
@@ -162,6 +166,7 @@ public static boolean isShowFlout=false;
     private static void loginTencentIM() {
         String tencentImUserId = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getTencentImUserId();
         String tencentImUserSig = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getTencentImUserSig();
+        Log.e("qqqq","tencentImUserId:"+tencentImUserId+",tencentImUserSig:"+tencentImUserSig);
         TUIKit.login(tencentImUserId, tencentImUserSig, new IUIKitCallBack() {
             @Override
             public void onSuccess(Object data) {
@@ -170,7 +175,7 @@ public static boolean isShowFlout=false;
 
             @Override
             public void onError(String module, int errCode, String errMsg) {
-                Log.e("qqqq", errMsg);
+                Log.e("qqqq","onerror"+ errMsg);
             }
         });
     }
@@ -231,7 +236,23 @@ public static boolean isShowFlout=false;
 //                    .setMoveStyle(500, new AccelerateInterpolator())  //贴边动画时长为500ms，加速插值器
                     .build();
 
-            imageView.setOnClickListener(v -> Toast.makeText(getApplicationContext(), "别点了笨蛋！", Toast.LENGTH_SHORT).show());
+            imageView.setOnClickListener(v -> {
+                String sig = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getTencentImUserSig();
+                String userId = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getTencentImUserId();
+                final Intent intent = new Intent(ExampleActivity.this, TRTCMainActivity.class);
+                intent.putExtra("roomId", 100);
+                intent.putExtra("userId", userId);
+                intent.putExtra("sdkAppId", TrtcConfig.SDKAPPID);
+                intent.putExtra("userSig", sig);
+                //TODO 需要指定会话ID（即聊天对象的identify，具体可参考IMSDK接入文档）
+//            intent.putExtra("chatId", chatId);
+                startActivity(intent);
+            });
+//            imageView.setOnClickListener(v ->
+//
+//                    Toast.makeText(getApplicationContext(), "别点了笨蛋！", Toast.LENGTH_SHORT).show()
+//
+//            );
         }
     }
 
@@ -283,4 +304,8 @@ public static boolean isShowFlout=false;
             Log.d(TAG, "onBackToDesktop");
         }
     };
+
+    private void initTencentTuiKit() {
+        TuiKitConfig.initTencentTuiKit(getApplicationContext());
+    }
 }

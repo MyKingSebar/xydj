@@ -1,23 +1,29 @@
-package com.example.common_tencent_tuikit.chat;
+package com.yijia.common_yijia.main.message.trtc;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bokang.tencent_trtc_sdk.TrtcConfig;
 import com.example.common_tencent_tuikit.Constants;
 import com.example.common_tencent_tuikit.R;
 import com.example.common_tencent_tuikit.chat.title_bottom.ChatTitieBottomAdapter;
+import com.example.common_tencent_tuikit.chat.title_bottom.TitleBottomChildType;
 import com.example.common_tencent_tuikit.chat.title_bottom.TitleBottomItemListener;
 import com.example.common_tencent_tuikit.chat.title_bottom.TitleBottomPersonalChatDataConverter;
 import com.example.latte.delegates.LatteDelegate;
 import com.example.latte.ui.recycler.MultipleItemEntity;
 import com.tencent.qcloud.uikit.business.chat.c2c.view.C2CChatPanel;
 import com.tencent.qcloud.uikit.common.component.titlebar.PageTitleBar;
+import com.yijia.common_yijia.database.YjDatabaseManager;
 
 import java.util.ArrayList;
 
@@ -26,12 +32,12 @@ public class PersonalChatFragment extends LatteDelegate {
     private View mBaseView;
     private C2CChatPanel chatPanel;
     private PageTitleBar chatTitleBar;
-//    private ChatBottomInputGroup mInputGroup;
+    //    private ChatBottomInputGroup mInputGroup;
     private String chatId;
 
-    private RecyclerView mRecycleView=null;
-    private ChatTitieBottomAdapter mChatTitieBottomAdapter=null;
-    private TitleBottomItemListener mTitleBottomItemListener=null;
+    private RecyclerView mRecycleView = null;
+    private ChatTitieBottomAdapter mChatTitieBottomAdapter = null;
+    private TitleBottomItemListener mTitleBottomItemListener = null;
 
     @Override
     public Object setLayout() {
@@ -85,10 +91,11 @@ public class PersonalChatFragment extends LatteDelegate {
             }
         });
         //单聊面板 标题下方功能栏
-        mRecycleView=chatTitleBar.getmBottomRecycle();
+        mRecycleView = chatTitleBar.getmBottomRecycle();
         initBottomRecycle();
 
     }
+
     private void initBottomRecycle() {
         mChatTitieBottomAdapter = new ChatTitieBottomAdapter(initTitleBottomData());
         mChatTitieBottomAdapter.setCartItemListener(initTitleBottomItemListener());
@@ -100,12 +107,28 @@ public class PersonalChatFragment extends LatteDelegate {
     }
 
     private TitleBottomItemListener initTitleBottomItemListener() {
-        mTitleBottomItemListener= (id, rongId, name) -> {
-
+        mTitleBottomItemListener = (type, name) -> {
+            Log.d("jialei","type:"+type);
+            if (type == null) {
+                return;
+            }
+            if (TextUtils.equals(type, TitleBottomChildType.AUDIOCALL.name())) {
+                String sig = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getTencentImUserSig();
+                String userId = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getTencentImUserId();
+                final Intent intent = new Intent(getContext(), TRTCMainActivity.class);
+                intent.putExtra("roomId", 100);
+                intent.putExtra("userId", userId);
+                intent.putExtra("sdkAppId", TrtcConfig.SDKAPPID);
+                intent.putExtra("userSig", sig);
+                //TODO 需要指定会话ID（即聊天对象的identify，具体可参考IMSDK接入文档）
+                intent.putExtra("chatId", chatId);
+                getActivity().startActivity(intent);
+            }
         };
         return mTitleBottomItemListener;
     }
-    private ArrayList<MultipleItemEntity> initTitleBottomData(){
+
+    private ArrayList<MultipleItemEntity> initTitleBottomData() {
         final ArrayList<MultipleItemEntity> data =
                 new TitleBottomPersonalChatDataConverter()
                         .convert();

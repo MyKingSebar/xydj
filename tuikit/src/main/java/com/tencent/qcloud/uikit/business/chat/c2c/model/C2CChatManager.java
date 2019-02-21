@@ -247,6 +247,7 @@ public class C2CChatManager implements TIMMessageListener, UIKitMessageRevokedMa
         for (TIMMessage msg : msgs) {
             TIMConversation conversation = msg.getConversation();
             TIMConversationType type = conversation.getType();
+
             if (type == TIMConversationType.C2C) {
                 QLog.i(TAG, "onNewMessages::: " + msg);
                 onReceiveMessage(conversation, msg);
@@ -257,8 +258,10 @@ public class C2CChatManager implements TIMMessageListener, UIKitMessageRevokedMa
     }
 
     private void onReceiveMessage(final TIMConversation conversation, final TIMMessage msg) {
-        if (conversation == null || conversation.getPeer() == null || mCurrentChatInfo == null)
+        if (conversation == null || conversation.getPeer() == null || mCurrentChatInfo == null) {
+            QLog.i(TAG, "onReceiveMessage::: " + (conversation == null) + (conversation.getPeer() == null) + (mCurrentChatInfo == null));
             return;
+        }
         //图片，视频类的消息先把快照下载了再通知用户
         /*
         现在用占位图，直接通知用户了
@@ -278,9 +281,13 @@ public class C2CChatManager implements TIMMessageListener, UIKitMessageRevokedMa
         executeMessage(conversation, msg);
     }
 
+
     private void executeMessage(TIMConversation conversation, TIMMessage msg) {
         final MessageInfo msgInfo = MessageInfoUtil.TIMMessage2MessageInfo(msg, false);
-        if (msgInfo != null && mCurrentConversation != null && mCurrentConversation.getPeer().equals(conversation.getPeer())) {
+        Log.d("jialei","MSG_TYPE_BOKANGgetTIMMessage:"+msgInfo.getExtra());
+        if(msgInfo.getMsgType()==MessageInfo.MSG_TYPE_BOKANG){
+            Log.d("jialei","getMsgType:"+msgInfo.getMsgType());
+        }else if (msgInfo != null && mCurrentConversation != null && mCurrentConversation.getPeer().equals(conversation.getPeer())) {
             mCurrentProvider.addMessageInfo(msgInfo);
             msgInfo.setRead(true);
             mCurrentConversationExt.setReadMessage(null, new TIMCallBack() {

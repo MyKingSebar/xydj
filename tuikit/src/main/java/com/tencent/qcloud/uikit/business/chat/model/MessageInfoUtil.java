@@ -37,14 +37,20 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by valexhuang on 2018/8/6.
- */
 
 public class MessageInfoUtil {
 
     public static final String GROUP_CREATE = "group_create";
     public static final String GROUP_DELETE = "group_delete";
+    public static final String BOKANG = "bokang";
+
+    //博康自定义消息内容
+    //请求视频
+    public static final String BOKANG_VIDEO_WAIT = "video_wait";
+    //接收视频
+    public static final String BOKANG_VIDEO_CONNECT = "video_connect";
+    //拒绝接收视频
+    public static final String BOKANG_VIDEO_REFUSE = "video_refuse";
 
     public static MessageInfo buildTextMessage(String message) {
         MessageInfo info = new MessageInfo();
@@ -58,6 +64,24 @@ public class MessageInfoUtil {
         info.setTIMMessage(TIMMsg);
         info.setFromUser(TIMManager.getInstance().getLoginUser());
         info.setMsgType(MessageInfo.MSG_TYPE_TEXT);
+        return info;
+    }
+    public static MessageInfo buildBokangMessage(String message,String des) {
+        MessageInfo info = new MessageInfo();
+        TIMMessage TIMMsg = new TIMMessage();
+        TIMCustomElem ele =new TIMCustomElem();
+        ele.setData(MessageInfoUtil.BOKANG.getBytes());
+        ele.setExt(message.getBytes());
+        ele.setDesc(des);
+//        TIMTextElem ele = new TIMTextElem();
+//        ele.setText(message);
+        TIMMsg.addElement(ele);
+        info.setExtra(message);
+        info.setMsgTime(System.currentTimeMillis());
+        info.setSelf(true);
+        info.setTIMMessage(TIMMsg);
+        info.setFromUser(TIMManager.getInstance().getLoginUser());
+        info.setMsgType(MessageInfo.MSG_TYPE_BOKANG);
         return info;
     }
 
@@ -205,6 +229,7 @@ public class MessageInfoUtil {
     public static MessageInfo buildGroupCustomMessage(String action, String message) {
         MessageInfo info = new MessageInfo();
         TIMMessage TIMMsg = new TIMMessage();
+        //TODO 自定义消息类
         TIMCustomElem ele = new TIMCustomElem();
         ele.setData(action.getBytes());
         ele.setExt(message.getBytes());
@@ -282,6 +307,7 @@ public class MessageInfoUtil {
             }
 
             if (type == TIMElemType.Custom) {
+                //TODO 自定义消息接收
                 TIMCustomElem customElem = (TIMCustomElem) ele;
                 String data = new String(customElem.getData());
                 if (data.equals(GROUP_CREATE)) {

@@ -6,8 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.View;
-import android.view.animation.AccelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -25,7 +23,13 @@ import com.example.latte.net.rx.RxRestClient;
 import com.example.latte.ui.launcher.ILauncherListener;
 import com.example.latte.ui.launcher.OnLauncherFinishTag;
 import com.example.latte.util.log.LatteLogger;
+import com.tencent.imsdk.TIMConversation;
+import com.tencent.imsdk.TIMCustomElem;
 import com.tencent.qcloud.uikit.TUIKit;
+import com.tencent.qcloud.uikit.business.chat.bokang.BokangChatListener;
+import com.tencent.qcloud.uikit.business.chat.bokang.BokangChatManager;
+import com.tencent.qcloud.uikit.business.chat.c2c.model.C2CChatManager;
+import com.tencent.qcloud.uikit.business.chat.model.MessageInfoUtil;
 import com.tencent.qcloud.uikit.common.IUIKitCallBack;
 import com.yhao.floatwindow.FloatWindow;
 import com.yhao.floatwindow.MoveType;
@@ -33,25 +37,27 @@ import com.yhao.floatwindow.PermissionListener;
 import com.yhao.floatwindow.Screen;
 import com.yhao.floatwindow.ViewStateListener;
 import com.yijia.common_yijia.database.YjDatabaseManager;
+import com.yijia.common_yijia.main.message.trtc.CallIntentData;
+import com.yijia.common_yijia.main.message.trtc.CalledWaitingActivity;
 import com.yijia.common_yijia.main.message.trtc.TRTCMainActivity;
 import com.yijia.common_yijia.sign.ISignListener;
-import com.yijia.common_yijia.sign.SignInDelegate;
 import com.yijia.common_yijia.sign.SignInNoteOnlyDelegate;
 import com.yijia.common_yijia.sign.SignUpSecondDelegate;
 import com.yijia.common_yijia.main.YjBottomDelegate;
 
 
-import cn.jpush.android.api.JPushInterface;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-import me.yokeyword.fragmentation.Fragmentation;
 import qiu.niorgai.StatusBarCompat;
 
 public class ExampleActivity extends ProxyActivity implements
         ISignListener,
-        ILauncherListener {
+        ILauncherListener,
+        BokangChatListener {
     String TAG = "ExampleActivity.DEBUG";
-public static boolean isShowFlout=false;
+    public static boolean isShowFlout = false;
+    BokangChatManager mBokangChatManager = null;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,12 +67,20 @@ public static boolean isShowFlout=false;
         }
         Latte.getConfigurator().withActivity(this);
         StatusBarCompat.translucentStatusBar(this, true);
-        if(!isShowFlout){
+        if (!isShowFlout) {
             showFlout();
-            isShowFlout=true;
+            isShowFlout = true;
         }
 
         initTencentTuiKit();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mBokangChatManager = BokangChatManager.getInstance();
+        mBokangChatManager.setBokangChatListener(this);
     }
 
     @Override
@@ -154,7 +168,7 @@ public static boolean isShowFlout=false;
     }
 
     private void goMain() {
-        Log.e("qqqq","goMain");
+        Log.e("qqqq", "goMain");
 //        String jRegistrationID = JPushInterface.getRegistrationID(getApplicationContext());
 //        LatteLogger.e("jialei", "jRegistrationID:" + jRegistrationID);
 //        Log.e("jialei", "jRegistrationID:" + jRegistrationID);
@@ -166,16 +180,16 @@ public static boolean isShowFlout=false;
     private static void loginTencentIM() {
         String tencentImUserId = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getTencentImUserId();
         String tencentImUserSig = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getTencentImUserSig();
-        Log.e("qqqq","tencentImUserId:"+tencentImUserId+",tencentImUserSig:"+tencentImUserSig);
+        Log.e("qqqq", "tencentImUserId:" + tencentImUserId + ",tencentImUserSig:" + tencentImUserSig);
         TUIKit.login(tencentImUserId, tencentImUserSig, new IUIKitCallBack() {
             @Override
             public void onSuccess(Object data) {
-                Log.e("qqqq", "onSuccess: login成功" );
+                Log.e("qqqq", "onSuccess: login成功");
             }
 
             @Override
             public void onError(String module, int errCode, String errMsg) {
-                Log.e("qqqq","onerror"+ errMsg);
+                Log.e("qqqq", "onerror" + errMsg);
             }
         });
     }
@@ -307,5 +321,18 @@ public static boolean isShowFlout=false;
 
     private void initTencentTuiKit() {
         TuiKitConfig.initTencentTuiKit(getApplicationContext());
+    }
+
+    @Override
+    public void newBokangMessage(TIMCustomElem ele,TIMConversation conversation) {
+        if (new String(ele.getExt()).equals(MessageInfoUtil.BOKANG_VIDEO_WAIT)) {
+            Intent intent = new Intent(this, CalledWaitingActivity.class);
+            CallIntentData data=new CallIntentData();
+//            data.setConversation(conversation);
+            data.setPeer(conversation.getPeer());
+            data.setRoomid(Integer.parseInt(ele.getDesc()));
+            intent.putExtra("CallIntentData",data);
+            startActivity(intent);
+        }
     }
 }

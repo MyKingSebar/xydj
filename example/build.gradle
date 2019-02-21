@@ -105,7 +105,7 @@ android {
 
 dependencies {
     //    implementation fileTree(include: ['*.jar'], dir: 'libs')
-    api project(':common_ec')
+    api project(':common_bokang')
     //    compileOnly project(':latte_annotations')
     annotationProcessor project(':common_compiler')
     annotationProcessor 'com.jakewharton:butterknife-compiler:9.0.0-rc2'

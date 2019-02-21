@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bokang.tencent_trtc_sdk.TrtcConfig;
 import com.example.common_tencent_tuikit.Constants;
 import com.example.common_tencent_tuikit.R;
 import com.example.common_tencent_tuikit.chat.title_bottom.ChatTitieBottomAdapter;
@@ -21,7 +20,12 @@ import com.example.common_tencent_tuikit.chat.title_bottom.TitleBottomItemListen
 import com.example.common_tencent_tuikit.chat.title_bottom.TitleBottomPersonalChatDataConverter;
 import com.example.latte.delegates.LatteDelegate;
 import com.example.latte.ui.recycler.MultipleItemEntity;
+import com.tencent.imsdk.TIMConversationType;
+import com.tencent.imsdk.TIMManager;
+import com.tencent.imsdk.TIMMessage;
 import com.tencent.qcloud.uikit.business.chat.c2c.view.C2CChatPanel;
+import com.tencent.qcloud.uikit.business.chat.model.MessageInfoUtil;
+import com.tencent.qcloud.uikit.business.chat.view.ChatBottomInputGroup;
 import com.tencent.qcloud.uikit.common.component.titlebar.PageTitleBar;
 import com.yijia.common_yijia.database.YjDatabaseManager;
 
@@ -32,7 +36,8 @@ public class PersonalChatFragment extends LatteDelegate {
     private View mBaseView;
     private C2CChatPanel chatPanel;
     private PageTitleBar chatTitleBar;
-    //    private ChatBottomInputGroup mInputGroup;
+        private ChatBottomInputGroup mInputGroup;
+        private ChatBottomInputGroup.MessageHandler mMsgHandler;
     private String chatId;
 
     private RecyclerView mRecycleView = null;
@@ -94,6 +99,8 @@ public class PersonalChatFragment extends LatteDelegate {
         mRecycleView = chatTitleBar.getmBottomRecycle();
         initBottomRecycle();
 
+        this.mInputGroup=chatPanel.mInputGroup;
+        mMsgHandler=mInputGroup.getMsgHandler();
     }
 
     private void initBottomRecycle() {
@@ -113,16 +120,40 @@ public class PersonalChatFragment extends LatteDelegate {
                 return;
             }
             if (TextUtils.equals(type, TitleBottomChildType.AUDIOCALL.name())) {
-                String sig = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getTencentImUserSig();
-                String userId = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getTencentImUserId();
-                final Intent intent = new Intent(getContext(), TRTCMainActivity.class);
-                intent.putExtra("roomId", 100);
-                intent.putExtra("userId", userId);
-                intent.putExtra("sdkAppId", TrtcConfig.SDKAPPID);
-                intent.putExtra("userSig", sig);
-                //TODO 需要指定会话ID（即聊天对象的identify，具体可参考IMSDK接入文档）
-                intent.putExtra("chatId", chatId);
-                getActivity().startActivity(intent);
+                final Intent intent2 = new Intent(getContext(), CallWaitingActivity.class);
+                int userId = (YjDatabaseManager.getInstance().getDao().loadAll().get(0).getId()).intValue();
+                intent2.putExtra("roomid",userId);
+                intent2.putExtra("chatId",chatId);
+                getActivity().startActivity(intent2);
+//                BokangSendMessageUtil  bokangSendMessageUtil = new BokangSendMessageUtil(TIMManager.getInstance().getConversation(TIMConversationType.C2C, chatId), new BoKangSendMessageListener() {
+//                    @Override
+//                    public void messageSuccess(TIMMessage timMessage) {
+//
+//                    }
+//
+//                    @Override
+//                    public void messageError(int code, String desc) {
+//
+//                    }
+//                }, getContext());
+//                bokangSendMessageUtil.sendMessage(bokangSendMessageUtil.buildBokangMessage(MessageInfoUtil.BOKANG_VIDEO_REFUSE));
+                if (mMsgHandler != null) {
+
+                    mMsgHandler.sendMessage(MessageInfoUtil.buildBokangMessage(MessageInfoUtil.BOKANG_VIDEO_WAIT, userId + ""));
+                }
+//                String sig = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getTencentImUserSig();
+//                String userId = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getTencentImUserId();
+//                final Intent intent = new Intent(getContext(), TRTCMainActivity.class);
+//                intent.putExtra("roomId", 100);
+//                intent.putExtra("userId", userId);
+//                intent.putExtra("sdkAppId", TrtcConfig.SDKAPPID);
+//                intent.putExtra("userSig", sig);
+//                //TODO 需要指定会话ID（即聊天对象的identify，具体可参考IMSDK接入文档）
+//                intent.putExtra("chatId", chatId);
+//                getActivity().startActivity(intent);
+//                //TODO 自定义消息
+//                if (mMsgHandler != null)
+//                    mMsgHandler.sendMessage(MessageInfoUtil.buildBokangMessage("aaaa"));
             }
         };
         return mTitleBottomItemListener;

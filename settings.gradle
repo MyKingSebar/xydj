@@ -1,5 +1,5 @@
 include ':example', ':common_tencent_tuikit',
-        ':common_annotations', ':common_compiler', ':common_core', ':common_ec', ':common_ui',
+        ':common_annotations', ':common_compiler', ':common_core', ':common_bokang', ':common_ui',
         ':common_rongim', ':CallLib', ':IMLib', ':IMKit', ':CallKit', ':RCSticker',
         ':common_xfyun', ':common_tencentmonitor',
         ':tuikit', ':tencent_trtc_sdk'

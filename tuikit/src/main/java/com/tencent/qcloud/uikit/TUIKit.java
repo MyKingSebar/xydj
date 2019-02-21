@@ -18,6 +18,7 @@ import com.tencent.imsdk.TIMSdkConfig;
 import com.tencent.imsdk.TIMUserConfig;
 import com.tencent.imsdk.TIMUserStatusListener;
 import com.tencent.imsdk.ext.message.TIMUserConfigMsgExt;
+import com.tencent.qcloud.uikit.business.chat.bokang.BokangChatManager;
 import com.tencent.qcloud.uikit.business.chat.c2c.model.C2CChatManager;
 import com.tencent.qcloud.uikit.business.chat.group.model.GroupChatManager;
 import com.tencent.qcloud.uikit.business.session.model.SessionManager;
@@ -63,6 +64,8 @@ public class TUIKit {
         SessionManager.getInstance().init();
         C2CChatManager.getInstance().init();
         GroupChatManager.getInstance().init();
+        BokangChatManager.getInstance().init();
+
     }
 
     public static void login(String userid, String usersig, final IUIKitCallBack callback) {
@@ -179,6 +182,7 @@ public class TUIKit {
         SessionManager.getInstance().destroySession();
         C2CChatManager.getInstance().destroyC2CChat();
         GroupChatManager.getInstance().destroyGroupChat();
+        BokangChatManager.getInstance().destroyBOKanghat();
     }
 
 

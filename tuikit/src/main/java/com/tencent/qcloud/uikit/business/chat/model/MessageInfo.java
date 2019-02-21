@@ -16,6 +16,10 @@ public class MessageInfo {
      */
     public static final int MSG_TYPE_TEXT = 0x00;
     /**
+     * 博康类型消息
+     */
+    public static final int MSG_TYPE_BOKANG = 0x200;
+    /**
      * 图片类型消息
      */
     public static final int MSG_TYPE_IMAGE = 0x20;

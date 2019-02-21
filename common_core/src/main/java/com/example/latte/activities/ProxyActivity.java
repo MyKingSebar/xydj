@@ -9,7 +9,6 @@ import android.support.v7.widget.ContentFrameLayout;
 import com.example.latte.R;
 import com.example.latte.delegates.LatteDelegate;
 
-import me.yokeyword.fragmentation.BuildConfig;
 import me.yokeyword.fragmentation.ExtraTransaction;
 import me.yokeyword.fragmentation.Fragmentation;
 import me.yokeyword.fragmentation.ISupportActivity;

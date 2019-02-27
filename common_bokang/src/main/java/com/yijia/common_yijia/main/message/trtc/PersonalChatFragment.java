@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +40,8 @@ public class PersonalChatFragment extends LatteDelegate {
         private ChatBottomInputGroup mInputGroup;
         private ChatBottomInputGroup.MessageHandler mMsgHandler;
     private String chatId;
+
+    BokangSendMessageUtil  bokangSendMessageUtil=null;
 
     private RecyclerView mRecycleView = null;
     private ChatTitieBottomAdapter mChatTitieBottomAdapter = null;
@@ -101,6 +104,18 @@ public class PersonalChatFragment extends LatteDelegate {
 
         this.mInputGroup=chatPanel.mInputGroup;
         mMsgHandler=mInputGroup.getMsgHandler();
+
+        bokangSendMessageUtil = new BokangSendMessageUtil(TIMManager.getInstance().getConversation(TIMConversationType.C2C, chatId), new BoKangSendMessageListener() {
+                    @Override
+                    public void messageSuccess(TIMMessage timMessage) {
+
+                    }
+
+                    @Override
+                    public void messageError(int code, String desc) {
+
+                    }
+                }, getContext());
     }
 
     private void initBottomRecycle() {
@@ -136,11 +151,10 @@ public class PersonalChatFragment extends LatteDelegate {
 //
 //                    }
 //                }, getContext());
-//                bokangSendMessageUtil.sendMessage(bokangSendMessageUtil.buildBokangMessage(MessageInfoUtil.BOKANG_VIDEO_REFUSE));
-                if (mMsgHandler != null) {
-
-                    mMsgHandler.sendMessage(MessageInfoUtil.buildBokangMessage(MessageInfoUtil.BOKANG_VIDEO_WAIT, userId + ""));
-                }
+                bokangSendMessageUtil.sendMessage(bokangSendMessageUtil.buildBokangMessage(MessageInfoUtil.BOKANG_VIDEO_WAIT,userId+""));
+//                if (mMsgHandler != null) {
+//                    mMsgHandler.sendMessage(MessageInfoUtil.buildBokangMessage(MessageInfoUtil.BOKANG_VIDEO_WAIT, userId + ""));
+//                }
 //                String sig = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getTencentImUserSig();
 //                String userId = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getTencentImUserId();
 //                final Intent intent = new Intent(getContext(), TRTCMainActivity.class);

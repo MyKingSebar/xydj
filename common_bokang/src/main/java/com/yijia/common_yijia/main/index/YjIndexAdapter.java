@@ -207,6 +207,7 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
         //利用Timer这个Api设置延迟显示软键盘，这里时间为200毫秒
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
+            @Override
             public void run() {
                 mInputManager = (InputMethodManager) latteDelegate.getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 mInputManager.showSoftInput(inputComment, 0);
@@ -227,7 +228,7 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_OUTSIDE)
-                    popupWindow.dismiss();
+                { popupWindow.dismiss();}
                 return false;
 
             }
@@ -246,6 +247,7 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
 
             // 在dismiss中恢复透明度
             @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
+            @Override
             public void onDismiss() {
                 mInputManager.hideSoftInputFromWindow(inputComment.getWindowToken(), 0); //强制隐藏键盘
             }

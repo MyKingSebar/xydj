@@ -2,6 +2,8 @@ package com.tencent.qcloud.uikit.business.chat.c2c.model;
 
 import android.util.Log;
 
+import com.tencent.imsdk.TIMElem;
+import com.tencent.imsdk.TIMElemType;
 import com.tencent.qcloud.uikit.common.IUIKitCallBack;
 import com.tencent.imsdk.TIMCallBack;
 import com.tencent.imsdk.TIMConversation;
@@ -249,8 +251,16 @@ public class C2CChatManager implements TIMMessageListener, UIKitMessageRevokedMa
             TIMConversationType type = conversation.getType();
 
             if (type == TIMConversationType.C2C) {
+//                if(!msg.getElement(0).getType().equals(TIMElemType.Custom)){
+//                    QLog.i(TAG, "onNewMessages::: " + msg);
+//                    onReceiveMessage(conversation, msg);
+//                }
+//                long count=msg.getElementCount();
+//                for(int i=0;i<count;i++){
+//                    TIMElem ele=msg.getElement(i);
                 QLog.i(TAG, "onNewMessages::: " + msg);
                 onReceiveMessage(conversation, msg);
+
 
             }
         }
@@ -285,9 +295,15 @@ public class C2CChatManager implements TIMMessageListener, UIKitMessageRevokedMa
     private void executeMessage(TIMConversation conversation, TIMMessage msg) {
         final MessageInfo msgInfo = MessageInfoUtil.TIMMessage2MessageInfo(msg, false);
         Log.d("jialei","MSG_TYPE_BOKANGgetTIMMessage:"+msgInfo.getExtra());
+        Log.d("jialei","getMsgType:"+msgInfo.getMsgType());
+//        if(msgInfo.getMsgType()==MessageInfo.MSG_TYPE_BOKANG){
+//            return;
+//        }else
         if(msgInfo.getMsgType()==MessageInfo.MSG_TYPE_BOKANG){
-            Log.d("jialei","getMsgType:"+msgInfo.getMsgType());
-        }else if (msgInfo != null && mCurrentConversation != null && mCurrentConversation.getPeer().equals(conversation.getPeer())) {
+            return;
+        }
+
+            if (msgInfo != null && mCurrentConversation != null && mCurrentConversation.getPeer().equals(conversation.getPeer())) {
             mCurrentProvider.addMessageInfo(msgInfo);
             msgInfo.setRead(true);
             mCurrentConversationExt.setReadMessage(null, new TIMCallBack() {

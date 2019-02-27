@@ -5,6 +5,7 @@ import android.graphics.drawable.AnimationDrawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,6 +51,7 @@ import com.tencent.qcloud.uikit.common.widget.photoview.PhotoViewActivity;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -95,6 +97,8 @@ public class ChatAdapter extends IChatAdapter {
         LayoutInflater inflater = LayoutInflater.from(TUIKit.getAppContext());
         RecyclerView.ViewHolder holder = new ChatTextHolder(inflater.inflate(R.layout.chat_adapter_text, parent, false));
         switch (viewType) {
+            case MessageInfo.MSG_TYPE_BOKANG:
+                break;
             case MessageInfo.MSG_TYPE_TEXT:
                 holder = new ChatTextHolder(inflater.inflate(R.layout.chat_adapter_text, parent, false));
                 break;
@@ -699,7 +703,17 @@ public class ChatAdapter extends IChatAdapter {
 
     @Override
     public void setDataSource(IChatProvider provider) {
-        this.mDataSource = provider.getDataSource();
+//        this.mDataSource = provider.getDataSource();
+        List<MessageInfo> mData=provider.getDataSource();
+                Iterator<MessageInfo> mData2 = mData.iterator();
+        while (mData2.hasNext()) {
+            int type=mData2.next().getMsgType();
+            Log.d("jialei","getMsgType:"+type);
+            if (type == MessageInfo.MSG_TYPE_BOKANG) {
+                mData2.remove();
+            }
+        }
+        this.mDataSource = mData;
         provider.attachAdapter(this);
         notifyDataSetChanged(ChatListView.DATA_CHANGE_TYPE_REFRESH, getItemCount());
     }

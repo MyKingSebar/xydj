@@ -25,6 +25,10 @@ import com.example.latte.ui.launcher.OnLauncherFinishTag;
 import com.example.latte.util.log.LatteLogger;
 import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMCustomElem;
+import com.tencent.imsdk.TIMElemType;
+import com.tencent.imsdk.TIMManager;
+import com.tencent.imsdk.TIMMessage;
+import com.tencent.imsdk.TIMMessageListener;
 import com.tencent.qcloud.uikit.TUIKit;
 import com.tencent.qcloud.uikit.business.chat.bokang.BokangChatListener;
 import com.tencent.qcloud.uikit.business.chat.bokang.BokangChatManager;
@@ -45,6 +49,8 @@ import com.yijia.common_yijia.sign.SignInNoteOnlyDelegate;
 import com.yijia.common_yijia.sign.SignUpSecondDelegate;
 import com.yijia.common_yijia.main.YjBottomDelegate;
 
+
+import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;

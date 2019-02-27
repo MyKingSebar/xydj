@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -13,7 +14,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.latte.ec.R;
+import com.tencent.imsdk.TIMConversation;
+import com.tencent.imsdk.TIMConversationType;
+import com.tencent.imsdk.TIMCustomElem;
+import com.tencent.imsdk.TIMManager;
+import com.tencent.imsdk.TIMMessage;
 import com.tencent.liteav.TXLiteAVCode;
+import com.tencent.qcloud.uikit.business.chat.bokang.BokangChatListener;
+import com.tencent.qcloud.uikit.business.chat.bokang.BokangChatManager;
+import com.tencent.qcloud.uikit.business.chat.model.MessageInfoUtil;
 import com.tencent.rtmp.ui.TXCloudVideoView;
 import com.tencent.trtc.TRTCCloud;
 import com.tencent.trtc.TRTCCloudDef;
@@ -21,19 +30,21 @@ import com.tencent.trtc.TRTCCloudListener;
 
 import java.lang.ref.WeakReference;
 
+import static android.view.KeyEvent.KEYCODE_BACK;
+
 
 /**
  * Module:   TRTCMainActivity
- *
+ * <p>
  * Function: 使用TRTC SDK完成 1v1 和 1vn 的视频通话功能
- *
- *    1. 支持九宫格平铺和前后叠加两种不同的视频画面布局方式，该部分由 TRTCVideoViewLayout 来计算每个视频画面的位置排布和大小尺寸
- *
- *    2. 支持对视频通话的分辨率、帧率和流畅模式进行调整，该部分由 TRTCSettingDialog 来实现
- *
- *    3. 创建或者加入某一个通话房间，需要先指定 roomId 和 userId，这部分由 TRTCNewActivity 来实现
+ * <p>
+ * 1. 支持九宫格平铺和前后叠加两种不同的视频画面布局方式，该部分由 TRTCVideoViewLayout 来计算每个视频画面的位置排布和大小尺寸
+ * <p>
+ * 2. 支持对视频通话的分辨率、帧率和流畅模式进行调整，该部分由 TRTCSettingDialog 来实现
+ * <p>
+ * 3. 创建或者加入某一个通话房间，需要先指定 roomId 和 userId，这部分由 TRTCNewActivity 来实现
  */
-public class TRTCMainActivity extends Activity implements View.OnClickListener, TRTCSettingDialog.ISettingListener {
+public class TRTCMainActivity extends Activity implements View.OnClickListener, TRTCSettingDialog.ISettingListener, BoKangSendMessageListener, BokangChatListener {
     private final static String TAG = TRTCMainActivity.class.getSimpleName();
 
     private boolean bFrontCamera = true, bBeautyEnable = true, bMicEnable = true;
@@ -48,21 +59,30 @@ public class TRTCMainActivity extends Activity implements View.OnClickListener, 
     private TRTCCloud trtcCloud;              /// TRTC SDK 实例对象
     private TRTCCloudListener trtcListener;    /// TRTC SDK 回调监听
 
+    //IM相关
+    TIMConversation conversation = null;
+    BokangSendMessageUtil bokangSendMessageUtil = null;
+    BokangChatManager mBokangChatManager = null;
+    String userSig = null, selfUserId = null, chatId = null;
+    int roomId = 0, sdkAppId = 0;
+
+
     @Override
-    protected void onCreate( Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         //应用运行时，保持屏幕高亮，不锁屏
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN , WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         //获取前一个页面得到的进房参数
-        Intent intent       = getIntent();
-        int sdkAppId        = intent.getIntExtra("sdkAppId", 0);
-        int roomId          = intent.getIntExtra("roomId", 0);
-        String selfUserId   = intent.getStringExtra("userId");
-        String userSig      = intent.getStringExtra("userSig");
+        Intent intent = getIntent();
+        sdkAppId = intent.getIntExtra("sdkAppId", 0);
+        roomId = intent.getIntExtra("roomId", 0);
+        selfUserId = intent.getStringExtra("userId");
+        userSig = intent.getStringExtra("userSig");
+        chatId = intent.getStringExtra("chatId");
 
         trtcParams = new TRTCCloudDef.TRTCParams(sdkAppId, selfUserId, userSig, roomId, "", "");
 
@@ -75,7 +95,19 @@ public class TRTCMainActivity extends Activity implements View.OnClickListener, 
 
         //开始进入视频通话房间
         enterRoom();
+        initIM();
 
+    }
+
+    private void initIM() {
+        conversation = TIMManager.getInstance().getConversation(TIMConversationType.C2C, chatId);
+        if (conversation == null) {
+            Toast.makeText(getApplicationContext(), "获取会话失败", Toast.LENGTH_LONG).show();
+            finish();
+        }
+        bokangSendMessageUtil = new BokangSendMessageUtil(conversation, this, getApplicationContext());
+        mBokangChatManager = BokangChatManager.getInstance();
+        mBokangChatManager.setBokangChatListener(this);
     }
 
     @Override
@@ -143,8 +175,8 @@ public class TRTCMainActivity extends Activity implements View.OnClickListener, 
         trtcCloud.setVideoEncoderParam(encParam);
 
         TRTCCloudDef.TRTCNetworkQosParam qosParam = new TRTCCloudDef.TRTCNetworkQosParam();
-        qosParam.controlMode    = settingDlg.getQosMode();
-        qosParam.preference     = settingDlg.getQosPreference();
+        qosParam.controlMode = settingDlg.getQosMode();
+        qosParam.preference = settingDlg.getQosPreference();
         trtcCloud.setNetworkQosParam(qosParam);
 
         //小画面的编码器参数设置
@@ -157,7 +189,7 @@ public class TRTCMainActivity extends Activity implements View.OnClickListener, 
         smallParam.videoResolutionMode = TRTCCloudDef.TRTC_VIDEO_RESOLUTION_MODE_PORTRAIT;
         trtcCloud.enableEncSmallVideoStream(settingDlg.enableSmall, smallParam);
 
-        trtcCloud.setPriorRemoteVideoStreamType(settingDlg.priorSmall?TRTCCloudDef.TRTC_VIDEO_STREAM_TYPE_SMALL:TRTCCloudDef.TRTC_VIDEO_STREAM_TYPE_BIG);
+        trtcCloud.setPriorRemoteVideoStreamType(settingDlg.priorSmall ? TRTCCloudDef.TRTC_VIDEO_STREAM_TYPE_SMALL : TRTCCloudDef.TRTC_VIDEO_STREAM_TYPE_BIG);
     }
 
     /**
@@ -185,6 +217,8 @@ public class TRTCMainActivity extends Activity implements View.OnClickListener, 
      * 退出视频房间
      */
     private void exitRoom() {
+        //发送消息
+        bokangSendMessageUtil.sendMessage(bokangSendMessageUtil.buildBokangMessage(MessageInfoUtil.BOKANG_VIDEO_DROP));
         if (trtcCloud != null) {
             trtcCloud.exitRoom();
         }
@@ -221,6 +255,7 @@ public class TRTCMainActivity extends Activity implements View.OnClickListener, 
             }
         });
     }
+
 
     /**
      * 点击打开仪表盘浮层，仪表盘浮层是SDK中覆盖在视频画面上的一系列数值状态
@@ -285,11 +320,13 @@ public class TRTCMainActivity extends Activity implements View.OnClickListener, 
         setTRTCCloudParam();
     }
 
+
     /**
      * SDK内部状态回调
      */
     static class TRTCCloudListenerImpl extends TRTCCloudListener {
         private WeakReference<TRTCMainActivity> mContext;
+
         public TRTCCloudListenerImpl(TRTCMainActivity activity) {
             super();
             mContext = new WeakReference<>(activity);
@@ -326,7 +363,7 @@ public class TRTCMainActivity extends Activity implements View.OnClickListener, 
             Log.d(TAG, "sdk callback onError");
             TRTCMainActivity activity = mContext.get();
             if (activity != null) {
-                Toast.makeText(activity, "onError: " + errMsg + "[" + errCode+ "]" , Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, "onError: " + errMsg + "[" + errCode + "]", Toast.LENGTH_SHORT).show();
                 if (errCode == TXLiteAVCode.ERR_ROOM_ENTER_FAIL) {
                     activity.exitRoom();
                 }
@@ -357,22 +394,23 @@ public class TRTCMainActivity extends Activity implements View.OnClickListener, 
             TRTCMainActivity activity = mContext.get();
             if (activity != null) {
                 activity.trtcCloud.stopRemoteView(userId);
-                activity.mVideoViewLayout.onMemberLeave(userId+TRTCCloudDef.TRTC_VIDEO_STREAM_TYPE_BIG);
+                activity.mVideoViewLayout.onMemberLeave(userId + TRTCCloudDef.TRTC_VIDEO_STREAM_TYPE_BIG);
 
                 activity.trtcCloud.stopRemoteSubStreamView(userId);
-                activity.mVideoViewLayout.onMemberLeave(userId+TRTCCloudDef.TRTC_VIDEO_STREAM_TYPE_SUB);
+                activity.mVideoViewLayout.onMemberLeave(userId + TRTCCloudDef.TRTC_VIDEO_STREAM_TYPE_SUB);
             }
 
         }
+
         /**
          * 有用户屏蔽了画面
          */
         @Override
-        public void onUserVideoAvailable(final String userId, boolean available){
+        public void onUserVideoAvailable(final String userId, boolean available) {
             TRTCMainActivity activity = mContext.get();
             if (activity != null) {
                 if (available) {
-                    final TXCloudVideoView renderView = activity.mVideoViewLayout.onMemberEnter(userId+TRTCCloudDef.TRTC_VIDEO_STREAM_TYPE_BIG);
+                    final TXCloudVideoView renderView = activity.mVideoViewLayout.onMemberEnter(userId + TRTCCloudDef.TRTC_VIDEO_STREAM_TYPE_BIG);
                     if (renderView != null) {
                         // 启动远程画面的解码和显示逻辑，FillMode 可以设置是否显示黑边
                         activity.trtcCloud.setRemoteViewFillMode(userId, TRTCCloudDef.TRTC_VIDEO_RENDER_MODE_FIT);
@@ -382,29 +420,30 @@ public class TRTCMainActivity extends Activity implements View.OnClickListener, 
                         activity.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                renderView.setUserId(userId+TRTCCloudDef.TRTC_VIDEO_STREAM_TYPE_BIG);
+                                renderView.setUserId(userId + TRTCCloudDef.TRTC_VIDEO_STREAM_TYPE_BIG);
                             }
                         });
                     }
                 } else {
                     activity.trtcCloud.stopRemoteView(userId);
-                    activity.mVideoViewLayout.onMemberLeave(userId+TRTCCloudDef.TRTC_VIDEO_STREAM_TYPE_BIG);
+                    activity.mVideoViewLayout.onMemberLeave(userId + TRTCCloudDef.TRTC_VIDEO_STREAM_TYPE_BIG);
                 }
             }
         }
+
         /**
          * 有用户屏蔽了声音
          */
         @Override
-        public void onUserAudioAvailable(String userId, boolean available){
-            Log.d(TAG, "sdk callback onUserAudioAvailable " +available);
+        public void onUserAudioAvailable(String userId, boolean available) {
+            Log.d(TAG, "sdk callback onUserAudioAvailable " + available);
         }
 
-        public void onUserSubStreamAvailable(final String userId, boolean available){
+        public void onUserSubStreamAvailable(final String userId, boolean available) {
             TRTCMainActivity activity = mContext.get();
             if (activity != null) {
                 if (available) {
-                    final TXCloudVideoView renderView = activity.mVideoViewLayout.onMemberEnter(userId+TRTCCloudDef.TRTC_VIDEO_STREAM_TYPE_SUB);
+                    final TXCloudVideoView renderView = activity.mVideoViewLayout.onMemberEnter(userId + TRTCCloudDef.TRTC_VIDEO_STREAM_TYPE_SUB);
                     if (renderView != null) {
                         // 启动远程画面的解码和显示逻辑，FillMode 可以设置是否显示黑边
                         activity.trtcCloud.setRemoteViewFillMode(userId, TRTCCloudDef.TRTC_VIDEO_RENDER_MODE_FIT);
@@ -412,16 +451,41 @@ public class TRTCMainActivity extends Activity implements View.OnClickListener, 
                         activity.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                renderView.setUserId(userId+TRTCCloudDef.TRTC_VIDEO_STREAM_TYPE_SUB);
+                                renderView.setUserId(userId + TRTCCloudDef.TRTC_VIDEO_STREAM_TYPE_SUB);
                             }
                         });
                     }
 
                 } else {
                     activity.trtcCloud.stopRemoteSubStreamView(userId);
-                    activity.mVideoViewLayout.onMemberLeave(userId+TRTCCloudDef.TRTC_VIDEO_STREAM_TYPE_SUB);
+                    activity.mVideoViewLayout.onMemberLeave(userId + TRTCCloudDef.TRTC_VIDEO_STREAM_TYPE_SUB);
                 }
             }
         }
+    }
+
+    @Override
+    public void newBokangMessage(TIMCustomElem ele, TIMConversation conversation) {
+        if (new String(ele.getExt()).equals(MessageInfoUtil.BOKANG_VIDEO_DROP)) {
+            finish();
+        }
+    }
+
+    @Override
+    public void messageSuccess(TIMMessage timMessage) {
+
+    }
+
+    @Override
+    public void messageError(int code, String desc) {
+
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (keyCode == KEYCODE_BACK) {
+            exitRoom();
+        }
+        return super.onKeyUp(keyCode, event);
     }
 }

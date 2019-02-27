@@ -29,6 +29,7 @@ public class SessionPresenter implements SessionManager.SessionStartChat {
         mManager.loadSession(new IUIKitCallBack() {
             @Override
             public void onSuccess(Object data) {
+                SessionProvider data2=(SessionProvider)data;
                 mSessionPanel.getSessionAdapter().setDataProvider((SessionProvider) data);
             }
 

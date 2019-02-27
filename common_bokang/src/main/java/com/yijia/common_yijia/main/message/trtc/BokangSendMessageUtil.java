@@ -7,6 +7,7 @@ import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMCustomElem;
 import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.TIMValueCallBack;
+import com.tencent.imsdk.ext.message.TIMMessageExt;
 import com.tencent.imsdk.log.QLog;
 import com.tencent.qcloud.uikit.business.chat.model.MessageInfo;
 import com.tencent.qcloud.uikit.business.chat.model.MessageInfoUtil;
@@ -54,9 +55,21 @@ public class BokangSendMessageUtil {
 
     public TIMMessage buildBokangMessage(String message){
         TIMMessage TIMMsg = new TIMMessage();
+
+
         TIMCustomElem ele =new TIMCustomElem();
         ele.setData(MessageInfoUtil.BOKANG.getBytes());
         ele.setExt(message.getBytes());
+
+        TIMMsg.addElement(ele);
+        return TIMMsg;
+    }
+    public TIMMessage buildBokangMessage(String message,String myid){
+        TIMMessage TIMMsg = new TIMMessage();
+        TIMCustomElem ele =new TIMCustomElem();
+        ele.setData(MessageInfoUtil.BOKANG.getBytes());
+        ele.setExt(message.getBytes());
+        ele.setDesc(myid);
         TIMMsg.addElement(ele);
         return TIMMsg;
     }

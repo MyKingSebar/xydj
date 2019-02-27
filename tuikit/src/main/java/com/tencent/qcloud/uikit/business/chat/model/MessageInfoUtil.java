@@ -51,6 +51,8 @@ public class MessageInfoUtil {
     public static final String BOKANG_VIDEO_CONNECT = "video_connect";
     //拒绝接收视频
     public static final String BOKANG_VIDEO_REFUSE = "video_refuse";
+    //视频挂断
+    public static final String BOKANG_VIDEO_DROP = "video_drop";
 
     public static MessageInfo buildTextMessage(String message) {
         MessageInfo info = new MessageInfo();
@@ -66,10 +68,11 @@ public class MessageInfoUtil {
         info.setMsgType(MessageInfo.MSG_TYPE_TEXT);
         return info;
     }
-    public static MessageInfo buildBokangMessage(String message,String des) {
+
+    public static MessageInfo buildBokangMessage(String message, String des) {
         MessageInfo info = new MessageInfo();
         TIMMessage TIMMsg = new TIMMessage();
-        TIMCustomElem ele =new TIMCustomElem();
+        TIMCustomElem ele = new TIMCustomElem();
         ele.setData(MessageInfoUtil.BOKANG.getBytes());
         ele.setExt(message.getBytes());
         ele.setDesc(des);
@@ -316,6 +319,10 @@ public class MessageInfoUtil {
                 } else if (data.equals(GROUP_DELETE)) {
                     msgInfo.setMsgType(MessageInfo.MSG_TYPE_GROUP_DELETE);
                     msgInfo.setExtra(new String(customElem.getExt()));
+                } else if (data.equals(MessageInfoUtil.BOKANG)) {
+                    String ext = new String(customElem.getExt());
+                    msgInfo.setExtra(ext);
+                    msgInfo.setMsgType(MessageInfo.MSG_TYPE_BOKANG);
                 } else {
                     msgInfo.setExtra("[自定义消息]");
                 }

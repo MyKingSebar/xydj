@@ -34,9 +34,6 @@ public class MessageDelagate extends BottomItemDelegate {
 
     @OnClick(R2.id.iv_search)
     void search(){
-        showToast("2|3:"+((2|3)&(~3)));
-        LatteLogger.d("jialei","2|3:"+((2|3)&(~3)));
-        Log.d("jialei","2|3:"+((2|3)&(~3)));
     }
 
     @Override
@@ -48,7 +45,6 @@ public class MessageDelagate extends BottomItemDelegate {
     public void onBindView(@Nullable Bundle savedInstanceState, @NonNull View rootView) {
         initTabLayout();
         initPager();
-        Log.d("jialei","2|3:"+((2|3)&(~3)));
     }
 
 

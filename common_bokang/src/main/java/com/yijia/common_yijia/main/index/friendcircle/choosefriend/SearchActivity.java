@@ -56,7 +56,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     private Subscription subscription;
 
     public static void lanuch(Context context, ArrayList<CNPinyin<ChooseFriendData>> ChooseFriendDataList) {
-        if (ChooseFriendDataList == null) return;
+        if (ChooseFriendDataList == null) {return;}
         Intent intent = new Intent(context, SearchActivity.class);
         intent.putExtra("ChooseFriendDataList", ChooseFriendDataList);
         context.startActivity(intent);

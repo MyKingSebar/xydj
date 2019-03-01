@@ -17,6 +17,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.latte.app.Latte;
 import com.example.latte.delegates.LatteDelegate;
 import com.example.latte.ec.R;
 import com.example.latte.ec.R2;
@@ -39,6 +40,8 @@ import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import top.zibin.luban.Luban;
+import top.zibin.luban.OnCompressListener;
 
 public class SignUpSecondDelegate extends LatteDelegate {
 
@@ -241,7 +244,7 @@ public class SignUpSecondDelegate extends LatteDelegate {
                     // 图片选择
                     selectList = PictureSelector.obtainMultipleResult(data);
                     if (!selectList.isEmpty()) {
-                        imgPath = selectList.get(0).getPath();
+                        imgPath = selectList.get(0).getCompressPath();
                         Glide.with(this)
                                 .load(imgPath)
                                 .apply(OPTIONS)
@@ -252,4 +255,7 @@ public class SignUpSecondDelegate extends LatteDelegate {
         }
 
     }
+
+
+
 }

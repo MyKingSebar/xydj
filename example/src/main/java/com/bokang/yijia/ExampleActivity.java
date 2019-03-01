@@ -234,7 +234,7 @@ public class ExampleActivity extends ProxyActivity implements
     }
 
     private void showFlout() {
-        if (TextUtils.equals(ExampleApp.MODE, ExampleApp.MODE_DEBUG)) {
+        if (TextUtils.equals(ExampleApp.MODE, ExampleApp.MODE_RELEASE)) {
             ImageView imageView = new ImageView(getApplicationContext());
             imageView.setImageResource(R.mipmap.ic_launcher);
 

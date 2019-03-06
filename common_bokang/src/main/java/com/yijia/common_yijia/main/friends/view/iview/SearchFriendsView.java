@@ -9,4 +9,7 @@ public interface SearchFriendsView extends BaseView {
     void respfriendsdetailsSuccess(JSONObject user);
 
     void respfriendsdetailsError(String message);
+    void respaddfriendsdetailsSuccess();
+
+    void respaddfriendsdetailsError(String message);
 }

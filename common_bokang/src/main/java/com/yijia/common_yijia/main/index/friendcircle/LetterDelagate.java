@@ -10,6 +10,7 @@ import android.support.v7.widget.AppCompatTextView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
@@ -172,6 +173,7 @@ private void checkLat(){
         }
         if(friendId==0){
             showToast("请选择好友");
+            hideInput();
             return;
         }
         RxRestClient.builder()

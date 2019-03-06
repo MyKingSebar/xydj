@@ -47,7 +47,7 @@ public class SessionFragment extends LatteDelegate implements SessionClickListen
         sessionPanel.initDefault();
         // 这里设置会话列表点击的跳转逻辑，告诉添加完SessionPanel后会话被点击后该如何处理
         sessionPanel.setSessionClick(this);
-
+        sessionPanel.mTitleBar.setVisibility(View.GONE);
     }
 
     @Override

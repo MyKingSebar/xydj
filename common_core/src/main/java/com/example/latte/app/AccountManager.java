@@ -32,5 +32,12 @@ public class AccountManager {
             checker.onNoSignIn();
         }
     }
+    public static boolean    checkAccont() {
+        if (isComplete()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
 }

@@ -54,6 +54,38 @@ public class SearchFriendsPresenter extends BasePresenter<SearchFriendsView> {
                         getView().respfriendsdetailsError(throwable.getMessage());
                     }
                 });
-
     }
+    @SuppressLint("CheckResult")
+    public void reqaddfriendsdetails(int targetUserId, String token) {
+        String url = "/friend/insert_friend_apply";
+        RxRestClient.builder()
+                .url(url)
+                .params("yjtk", token)
+                .params("targetUserId",targetUserId)
+                .build()
+                .post()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<String>() {
+                    @Override
+                    public void accept(String response) throws Exception {
+                        final JSONObject object = JSON.parseObject(response);
+                        final String status = object.getString("status");
+                        if (TextUtils.equals(status, "1001")) {
+                                getView().respaddfriendsdetailsSuccess();
+                        }else{
+                            getView().respaddfriendsdetailsError( object.getString("msg"));
+                        }
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        getView().respaddfriendsdetailsError(throwable.getMessage());
+                    }
+                });
+    }
+
+
+
+
 }

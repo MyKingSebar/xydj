@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -58,6 +59,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements View.OnFocusC
     private final int TEXTMODE = 4;
     private Bundle mArgs = null;
     public static final String PICKTYPE = "PICKTYPE";
+    boolean isFirst=true;
 
 
     @BindView(R2.id.rv_index)
@@ -72,6 +74,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements View.OnFocusC
     IconTextView mIconScan = null;
     @BindView(R2.id.icon_index_message)
     IconTextView mSend = null;
+
 
 
     private YjReFreshHandler mRefreshHandler = null;
@@ -96,6 +99,10 @@ public class YjIndexDelegate extends BottomItemDelegate implements View.OnFocusC
     @OnClick(R2.id.icon_index_scan)
     void onCLickScanOrCode() {
         startScanWithCheck(this.getParentDelegate());
+    }
+    @OnClick(R2.id.tv_invite)
+    void mInvite() {
+        showToast("暂未开通");
     }
 
     @Override
@@ -291,6 +298,16 @@ public class YjIndexDelegate extends BottomItemDelegate implements View.OnFocusC
 //        initFriendsRecyclerView();
 //        initIndexRecyclerView();
         mRefreshHandler.firstPage();
+        isFirst=false;
+    }
+
+    @Override
+    public void onSupportVisible() {
+        super.onSupportVisible();
+        if(!isFirst){
+
+            mRefreshHandler.firstPage();
+        }
     }
 
     @Override
@@ -319,10 +336,11 @@ public class YjIndexDelegate extends BottomItemDelegate implements View.OnFocusC
         }
     }
 
-    /*popup START*/
     @Override
     public void onIndexItemClick(double itemTotalPrice) {
-
+        if(!isFirst){
+            mRefreshHandler.firstPage();
+        }
     }
 
     void initPopup() {

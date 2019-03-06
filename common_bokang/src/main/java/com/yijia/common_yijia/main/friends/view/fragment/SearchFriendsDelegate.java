@@ -6,9 +6,7 @@ import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -27,9 +25,7 @@ import com.yijia.common_yijia.main.friends.presenter.SearchFriendsPresenter;
 import com.yijia.common_yijia.main.friends.view.iview.SearchFriendsView;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 
 /**
  * 查询好友页面
@@ -55,6 +51,8 @@ public class SearchFriendsDelegate extends LatteDelegate implements SearchFriend
     private SearchFriendsPresenter searchFriendsPresenter;
     private String token;
     RequestOptions mRequestOptions;
+
+    int id =0;
 
     @Override
     public Object setLayout() {
@@ -106,7 +104,7 @@ public class SearchFriendsDelegate extends LatteDelegate implements SearchFriend
             searchFriendsPresenter.reqfriendsdetails(friends_phone, token);
         } else if (i == R.id.thecontact_layout) {
             //todo 点击好友 跳转详情
-
+            searchFriendsPresenter.reqaddfriendsdetails(id,token);
         }else if (i == R.id.cancel_edit){
             //点击清空edittext
             searchEdittext.setText("");
@@ -130,6 +128,7 @@ public class SearchFriendsDelegate extends LatteDelegate implements SearchFriend
         thecontactLayout.setVisibility(View.VISIBLE);
         String nickname = user.getString("nickname");
         String imagePath = user.getString("imagePath");
+        id =user.getInteger("id");
         userName.setText(nickname);
         Glide.with(_mActivity)
                 .load(imagePath)
@@ -141,6 +140,16 @@ public class SearchFriendsDelegate extends LatteDelegate implements SearchFriend
     @Override
     public void respfriendsdetailsError(String message) {
         Toast.makeText(_mActivity, message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void respaddfriendsdetailsSuccess() {
+        showToast("发送成功!");
+    }
+
+    @Override
+    public void respaddfriendsdetailsError(String message) {
+        showToast("添加失败："+message);
     }
 
     @Override

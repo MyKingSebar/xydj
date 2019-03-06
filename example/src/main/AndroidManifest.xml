@@ -65,6 +65,11 @@
         <activity android:name="com.bokang.yijia.ExampleActivity"
             android:screenOrientation="portrait"
             >
+        </activity>
+        <activity android:name="com.bokang.yijia.StartAvtivity"
+            android:theme="@style/ActivityTheme2"
+            android:screenOrientation="portrait"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

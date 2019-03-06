@@ -32,7 +32,7 @@ public class GridImageAdapter extends
     public static final int TYPE_PICTURE = 2;
     private LayoutInflater mInflater;
     private List<LocalMedia> list = new ArrayList<>();
-    private int selectMax = 9;
+    private int selectMax = 2;
     private Context context;
     /**
      * 点击添加图片跳转
@@ -110,7 +110,7 @@ public class GridImageAdapter extends
      */
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
-        //少于8张，显示继续添加的图标
+        //少于1张，显示继续添加的图标
         if (getItemViewType(position) == TYPE_CAMERA) {
             viewHolder.mImg.setImageResource(R.mipmap.item_addfriends);
             viewHolder.mImg.setOnClickListener(new View.OnClickListener() {

@@ -45,4 +45,5 @@ dependencies {
     //极光
     api 'cn.jiguang.sdk:jpush:3.1.8'
     api 'cn.jiguang.sdk:jcore:1.2.7'
+    implementation project(':picture_library')
 }

@@ -5,6 +5,8 @@ import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v7.widget.AppCompatImageView;
@@ -113,7 +115,6 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
     @Override
     protected void convert(MultipleViewHolder holder, final MultipleItemEntity entity) {
         super.convert(holder, entity);
-        Log.e("jialei", "YjIndexAdapter.mContext==null" + (mContext == null));
         initTts();
         //先取出所有值
         final Long userId = entity.getField(MultipleFields.ID);
@@ -194,7 +195,7 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
     private InputMethodManager mInputManager;
 
     @SuppressLint("WrongConstant")
-    private void showPopupcomment(int circleId, String content) {
+    private void showPopupcomment(int circleId, String content, MultipleViewHolder holder) {
         final int CIRCLEID = circleId;
         final String CONTENT = content;
         if (popupView == null) {
@@ -227,8 +228,9 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
         popupWindow.setTouchInterceptor(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_OUTSIDE)
-                { popupWindow.dismiss();}
+                if (event.getAction() == MotionEvent.ACTION_OUTSIDE) {
+                    popupWindow.dismiss();
+                }
                 return false;
 
             }
@@ -269,7 +271,7 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
                     Toast.makeText(mContext, "请输入评论内容", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                sendComment(CIRCLEID, nInputContentText);
+                sendComment(CIRCLEID, nInputContentText, holder);
             }
         });
     }
@@ -303,7 +305,7 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
 
             });
         }
-       //当前时间
+        //当前时间
         String now = CurrentTimeUtils.now();//createdTime
 
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -314,13 +316,12 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
             Date createdTime_d = df.parse(createdTime);
             long diff = now_d.getTime() - createdTime_d.getTime();//这样得到的差值是微秒级别
             long days = diff / (1000 * 60 * 60 * 24);
-            long hours = (diff-days*(1000 * 60 * 60 * 24))/(1000* 60 * 60);
-            long minutes = (diff-days*(1000 * 60 * 60 * 24)-hours*(1000* 60 * 60))/(1000* 60);
-            tvTime.setText(""+days+"天"+hours+"小时"+minutes+"分");
+            long hours = (diff - days * (1000 * 60 * 60 * 24)) / (1000 * 60 * 60);
+            long minutes = (diff - days * (1000 * 60 * 60 * 24) - hours * (1000 * 60 * 60)) / (1000 * 60);
+            tvTime.setText("" + days + "天" + hours + "小时" + minutes + "分");
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
 
 
         if (TextUtils.isEmpty(likes)) {
@@ -353,7 +354,7 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
         tvComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showPopupcomment(circleId, content);
+                showPopupcomment(circleId, content, holder);
             }
         });
     }
@@ -376,7 +377,7 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
         initializePlayer(playerView, medias);
     }
 
-    private void sendComment(int circleId, String nInputContentText) {
+    private void sendComment(int circleId, String nInputContentText, MultipleViewHolder holder) {
         final String url = "circle/insert_comment";
         final String token = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getYjtk();
         RxRestClient.builder()
@@ -397,6 +398,9 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
 
                         if (TextUtils.equals(status, "1001")) {
                             Toast.makeText(mContext, "评论成功", Toast.LENGTH_SHORT).show();
+                            if (mIndexItemListener != null) {
+                                mIndexItemListener.onIndexItemClick(0);
+                            }
                         } else {
                             final String msg = JSON.parseObject(response).getString("status");
                             Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
@@ -410,6 +414,7 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
                     public void onFail(Throwable e) {
                         Toast.makeText(mContext, "请稍后尝试", Toast.LENGTH_SHORT).show();
                         mInputManager.hideSoftInputFromWindow(inputComment.getWindowToken(), 0);
+
                         popupWindow.dismiss();
                     }
                 });
@@ -515,7 +520,6 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
     private void readContent(String text) {
         tts.start(text);
     }
-
 
 
     public static class CurrentTimeUtils {

@@ -56,6 +56,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import qiu.niorgai.StatusBarCompat;
 
+import static com.example.latte.app.AccountManager.checkAccont;
+
 public class ExampleActivity extends ProxyActivity implements
         ISignListener,
         ILauncherListener,
@@ -94,7 +96,13 @@ public class ExampleActivity extends ProxyActivity implements
 //        return new ExampleDelegate();
 //        return new SignInDelegate();
 //        return new YjBottomDelegate();
-        return new LauncherDelegate();
+        //检查用户是否登陆了APP
+        if(checkAccont()){
+            loginTencentIM();
+            return new YjBottomDelegate();
+        }else {
+            return new SignInNoteOnlyDelegate();
+        }
 //        return new SignUpDelegate();
 //        return new LauncherScrollDelegate();
     }
@@ -103,7 +111,7 @@ public class ExampleActivity extends ProxyActivity implements
     public void onSignInSuccess() {
 //        Toast.makeText(this, "登录成功", Toast.LENGTH_LONG).show();
 //        getSupportDelegate().startWithPop(new YjBottomDelegate());
-        AccountManager.checkAccont(new IUserChecker() {
+        checkAccont(new IUserChecker() {
             @Override
             public void onSignIn() {
                 getSupportDelegate().startWithPop(new SignInNoteOnlyDelegate());
@@ -133,7 +141,7 @@ public class ExampleActivity extends ProxyActivity implements
     public void onSignUpSuccess() {
 //        Toast.makeText(this, "注册成功", Toast.LENGTH_LONG).show();
 
-        AccountManager.checkAccont(new IUserChecker() {
+        checkAccont(new IUserChecker() {
             @Override
             public void onSignIn() {
                 getSupportDelegate().startWithPop(new SignInNoteOnlyDelegate());
@@ -331,7 +339,11 @@ public class ExampleActivity extends ProxyActivity implements
 
     @Override
     public void newBokangMessage(TIMCustomElem ele,TIMConversation conversation) {
-        if (new String(ele.getExt()).equals(MessageInfoUtil.BOKANG_VIDEO_WAIT)) {
+        String ss=new String(ele.getExt());
+        if(ss==null){
+            return;
+        }
+        if (ss.equals(MessageInfoUtil.BOKANG_VIDEO_WAIT)) {
             Intent intent = new Intent(this, CalledWaitingActivity.class);
             CallIntentData data=new CallIntentData();
 //            data.setConversation(conversation);

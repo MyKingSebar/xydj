@@ -34,6 +34,7 @@ import com.yijia.common_yijia.database.YjDatabaseManager;
 import com.yijia.common_yijia.main.index.friendcircle.IndexCameraCheckInstener;
 import com.yijia.common_yijia.main.index.friendcircle.LetterDelagate;
 import com.yijia.common_yijia.main.index.friendcircle.pictureselector.PhotoDelegate;
+import com.yijia.common_yijia.main.index.friendcircle.pictureselector.PhotoDelegate2;
 import com.yijia.common_yijia.main.index.friends.IFriendsItemListener;
 import com.yijia.common_yijia.main.index.friends.IndexFriendsAdapter;
 import com.yijia.common_yijia.main.index.friends.YjIndexFriendsDataConverter;
@@ -52,14 +53,14 @@ import razerdp.blur.PopupBlurOption;
 
 public class YjIndexDelegate extends BottomItemDelegate implements View.OnFocusChangeListener, IFriendsItemListener, IIndexItemListener ,IndexCameraCheckInstener {
 
-    private final int ALLMODE = 0;
-    private final int IMAGEMODE = 1;
-    private final int VIDEOMODE = 2;
-    private final int AUDIOMODE = 3;
-    private final int TEXTMODE = 4;
-    private Bundle mArgs = null;
-    public static final String PICKTYPE = "PICKTYPE";
-    boolean isFirst=true;
+        private final int ALLMODE = 0;
+        private final int IMAGEMODE = 1;
+        private final int VIDEOMODE = 2;
+        private final int AUDIOMODE = 3;
+        private final int TEXTMODE = 4;
+        private Bundle mArgs = null;
+        public static final String PICKTYPE = "PICKTYPE";
+        boolean isFirst=true;
 
 
     @BindView(R2.id.rv_index)
@@ -405,13 +406,13 @@ public class YjIndexDelegate extends BottomItemDelegate implements View.OnFocusC
                             }
                         })
                         .withClick(R.id.ll_camera, v1 -> {
-                            PhotoDelegate delegate = new PhotoDelegate();
-                            mArgs.putInt(PICKTYPE, IMAGEMODE);
+                            PhotoDelegate2 delegate = new PhotoDelegate2();
+                            mArgs.putInt(PICKTYPE, ALLMODE);
                             delegate.setArguments(mArgs);
                             getParentDelegate().getSupportDelegate().start(delegate);
                         }, true)
                         .withClick(R.id.ll_vodeo, v1 -> {
-                            PhotoDelegate delegate = new PhotoDelegate();
+                            PhotoDelegate2 delegate = new PhotoDelegate2();
                             mArgs.putInt(PICKTYPE, VIDEOMODE);
                             delegate.setArguments(mArgs);
                             getParentDelegate().getSupportDelegate().start(delegate);

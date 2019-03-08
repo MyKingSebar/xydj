@@ -32,7 +32,7 @@ public class GridImageAdapter extends
     public static final int TYPE_PICTURE = 2;
     private LayoutInflater mInflater;
     private List<LocalMedia> list = new ArrayList<>();
-    private int selectMax = 2;
+    private int selectMax = 1;
     private Context context;
     /**
      * 点击添加图片跳转
@@ -54,6 +54,7 @@ public class GridImageAdapter extends
     }
 
     public void setList(List<LocalMedia> list) {
+        int size=list.size();
         this.list = list;
     }
 

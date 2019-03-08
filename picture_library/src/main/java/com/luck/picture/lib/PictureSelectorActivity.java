@@ -179,7 +179,7 @@ public class PictureSelectorActivity extends PictureBaseActivity implements View
                     , WindowManager.LayoutParams.FLAG_FULLSCREEN);
             setContentView(R.layout.picture_empty);
         } else {
-            setContentView(R.layout.picture_selector);
+            setContentView(R.layout.picture_selector_copy);
             initView(savedInstanceState);
         }
     }
@@ -197,6 +197,7 @@ public class PictureSelectorActivity extends PictureBaseActivity implements View
         picture_tv_ok = (TextView) findViewById(R.id.picture_tv_ok);
         picture_id_preview = (TextView) findViewById(R.id.picture_id_preview);
         picture_tv_img_num = (TextView) findViewById(R.id.picture_tv_img_num);
+        picture_tv_img_num.setVisibility(View.INVISIBLE);
         picture_recycler = (RecyclerView) findViewById(R.id.picture_recycler);
         id_ll_ok = (LinearLayout) findViewById(R.id.id_ll_ok);
         tv_empty = (TextView) findViewById(R.id.tv_empty);
@@ -855,11 +856,11 @@ public class PictureSelectorActivity extends PictureBaseActivity implements View
                         (R.string.picture_done_front_num, selectImages.size(),
                                 config.selectionMode == PictureConfig.SINGLE ? 1 : config.maxSelectNum));
             } else {
-                if (!anim) {
-                    picture_tv_img_num.startAnimation(animation);
-                }
-                picture_tv_img_num.setVisibility(View.VISIBLE);
-                picture_tv_img_num.setText(String.valueOf(selectImages.size()));
+//                if (!anim) {
+//                    picture_tv_img_num.startAnimation(animation);
+//                }
+//                picture_tv_img_num.setVisibility(View.VISIBLE);
+//                picture_tv_img_num.setText(String.valueOf(selectImages.size()));
                 picture_tv_ok.setText(getString(R.string.picture_completed));
                 anim = false;
             }
@@ -872,7 +873,7 @@ public class PictureSelectorActivity extends PictureBaseActivity implements View
                 picture_tv_ok.setText(getString(R.string.picture_done_front_num, 0,
                         config.selectionMode == PictureConfig.SINGLE ? 1 : config.maxSelectNum));
             } else {
-                picture_tv_img_num.setVisibility(View.INVISIBLE);
+//                picture_tv_img_num.setVisibility(View.INVISIBLE);
                 picture_tv_ok.setText(getString(R.string.picture_please_select));
             }
         }

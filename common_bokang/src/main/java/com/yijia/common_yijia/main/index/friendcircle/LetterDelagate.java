@@ -87,14 +87,14 @@ public class LetterDelagate extends LatteDelegate implements LatCallbackInterfac
     @Override
     public void onSupportVisible() {
         super.onSupportVisible();
-        Toast.makeText(_mActivity, "qqqqq", Toast.LENGTH_SHORT).show();
+        Toast.makeText(_mActivity, "onSupportVisible", Toast.LENGTH_SHORT).show();
     }
 
 
     @Override
     public void onFragmentResult(int requestCode, int resultCode, Bundle data) {
         super.onFragmentResult(requestCode, resultCode, data);
-        Toast.makeText(_mActivity, "qqqqq", Toast.LENGTH_SHORT).show();
+        Toast.makeText(_mActivity, "onFragmentResult", Toast.LENGTH_SHORT).show();
         showToast("ssssssssss");
         Log.e("jialei","requestCode:"+requestCode);
         Log.e("jialei","resultCode:"+resultCode);

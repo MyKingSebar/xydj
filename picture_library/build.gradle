@@ -18,8 +18,9 @@ apply plugin: 'com.android.library'
 }
 
 dependencies {
-    api fileTree(include: ['*.jar'], dir: 'libs')
-    api project(':ucrop')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    api project(':common_ui')
+//    implementation project(':ucrop')
 //    //noinspection GradleCompatible
 //    compile "com.android.support:appcompat-v7:${cfgs.androidSupportVersion}"
 //    //noinspection GradleCompatible
@@ -27,4 +28,9 @@ dependencies {
 //    compile "com.github.bumptech.glide:glide:${cfgs.glide}"
 //    compile "io.reactivex.rxjava2:rxjava:${cfgs.rxjava}"
 //    compile "io.reactivex.rxjava2:rxandroid:${cfgs.rxandroid}"
+//    implementation 'com.android.support:appcompat-v7:28.0.0'
+//    implementation 'com.android.support:recyclerview-v7:28.0.0'
+//    implementation 'com.github.bumptech.glide:glide:4.8.0'
+//    implementation 'io.reactivex.rxjava2:rxjava:2.2.4'
+//    implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
 }

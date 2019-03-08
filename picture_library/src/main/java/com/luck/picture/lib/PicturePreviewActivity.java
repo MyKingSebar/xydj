@@ -352,6 +352,7 @@ public class PicturePreviewActivity extends PictureBaseActivity implements
             if (numComplete) {
                 tv_ok.setText(getString(R.string.picture_done_front_num, 0,
                         config.selectionMode == PictureConfig.SINGLE ? 1 : config.maxSelectNum));
+                tv_ok.setVisibility(View.INVISIBLE);
             } else {
                 tv_img_num.setVisibility(View.INVISIBLE);
                 tv_ok.setText(getString(R.string.picture_please_select));

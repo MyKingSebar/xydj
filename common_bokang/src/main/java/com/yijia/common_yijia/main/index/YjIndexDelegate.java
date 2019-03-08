@@ -69,8 +69,8 @@ public class YjIndexDelegate extends BottomItemDelegate implements View.OnFocusC
     RecyclerView mFriendsRecyclerView = null;
     @BindView(R2.id.srl_index)
     SwipeRefreshLayout mRefreshLayout = null;
-    @BindView(R2.id.tb_index)
-    Toolbar mToolbar = null;
+//    @BindView(R2.id.tb_index)
+//    Toolbar mToolbar = null;
     @BindView(R2.id.icon_index_scan)
     IconTextView mIconScan = null;
     @BindView(R2.id.icon_index_message)
@@ -191,6 +191,11 @@ public class YjIndexDelegate extends BottomItemDelegate implements View.OnFocusC
         mAdapter = new YjIndexAdapter(data, this);
         mAdapter.setIndexItemListener(this);
         final LinearLayoutManager manager = new LinearLayoutManager(getContext());
+        //scorllview相关
+        manager.setSmoothScrollbarEnabled(true);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setNestedScrollingEnabled(false);
+
         mRecyclerView.setLayoutManager(manager);
         mRecyclerView.setAdapter(mAdapter);
     }
@@ -313,7 +318,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements View.OnFocusC
 
     @Override
     public Object setLayout() {
-        return R.layout.delegate_index_yijia;
+        return R.layout.delegate_index_yijia2;
     }
 
 

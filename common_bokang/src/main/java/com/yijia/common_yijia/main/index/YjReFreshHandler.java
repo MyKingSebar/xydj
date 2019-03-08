@@ -4,6 +4,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
@@ -140,6 +141,9 @@ public class YjReFreshHandler extends RefreshHandler {
                             final JSONObject object = JSON.parseObject(response);
                             final String status = object.getString("status");
                             if (TextUtils.equals(status, "1001")) {
+                                if(null==object.getInteger("totalCount")){
+                                    return;
+                                }
                                 final int totalCount = object.getInteger("totalCount");
                                 BEAN.setTotal(totalCount)
                                         .setPageSize(20);

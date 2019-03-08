@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/abl"
+        android:layout_width="match_parent"
+        android:layout_height="222dp"
+        android:fitsSystemWindows="true"
+       >
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/ctl"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:contentScrim="@color/white"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="222dp"
+                android:background="@mipmap/background_index_top"
+                app:layout_collapseMode="parallax">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="64dp"
+                    android:background="@color/transparent">
+
+                    <com.joanzapata.iconify.widget.IconTextView
+                        android:id="@+id/icon_index_scan"
+                        android:layout_width="50dp"
+                        android:layout_height="match_parent"
+                        android:gravity="start|bottom"
+                        android:paddingStart="14dp"
+                        android:paddingBottom="13dp"
+                        android:text="{icon-yscan}"
+                        android:textColor="@color/white"
+                        android:textSize="22sp" />
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="10dp"
+                        android:textColor="@color/main_text_black_dark"
+                        android:textSize="18sp" />
+
+                    <com.joanzapata.iconify.widget.IconTextView
+                        android:id="@+id/icon_index_message"
+                        android:layout_width="50dp"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
+                        android:gravity="start|bottom"
+                        android:paddingEnd="16dp"
+                        android:paddingBottom="13dp"
+                        android:text="{icon-ycamera}"
+                        android:textColor="@color/white"
+                        android:textSize="22sp" />
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="50dp">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/cimg_img"
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:layout_marginStart="15dp" />
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/tv_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="14dp"
+                        android:text="孟宪良"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        tools:text="孟宪良" />
+                </LinearLayout>
+            </RelativeLayout>
+            <android.support.v7.widget.Toolbar
+                app:contentScrim="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="65dp"
+                app:layout_collapseMode="pin">
+
+                <com.joanzapata.iconify.widget.IconTextView
+                    android:id="@+id/icon_index_scan2"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:gravity="start|bottom"
+                    android:paddingStart="14dp"
+                    android:paddingBottom="13dp"
+                    android:text="{icon-yscan}"
+                    android:textColor="@color/main_text_black_dark"
+                    android:textSize="22sp" />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="10dp"
+                    android:text="壹家"
+                    android:textColor="@color/main_text_black_dark"
+                    android:textSize="18sp" />
+
+                <com.joanzapata.iconify.widget.IconTextView
+                    android:id="@+id/icon_index_message2"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:gravity="start|bottom"
+                    android:paddingEnd="16dp"
+                    android:paddingBottom="13dp"
+                    android:text="{icon-ycamera}"
+                    android:textColor="@color/main_text_black_dark"
+                    android:textSize="22sp" />
+
+            </android.support.v7.widget.Toolbar>
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/srl_index"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_friends"
+                android:layout_width="match_parent"
+                android:layout_height="110dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="77dp"
+                android:layout_marginEnd="15dp"
+                android:background="@android:color/white"
+                android:visibility="gone">
+
+            </android.support.v7.widget.RecyclerView>
+
+            <android.support.v7.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp">
+
+                <com.joanzapata.iconify.widget.IconTextView
+                    android:layout_width="37dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="{icon-yedit}"
+                    android:textColor="@color/app_text_orange"
+                    android:textSize="22sp" />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="10dp"
+                    android:gravity="center_vertical"
+                    android:text="和亲友记录流光岁月吧！"
+                    android:textColor="@color/app_text_dark"
+                    android:textSize="18sp"
+
+                    />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/tv_invite"
+                    android:layout_width="88dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@mipmap/icon_index_invite" />
+
+            </android.support.v7.widget.LinearLayoutCompat>
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_index"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white" />
+
+
+        </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+</android.support.design.widget.CoordinatorLayout>

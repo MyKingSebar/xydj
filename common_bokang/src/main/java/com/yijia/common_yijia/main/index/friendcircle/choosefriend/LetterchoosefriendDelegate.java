@@ -22,7 +22,12 @@ import com.example.latte.ui.contactlist.cn.CNPinyin;
 import com.example.latte.ui.contactlist.cn.CNPinyinFactory;
 import com.example.latte.ui.contactlist.search.CharIndexView;
 import com.example.latte.ui.contactlist.stickyheader.StickyHeaderDecoration;
+import com.example.latte.util.callback.CallbackManager;
+import com.example.latte.util.callback.CallbackType;
+import com.example.latte.util.callback.IGlobalCallback;
 import com.example.latte.util.log.LatteLogger;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.yijia.common_yijia.database.YjDatabaseManager;
 import com.yijia.common_yijia.main.index.friendcircle.LetterDelagate;
 
@@ -59,10 +64,10 @@ public class LetterchoosefriendDelegate extends LatteDelegate implements ChooseF
 
     @OnClick(R2.id.tv_back)
     void back() {
-        Bundle bundle = new Bundle();
-        bundle.putLong("friendId", 1);
-        bundle.putString("friendName", "1111111111");
-        getSupportDelegate().setFragmentResult(RESULT_OK, bundle);
+//        Bundle bundle = new Bundle();
+//        bundle.putLong("friendId", 1);
+//        bundle.putString("friendName", "1111111111");
+//        getSupportDelegate().setFragmentResult(RESULT_OK, bundle);
         getSupportDelegate().pop();
 //        getSupportDelegate().pop();
     }
@@ -129,6 +134,7 @@ public class LetterchoosefriendDelegate extends LatteDelegate implements ChooseF
     }
 
     private void initFriendsRecyclerView() {
+        LatteLogger.e("initFriendsRecyclerView", "aaaa");
         final String url = "friend/query_friends";
         String token = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getYjtk();
         RxRestClient.builder()
@@ -141,6 +147,7 @@ public class LetterchoosefriendDelegate extends LatteDelegate implements ChooseF
                 .subscribe(new BaseObserver<String>(getContext()) {
                     @Override
                     public void onResponse(String response) {
+                        LatteLogger.e("initFriendsRecyclerView",(String)new Gson().toJson(response));
                         LatteLogger.json("USER_FRIENDS", response);
                         final String status = JSON.parseObject(response).getString("status");
                         if (TextUtils.equals(status, "1001")) {
@@ -218,6 +225,12 @@ public class LetterchoosefriendDelegate extends LatteDelegate implements ChooseF
         bundle.putLong("friendId", contact.getFriendUserId());
         bundle.putString("friendName", contact.getNickname());
         getSupportDelegate().setFragmentResult(4, bundle);
+        final IGlobalCallback<String> callback = CallbackManager
+                .getInstance()
+                .getCallback(CallbackType.FRAGMENT_LETTER_RESULT);
+        if (callback != null) {
+            callback.executeCallback(contact.getNickname() + "," + contact.getFriendUserId());
+        }
         getSupportDelegate().pop();
     }
 

@@ -31,10 +31,10 @@ dependencies {
     api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'
     //RecyclerView 分割线
     api 'com.choices.divider:RecyclerView_Divider:1.0.0'
-    //图片处理
-    api 'com.github.bumptech.glide:glide:4.8.0'
-    api 'com.github.bumptech.glide:okhttp3-integration:4.0.0-RC0@aar'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
+//    //图片处理
+//    api 'com.github.bumptech.glide:glide:4.8.0'
+//    api 'com.github.bumptech.glide:okhttp3-integration:4.0.0-RC0@aar'
+//    annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
     //图片压缩
     api 'top.zibin:Luban:1.1.8'
     //Banner依赖

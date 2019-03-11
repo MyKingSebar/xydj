@@ -170,6 +170,11 @@ dependencies {
 //        api 'com.github.yalantis:ucrop:2.2.2-native'
         api  project(':ucrop')
 
+    //图片处理
+    api 'com.github.bumptech.glide:glide:4.8.0'
+//    api 'com.github.bumptech.glide:okhttp3-integration:4.0.0-RC0@aar'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
+
 //    //图片视频选取(包含ucrop、LuBan)
 //    api 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.3'
     //崩溃SpiderMan

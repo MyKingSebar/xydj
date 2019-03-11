@@ -3,6 +3,8 @@ package com.yijia.common_yijia.main.index;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,14 +19,17 @@ import android.view.animation.TranslateAnimation;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
+import com.bumptech.glide.Glide;
 import com.example.latte.delegates.bottom.BottomItemDelegate;
 import com.example.latte.ec.R;
 import com.example.latte.ec.R2;
 import com.example.latte.ec.main.index.IndexDataConverter;
 import com.example.latte.ec.main.index.search.SearchDelegate;
+import com.example.latte.lisener.AppBarStateChangeListener;
 import com.example.latte.net.rx.BaseObserver;
 import com.example.latte.net.rx.RxRestClient;
 import com.example.latte.ui.recycler.MultipleItemEntity;
+import com.example.latte.util.GlideUtils;
 import com.example.latte.util.callback.CallbackManager;
 import com.example.latte.util.callback.CallbackType;
 import com.example.latte.util.callback.IGlobalCallback;
@@ -40,9 +45,11 @@ import com.yijia.common_yijia.main.index.friends.IndexFriendsAdapter;
 import com.yijia.common_yijia.main.index.friends.YjIndexFriendsDataConverter;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import de.hdodenhof.circleimageview.CircleImageView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import razerdp.basepopup.BasePopupWindow;
@@ -69,12 +76,21 @@ public class YjIndexDelegate extends BottomItemDelegate implements View.OnFocusC
     RecyclerView mFriendsRecyclerView = null;
     @BindView(R2.id.srl_index)
     SwipeRefreshLayout mRefreshLayout = null;
-//    @BindView(R2.id.tb_index)
-//    Toolbar mToolbar = null;
+    @BindView(R2.id.tb_index)
+    Toolbar mToolbar = null;
+    @BindView(R2.id.ctl)
+    CollapsingToolbarLayout ctl = null;
+    @BindView(R2.id.abl)
+    AppBarLayout abl = null;
     @BindView(R2.id.icon_index_scan)
     IconTextView mIconScan = null;
     @BindView(R2.id.icon_index_message)
     IconTextView mSend = null;
+
+    @BindView(R2.id.cimg_img)
+    CircleImageView cimg_img = null;
+    @BindView(R2.id.tv_name)
+    AppCompatTextView tv_name = null;
 
 
 
@@ -120,6 +136,42 @@ public class YjIndexDelegate extends BottomItemDelegate implements View.OnFocusC
         this.registerForContextMenu(mSend);
 //        mSend.setOnCreateContextMenuListener(this);
         initPopup();
+        initView();
+
+    }
+
+    private void initView() {
+        initTopBar();
+        String name = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getNickname();
+        if(!TextUtils.isEmpty(name)){
+            tv_name.setText(name);
+        }
+        String img = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getImagePath();
+            Glide.with(Objects.requireNonNull(getContext()))
+                    .load(img)
+                    .apply(GlideUtils.USEROPTIONS)
+                    .into(cimg_img);
+    }
+
+    private void initTopBar() {
+        abl.addOnOffsetChangedListener(new AppBarStateChangeListener() {
+            @Override
+            public void onStateChanged(AppBarLayout appBarLayout, State state) {
+                if( state == State.EXPANDED ) {
+
+                    //展开状态
+                    mToolbar.setVisibility(View.GONE);
+                }else if(state == State.COLLAPSED){
+
+                    //折叠状态
+                    mToolbar.setVisibility(View.VISIBLE);
+                }else {
+
+                    //中间状态
+                    mToolbar.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 
     @Override

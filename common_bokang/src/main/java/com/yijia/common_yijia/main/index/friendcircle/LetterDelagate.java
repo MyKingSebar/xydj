@@ -42,17 +42,17 @@ import io.reactivex.schedulers.Schedulers;
 
 
 public class LetterDelagate extends LatteDelegate implements LatCallbackInterface {
-    public static final int LETTERCODE=6000;
+    public static final int LETTERCODE = 6000;
     private Lat mlat = null;
-    StringBuffer mStringBuffer=null;
+    StringBuffer mStringBuffer = null;
     //光标所在位置
-    int index=0;
+    int index = 0;
     @BindView(R2.id.et_text)
     AppCompatEditText etText;
     @BindView(R2.id.tv_recipients)
     AppCompatTextView tv_recipients;
 
-    private long friendId=0;
+    private long friendId = 0;
 
     //朋友圈参数
     //1-文本，2-照片，3-语音，4-视频
@@ -62,9 +62,9 @@ public class LetterDelagate extends LatteDelegate implements LatCallbackInterfac
     //可见类型：1-全部可见，2-部分可见，3-部分不可见
     private int visibleType = 2;
     private int[] visibleOrInvisibleUserIds = {};
-    private String location="";
-    private double longitude=0;
-    private double latitude=0;
+    private String location = "";
+    private double longitude = 0;
+    private double latitude = 0;
 
 
     @OnClick(R2.id.tv_back)
@@ -75,12 +75,13 @@ public class LetterDelagate extends LatteDelegate implements LatCallbackInterfac
     @OnClick(R2.id.bt_say)
     void say() {
         checkLat();
-        index=etText.getSelectionStart();
+        index = etText.getSelectionStart();
         mlat.iatStart();
     }
+
     @OnClick(R2.id.ll_recipients)
     void recipients() {
-        getSupportDelegate().startForResult(new LetterchoosefriendDelegate(),LETTERCODE);
+        getSupportDelegate().startForResult(new LetterchoosefriendDelegate(), LETTERCODE);
     }
 
 
@@ -90,25 +91,25 @@ public class LetterDelagate extends LatteDelegate implements LatCallbackInterfac
         Toast.makeText(_mActivity, "onSupportVisible", Toast.LENGTH_SHORT).show();
     }
 
-
+    //无效
     @Override
     public void onFragmentResult(int requestCode, int resultCode, Bundle data) {
         super.onFragmentResult(requestCode, resultCode, data);
         Toast.makeText(_mActivity, "onFragmentResult", Toast.LENGTH_SHORT).show();
         showToast("ssssssssss");
-        Log.e("jialei","requestCode:"+requestCode);
-        Log.e("jialei","resultCode:"+resultCode);
-        Log.e("jialei","ididid:"+data.getLong("friendId",0));
-        int i=requestCode;
-        int i1=resultCode;
-        Bundle bundle=data;
-        String t1=bundle.getString("friendName","");
-        Toast.makeText(_mActivity, ""+requestCode+resultCode+data.toString(), Toast.LENGTH_SHORT).show();
+        Log.e("jialei", "requestCode:" + requestCode);
+        Log.e("jialei", "resultCode:" + resultCode);
+        Log.e("jialei", "ididid:" + data.getLong("friendId", 0));
+        int i = requestCode;
+        int i1 = resultCode;
+        Bundle bundle = data;
+        String t1 = bundle.getString("friendName", "");
+        Toast.makeText(_mActivity, "" + requestCode + resultCode + data.toString(), Toast.LENGTH_SHORT).show();
 
-        if (requestCode == LETTERCODE&&resultCode==4) {
+        if (requestCode == LETTERCODE && resultCode == 4) {
             if (data != null) {
-                tv_recipients.setText(data.getString("friendName",""));
-                friendId=data.getLong("friendId",0);
+                tv_recipients.setText(data.getString("friendName", ""));
+                friendId = data.getLong("friendId", 0);
 //                final String qrCode = data.getString("SCAN_RESULT");
 //                final IGlobalCallback<String> callback = CallbackManager
 //                        .getInstance()
@@ -144,20 +145,32 @@ public class LetterDelagate extends LatteDelegate implements LatCallbackInterfac
 
 
     private void init() {
-        mStringBuffer=new StringBuffer();
+        mStringBuffer = new StringBuffer();
         checkLat();
-
+        CallbackManager.getInstance()
+                .addCallback(CallbackType.FRAGMENT_LETTER_RESULT, new IGlobalCallback<String>() {
+                    @Override
+                    public void executeCallback(@Nullable String args) {
+                        assert args != null;
+                        String[] arg = args.split(",");
+                        if (arg.length == 2) {
+                            tv_recipients.setText(arg[0]);
+                            friendId = Long.parseLong(arg[1]);
+                        }
+                    }
+                });
 
     }
-private void checkLat(){
-    if (null == mlat) {
-            Context context=getContext();
-            if(null==context){
+
+    private void checkLat() {
+        if (null == mlat) {
+            Context context = getContext();
+            if (null == context) {
                 return;
             }
-        mlat = new Lat(getContext(), Lat.INPUTASS, this);
+            mlat = new Lat(getContext(), Lat.INPUTASS, this);
+        }
     }
-}
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -171,7 +184,7 @@ private void checkLat(){
         if (circleType == 1) {
             filesString = "";
         }
-        if(friendId==0){
+        if (friendId == 0) {
             showToast("请选择好友");
             hideInput();
             return;
@@ -185,7 +198,7 @@ private void checkLat(){
                 .params("content", content)
 //                .params(urlType, filesString)
                 .params("visibleType", visibleType)
-                .params("visibleOrInvisibleUserIds",new long[]{friendId})
+                .params("visibleOrInvisibleUserIds", new long[]{friendId})
                 .params("location", location)
                 .params("longitude", longitude)
                 .params("latitude", latitude)
@@ -212,13 +225,13 @@ private void checkLat(){
     public void latSuccess(String s) {
         mStringBuffer.setLength(0);
         mStringBuffer.append(etText.getText().toString());
-        if (index < 0 || index >= mStringBuffer.length() ){
+        if (index < 0 || index >= mStringBuffer.length()) {
             mStringBuffer.append(s);
-        }else{
-            mStringBuffer.insert(index,s);//光标所在位置插入文字
+        } else {
+            mStringBuffer.insert(index, s);//光标所在位置插入文字
         }
         etText.setText(mStringBuffer);
-        index+=s.length();
+        index += s.length();
         etText.setSelection(index);
     }
 

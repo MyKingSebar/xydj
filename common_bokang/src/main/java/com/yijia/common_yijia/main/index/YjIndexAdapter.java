@@ -38,14 +38,17 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.commcon_xfyun.Tts;
+import com.example.latte.app.Latte;
 import com.example.latte.delegates.LatteDelegate;
 import com.example.latte.ec.R;
 import com.example.latte.net.rx.BaseObserver;
 import com.example.latte.net.rx.RxRestClient;
+import com.example.latte.ui.expandtextview.ExpandTextView;
 import com.example.latte.ui.recycler.MultipleFields;
 import com.example.latte.ui.recycler.MultipleItemEntity;
 import com.example.latte.ui.recycler.MultipleRecyclerAdapter;
 import com.example.latte.ui.recycler.MultipleViewHolder;
+import com.example.latte.util.TimeFormat;
 import com.example.latte.util.log.LatteLogger;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.DefaultRenderersFactory;
@@ -57,6 +60,7 @@ import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
+import com.luck.picture.lib.tools.ScreenUtils;
 import com.lzy.ninegrid.ImageInfo;
 import com.lzy.ninegrid.NineGridView;
 import com.lzy.ninegrid.preview.NineGridViewClickAdapter;
@@ -86,6 +90,7 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
     final int DISLIKE = 2;
 
     private IIndexItemListener mIndexItemListener = null;
+    private IIndexCanReadItemListener mIndexCanReadItemListener = null;
 
     private static final RequestOptions OPTIONS = new RequestOptions()
             .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -102,13 +107,16 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
         addItemType(YjIndexItemType.INDEX_VIDEO_ITEM, R.layout.item_index_video);
         addItemType(YjIndexItemType.INDEX_IMAGES_ITEM, R.layout.item_index_images);
         //TODO
-        addItemType(YjIndexItemType.INDEX_LETTER_ITEM, R.layout.item_index_images);
+        addItemType(YjIndexItemType.INDEX_LETTER_ITEM, R.layout.item_index_letter);
 
     }
 
 
     public void setIndexItemListener(IIndexItemListener listener) {
         this.mIndexItemListener = listener;
+    }
+    public void setIndexCanReadItemListener(IIndexCanReadItemListener listener) {
+        this.mIndexCanReadItemListener = listener;
     }
 
 
@@ -172,6 +180,11 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
                 LatteLogger.d("jialei", "videoString" + videoUrl);
                 initViewText(holder, circleId, userNickname, content, createdTime, likes, commentList.toJSONString());
                 initMedias(holder, videoString);
+                break;
+            case YjIndexItemType.INDEX_LETTER_ITEM:
+
+                initViewText(holder, circleId, userNickname, content, createdTime, likes, commentList.toJSONString());
+                initLetter(holder);
                 break;
 
 
@@ -280,7 +293,7 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
                               final String content, String createdTime, String likes, String commentList) {
         //取出所以控件
         final AppCompatTextView tvName = holder.getView(R.id.tv_name);
-        final AppCompatTextView tvContent = holder.getView(R.id.tv_content);
+        final ExpandTextView tvContent = holder.getView(R.id.tv_content);
         final AppCompatTextView tvTime = holder.getView(R.id.tv_time);
         final AppCompatTextView tvZan = holder.getView(R.id.tv_zan);
         final AppCompatTextView tvShare = holder.getView(R.id.tv_share);
@@ -288,37 +301,33 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
         final AppCompatTextView tvGetzan = holder.getView(R.id.tv_getzan);
         final RecyclerView rvComment = holder.getView(R.id.rv_comment);
         final AppCompatTextView tvComment = holder.getView(R.id.tv_comment);
-
+        // 设置TextView可展示的宽度 ( 父控件宽度 - 左右margin - 左右padding）
+        int whidth = ScreenUtils.getScreenWidth(latteDelegate.getContext()) - ScreenUtils.dip2px(latteDelegate.getContext(), 16 * 2);
+        tvContent.initWidth(313+180);
+        tvContent.setMaxLines(2);
+        tvContent.setCloseText(content);
         //赋值
         tvName.setText(userNickname);
-        if (TextUtils.isEmpty(content)) {
-            tvContent.setVisibility(View.GONE);
-        } else {
-
-            tvContent.setText(content);
-            tvContent.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    readContent(content);
-                }
-
-
-            });
-        }
-        //当前时间
-        String now = CurrentTimeUtils.now();//createdTime
-
+        //语音
+//        if (TextUtils.isEmpty(content)) {
+//            tvContent.setVisibility(View.GONE);
+//        } else {
+//
+//            tvContent.setText(content);
+//            tvContent.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    readContent(content);
+//                }
+//
+//
+//            });
+//        }
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
         try {
-            //todo 时间比较
-            Date now_d = df.parse(now);
             Date createdTime_d = df.parse(createdTime);
-            long diff = now_d.getTime() - createdTime_d.getTime();//这样得到的差值是微秒级别
-            long days = diff / (1000 * 60 * 60 * 24);
-            long hours = (diff - days * (1000 * 60 * 60 * 24)) / (1000 * 60 * 60);
-            long minutes = (diff - days * (1000 * 60 * 60 * 24) - hours * (1000 * 60 * 60)) / (1000 * 60);
-            tvTime.setText("" + days + "天" + hours + "小时" + minutes + "分");
+            String time=TimeFormat.getCompareNowString(createdTime_d);
+            tvTime.setText(time);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -371,6 +380,16 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
         }
         ngImgs.setAdapter(new NineGridViewClickAdapter(mContext, imageInfo));
     }
+    private void initLetter(MultipleViewHolder holder) {
+        final AppCompatTextView canRead = holder.getView(R.id.tv_canread);
+        canRead.setOnClickListener(v -> {
+            if(mIndexCanReadItemListener!=null){
+                mIndexCanReadItemListener.goCanReadList();
+            }
+        });
+
+    }
+
 
     private void initMedias(MultipleViewHolder holder, String[] medias) {
         final PlayerView playerView = holder.getView(R.id.video_view);
@@ -522,11 +541,4 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
     }
 
 
-    public static class CurrentTimeUtils {
-        public static String now() {
-            Time localTime = new Time("Asia/Hong_Kong");
-            localTime.setToNow();
-            return localTime.format("%Y-%m-%d %H:%M:%S");
-        }
-    }
 }

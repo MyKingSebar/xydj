@@ -140,6 +140,8 @@ public class LetterchoosefriendDelegate extends LatteDelegate implements ChooseF
         RxRestClient.builder()
                 .url(url)
                 .params("yjtk", token)
+                .params("pageNo", 1)
+                .params("pageSize", 500)
                 .build()
                 .post()
                 .subscribeOn(Schedulers.io())

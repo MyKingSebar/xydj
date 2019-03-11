@@ -11,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.animation.Animation;
@@ -56,7 +57,7 @@ import razerdp.basepopup.QuickPopupConfig;
 import razerdp.blur.PopupBlurOption;
 
 
-public class YjIndexDelegate extends BottomItemDelegate implements  IFriendsItemListener, IIndexItemListener ,IndexCameraCheckInstener {
+public class YjIndexDelegate extends BottomItemDelegate implements  IFriendsItemListener, IIndexItemListener ,IndexCameraCheckInstener,IIndexCanReadItemListener {
 
         private final int ALLMODE = 0;
         private final int IMAGEMODE = 1;
@@ -240,12 +241,13 @@ public class YjIndexDelegate extends BottomItemDelegate implements  IFriendsItem
                         .convert();
         mAdapter = new YjIndexAdapter(data, this);
         mAdapter.setIndexItemListener(this);
+        mAdapter.setIndexCanReadItemListener(this);
         final LinearLayoutManager manager = new LinearLayoutManager(getContext());
         //scorllview相关
         manager.setSmoothScrollbarEnabled(true);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setNestedScrollingEnabled(false);
-
+        mRecyclerView.setFocusableInTouchMode(false);
         mRecyclerView.setLayoutManager(manager);
         mRecyclerView.setAdapter(mAdapter);
     }
@@ -353,6 +355,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements  IFriendsItem
         initRecyclerView();
 //        initFriendsRecyclerView();
 //        initIndexRecyclerView();
+        Log.d("refresh","onLazyInitView");
         mRefreshHandler.firstPage();
         isFirst=false;
     }
@@ -361,7 +364,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements  IFriendsItem
     public void onSupportVisible() {
         super.onSupportVisible();
         if(!isFirst){
-
+            Log.d("refresh","onSupportVisible!isFirs");
             mRefreshHandler.firstPage();
         }
     }
@@ -389,10 +392,11 @@ public class YjIndexDelegate extends BottomItemDelegate implements  IFriendsItem
     @Override
     public void onIndexItemClick(double itemTotalPrice) {
         if(!isFirst){
+            Log.d("refresh","onIndexItemClick");
             mRefreshHandler.firstPage();
         }
     }
-
+    /*popup Start*/
     void initPopup() {
         enterAnimation = createVerticalAnimation(-1f, 0);
         dismissAnimation = createVerticalAnimation(0, -1f);
@@ -471,11 +475,19 @@ public class YjIndexDelegate extends BottomItemDelegate implements  IFriendsItem
                         }, true))
                 .show(v);
     }
+    /*popup END*/
+
+
 
     @Override
     public void checkok(View v) {
 
     }
-    /*popup END*/
+
+    @Override
+    public void goCanReadList() {
+
+    }
+
 
 }

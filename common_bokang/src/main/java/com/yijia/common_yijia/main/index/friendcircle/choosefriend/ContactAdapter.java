@@ -14,21 +14,13 @@ import com.example.latte.ui.contactlist.adapter.ContactHolder;
 import com.example.latte.ui.contactlist.adapter.HeaderHolder;
 import com.example.latte.ui.contactlist.cn.CNPinyin;
 import com.example.latte.ui.contactlist.stickyheader.StickyHeaderAdapter;
+import com.example.latte.util.GlideUtils;
 
 import java.util.List;
 
 
-/**
- * Created by you on 2017/9/11.
- */
 
 public class ContactAdapter extends RecyclerView.Adapter<ContactHolder> implements StickyHeaderAdapter<HeaderHolder> {
-
-    private static final RequestOptions OPTIONS = new RequestOptions()
-            .placeholder(R.mipmap.default_head)
-            .diskCacheStrategy(DiskCacheStrategy.ALL)
-            .centerCrop()
-            .dontAnimate();
 
     private final List<CNPinyin<ChooseFriendData>> cnPinyinList;
     private Context mContext=null;
@@ -57,7 +49,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactHolder> implemen
         ChooseFriendData contact = cnPinyinList.get(position).data;
         Glide.with(mContext)
                 .load(contact.getUserHead())
-                .apply(OPTIONS)
+                .apply(GlideUtils.USEROPTIONS)
                 .into(holder.iv_header);
         holder.tv_name.setText(contact.getNickname());
         if(null!=mLisener){

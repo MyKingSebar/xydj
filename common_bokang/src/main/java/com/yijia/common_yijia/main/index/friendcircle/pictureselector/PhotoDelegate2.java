@@ -230,7 +230,7 @@ public class PhotoDelegate2 extends LatteDelegate {
 
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, @NonNull View rootView) {
-        if (chooseMode == IMAGEMODE || chooseMode == VIDEOMODE || chooseMode == AUDIOMODE) {
+        if (chooseMode == IMAGEMODE || chooseMode == VIDEOMODE || chooseMode == AUDIOMODE||chooseMode ==ALLMODE) {
             isfirst = true;
         }
         init();
@@ -670,6 +670,7 @@ public class PhotoDelegate2 extends LatteDelegate {
                 .params(urlType, filesString)
                 .params("visibleType", visibleType)
 //                .params("visibleOrInvisibleUserIds",JSONArray.parseArray(JSON.toJSONString(visibleOrInvisibleUserIds2)))
+                //TODO 如果不行就用new Gson（）.toJson()这个
                 .params("visibleOrInvisibleUserIds", Arrays.toString(visibleOrInvisibleUserIds))
                 .params("location", location)
                 .params("longitude", longitude)

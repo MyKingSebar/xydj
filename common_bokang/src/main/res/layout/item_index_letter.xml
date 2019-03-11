@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:descendantFocusability="blocksDescendants"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <include layout="@layout/include_item_index_top" />
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_marginStart="47dp"
+    android:layout_marginEnd="15dp"
+    android:layout_height="75dp">
+    <TextView
+        android:layout_marginTop="10dp"
+        android:background="@color/edit_yellow"
+
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+    
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tv_canread"
+        android:background="@mipmap/icon_index_canread"
+        android:layout_width="20dp"
+        android:layout_height="15dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+
+        />
+</RelativeLayout>
+   
+
+    <include layout="@layout/include_item_index_commet" />
+
+</android.support.v7.widget.LinearLayoutCompat>

@@ -28,6 +28,7 @@ import com.example.latte.util.callback.CallbackManager;
 import com.example.latte.util.callback.CallbackType;
 import com.example.latte.util.callback.IGlobalCallback;
 import com.example.latte.util.log.LatteLogger;
+import com.google.gson.Gson;
 import com.luck.picture.lib.tools.PictureFileUtils;
 import com.yijia.common_yijia.database.YjDatabaseManager;
 import com.yijia.common_yijia.main.index.friendcircle.choosefriend.LetterchoosefriendDelegate;
@@ -192,13 +193,13 @@ public class LetterDelagate extends LatteDelegate implements LatCallbackInterfac
         RxRestClient.builder()
                 .url(url)
                 .params("yjtk", token)
-                //circleType  1-文本，2-照片，3-语音，4-视频
+                //circleType  1-文本，2-照片，3-语音，4-视频,5-家书
                 .params("circleType", circleType)
                 .params("contentType", contentType)//1-文字，2-语音
                 .params("content", content)
 //                .params(urlType, filesString)
                 .params("visibleType", visibleType)
-                .params("visibleOrInvisibleUserIds", new long[]{friendId})
+                .params("visibleOrInvisibleUserIds", new Gson().toJson(new long[]{friendId}))
                 .params("location", location)
                 .params("longitude", longitude)
                 .params("latitude", latitude)
@@ -210,7 +211,13 @@ public class LetterDelagate extends LatteDelegate implements LatCallbackInterfac
                     @Override
                     public void onResponse(String response) {
                         LatteLogger.json("circle/insert", response);
-                        getSupportDelegate().pop();
+                        final String status = JSON.parseObject(response).getString("status");
+                        if (TextUtils.equals(status, "1001")) {
+                            getSupportDelegate().pop();
+                        } else {
+                            final String msg = JSON.parseObject(response).getString("msg");
+                            Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+                        }
                     }
 
                     @Override

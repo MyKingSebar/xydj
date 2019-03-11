@@ -12,7 +12,7 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginStart="3dp"
-        android:src="@drawable/header0" />
+        android:src="@drawable/default_user_img" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -24,7 +24,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:maxLines="1"
             android:text="王二麻子"
+            android:layout_marginEnd="50dp"
             android:textColor="@color/main_text_black_dark"
             android:textSize="20sp" />
 

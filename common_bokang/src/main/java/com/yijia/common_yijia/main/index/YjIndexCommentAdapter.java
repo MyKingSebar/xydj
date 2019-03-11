@@ -5,7 +5,6 @@ import android.support.v7.widget.AppCompatTextView;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.latte.ec.R;
-import com.example.latte.ec.main.cart.ICartItemListener;
 import com.example.latte.ui.recycler.MultipleItemEntity;
 import com.example.latte.ui.recycler.MultipleRecyclerAdapter;
 import com.example.latte.ui.recycler.MultipleViewHolder;
@@ -16,7 +15,6 @@ import java.util.List;
 public final class YjIndexCommentAdapter extends MultipleRecyclerAdapter {
 
 
-    private ICartItemListener mCartItemListener = null;
 
     private static final RequestOptions OPTIONS = new RequestOptions()
             .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -30,9 +28,6 @@ public final class YjIndexCommentAdapter extends MultipleRecyclerAdapter {
     }
 
 
-    public void setCartItemListener(ICartItemListener listener) {
-        this.mCartItemListener = listener;
-    }
 
 
     @Override

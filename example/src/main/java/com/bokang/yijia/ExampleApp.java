@@ -6,15 +6,12 @@ import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.multidex.MultiDexApplication;
 
-import com.bokang.yijia.event.TestEvent;
 import com.example.commcon_xfyun.XunFei;
 import com.example.common_tencent_tuikit.TuiKitConfig;
 import com.example.latte.app.Latte;
-import com.example.latte.ec.database.DatabaseManager;
-import com.example.latte.ec.icon.FontEcModule;
-import com.example.latte.ec.icon.FontYJModule;
+import com.yijia.common_yijia.icon.FontEcModule;
+import com.yijia.common_yijia.icon.FontYJModule;
 import com.example.latte.net.Interceptors.DebugInterceptor;
-import com.example.latte.net.rx.AddCookieInterceptor;
 import com.example.latte.ui.ninegridview.GlideImageLoader;
 import com.example.latte.util.callback.CallbackManager;
 import com.example.latte.util.callback.CallbackType;
@@ -30,7 +27,6 @@ import com.simple.spiderman.SpiderMan;
 import com.yijia.common_yijia.database.YjDatabaseManager;
 
 import java.io.File;
-import java.util.List;
 
 import cn.jpush.android.api.JPushInterface;
 import me.yokeyword.fragmentation.Fragmentation;

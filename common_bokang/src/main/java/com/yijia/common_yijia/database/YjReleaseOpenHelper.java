@@ -3,7 +3,6 @@ package com.yijia.common_yijia.database;
 import android.content.Context;
 
 
-import com.example.latte.ec.database.DaoMaster;
 
 import org.greenrobot.greendao.database.Database;
 

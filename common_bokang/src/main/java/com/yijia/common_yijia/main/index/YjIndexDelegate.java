@@ -23,8 +23,6 @@ import com.bumptech.glide.Glide;
 import com.example.latte.delegates.bottom.BottomItemDelegate;
 import com.example.latte.ec.R;
 import com.example.latte.ec.R2;
-import com.example.latte.ec.main.index.IndexDataConverter;
-import com.example.latte.ec.main.index.search.SearchDelegate;
 import com.example.latte.lisener.AppBarStateChangeListener;
 import com.example.latte.net.rx.BaseObserver;
 import com.example.latte.net.rx.RxRestClient;
@@ -58,7 +56,7 @@ import razerdp.basepopup.QuickPopupConfig;
 import razerdp.blur.PopupBlurOption;
 
 
-public class YjIndexDelegate extends BottomItemDelegate implements View.OnFocusChangeListener, IFriendsItemListener, IIndexItemListener ,IndexCameraCheckInstener {
+public class YjIndexDelegate extends BottomItemDelegate implements  IFriendsItemListener, IIndexItemListener ,IndexCameraCheckInstener {
 
         private final int ALLMODE = 0;
         private final int IMAGEMODE = 1;
@@ -104,7 +102,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements View.OnFocusC
     int gravity;
     /*popu END*/
 
-    @OnClick(R2.id.icon_index_message)
+    @OnClick({R2.id.icon_index_message,R2.id.icon_index_message2})
     void onCLickpublish(View v) {
         useSDCardWithCheck(v,this);
 //        mSend.showContextMenu();
@@ -113,7 +111,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements View.OnFocusC
     }
 
 
-    @OnClick(R2.id.icon_index_scan)
+    @OnClick({R2.id.icon_index_scan,R2.id.icon_index_scan2})
     void onCLickScanOrCode() {
         startScanWithCheck(this.getParentDelegate());
     }
@@ -124,7 +122,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements View.OnFocusC
 
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, View rootView) {
-        mRefreshHandler = YjReFreshHandler.create(mRefreshLayout, mRecyclerView, new IndexDataConverter(), this, this);
+        mRefreshHandler = YjReFreshHandler.create(mRefreshLayout, mRecyclerView, null, this, this);
         CallbackManager.getInstance()
                 .addCallback(CallbackType.ON_SCAN, new IGlobalCallback<String>() {
                     @Override
@@ -374,12 +372,6 @@ public class YjIndexDelegate extends BottomItemDelegate implements View.OnFocusC
     }
 
 
-    @Override
-    public void onFocusChange(View v, boolean hasFocus) {
-        if (hasFocus) {
-            getParentDelegate().getSupportDelegate().start(new SearchDelegate());
-        }
-    }
 
     @Override
     public void onFriendsItemClick(Long id, String rongId, String name) {

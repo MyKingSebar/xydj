@@ -13,11 +13,9 @@ import com.alibaba.fastjson.JSON;
 import com.bokang.tencent_trtc_sdk.TrtcConfig;
 import com.example.common_tencent_tuikit.TuiKitConfig;
 import com.example.latte.activities.ProxyActivity;
-import com.example.latte.app.AccountManager;
 import com.example.latte.app.IUserChecker;
 import com.example.latte.app.Latte;
 import com.example.latte.delegates.LatteDelegate;
-import com.example.latte.ec.launcher.LauncherDelegate;
 import com.example.latte.net.rx.BaseObserver;
 import com.example.latte.net.rx.RxRestClient;
 import com.example.latte.ui.launcher.ILauncherListener;
@@ -25,14 +23,9 @@ import com.example.latte.ui.launcher.OnLauncherFinishTag;
 import com.example.latte.util.log.LatteLogger;
 import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMCustomElem;
-import com.tencent.imsdk.TIMElemType;
-import com.tencent.imsdk.TIMManager;
-import com.tencent.imsdk.TIMMessage;
-import com.tencent.imsdk.TIMMessageListener;
 import com.tencent.qcloud.uikit.TUIKit;
 import com.tencent.qcloud.uikit.business.chat.bokang.BokangChatListener;
 import com.tencent.qcloud.uikit.business.chat.bokang.BokangChatManager;
-import com.tencent.qcloud.uikit.business.chat.c2c.model.C2CChatManager;
 import com.tencent.qcloud.uikit.business.chat.model.MessageInfoUtil;
 import com.tencent.qcloud.uikit.common.IUIKitCallBack;
 import com.yhao.floatwindow.FloatWindow;
@@ -49,8 +42,6 @@ import com.yijia.common_yijia.sign.SignInNoteOnlyDelegate;
 import com.yijia.common_yijia.sign.SignUpSecondDelegate;
 import com.yijia.common_yijia.main.YjBottomDelegate;
 
-
-import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;

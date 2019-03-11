@@ -18,7 +18,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.example.latte.delegates.bottom.BottomItemDelegate;
 import com.example.latte.ec.R;
 import com.example.latte.ec.R2;
-import com.example.latte.ec.detail.TabPagerAdapter;
 import com.example.latte.util.log.LatteLogger;
 
 import butterknife.BindView;

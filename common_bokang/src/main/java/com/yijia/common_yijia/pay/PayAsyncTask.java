@@ -4,8 +4,8 @@ import android.app.Activity;
 import android.os.AsyncTask;
 
 import com.alipay.sdk.app.PayTask;
-import com.example.latte.ui.loader.LatteLoader;
-import com.example.latte.util.log.LatteLogger;
+import com.example.yijia.ui.loader.LatteLoader;
+import com.example.yijia.util.log.LatteLogger;
 
 
 public class PayAsyncTask extends AsyncTask<String, Void, String> {

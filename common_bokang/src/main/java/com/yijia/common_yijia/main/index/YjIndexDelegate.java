@@ -21,23 +21,23 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
-import com.example.latte.delegates.bottom.BottomItemDelegate;
+import com.example.yijia.delegates.bottom.BottomItemDelegate;
 import com.example.latte.ec.R;
 import com.example.latte.ec.R2;
-import com.example.latte.lisener.AppBarStateChangeListener;
-import com.example.latte.net.rx.BaseObserver;
-import com.example.latte.net.rx.RxRestClient;
+import com.example.yijia.lisener.AppBarStateChangeListener;
+import com.example.yijia.net.rx.BaseObserver;
+import com.example.yijia.net.rx.RxRestClient;
 import com.example.latte.ui.recycler.MultipleItemEntity;
-import com.example.latte.util.GlideUtils;
-import com.example.latte.util.callback.CallbackManager;
-import com.example.latte.util.callback.CallbackType;
-import com.example.latte.util.callback.IGlobalCallback;
-import com.example.latte.util.log.LatteLogger;
+import com.example.yijia.util.GlideUtils;
+import com.example.yijia.util.callback.CallbackManager;
+import com.example.yijia.util.callback.CallbackType;
+import com.example.yijia.util.callback.IGlobalCallback;
+import com.example.yijia.util.log.LatteLogger;
 import com.joanzapata.iconify.widget.IconTextView;
 import com.yijia.common_yijia.database.YjDatabaseManager;
 import com.yijia.common_yijia.main.index.friendcircle.IndexCameraCheckInstener;
 import com.yijia.common_yijia.main.index.friendcircle.LetterDelagate;
-import com.yijia.common_yijia.main.index.friendcircle.pictureselector.PhotoDelegate;
+import com.yijia.common_yijia.main.index.friendcircle.LetterPeopleDelagate;
 import com.yijia.common_yijia.main.index.friendcircle.pictureselector.PhotoDelegate2;
 import com.yijia.common_yijia.main.index.friends.IFriendsItemListener;
 import com.yijia.common_yijia.main.index.friends.IndexFriendsAdapter;
@@ -67,7 +67,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements  IFriendsItem
         private Bundle mArgs = null;
         public static final String PICKTYPE = "PICKTYPE";
         boolean isFirst=true;
-
+    private Bundle mArgsLetterpeople = null;
 
     @BindView(R2.id.rv_index)
     RecyclerView mRecyclerView = null;
@@ -123,7 +123,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements  IFriendsItem
 
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, View rootView) {
-        mRefreshHandler = YjReFreshHandler.create(mRefreshLayout, mRecyclerView, null, this, this);
+        mRefreshHandler = YjReFreshHandler.create(mRefreshLayout, mRecyclerView, null, this, this,this);
         CallbackManager.getInstance()
                 .addCallback(CallbackType.ON_SCAN, new IGlobalCallback<String>() {
                     @Override
@@ -485,8 +485,12 @@ public class YjIndexDelegate extends BottomItemDelegate implements  IFriendsItem
     }
 
     @Override
-    public void goCanReadList() {
-
+    public void goCanReadList(int circleId) {
+         LetterPeopleDelagate lpDelegate=new LetterPeopleDelagate();
+        mArgsLetterpeople=new Bundle();
+        mArgsLetterpeople.putInt("circleId",circleId);
+        lpDelegate.setArguments(mArgsLetterpeople);
+        getParentDelegate().getSupportDelegate().start(lpDelegate);
     }
 
 

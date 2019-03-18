@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 
 import com.alibaba.fastjson.JSONObject;
-import com.example.latte.util.log.LatteLogger;
+import com.example.yijia.util.log.LatteLogger;
 import com.bokang.yijia.ExampleActivity;
 
 import java.util.Set;

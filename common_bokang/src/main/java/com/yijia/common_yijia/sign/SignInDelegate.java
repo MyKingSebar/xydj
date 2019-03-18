@@ -13,12 +13,12 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.latte.delegates.LatteDelegate;
+import com.example.yijia.delegates.LatteDelegate;
 import com.example.latte.ec.R;
 import com.example.latte.ec.R2;
-import com.example.latte.net.rx.BaseObserver;
-import com.example.latte.net.rx.RxRestClient;
-import com.example.latte.util.log.LatteLogger;
+import com.example.yijia.net.rx.BaseObserver;
+import com.example.yijia.net.rx.RxRestClient;
+import com.example.yijia.util.log.LatteLogger;
 
 import butterknife.BindView;
 import butterknife.OnClick;

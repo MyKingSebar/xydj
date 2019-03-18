@@ -2,12 +2,10 @@ package com.yijia.common_yijia.main.friends.presenter;
 
 import android.annotation.SuppressLint;
 import android.text.TextUtils;
-import android.widget.SearchView;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.example.latte.net.rx.RxRestClient;
+import com.example.yijia.net.rx.RxRestClient;
 import com.yijia.common_yijia.main.friends.base.BasePresenter;
 import com.yijia.common_yijia.main.friends.view.iview.SearchFriendsView;
 

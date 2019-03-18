@@ -16,7 +16,7 @@ import android.widget.VideoView;
 import com.esay.ffmtool.FfmpegTool;
 import com.example.latte.ui.R;
 import com.example.latte.ui.R2;
-import com.example.latte.util.log.LatteLogger;
+import com.example.yijia.util.log.LatteLogger;
 
 import java.io.File;
 import java.util.ArrayList;

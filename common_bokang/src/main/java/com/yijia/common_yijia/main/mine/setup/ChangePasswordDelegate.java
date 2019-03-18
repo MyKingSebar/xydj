@@ -7,33 +7,27 @@ import android.support.v7.widget.AppCompatButton;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.example.latte.app.AccountManager;
-import com.example.latte.app.IUserChecker;
-import com.example.latte.delegates.LatteDelegate;
+import com.example.yijia.app.AccountManager;
+import com.example.yijia.app.IUserChecker;
+import com.example.yijia.delegates.LatteDelegate;
 import com.example.latte.ec.R;
 import com.example.latte.ec.R2;
-import com.example.latte.net.rx.BaseObserver;
-import com.example.latte.net.rx.RxRestClient;
+import com.example.yijia.net.rx.BaseObserver;
+import com.example.yijia.net.rx.RxRestClient;
 import com.example.latte.ui.widget.HeadLayout;
 import com.yijia.common_yijia.database.YjDatabaseManager;
-import com.yijia.common_yijia.sign.SignInDelegate;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 

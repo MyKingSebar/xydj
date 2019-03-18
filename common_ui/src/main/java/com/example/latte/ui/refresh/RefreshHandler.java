@@ -6,12 +6,12 @@ import android.support.v7.widget.RecyclerView;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.example.latte.app.Latte;
-import com.example.latte.net.RestClient;
-import com.example.latte.net.callback.ISuccess;
+import com.example.yijia.app.Latte;
+import com.example.yijia.net.RestClient;
+import com.example.yijia.net.callback.ISuccess;
 import com.example.latte.ui.recycler.DataConverter;
 import com.example.latte.ui.recycler.MultipleRecyclerAdapter;
-import com.example.latte.util.log.LatteLogger;
+import com.example.yijia.util.log.LatteLogger;
 
 
 public class RefreshHandler implements

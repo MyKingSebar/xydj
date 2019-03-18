@@ -14,21 +14,11 @@ import java.util.List;
 
 public final class YjIndexCommentAdapter extends MultipleRecyclerAdapter {
 
-
-
-    private static final RequestOptions OPTIONS = new RequestOptions()
-            .diskCacheStrategy(DiskCacheStrategy.ALL)
-            .centerCrop()
-            .dontAnimate();
-
     YjIndexCommentAdapter(List<MultipleItemEntity> data) {
         super(data);
         //添加item布局
         addItemType(YjIndexItemType.INDEX_COMMENTLIST_ITEM, R.layout.item_index_comment);
     }
-
-
-
 
     @Override
     protected void convert(MultipleViewHolder holder, final MultipleItemEntity entity) {

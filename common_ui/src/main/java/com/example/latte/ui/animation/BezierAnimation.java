@@ -5,7 +5,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.blankj.utilcode.util.ScreenUtils;
-import com.example.latte.delegates.LatteDelegate;
+import com.example.yijia.delegates.LatteDelegate;
 
 
 public final class BezierAnimation {

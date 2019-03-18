@@ -25,6 +25,7 @@ android {
     }
     buildToolsVersion '28.0.3'
     repositories{
+
         flatDir{
             dirs 'libs', '/../tencent_trtc_sdk/libs'
         }

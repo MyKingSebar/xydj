@@ -12,15 +12,15 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSON;
 import com.bokang.tencent_trtc_sdk.TrtcConfig;
 import com.example.common_tencent_tuikit.TuiKitConfig;
-import com.example.latte.activities.ProxyActivity;
-import com.example.latte.app.IUserChecker;
-import com.example.latte.app.Latte;
-import com.example.latte.delegates.LatteDelegate;
-import com.example.latte.net.rx.BaseObserver;
-import com.example.latte.net.rx.RxRestClient;
+import com.example.yijia.activities.ProxyActivity;
+import com.example.yijia.app.IUserChecker;
+import com.example.yijia.app.Latte;
+import com.example.yijia.delegates.LatteDelegate;
+import com.example.yijia.net.rx.BaseObserver;
+import com.example.yijia.net.rx.RxRestClient;
 import com.example.latte.ui.launcher.ILauncherListener;
 import com.example.latte.ui.launcher.OnLauncherFinishTag;
-import com.example.latte.util.log.LatteLogger;
+import com.example.yijia.util.log.LatteLogger;
 import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMCustomElem;
 import com.tencent.qcloud.uikit.TUIKit;
@@ -47,7 +47,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import qiu.niorgai.StatusBarCompat;
 
-import static com.example.latte.app.AccountManager.checkAccont;
+import static com.example.yijia.app.AccountManager.checkAccont;
 
 public class ExampleActivity extends ProxyActivity implements
         ISignListener,
@@ -194,7 +194,7 @@ public class ExampleActivity extends ProxyActivity implements
 
             @Override
             public void onError(String module, int errCode, String errMsg) {
-                Log.e("qqqq", "onerror" + errMsg);
+                Log.e("qqqq", "onerror:" + errMsg+",errCode:"+errCode+",moudle:"+module);
             }
         });
     }

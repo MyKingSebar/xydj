@@ -4,10 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.bokang.yijia.R;
-import com.example.latte.activities.ProxyActivity;
-import com.example.latte.delegates.LatteDelegate;
-
 public class StartAvtivity extends Activity {
     @Override
     protected void onCreate( Bundle savedInstanceState) {

@@ -7,29 +7,25 @@ import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
-import com.example.commcon_xfyun.Lat;
-import com.example.latte.delegates.LatteDelegate;
+import com.example.yijia.delegates.LatteDelegate;
 import com.example.latte.ec.R;
 import com.example.latte.ec.R2;
-import com.example.latte.net.rx.BaseObserver;
-import com.example.latte.net.rx.RxRestClient;
+import com.example.yijia.net.rx.BaseObserver;
+import com.example.yijia.net.rx.RxRestClient;
 import com.example.latte.ui.contactlist.cn.CNPinyin;
 import com.example.latte.ui.contactlist.cn.CNPinyinFactory;
 import com.example.latte.ui.contactlist.search.CharIndexView;
 import com.example.latte.ui.contactlist.stickyheader.StickyHeaderDecoration;
-import com.example.latte.util.callback.CallbackManager;
-import com.example.latte.util.callback.CallbackType;
-import com.example.latte.util.callback.IGlobalCallback;
-import com.example.latte.util.log.LatteLogger;
+import com.example.yijia.util.callback.CallbackManager;
+import com.example.yijia.util.callback.CallbackType;
+import com.example.yijia.util.callback.IGlobalCallback;
+import com.example.yijia.util.log.LatteLogger;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.yijia.common_yijia.database.YjDatabaseManager;
-import com.yijia.common_yijia.main.index.friendcircle.LetterDelagate;
 
 
 import java.util.ArrayList;

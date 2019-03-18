@@ -2,7 +2,7 @@ package com.bokang.yijia.generators;
 
 import com.bokang.yijia.ExampleApp;
 import com.example.latte.annotations.PayEntryGenerator;
-import com.example.latte.wechat.template.WXPayEntryTemplate;
+import com.example.yijia.wechat.template.WXPayEntryTemplate;
 
 @SuppressWarnings("unused")
 @PayEntryGenerator(

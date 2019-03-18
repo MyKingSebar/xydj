@@ -3,7 +3,7 @@ package com.bokang.yijia.event;
 import android.webkit.WebView;
 import android.widget.Toast;
 
-import com.example.latte.delegates.web.event.Event;
+import com.example.yijia.delegates.web.event.Event;
 
 public class TestEvent extends Event {
 

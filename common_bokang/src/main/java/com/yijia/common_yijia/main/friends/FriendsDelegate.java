@@ -15,8 +15,7 @@ import com.alibaba.fastjson.JSONObject;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.common_tencent_tuikit.Constants;
-import com.example.common_tencent_tuikit.ConversationTencentDelegate;
-import com.example.latte.delegates.bottom.BottomItemDelegate;
+import com.example.yijia.delegates.bottom.BottomItemDelegate;
 import com.example.latte.ec.R;
 import com.example.latte.ec.R2;
 import com.example.latte.ui.widget.HeadLayout;

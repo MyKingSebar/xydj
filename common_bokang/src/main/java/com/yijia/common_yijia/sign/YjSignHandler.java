@@ -1,13 +1,10 @@
 package com.yijia.common_yijia.sign;
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.example.latte.app.AccountManager;
-import com.tencent.qcloud.uikit.TUIKit;
-import com.tencent.qcloud.uikit.common.IUIKitCallBack;
+import com.example.yijia.app.AccountManager;
 import com.yijia.common_yijia.database.YjDatabaseManager;
 import com.yijia.common_yijia.database.YjUserProfile;
 

@@ -8,7 +8,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
-import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +18,7 @@ import com.example.common_tencent_tuikit.chat.title_bottom.ChatTitieBottomAdapte
 import com.example.common_tencent_tuikit.chat.title_bottom.TitleBottomChildType;
 import com.example.common_tencent_tuikit.chat.title_bottom.TitleBottomItemListener;
 import com.example.common_tencent_tuikit.chat.title_bottom.TitleBottomPersonalChatDataConverter;
-import com.example.latte.delegates.LatteDelegate;
+import com.example.yijia.delegates.LatteDelegate;
 import com.example.latte.ui.recycler.MultipleItemEntity;
 import com.tencent.imsdk.TIMConversationType;
 import com.tencent.imsdk.TIMManager;

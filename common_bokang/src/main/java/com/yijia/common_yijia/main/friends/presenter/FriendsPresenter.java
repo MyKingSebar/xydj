@@ -6,9 +6,11 @@ import android.text.TextUtils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.example.latte.app.AccountManager;
-import com.example.latte.app.IUserChecker;
-import com.example.latte.net.rx.RxRestClient;
+import com.example.yijia.app.AccountManager;
+import com.example.yijia.app.IUserChecker;
+import com.example.yijia.net.rx.RxRestClient;
+import com.example.yijia.util.log.LatteLogger;
+import com.google.gson.Gson;
 import com.yijia.common_yijia.main.friends.base.BasePresenter;
 import com.yijia.common_yijia.main.friends.view.iview.FriendsView;
 
@@ -41,6 +43,7 @@ public class FriendsPresenter extends BasePresenter<FriendsView> {
                         .subscribe(new Consumer<String>() {
                             @Override
                             public void accept(String response) throws Exception {
+                                LatteLogger.d("response:"+new Gson().toJson(response));
                                 final JSONObject object = JSON.parseObject(response);
                                 final String status = object.getString("status");
                                 if (TextUtils.equals(status, "1001")) {

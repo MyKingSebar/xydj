@@ -7,15 +7,15 @@ import android.view.View;
 
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.listener.OnItemClickListener;
-import com.example.latte.app.AccountManager;
-import com.example.latte.app.IUserChecker;
-import com.example.latte.delegates.LatteDelegate;
+import com.example.yijia.app.AccountManager;
+import com.example.yijia.app.IUserChecker;
+import com.example.yijia.delegates.LatteDelegate;
 import com.example.latte.ec.R;
 import com.example.latte.ui.launcher.ILauncherListener;
 import com.example.latte.ui.launcher.LauncherHolderCreator;
 import com.example.latte.ui.launcher.OnLauncherFinishTag;
 import com.example.latte.ui.launcher.ScrollLaunchTag;
-import com.example.latte.util.storage.LattePreference;
+import com.example.yijia.util.storage.LattePreference;
 
 import java.util.ArrayList;
 

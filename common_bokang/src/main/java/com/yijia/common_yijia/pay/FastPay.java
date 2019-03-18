@@ -12,15 +12,15 @@ import android.view.WindowManager;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.example.latte.app.ConfigKeys;
-import com.example.latte.app.Latte;
-import com.example.latte.delegates.LatteDelegate;
+import com.example.yijia.app.ConfigKeys;
+import com.example.yijia.app.Latte;
+import com.example.yijia.delegates.LatteDelegate;
 import com.example.latte.ec.R;
-import com.example.latte.net.RestClient;
-import com.example.latte.net.callback.ISuccess;
-import com.example.latte.ui.loader.LatteLoader;
-import com.example.latte.util.log.LatteLogger;
-import com.example.latte.wechat.LatteWeChat;
+import com.example.yijia.net.RestClient;
+import com.example.yijia.net.callback.ISuccess;
+import com.example.yijia.ui.loader.LatteLoader;
+import com.example.yijia.util.log.LatteLogger;
+import com.example.yijia.wechat.LatteWeChat;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 

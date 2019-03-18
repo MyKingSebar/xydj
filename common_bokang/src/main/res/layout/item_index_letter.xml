@@ -8,15 +8,16 @@
     android:orientation="vertical">
 
     <include layout="@layout/include_item_index_top" />
+
 <RelativeLayout
+    android:layout_marginTop="10dp"
     android:layout_width="match_parent"
     android:layout_marginStart="47dp"
     android:layout_marginEnd="15dp"
     android:layout_height="75dp">
-    <TextView
-        android:layout_marginTop="10dp"
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/aaaa"
         android:background="@color/edit_yellow"
-
         android:layout_width="match_parent"
         android:layout_height="50dp" />
     
@@ -26,12 +27,10 @@
         android:layout_width="20dp"
         android:layout_height="15dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-
+        android:layout_alignParentEnd="true"
         />
 </RelativeLayout>
    
-
     <include layout="@layout/include_item_index_commet" />
 
 </android.support.v7.widget.LinearLayoutCompat>

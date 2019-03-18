@@ -6,17 +6,17 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
 
-import com.example.latte.app.AccountManager;
-import com.example.latte.app.IUserChecker;
-import com.example.latte.delegates.LatteDelegate;
+import com.example.yijia.app.AccountManager;
+import com.example.yijia.app.IUserChecker;
+import com.example.yijia.delegates.LatteDelegate;
 import com.example.latte.ec.R;
 import com.example.latte.ec.R2;
 import com.example.latte.ui.launcher.ILauncherListener;
 import com.example.latte.ui.launcher.OnLauncherFinishTag;
 import com.example.latte.ui.launcher.ScrollLaunchTag;
-import com.example.latte.util.storage.LattePreference;
-import com.example.latte.util.timer.BaseTimerTask;
-import com.example.latte.util.timer.ITimeListener;
+import com.example.yijia.util.storage.LattePreference;
+import com.example.yijia.util.timer.BaseTimerTask;
+import com.example.yijia.util.timer.ITimeListener;
 
 import java.text.MessageFormat;
 import java.util.Timer;

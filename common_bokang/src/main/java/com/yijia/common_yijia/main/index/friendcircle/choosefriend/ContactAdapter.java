@@ -7,14 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
 import com.example.latte.ec.R;
 import com.example.latte.ui.contactlist.adapter.ContactHolder;
 import com.example.latte.ui.contactlist.adapter.HeaderHolder;
 import com.example.latte.ui.contactlist.cn.CNPinyin;
 import com.example.latte.ui.contactlist.stickyheader.StickyHeaderAdapter;
-import com.example.latte.util.GlideUtils;
+import com.example.yijia.util.GlideUtils;
 
 import java.util.List;
 

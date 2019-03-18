@@ -4,20 +4,19 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.example.latte.app.Latte;
-import com.example.latte.delegates.LatteDelegate;
-import com.example.latte.net.rx.BaseObserver;
-import com.example.latte.net.rx.RxRestClient;
+import com.example.yijia.app.Latte;
+import com.example.yijia.delegates.LatteDelegate;
+import com.example.yijia.net.rx.BaseObserver;
+import com.example.yijia.net.rx.RxRestClient;
 import com.example.latte.ui.recycler.DataConverter;
 import com.example.latte.ui.recycler.MultipleItemEntity;
 import com.example.latte.ui.refresh.PagingBean;
 import com.example.latte.ui.refresh.RefreshHandler;
-import com.example.latte.util.log.LatteLogger;
+import com.example.yijia.util.log.LatteLogger;
 import com.yijia.common_yijia.database.YjDatabaseManager;
 
 import java.util.ArrayList;
@@ -27,10 +26,11 @@ import io.reactivex.schedulers.Schedulers;
 
 public class YjReFreshHandler extends RefreshHandler {
 
-    public YjReFreshHandler(SwipeRefreshLayout swipeRefreshLayout, RecyclerView recyclerView, DataConverter converter, PagingBean bean,LatteDelegate delegate,IIndexItemListener listener) {
+    public YjReFreshHandler(SwipeRefreshLayout swipeRefreshLayout, RecyclerView recyclerView, DataConverter converter, PagingBean bean,LatteDelegate delegate,IIndexItemListener listener,IIndexCanReadItemListener readlistener) {
         super(swipeRefreshLayout, recyclerView, converter, bean);
         DELEGATE=delegate;
         LISTENER=listener;
+        READLISTENER=readlistener;
     }
 //    private final SwipeRefreshLayout REFRESH_LAYOUT;
 //    private final PagingBean BEAN;
@@ -39,11 +39,12 @@ public class YjReFreshHandler extends RefreshHandler {
 //    private final DataConverter CONVERTER;
       private final LatteDelegate DELEGATE;
       private final IIndexItemListener LISTENER;
+      private final IIndexCanReadItemListener READLISTENER;
 
     public static YjReFreshHandler create(SwipeRefreshLayout swipeRefreshLayout,
-                                        RecyclerView recyclerView, DataConverter converter,LatteDelegate delegate,IIndexItemListener listener) {
+                                        RecyclerView recyclerView, DataConverter converter,LatteDelegate delegate,IIndexItemListener listener,IIndexCanReadItemListener readlistener) {
 
-        return new YjReFreshHandler(swipeRefreshLayout, recyclerView, converter, new PagingBean(),delegate,listener);
+        return new YjReFreshHandler(swipeRefreshLayout, recyclerView, converter, new PagingBean(),delegate,listener,readlistener);
     }
 
     private void refresh() {
@@ -88,6 +89,7 @@ public class YjReFreshHandler extends RefreshHandler {
                                             .convert();
                             mAdapter = new YjIndexAdapter(data,DELEGATE);
                             mAdapter.setIndexItemListener(LISTENER);
+                            mAdapter.setIndexCanReadItemListener(READLISTENER);
                             mAdapter.setOnLoadMoreListener(YjReFreshHandler.this, RECYCLERVIEW);
                             final LinearLayoutManager manager = new LinearLayoutManager(Latte.getApplicationContext());
                             RECYCLERVIEW.setLayoutManager(manager);

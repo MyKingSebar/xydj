@@ -2,15 +2,14 @@ package com.bokang.yijia;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.latte.delegates.LatteDelegate;
-import com.example.latte.net.RestClient;
-import com.example.latte.net.callback.IError;
-import com.example.latte.net.callback.IFailure;
-import com.example.latte.net.callback.ISuccess;
+import com.example.yijia.delegates.LatteDelegate;
+import com.example.yijia.net.RestClient;
+import com.example.yijia.net.callback.IError;
+import com.example.yijia.net.callback.IFailure;
+import com.example.yijia.net.callback.ISuccess;
 
 
 public class ExampleDelegate extends LatteDelegate {

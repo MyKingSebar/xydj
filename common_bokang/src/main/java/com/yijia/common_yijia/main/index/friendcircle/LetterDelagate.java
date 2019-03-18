@@ -1,7 +1,6 @@
 package com.yijia.common_yijia.main.index.friendcircle;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,31 +9,23 @@ import android.support.v7.widget.AppCompatTextView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.example.commcon_xfyun.Lat;
 import com.example.commcon_xfyun.LatCallbackInterface;
-import com.example.latte.app.Latte;
-import com.example.latte.delegates.LatteDelegate;
+import com.example.yijia.delegates.LatteDelegate;
 import com.example.latte.ec.R;
 import com.example.latte.ec.R2;
-import com.example.latte.net.rx.BaseObserver;
-import com.example.latte.net.rx.RxRestClient;
-import com.example.latte.ui.camera.RequestCodes;
-import com.example.latte.util.callback.CallbackManager;
-import com.example.latte.util.callback.CallbackType;
-import com.example.latte.util.callback.IGlobalCallback;
-import com.example.latte.util.log.LatteLogger;
+import com.example.yijia.net.rx.BaseObserver;
+import com.example.yijia.net.rx.RxRestClient;
+import com.example.yijia.util.callback.CallbackManager;
+import com.example.yijia.util.callback.CallbackType;
+import com.example.yijia.util.callback.IGlobalCallback;
+import com.example.yijia.util.log.LatteLogger;
 import com.google.gson.Gson;
-import com.luck.picture.lib.tools.PictureFileUtils;
 import com.yijia.common_yijia.database.YjDatabaseManager;
 import com.yijia.common_yijia.main.index.friendcircle.choosefriend.LetterchoosefriendDelegate;
-import com.yijia.common_yijia.main.mine.setup.ChangePasswordDelegate;
-
-import java.io.File;
 
 import butterknife.BindView;
 import butterknife.OnClick;

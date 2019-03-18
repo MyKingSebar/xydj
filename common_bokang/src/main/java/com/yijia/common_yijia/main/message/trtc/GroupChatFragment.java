@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 
 import com.example.common_tencent_tuikit.Constants;
 import com.example.common_tencent_tuikit.R;
-import com.example.latte.delegates.LatteDelegate;
+import com.example.yijia.delegates.LatteDelegate;
 import com.tencent.qcloud.uikit.business.chat.group.view.GroupChatPanel;
 import com.tencent.qcloud.uikit.common.component.titlebar.PageTitleBar;
 

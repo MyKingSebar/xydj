@@ -25,8 +25,18 @@
         android:textSize="20sp"
         android:textStyle="bold"
         tools:text="爸爸" />
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="14dp"
+        android:layout_toRightOf="@+id/tv_name"
+        android:textColor="@color/main_text_gary_99"
+        android:textSize="15sp"
+        tools:text="10分钟前" />
 
-    <com.example.latte.ui.expandtextview.ExpandTextView
+    <android.support.v7.widget.AppCompatTextView
         android:id="@+id/tv_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

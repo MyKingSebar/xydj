@@ -2,11 +2,10 @@ package com.yijia.common_yijia.main.index;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v7.widget.AppCompatImageView;
@@ -14,7 +13,13 @@ import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Layout;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.StaticLayout;
+import android.text.TextPaint;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -29,8 +34,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import android.text.format.Time;
-
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -38,18 +41,19 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.commcon_xfyun.Tts;
-import com.example.latte.app.Latte;
-import com.example.latte.delegates.LatteDelegate;
+import com.example.yijia.app.Latte;
+import com.example.yijia.delegates.LatteDelegate;
 import com.example.latte.ec.R;
-import com.example.latte.net.rx.BaseObserver;
-import com.example.latte.net.rx.RxRestClient;
-import com.example.latte.ui.expandtextview.ExpandTextView;
+import com.example.yijia.net.rx.BaseObserver;
+import com.example.yijia.net.rx.RxRestClient;
+import com.example.yijia.ui.expandtextview.ExpandTextView;
 import com.example.latte.ui.recycler.MultipleFields;
 import com.example.latte.ui.recycler.MultipleItemEntity;
 import com.example.latte.ui.recycler.MultipleRecyclerAdapter;
 import com.example.latte.ui.recycler.MultipleViewHolder;
-import com.example.latte.util.TimeFormat;
-import com.example.latte.util.log.LatteLogger;
+import com.example.yijia.util.TimeFormat;
+import com.example.yijia.util.log.LatteLogger;
+import com.example.yijia.util.textViewSpanUtil;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.DefaultRenderersFactory;
 import com.google.android.exoplayer2.ExoPlayer;
@@ -182,9 +186,8 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
                 initMedias(holder, videoString);
                 break;
             case YjIndexItemType.INDEX_LETTER_ITEM:
-
                 initViewText(holder, circleId, userNickname, content, createdTime, likes, commentList.toJSONString());
-                initLetter(holder);
+                initLetter(holder,circleId);
                 break;
 
 
@@ -245,7 +248,6 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
                     popupWindow.dismiss();
                 }
                 return false;
-
             }
         });
 
@@ -293,7 +295,7 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
                               final String content, String createdTime, String likes, String commentList) {
         //取出所以控件
         final AppCompatTextView tvName = holder.getView(R.id.tv_name);
-        final ExpandTextView tvContent = holder.getView(R.id.tv_content);
+        final AppCompatTextView tvContent = holder.getView(R.id.tv_content);
         final AppCompatTextView tvTime = holder.getView(R.id.tv_time);
         final AppCompatTextView tvZan = holder.getView(R.id.tv_zan);
         final AppCompatTextView tvShare = holder.getView(R.id.tv_share);
@@ -302,10 +304,33 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
         final RecyclerView rvComment = holder.getView(R.id.rv_comment);
         final AppCompatTextView tvComment = holder.getView(R.id.tv_comment);
         // 设置TextView可展示的宽度 ( 父控件宽度 - 左右margin - 左右padding）
-        int whidth = ScreenUtils.getScreenWidth(latteDelegate.getContext()) - ScreenUtils.dip2px(latteDelegate.getContext(), 16 * 2);
-        tvContent.initWidth(313+180);
-        tvContent.setMaxLines(2);
-        tvContent.setCloseText(content);
+//        int whidth = ScreenUtils.getScreenWidth(latteDelegate.getContext()) - ScreenUtils.dip2px(latteDelegate.getContext(), 16 * 2);
+//        tvContent.initWidth(313+180);
+//        tvContent.setMaxLines(2);
+//        tvContent.setMaxLines(10000);
+//        tvContent.initWidth(100000);
+//        tvContent.setCloseText(content);
+
+
+//         boolean[] isExpandDescripe = {false};
+//        tvContent.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (isExpandDescripe[0]) {
+//                    isExpandDescripe[0] = false;
+//                    tvContent.setMaxLines(6);// 收起
+//                } else {
+//                    isExpandDescripe[0] = true;
+//                    tvContent.setMaxLines(Integer.MAX_VALUE);// 展开
+//                }
+//                textViewSpanUtil.toggleEllipsize(latteDelegate.getContext(),
+//                        tvContent, 6,
+//                        content,
+//                        "展开",
+//                        R.color.main_text_blue_57, isExpandDescripe[0]);
+//            }
+//        });
+        getLastIndexForLimit(tvContent,maxLine,content);
         //赋值
         tvName.setText(userNickname);
         //语音
@@ -323,9 +348,10 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
 //
 //            });
 //        }
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        DateFormat df = new SimpleDateFormat("yyyy-M-dd HH:mm:ss");
         try {
             Date createdTime_d = df.parse(createdTime);
+            Log.d("jialei","createdTime_d："+(createdTime_d.getYear()+- 1900)+","+createdTime_d.getMonth()+","+createdTime_d.getDay());
             String time=TimeFormat.getCompareNowString(createdTime_d);
             tvTime.setText(time);
         } catch (ParseException e) {
@@ -380,14 +406,13 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
         }
         ngImgs.setAdapter(new NineGridViewClickAdapter(mContext, imageInfo));
     }
-    private void initLetter(MultipleViewHolder holder) {
+    private void initLetter(MultipleViewHolder holder,int circleId) {
         final AppCompatTextView canRead = holder.getView(R.id.tv_canread);
         canRead.setOnClickListener(v -> {
             if(mIndexCanReadItemListener!=null){
-                mIndexCanReadItemListener.goCanReadList();
+                mIndexCanReadItemListener.goCanReadList(circleId);
             }
         });
-
     }
 
 
@@ -510,7 +535,6 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
             mediaSources[i] = buildMediaSource(uri);
 
         }
-        LatteLogger.d("jialei", "mediaSources.size:" + mediaSources.length);
         player.prepare(new ConcatenatingMediaSource(mediaSources), true, true);
     }
 
@@ -540,5 +564,61 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
         tts.start(text);
     }
 
+    private int maxLine = 6;
+    private void getLastIndexForLimit(TextView tv, int maxLine, String content) {
+         SpannableString elipseString;//收起的文字
+         SpannableString notElipseString;//展开的文字
+        //获取TextView的画笔对象
+        TextPaint paint = tv.getPaint();
+        //每行文本的布局宽度
+        int width =latteDelegate.getContext().getResources().getDisplayMetrics().widthPixels - dip2px(latteDelegate.getContext(),47+28);
+        //实例化StaticLayout 传入相应参数
+        StaticLayout staticLayout = new StaticLayout(content,paint,width, Layout.Alignment.ALIGN_NORMAL, 1, 0, false);
+        //判断content是行数是否超过最大限制行数3行
+        if (staticLayout.getLineCount()>maxLine) {
+            //定义展开后的文本内容
+            String string1 = content + "    收起";
+            notElipseString = new SpannableString(string1);
+            //给收起两个字设成蓝色
+            notElipseString.setSpan(new ForegroundColorSpan(Color.parseColor("#0079e2")), string1.length() - 2, string1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
+            //获取到第三行最后一个文字的下标
+            int index = staticLayout.getLineStart(maxLine) - 1;
+            //定义收起后的文本内容
+            String substring = content.substring(0, index - 2) + "..." + "全文";
+            elipseString = new SpannableString(substring);
+            //给查看全部设成蓝色
+            elipseString.setSpan(new ForegroundColorSpan(Color.parseColor("#0079e2")), substring.length() - 4, substring.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            //设置收起后的文本内容
+            tv.setText(elipseString);
+            tv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (v.isSelected()) {
+                        //如果是收起的状态
+                        tv.setText(notElipseString);
+                        tv.setSelected(false);
+                    } else {
+                        //如果是展开的状态
+                        tv.setText(elipseString);
+                        tv.setSelected(true);
+                    }
+                }
+            });
+            //将textview设成选中状态 true用来表示文本未展示完全的状态,false表示完全展示状态，用于点击时的判断
+            tv.setSelected(true);
+        } else {
+            //没有超过 直接设置文本
+            tv.setText(content);
+            tv.setOnClickListener(null);
+        }
+    }
+
+    /**
+     * 根据手机的分辨率从 dp 的单位 转成为 px(像素)
+     */
+    public static int dip2px(Context mContext, float dpValue) {
+        final float scale = mContext.getResources().getDisplayMetrics().density;
+        return (int) (dpValue * scale + 0.5f);
+    }
 }

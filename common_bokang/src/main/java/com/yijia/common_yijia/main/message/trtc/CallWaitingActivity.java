@@ -5,26 +5,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.AppCompatTextView;
-import android.view.View;
 
 import com.bokang.tencent_trtc_sdk.TrtcConfig;
-import com.example.latte.activities.ProxyActivity;
-import com.example.latte.delegates.LatteDelegate;
 import com.example.latte.ec.R;
-import com.example.latte.ec.R2;
 import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMConversationType;
 import com.tencent.imsdk.TIMCustomElem;
-import com.tencent.imsdk.TIMElemType;
 import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMMessage;
-import com.tencent.imsdk.TIMMessageListener;
 import com.tencent.qcloud.uikit.business.chat.bokang.BokangChatListener;
 import com.tencent.qcloud.uikit.business.chat.bokang.BokangChatManager;
 import com.tencent.qcloud.uikit.business.chat.model.MessageInfoUtil;
 import com.yijia.common_yijia.database.YjDatabaseManager;
-
-import java.util.List;
 
 /**
  * @author JiaLei, Email 15033111957@163.com, Date on 2019/2/27.

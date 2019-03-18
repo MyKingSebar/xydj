@@ -17,5 +17,6 @@ public enum YjIndexMultipleFields {
     VIDEOURL,
     VIDEOCOVERURL,
     VISIBLETYPE,
-    IMGS
+    IMGS,
+    STATUS
 }

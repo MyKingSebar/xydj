@@ -2,16 +2,15 @@ package com.yijia.common_yijia.main.mine.setup;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.example.latte.app.AccountManager;
-import com.example.latte.app.IUserChecker;
-import com.example.latte.net.rx.BaseObserver;
-import com.example.latte.net.rx.RxRestClient;
-import com.example.latte.net.rx.RxRestClientBuilder;
+import com.example.yijia.app.AccountManager;
+import com.example.yijia.app.IUserChecker;
+import com.example.yijia.net.rx.BaseObserver;
+import com.example.yijia.net.rx.RxRestClient;
+import com.example.yijia.net.rx.RxRestClientBuilder;
 import com.yijia.common_yijia.database.YjDatabaseManager;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;

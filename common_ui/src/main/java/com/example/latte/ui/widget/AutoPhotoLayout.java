@@ -18,7 +18,7 @@ import android.view.animation.AlphaAnimation;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.latte.delegates.LatteDelegate;
+import com.example.yijia.delegates.LatteDelegate;
 import com.example.latte.ui.R;
 import com.joanzapata.iconify.widget.IconTextView;
 

@@ -23,6 +23,8 @@ import com.example.latte.ec.R2;
 import com.yijia.common_yijia.database.YjDatabaseManager;
 import com.yijia.common_yijia.main.friends.presenter.SearchFriendsPresenter;
 import com.yijia.common_yijia.main.friends.view.iview.SearchFriendsView;
+import com.yijia.common_yijia.main.index.friendcircle.pictureselector.PhotoDelegate2;
+import com.yijia.common_yijia.main.mine.UserInfoDelegate;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -53,6 +55,7 @@ public class SearchFriendsDelegate extends LatteDelegate implements SearchFriend
     RequestOptions mRequestOptions;
 
     int id =0;
+    Bundle mArgs=null;
 
     @Override
     public Object setLayout() {
@@ -104,7 +107,12 @@ public class SearchFriendsDelegate extends LatteDelegate implements SearchFriend
             searchFriendsPresenter.reqfriendsdetails(friends_phone, token);
         } else if (i == R.id.thecontact_layout) {
             //todo 点击好友 跳转详情
-            searchFriendsPresenter.reqaddfriendsdetails(id,token);
+//            searchFriendsPresenter.reqaddfriendsdetails(id,token);
+            UserInfoDelegate delegate = new UserInfoDelegate();
+            mArgs=new Bundle();
+            mArgs.putLong("id", id);
+            delegate.setArguments(mArgs);
+            getSupportDelegate().start(delegate);
         }else if (i == R.id.cancel_edit){
             //点击清空edittext
             searchEdittext.setText("");

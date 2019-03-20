@@ -36,6 +36,7 @@ public class LetterPeopleDataConverter extends DataConverter {
             final String tencentImUserId = data.getString("tencentImUserId");
 
             final MultipleItemEntity entity = MultipleItemEntity.builder()
+                    .setField(MultipleFields.ITEM_TYPE, YjIndexItemType.INDEX_USERLIST_ITEM)
                     .setField(MultipleFields.ID, friendUserId)
                     .setField(MultipleFields.TENCENTIMUSERID, tencentImUserId)
                     .setField(MultipleFields.IMAGE_URL, userHead)

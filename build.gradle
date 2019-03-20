@@ -28,6 +28,9 @@ allprojects {
         google()
         mavenCentral()
         maven { url 'https://maven.google.com' }
+        maven {
+            url 'https://dl.bintray.com/cjt/maven'
+        }
         jcenter()
         flatDir {
             dirs 'libs'
@@ -54,6 +57,9 @@ allprojects {
         }
         mavenCentral()
         maven { url 'https://maven.google.com' }
+        maven {
+            url 'https://dl.bintray.com/cjt/maven'
+        }
         google()
         jcenter()
 

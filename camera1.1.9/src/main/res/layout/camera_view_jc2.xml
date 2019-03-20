@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:background="#000000"
+             android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <VideoView
+            android:id="@+id/video_preview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <ImageView
+            android:id="@+id/image_photo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#000"
+            android:visibility="invisible"/>
+    </FrameLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_gravity="right"
+        android:orientation="horizontal">
+
+
+        <ImageView
+            android:layout_marginTop="32dp"
+            android:id="@+id/back"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_marginLeft="15dp"
+            android:src="@drawable/icon_smallvideo_back"/>
+        <TextView
+            android:layout_width="0dp"
+            android:text="          微拍"
+            android:textSize="18sp"
+            android:gravity="bottom|center_horizontal"
+            android:textColor="#FFFFFF"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+        <ImageView
+            android:layout_marginTop="32dp"
+            android:id="@+id/image_flash"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_marginRight="15dp"
+            android:src="@drawable/ic_flash_on"/>
+        <ImageView
+            android:id="@+id/image_switch"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="30dp"
+            android:src="@drawable/ic_camera"/>
+
+    </LinearLayout>
+
+
+    <com.cjt2325.cameralibrary.CaptureLayout
+        android:id="@+id/capture_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"/>
+
+    <com.cjt2325.cameralibrary.FoucsView
+        android:id="@+id/fouce_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="invisible"/>
+    <RelativeLayout
+        android:visibility="gone"
+        android:layout_gravity="bottom"
+
+        android:id="@+id/yj_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="112dp">
+
+        <TextView
+            android:background="@drawable/icon_smallvideo_no"
+            android:layout_marginLeft="75dp"
+            android:id="@+id/tv_no"
+            android:layout_width="50dp"
+            android:layout_height="50dp" />
+        <TextView
+            android:background="@drawable/icon_smallvideo_go"
+            android:layout_marginRight="75dp"
+            android:layout_alignParentRight="true"
+            android:id="@+id/tv_go"
+            android:layout_width="50dp"
+            android:layout_height="50dp" />
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="84dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="取消"
+            android:textSize="16sp"
+            android:textColor="#FFFFFF"
+            android:layout_below="@+id/tv_no"
+
+            />
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="84dp"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="发送"
+            android:textSize="16sp"
+            android:textColor="#FFFFFF"
+            android:layout_below="@+id/tv_no"
+
+            />
+    </RelativeLayout>
+</FrameLayout>

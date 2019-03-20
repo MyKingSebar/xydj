@@ -5,5 +5,6 @@ include ':example', ':common_tencent_tuikit',
         //腾讯im、实时音视频
         ':tuikit', ':tencent_trtc_sdk',
         //代替pictureselect
-        ':picture_library',':ucrop'
+        ':picture_library',':ucrop',
+        ':camera1.1.9'
 

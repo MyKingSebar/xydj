@@ -1,5 +1,6 @@
 package com.yijia.common_yijia.main.index;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -39,6 +40,8 @@ import com.yijia.common_yijia.main.index.friendcircle.IndexCameraCheckInstener;
 import com.yijia.common_yijia.main.index.friendcircle.LetterDelagate;
 import com.yijia.common_yijia.main.index.friendcircle.LetterPeopleDelagate;
 import com.yijia.common_yijia.main.index.friendcircle.pictureselector.PhotoDelegate2;
+import com.yijia.common_yijia.main.index.friendcircle.smallvideo.CameraActivity;
+import com.yijia.common_yijia.main.index.friendcircle.smallvideo.SmallCameraLisener;
 import com.yijia.common_yijia.main.index.friends.IFriendsItemListener;
 import com.yijia.common_yijia.main.index.friends.IndexFriendsAdapter;
 import com.yijia.common_yijia.main.index.friends.YjIndexFriendsDataConverter;
@@ -56,17 +59,19 @@ import razerdp.basepopup.QuickPopupBuilder;
 import razerdp.basepopup.QuickPopupConfig;
 import razerdp.blur.PopupBlurOption;
 
+import static com.blankj.utilcode.util.PermissionUtils.getPermissions;
 
-public class YjIndexDelegate extends BottomItemDelegate implements  IFriendsItemListener, IIndexItemListener ,IndexCameraCheckInstener,IIndexCanReadItemListener {
 
-        private final int ALLMODE = 0;
-        private final int IMAGEMODE = 1;
-        private final int VIDEOMODE = 2;
-        private final int AUDIOMODE = 3;
-        private final int TEXTMODE = 4;
-        private Bundle mArgs = null;
-        public static final String PICKTYPE = "PICKTYPE";
-        boolean isFirst=true;
+public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemListener, IIndexItemListener, IndexCameraCheckInstener, IIndexCanReadItemListener {
+
+    private final int ALLMODE = 0;
+    private final int IMAGEMODE = 1;
+    private final int VIDEOMODE = 2;
+    private final int AUDIOMODE = 3;
+    private final int TEXTMODE = 4;
+    private Bundle mArgs = null;
+    public static final String PICKTYPE = "PICKTYPE";
+    boolean isFirst = true;
     private Bundle mArgsLetterpeople = null;
 
     @BindView(R2.id.rv_index)
@@ -91,7 +96,11 @@ public class YjIndexDelegate extends BottomItemDelegate implements  IFriendsItem
     @BindView(R2.id.tv_name)
     AppCompatTextView tv_name = null;
 
+    private SmallCameraLisener mSmallCameraLisener=null;
 
+    public void setSmallCameraLisener(SmallCameraLisener mSmallCameraLisener){
+        this.mSmallCameraLisener=mSmallCameraLisener;
+    }
 
     private YjReFreshHandler mRefreshHandler = null;
 
@@ -103,19 +112,20 @@ public class YjIndexDelegate extends BottomItemDelegate implements  IFriendsItem
     int gravity;
     /*popu END*/
 
-    @OnClick({R2.id.icon_index_message,R2.id.icon_index_message2})
+    @OnClick({R2.id.icon_index_message, R2.id.icon_index_message2})
     void onCLickpublish(View v) {
-        useSDCardWithCheck(v,this);
+        useSDCardWithCheck(v, this);
 //        mSend.showContextMenu();
 //        getSupportDelegate().start(new PhotoDelegate());
 
     }
 
 
-    @OnClick({R2.id.icon_index_scan,R2.id.icon_index_scan2})
+    @OnClick({R2.id.icon_index_scan, R2.id.icon_index_scan2})
     void onCLickScanOrCode() {
         startScanWithCheck(this.getParentDelegate());
     }
+
     @OnClick(R2.id.tv_invite)
     void mInvite() {
         showToast("暂未开通");
@@ -123,7 +133,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements  IFriendsItem
 
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, View rootView) {
-        mRefreshHandler = YjReFreshHandler.create(mRefreshLayout, mRecyclerView, null, this, this,this);
+        mRefreshHandler = YjReFreshHandler.create(mRefreshLayout, mRecyclerView, null, this, this, this);
         CallbackManager.getInstance()
                 .addCallback(CallbackType.ON_SCAN, new IGlobalCallback<String>() {
                     @Override
@@ -142,29 +152,29 @@ public class YjIndexDelegate extends BottomItemDelegate implements  IFriendsItem
     private void initView() {
         initTopBar();
         String name = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getNickname();
-        if(!TextUtils.isEmpty(name)){
+        if (!TextUtils.isEmpty(name)) {
             tv_name.setText(name);
         }
         String img = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getImagePath();
-            Glide.with(Objects.requireNonNull(getContext()))
-                    .load(img)
-                    .apply(GlideUtils.USEROPTIONS)
-                    .into(cimg_img);
+        Glide.with(Objects.requireNonNull(getContext()))
+                .load(img)
+                .apply(GlideUtils.USEROPTIONS)
+                .into(cimg_img);
     }
 
     private void initTopBar() {
         abl.addOnOffsetChangedListener(new AppBarStateChangeListener() {
             @Override
             public void onStateChanged(AppBarLayout appBarLayout, State state) {
-                if( state == State.EXPANDED ) {
+                if (state == State.EXPANDED) {
 
                     //展开状态
                     mToolbar.setVisibility(View.GONE);
-                }else if(state == State.COLLAPSED){
+                } else if (state == State.COLLAPSED) {
 
                     //折叠状态
                     mToolbar.setVisibility(View.VISIBLE);
-                }else {
+                } else {
 
                     //中间状态
                     mToolbar.setVisibility(View.GONE);
@@ -177,7 +187,6 @@ public class YjIndexDelegate extends BottomItemDelegate implements  IFriendsItem
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mArgs = new Bundle();
-
     }
 
 //    @Override
@@ -355,16 +364,16 @@ public class YjIndexDelegate extends BottomItemDelegate implements  IFriendsItem
         initRecyclerView();
 //        initFriendsRecyclerView();
 //        initIndexRecyclerView();
-        Log.d("refresh","onLazyInitView");
+        Log.d("refresh", "onLazyInitView");
         mRefreshHandler.firstPage();
-        isFirst=false;
+        isFirst = false;
     }
 
     @Override
     public void onSupportVisible() {
         super.onSupportVisible();
-        if(!isFirst){
-            Log.d("refresh","onSupportVisible!isFirs");
+        if (!isFirst) {
+            Log.d("refresh", "onSupportVisible!isFirs");
             mRefreshHandler.firstPage();
         }
     }
@@ -373,7 +382,6 @@ public class YjIndexDelegate extends BottomItemDelegate implements  IFriendsItem
     public Object setLayout() {
         return R.layout.delegate_index_yijia2;
     }
-
 
 
     @Override
@@ -391,11 +399,12 @@ public class YjIndexDelegate extends BottomItemDelegate implements  IFriendsItem
 
     @Override
     public void onIndexItemClick(double itemTotalPrice) {
-        if(!isFirst){
-            Log.d("refresh","onIndexItemClick");
+        if (!isFirst) {
+            Log.d("refresh", "onIndexItemClick");
             mRefreshHandler.firstPage();
         }
     }
+
     /*popup Start*/
     void initPopup() {
         enterAnimation = createVerticalAnimation(-1f, 0);
@@ -441,8 +450,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements  IFriendsItem
     }
 
 
-
-    void showIndexPopup(View v){
+    void showIndexPopup(View v) {
         QuickPopupBuilder.with(getContext())
                 .contentView(R.layout.basepopu_index)
                 .config(new QuickPopupConfig()
@@ -465,10 +473,15 @@ public class YjIndexDelegate extends BottomItemDelegate implements  IFriendsItem
                             getParentDelegate().getSupportDelegate().start(delegate);
                         }, true)
                         .withClick(R.id.ll_vodeo, v1 -> {
-                            PhotoDelegate2 delegate = new PhotoDelegate2();
-                            mArgs.putInt(PICKTYPE, VIDEOMODE);
-                            delegate.setArguments(mArgs);
-                            getParentDelegate().getSupportDelegate().start(delegate);
+                            if(mSmallCameraLisener!=null){
+                                mSmallCameraLisener.go();
+                            }
+//                            Intent intent=new Intent(getActivity(), CameraActivity.class);
+//                            getActivity().startActivity(intent);
+//                            PhotoDelegate2 delegate = new PhotoDelegate2();
+//                            mArgs.putInt(PICKTYPE, VIDEOMODE);
+//                            delegate.setArguments(mArgs);
+//                            getParentDelegate().getSupportDelegate().start(delegate);
                         }, true)
                         .withClick(R.id.ll_letter, v1 -> {
                             getParentDelegate().getSupportDelegate().start(new LetterDelagate());
@@ -478,7 +491,6 @@ public class YjIndexDelegate extends BottomItemDelegate implements  IFriendsItem
     /*popup END*/
 
 
-
     @Override
     public void checkok(View v) {
 
@@ -486,9 +498,9 @@ public class YjIndexDelegate extends BottomItemDelegate implements  IFriendsItem
 
     @Override
     public void goCanReadList(int circleId) {
-         LetterPeopleDelagate lpDelegate=new LetterPeopleDelagate();
-        mArgsLetterpeople=new Bundle();
-        mArgsLetterpeople.putInt("circleId",circleId);
+        LetterPeopleDelagate lpDelegate = new LetterPeopleDelagate();
+        mArgsLetterpeople = new Bundle();
+        mArgsLetterpeople.putInt("circleId", circleId);
         lpDelegate.setArguments(mArgsLetterpeople);
         getParentDelegate().getSupportDelegate().start(lpDelegate);
     }

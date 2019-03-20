@@ -2,55 +2,56 @@ package com.yijia.common_yijia.main.index.friendcircle;
 
 import android.support.v7.widget.AppCompatTextView;
 
+import com.bumptech.glide.Glide;
 import com.example.latte.ec.R;
+import com.example.latte.ui.recycler.MultipleFields;
 import com.example.latte.ui.recycler.MultipleItemEntity;
 import com.example.latte.ui.recycler.MultipleRecyclerAdapter;
 import com.example.latte.ui.recycler.MultipleViewHolder;
+import com.example.yijia.delegates.LatteDelegate;
+import com.example.yijia.util.GlideUtils;
 import com.yijia.common_yijia.main.index.YjIndexCommentMultipleFields;
 import com.yijia.common_yijia.main.index.YjIndexItemType;
+import com.yijia.common_yijia.main.index.YjIndexMultipleFields;
 
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 
 public final class LetterPeopleAdapter extends MultipleRecyclerAdapter {
-
-    LetterPeopleAdapter(List<MultipleItemEntity> data) {
+private LatteDelegate mDelegate=null;
+    LetterPeopleAdapter(List<MultipleItemEntity> data, LatteDelegate delegate) {
         super(data);
         //添加item布局
-        addItemType(YjIndexItemType.INDEX_COMMENTLIST_ITEM, R.layout.item_index_comment);
+        addItemType(YjIndexItemType.INDEX_USERLIST_ITEM, R.layout.item_user_image_text);
+        mDelegate=delegate;
     }
 
     @Override
     protected void convert(MultipleViewHolder holder, final MultipleItemEntity entity) {
         super.convert(holder, entity);
         switch (holder.getItemViewType()) {
-            case YjIndexItemType.INDEX_COMMENTLIST_ITEM:
+            case YjIndexItemType.INDEX_USERLIST_ITEM:
                 //先取出所有值
-                final Long commentId = entity.getField(YjIndexCommentMultipleFields.COMMENTID);
-                final Long commentUserId = entity.getField(YjIndexCommentMultipleFields.COMMENTUSERID);
-                final String commentUserNickname = entity.getField(YjIndexCommentMultipleFields.COMMENTUSERNICKNAME);
-                final String commentUserRealName = entity.getField(YjIndexCommentMultipleFields.COMMENTUSERREALNAME);
-                final String commentUserHead = entity.getField(YjIndexCommentMultipleFields.COMMENTUSERHEAD);
-                final String commentContent = entity.getField(YjIndexCommentMultipleFields.COMMENTCONTENT);
-                final int replyUserId = entity.getField(YjIndexCommentMultipleFields.REPLYUSERID);
-                final String replyUserNickname = entity.getField(YjIndexCommentMultipleFields.REPLYUSERNICKNAME);
-                final String replyUserRealName = entity.getField(YjIndexCommentMultipleFields.REPLYUSERREALNAME);
-                final String commentCreatedTime = entity.getField(YjIndexCommentMultipleFields.COMMENTCREATEDTIME);
-                final int isOwnComment = entity.getField(YjIndexCommentMultipleFields.ISOWNCOMMENT);
+
+//                final Long friendUserId = entity.getField(MultipleFields.ID);
+//                final String tencentImUserId = entity.getField(MultipleFields.TENCENTIMUSERID);
+                final String userHead = entity.getField(MultipleFields.IMAGE_URL);
+//                final int userStatus = entity.getField(YjIndexMultipleFields.STATUS);
+//                final String realName = entity.getField(YjIndexMultipleFields.USER_REAL_NAME);
+                final String nickname = entity.getField(YjIndexMultipleFields.USER_NICK_NAME);
 
                 //取出所以控件
                 final AppCompatTextView tvName = holder.getView(R.id.tv_name);
-                final AppCompatTextView tvComment = holder.getView(R.id.tv_comment);
+                final CircleImageView civ = holder.getView(R.id.civ);
 
                 //赋值
-                tvName.setText(commentUserNickname + ":");
-                StringBuffer comment = new StringBuffer();
-                if (replyUserId != 0) {
-                    comment.append("@").append(replyUserNickname);
-                }
-                comment.append(commentContent);
-                tvComment.setText(comment.toString());
-
+                tvName.setText(nickname);
+                Glide.with(mDelegate)
+                        .load(userHead)
+                        .apply(GlideUtils.USEROPTIONS)
+                        .into(civ);
                 //点赞
 //                tvZan.setOnClickListener(new View.OnClickListener() {
 //                    @Override

@@ -1,8 +1,14 @@
 package com.bokang.yijia;
 
+import android.Manifest;
+import android.annotation.TargetApi;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
 import android.util.Log;
@@ -34,6 +40,8 @@ import com.yhao.floatwindow.PermissionListener;
 import com.yhao.floatwindow.Screen;
 import com.yhao.floatwindow.ViewStateListener;
 import com.yijia.common_yijia.database.YjDatabaseManager;
+import com.yijia.common_yijia.main.index.friendcircle.smallvideo.CameraActivity;
+import com.yijia.common_yijia.main.index.friendcircle.smallvideo.SmallCameraLisener;
 import com.yijia.common_yijia.main.message.trtc.CallIntentData;
 import com.yijia.common_yijia.main.message.trtc.CalledWaitingActivity;
 import com.yijia.common_yijia.main.message.trtc.TRTCMainActivity;
@@ -43,6 +51,7 @@ import com.yijia.common_yijia.sign.SignUpSecondDelegate;
 import com.yijia.common_yijia.main.YjBottomDelegate;
 
 
+import cn.jpush.android.api.JPushInterface;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import qiu.niorgai.StatusBarCompat;
@@ -52,7 +61,7 @@ import static com.example.yijia.app.AccountManager.checkAccont;
 public class ExampleActivity extends ProxyActivity implements
         ISignListener,
         ILauncherListener,
-        BokangChatListener {
+        BokangChatListener, SmallCameraLisener {
     String TAG = "ExampleActivity.DEBUG";
     public static boolean isShowFlout = false;
     BokangChatManager mBokangChatManager = null;
@@ -89,8 +98,11 @@ public class ExampleActivity extends ProxyActivity implements
 //        return new YjBottomDelegate();
         //检查用户是否登陆了APP
         if(checkAccont()){
+            initJPush();
             loginTencentIM();
-            return new YjBottomDelegate();
+            YjBottomDelegate delegate=new YjBottomDelegate();
+            delegate.setmSmallCameraLisener(this);
+            return delegate;
         }else {
             return new SignInNoteOnlyDelegate();
         }
@@ -171,15 +183,18 @@ public class ExampleActivity extends ProxyActivity implements
                 break;
         }
     }
-
+private void initJPush(){
+    String jRegistrationID = JPushInterface.getRegistrationID(getApplicationContext());
+    Log.e("jialei", "jRegistrationID:" + jRegistrationID);
+    initJRegistrationID(jRegistrationID);
+}
     private void goMain() {
         Log.e("qqqq", "goMain");
-//        String jRegistrationID = JPushInterface.getRegistrationID(getApplicationContext());
-//        LatteLogger.e("jialei", "jRegistrationID:" + jRegistrationID);
-//        Log.e("jialei", "jRegistrationID:" + jRegistrationID);
-//        initJRegistrationID(jRegistrationID);
+        initJPush();
         loginTencentIM();
-        getSupportDelegate().startWithPop(new YjBottomDelegate());
+        YjBottomDelegate delegate=new YjBottomDelegate();
+        delegate.setmSmallCameraLisener(this);
+        getSupportDelegate().startWithPop(delegate);
     }
 
     private static void loginTencentIM() {
@@ -201,12 +216,12 @@ public class ExampleActivity extends ProxyActivity implements
 
 
     private void initJRegistrationID(String jRegistrationID) {
-        final String url = "push/addAlias";
+        final String url = "/notification/add_alias";
         String token = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getYjtk();
         RxRestClient.builder()
                 .url(url)
                 .params("yjtk", token)
-                .params("machineTyp e", 1)//1-手机，2-机器人
+                .params("machineType", 1)//1-手机，2-机器人
                 .params("registrationId", jRegistrationID)
                 .build()
                 .post()
@@ -343,5 +358,70 @@ public class ExampleActivity extends ProxyActivity implements
             intent.putExtra("CallIntentData",data);
             startActivity(intent);
         }
+    }
+
+
+    private final int GET_PERMISSION_REQUEST = 100; //权限申请自定义码
+    /**
+     * 获取权限
+     */
+    private void getPermissions() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager
+                    .PERMISSION_GRANTED &&
+                    ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager
+                            .PERMISSION_GRANTED &&
+                    ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager
+                            .PERMISSION_GRANTED) {
+                startActivityForResult(new Intent(ExampleActivity.this, CameraActivity.class), 100);
+            } else {
+                //不具有获取权限，需要进行权限申请
+                ActivityCompat.requestPermissions(ExampleActivity.this, new String[]{
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.RECORD_AUDIO,
+                        Manifest.permission.CAMERA}, GET_PERMISSION_REQUEST);
+            }
+        } else {
+            startActivityForResult(new Intent(ExampleActivity.this, CameraActivity.class), 100);
+        }
+    }
+
+    @TargetApi(23)
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == GET_PERMISSION_REQUEST) {
+            int size = 0;
+            if (grantResults.length >= 1) {
+                int writeResult = grantResults[0];
+                //读写内存权限
+                boolean writeGranted = writeResult == PackageManager.PERMISSION_GRANTED;//读写内存权限
+                if (!writeGranted) {
+                    size++;
+                }
+                //录音权限
+                int recordPermissionResult = grantResults[1];
+                boolean recordPermissionGranted = recordPermissionResult == PackageManager.PERMISSION_GRANTED;
+                if (!recordPermissionGranted) {
+                    size++;
+                }
+                //相机权限
+                int cameraPermissionResult = grantResults[2];
+                boolean cameraPermissionGranted = cameraPermissionResult == PackageManager.PERMISSION_GRANTED;
+                if (!cameraPermissionGranted) {
+                    size++;
+                }
+                if (size == 0) {
+                    startActivityForResult(new Intent(ExampleActivity.this, CameraActivity.class), 100);
+                } else {
+                    Toast.makeText(this, "请到设置-权限管理中开启", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    }
+
+    @Override
+    public void go() {
+        getPermissions();
     }
 }

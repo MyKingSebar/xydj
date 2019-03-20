@@ -10,7 +10,7 @@ android {
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+//        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
     }
     buildTypes {
@@ -30,6 +30,10 @@ android {
             dirs 'libs', '/../tencent_trtc_sdk/libs'
         }
     }
+    lintOptions{
+        checkReleaseBuilds false
+        abortOnError false
+    }
 }
 
 dependencies {
@@ -47,4 +51,6 @@ dependencies {
     api 'cn.jiguang.sdk:jpush:3.1.8'
     api 'cn.jiguang.sdk:jcore:1.2.7'
     implementation project(':picture_library')
+//    api 'cjt.library.wheel:camera:1.1.9'
+    api project(':camera1.1.9')
 }

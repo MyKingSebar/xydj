@@ -30,6 +30,8 @@ public class LetterPeopleDelagate extends LatteDelegate {
     LetterPeopleAdapter madapter = null;
     int circleId=0;
 
+     ArrayList<MultipleItemEntity> data=null;
+
     @Override
     public void onSupportVisible() {
         super.onSupportVisible();
@@ -59,7 +61,8 @@ public class LetterPeopleDelagate extends LatteDelegate {
 
         final LinearLayoutManager manager = new LinearLayoutManager(getContext());
         rv.setLayoutManager(manager);
-        rv.setAdapter(madapter);
+//        madapter = new LetterPeopleAdapter(data,LetterPeopleDelagate.this);
+//        rv.setAdapter(madapter);
         String token = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getYjtk();
         getInfo(token,circleId);
     }
@@ -90,11 +93,12 @@ public class LetterPeopleDelagate extends LatteDelegate {
                     public void onResponse(String response) {
                         final String status = JSON.parseObject(response).getString("status");
                         if (TextUtils.equals(status, "1001")) {
-                            final ArrayList<MultipleItemEntity> data =
+                            data =
                                     new LetterPeopleDataConverter()
                                             .setJsonData(response)
                                             .convert();
-                            madapter = new LetterPeopleAdapter(data);
+                            madapter = new LetterPeopleAdapter(data,LetterPeopleDelagate.this);
+                            rv.setAdapter(madapter);
                         } else {
                             final String msg = JSON.parseObject(response).getString("msg");
                             Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();

@@ -15,8 +15,8 @@ android {
         // Enabling multidex support.
         multiDexEnabled true
 
-        javaCompileOptions
-                { annotationProcessorOptions { includeCompileClasspath = true } }
+//        javaCompileOptions
+//                { annotationProcessorOptions { includeCompileClasspath = true } }
 
 
         ndk {

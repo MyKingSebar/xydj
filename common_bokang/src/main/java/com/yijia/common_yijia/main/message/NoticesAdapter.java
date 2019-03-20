@@ -20,7 +20,6 @@ import java.util.List;
 
 public final class NoticesAdapter extends MultipleRecyclerAdapter {
     private LatteDelegate mDelegate = null;
-    IIndexItemListener mIndexItemListener = null;
     OkAddLisener mOkAddLisener = null;
 
 
@@ -62,12 +61,13 @@ public final class NoticesAdapter extends MultipleRecyclerAdapter {
                 //赋值
                 im.setImageResource(icons[puthTypeId - 1]);
                 Glide.with(mContext)
-                        .load(icons[puthTypeId-1])
+                        .load(icons[puthTypeId - 1])
                         .apply(GlideUtils.USEROPTIONS)
                         .into(im);
                 tvName.setText(title);
                 tvContent.setText(content);
                 if (puthTypeId == 9) {
+
                     tvTime.setVisibility(View.GONE);
                     add.setVisibility(View.VISIBLE);
                     add.setOnClickListener(new View.OnClickListener() {
@@ -75,9 +75,28 @@ public final class NoticesAdapter extends MultipleRecyclerAdapter {
                         public void onClick(View v) {
                             if (mOkAddLisener != null) {
                                 mOkAddLisener.ok(friendApplyId);
+                                add.setBackgroundResource(R.mipmap.button_has_add_friend);
+                                add.setClickable(false);
                             }
                         }
                     });
+                    switch (isAgree) {
+                        ///是否同意，0-初始化，1-已同意，2-已拒绝
+                        case 0:
+                            add.setBackgroundResource(R.mipmap.button_ok_add_friend);
+                            add.setClickable(true);
+                            break;
+                        case 1:
+                            add.setBackgroundResource(R.mipmap.button_has_add_friend);
+                            add.setClickable(false);
+                            break;
+                        case 2:
+                            add.setBackgroundResource(R.mipmap.button_has_add_friend);
+                            add.setClickable(false);
+                            break;
+                        default:
+                            break;
+                    }
                 } else {
                     tvTime.setVisibility(View.VISIBLE);
                     add.setVisibility(View.GONE);
@@ -94,7 +113,4 @@ public final class NoticesAdapter extends MultipleRecyclerAdapter {
         mOkAddLisener = listener;
     }
 
-    public void setIndexItemListener(IIndexItemListener listener) {
-        this.mIndexItemListener = listener;
-    }
 }

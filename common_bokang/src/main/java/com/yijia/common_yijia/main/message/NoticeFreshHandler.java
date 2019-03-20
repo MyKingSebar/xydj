@@ -32,10 +32,11 @@ import io.reactivex.schedulers.Schedulers;
 
 public class NoticeFreshHandler extends RefreshHandler {
 
-    public NoticeFreshHandler(SwipeRefreshLayout swipeRefreshLayout, RecyclerView recyclerView, DataConverter converter, PagingBean bean, LatteDelegate delegate, IIndexItemListener listener) {
+    public NoticeFreshHandler(SwipeRefreshLayout swipeRefreshLayout, RecyclerView recyclerView, DataConverter converter, PagingBean bean, LatteDelegate delegate, IIndexItemListener listener, OkAddLisener okAddLisener) {
         super(swipeRefreshLayout, recyclerView, converter, bean);
         DELEGATE=delegate;
         LISTENER=listener;
+        this.okAddLisener=okAddLisener;
     }
 //    private final SwipeRefreshLayout REFRESH_LAYOUT;
 //    private final PagingBean BEAN;
@@ -44,11 +45,12 @@ public class NoticeFreshHandler extends RefreshHandler {
 //    private final DataConverter CONVERTER;
       private final LatteDelegate DELEGATE;
       private final IIndexItemListener LISTENER;
+      private final OkAddLisener okAddLisener;
 
     public static NoticeFreshHandler create(SwipeRefreshLayout swipeRefreshLayout,
-                                            RecyclerView recyclerView, DataConverter converter, LatteDelegate delegate, IIndexItemListener listener) {
+                                            RecyclerView recyclerView, DataConverter converter, LatteDelegate delegate, IIndexItemListener listener, OkAddLisener okAddLisener) {
 
-        return new NoticeFreshHandler(swipeRefreshLayout, recyclerView, converter, new PagingBean(),delegate,listener);
+        return new NoticeFreshHandler(swipeRefreshLayout, recyclerView, converter, new PagingBean(),delegate,listener,okAddLisener);
     }
 
     private void refresh() {
@@ -87,6 +89,7 @@ public class NoticeFreshHandler extends RefreshHandler {
                                             .setJsonData(response)
                                             .convert();
                             mAdapter = new NoticesAdapter(data, DELEGATE);
+                            mAdapter.setOkAddListener(okAddLisener);
                             final LinearLayoutManager manager = new LinearLayoutManager(Latte.getApplicationContext());
                             RECYCLERVIEW.setLayoutManager(manager);
                             RECYCLERVIEW.setAdapter(mAdapter);

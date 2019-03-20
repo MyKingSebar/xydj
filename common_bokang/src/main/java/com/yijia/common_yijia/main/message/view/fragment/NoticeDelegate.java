@@ -63,7 +63,7 @@ public class NoticeDelegate extends LatteDelegate implements NoticeView, IIndexI
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, @NonNull View rootView) {
         initRecycler();
-        mRefreshHandler = NoticeFreshHandler.create(mRefreshLayout, rv, null, this, this);
+        mRefreshHandler = NoticeFreshHandler.create(mRefreshLayout, rv, null, this, this,this);
         CallbackManager.getInstance()
                 .addCallback(CallbackType.REFRESHNOTIFY, new IGlobalCallback<String>() {
                     @Override
@@ -97,7 +97,9 @@ public class NoticeDelegate extends LatteDelegate implements NoticeView, IIndexI
         mRefreshLayout.setProgressViewOffset(true, 120, 300);
     }
 
-    private void addfriend(long friendApplyId) {
+    private void
+
+    addfriend(long friendApplyId) {
         String token = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getYjtk();
         RxRestClient.builder()
                 .url("/friend/dispose_friend_apply")
@@ -147,6 +149,7 @@ public class NoticeDelegate extends LatteDelegate implements NoticeView, IIndexI
                                             .setJsonData(response)
                                             .convert();
                             adapter = new NoticesAdapter(data, NoticeDelegate.this);
+                            adapter.setOkAddListener(NoticeDelegate.this);
                             rv.setAdapter(adapter);
                         } else {
                             final String msg = JSON.parseObject(response).getString("msg");

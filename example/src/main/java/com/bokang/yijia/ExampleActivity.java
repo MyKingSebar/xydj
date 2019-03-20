@@ -248,7 +248,7 @@ private void initJPush(){
     }
 
     private void showFlout() {
-        if (TextUtils.equals(ExampleApp.MODE, ExampleApp.MODE_RELEASE)) {
+        if (TextUtils.equals(ExampleApp.MODE, ExampleApp.MODE_DEBUG)) {
             ImageView imageView = new ImageView(getApplicationContext());
             imageView.setImageResource(R.mipmap.ic_launcher);
 

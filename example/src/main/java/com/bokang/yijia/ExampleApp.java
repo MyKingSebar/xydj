@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.multidex.MultiDexApplication;
+import android.text.TextUtils;
 
 import com.example.commcon_xfyun.XunFei;
 import com.example.common_tencent_tuikit.TuiKitConfig;
@@ -35,7 +36,7 @@ import me.yokeyword.fragmentation.helper.ExceptionHandler;
 
 public class ExampleApp extends MultiDexApplication {
     public static final String PACKAGENAME = "com.bokang.yijia";
-    public static final String MODE = "DEBUG";
+    public static final String MODE = "RELEASE";
     public static final String MODE_DEBUG = "DEBUG";
     public static final String MODE_RELEASE = "RELEASE";
 
@@ -54,7 +55,9 @@ public class ExampleApp extends MultiDexApplication {
         initXfYun();
 //        DatabaseManager.getInstance().init(this);
         YjDatabaseManager.getInstance().init(this);
-        initFragmentDeBug();
+        if(TextUtils.equals(MODE,MODE_DEBUG)){
+            initFragmentDeBug();
+        }
 
     }
 

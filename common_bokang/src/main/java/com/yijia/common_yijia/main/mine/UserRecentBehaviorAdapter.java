@@ -31,7 +31,7 @@ private LatteDelegate mDelegate=null;
     protected void convert(MultipleViewHolder holder, final MultipleItemEntity entity) {
         super.convert(holder, entity);
         switch (holder.getItemViewType()) {
-            case YjIndexItemType.INDEX_USERLIST_ITEM:
+            case YjIndexItemType.INDEX_RECENTBEHAVIOR_ITEM:
                 //先取出所有值
 
 //                final Long friendUserId = entity.getField(MultipleFields.ID);

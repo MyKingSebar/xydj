@@ -8,6 +8,7 @@ import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -21,6 +22,7 @@ import com.example.yijia.delegates.LatteDelegate;
 import com.example.yijia.net.rx.BaseObserver;
 import com.example.yijia.net.rx.RxRestClient;
 import com.example.yijia.util.GlideUtils;
+import com.google.gson.Gson;
 import com.yijia.common_yijia.database.YjDatabaseManager;
 import com.yijia.common_yijia.main.index.YjIndexDelegate;
 import com.yijia.common_yijia.main.index.friendcircle.LetterPeopleAdapter;
@@ -147,6 +149,7 @@ public class UserInfoDelegate extends LatteDelegate {
                         final JSONObject obj = JSON.parseObject(response);
                         final String status = obj.getString("status");
                         if (TextUtils.equals(status, "1001")) {
+                            Log.e("jialei","getRecentInfo:"+new Gson().toJson(response));
                             final List<MultipleItemEntity> data =
                                     new UserRecentBehaviorConverter()
                                             .setJsonData(response)

@@ -6,5 +6,6 @@ public enum CallbackType {
     TAG_OPEN_PUSH,
     TAG_STOP_PUSH,
     ON_SCAN,
-    FRAGMENT_LETTER_RESULT
+    FRAGMENT_LETTER_RESULT,
+    REFRESHNOTIFY
 }

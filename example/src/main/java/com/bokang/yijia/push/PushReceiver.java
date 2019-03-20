@@ -5,10 +5,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.example.yijia.util.callback.CallbackManager;
+import com.example.yijia.util.callback.CallbackType;
+import com.example.yijia.util.callback.IGlobalCallback;
 import com.example.yijia.util.log.LatteLogger;
 import com.bokang.yijia.ExampleActivity;
+import com.google.gson.JsonObject;
 
 import java.util.Set;
 
@@ -31,7 +37,8 @@ public class PushReceiver extends BroadcastReceiver {
         LatteLogger.json("PushReceiver", json.toJSONString());
 
         final String pushAction = intent.getAction();
-        if (pushAction.equals(JPushInterface.ACTION_NOTIFICATION_RECEIVED)) {
+        LatteLogger.e("PushReceiver","pushAction:"+ pushAction);
+        if (pushAction.equals(JPushInterface.ACTION_MESSAGE_RECEIVED)) {
             //处理接收到的信息
             onReceivedMessage(bundle);
         } else if (pushAction.equals(JPushInterface.ACTION_NOTIFICATION_OPENED)) {
@@ -47,6 +54,17 @@ public class PushReceiver extends BroadcastReceiver {
         final String message = bundle.getString(JPushInterface.EXTRA_MESSAGE);
         final String extra = bundle.getString(JPushInterface.EXTRA_EXTRA);
         final String alert = bundle.getString(JPushInterface.EXTRA_ALERT);
+        LatteLogger.e("jialei","extra:"+extra);
+        JSONObject object= JSON.parseObject(extra);
+        String pushType=object.getString("pushType");
+        if(TextUtils.equals("1",pushType)||TextUtils.equals("2",pushType)||TextUtils.equals("3",pushType)||TextUtils.equals("4",pushType)||TextUtils.equals("5",pushType)||TextUtils.equals("6",pushType)||TextUtils.equals("7",pushType)||TextUtils.equals("8",pushType)||TextUtils.equals("9",pushType)){
+            final IGlobalCallback<String> callback = CallbackManager
+                    .getInstance()
+                    .getCallback(CallbackType.REFRESHNOTIFY);
+            if (callback != null) {
+                callback.executeCallback("");
+            }
+        }
     }
 
     private void onOpenNotification(Context context, Bundle bundle) {

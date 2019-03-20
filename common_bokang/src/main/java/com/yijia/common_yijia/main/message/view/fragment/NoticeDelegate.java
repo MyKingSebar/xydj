@@ -17,6 +17,9 @@ import com.example.latte.ec.R;
 import com.example.latte.ec.R2;
 import com.example.yijia.net.rx.BaseObserver;
 import com.example.yijia.net.rx.RxRestClient;
+import com.example.yijia.util.callback.CallbackManager;
+import com.example.yijia.util.callback.CallbackType;
+import com.example.yijia.util.callback.IGlobalCallback;
 import com.yijia.common_yijia.database.YjDatabaseManager;
 import com.yijia.common_yijia.main.index.IIndexItemListener;
 import com.yijia.common_yijia.main.index.YjReFreshHandler;
@@ -60,8 +63,14 @@ public class NoticeDelegate extends LatteDelegate implements NoticeView, IIndexI
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, @NonNull View rootView) {
         initRecycler();
-
         mRefreshHandler = NoticeFreshHandler.create(mRefreshLayout, rv, null, this, this);
+        CallbackManager.getInstance()
+                .addCallback(CallbackType.REFRESHNOTIFY, new IGlobalCallback<String>() {
+                    @Override
+                    public void executeCallback(@Nullable String args) {
+                        mRefreshHandler.firstPage();
+                    }
+                });
     }
 
     @Override

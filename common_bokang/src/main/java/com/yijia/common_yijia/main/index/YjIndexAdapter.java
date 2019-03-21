@@ -211,7 +211,7 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
     private InputMethodManager mInputManager;
 
     @SuppressLint("WrongConstant")
-    private void showPopupcomment(int circleId, String content, MultipleViewHolder holder) {
+    private void showPopupcomment(int circleId, String content, MultipleViewHolder holder,long  replyUserId,String name) {
         final int CIRCLEID = circleId;
         final String CONTENT = content;
         if (popupView == null) {
@@ -219,6 +219,12 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
             popupView = LayoutInflater.from(mContext).inflate(R.layout.comment_popupwindow, null);
         }
         inputComment = (EditText) popupView.findViewById(R.id.et_discuss);
+        StringBuffer sb=new StringBuffer();
+        sb.append("回复：");
+        if(name!=null){
+            sb.append(name);
+        }
+        inputComment.setHint(sb.toString());
         btn_submit = (Button) popupView.findViewById(R.id.btn_confirm);
         rl_input_container = (RelativeLayout) popupView.findViewById(R.id.rl_input_container);
         //利用Timer这个Api设置延迟显示软键盘，这里时间为200毫秒
@@ -286,7 +292,7 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
                     Toast.makeText(mContext, "请输入评论内容", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                sendComment(CIRCLEID, nInputContentText, holder);
+                sendComment(CIRCLEID, nInputContentText, holder,replyUserId);
             }
         });
     }
@@ -372,6 +378,12 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
                         .setJsonData(commentList)
                         .convert();
         mCommentAdapter = new YjIndexCommentAdapter(data);
+        mCommentAdapter.setmYjIndexCommentListener(new YjIndexCommentListener() {
+            @Override
+            public void OnItemClick(long replyUserId, String name) {
+                showPopupcomment(circleId, content, holder,replyUserId,name);
+            }
+        });
         final LinearLayoutManager manager = new LinearLayoutManager(mContext);
         rvComment.setLayoutManager(manager);
         rvComment.setAdapter(mCommentAdapter);
@@ -389,7 +401,7 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
         tvComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showPopupcomment(circleId, content, holder);
+                showPopupcomment(circleId, content, holder,0,null);
             }
         });
     }
@@ -421,7 +433,7 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
         initializePlayer(playerView, medias);
     }
 
-    private void sendComment(int circleId, String nInputContentText, MultipleViewHolder holder) {
+    private void sendComment(int circleId, String nInputContentText, MultipleViewHolder holder,long replyUserId) {
         final String url = "circle/insert_comment";
         final String token = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getYjtk();
         RxRestClient.builder()
@@ -429,6 +441,7 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
                 .params("yjtk", token)
                 .params("circleId", circleId)
                 .params("content", nInputContentText)
+                .params("replyUserId", replyUserId)
                 .build()
                 .post()
                 .subscribeOn(Schedulers.io())

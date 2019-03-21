@@ -29,9 +29,8 @@ repositories{
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     //TRTC SDK
-//    api 'com.tencent.liteav:LiteAVSDK_TRTC:6.0.1688'
+    //    api 'com.tencent.liteav:LiteAVSDK_TRTC:6.0.1688'
     api(name: 'LiteAVSDK_TRTC_6.1.6454', ext: 'aar')
 }

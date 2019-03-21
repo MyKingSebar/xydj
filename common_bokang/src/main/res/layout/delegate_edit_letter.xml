@@ -6,7 +6,32 @@
     android:orientation="vertical">
 
     <include layout="@layout/include_edit_top" />
-
+    <android.support.v7.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+        <android.support.v7.widget.AppCompatTextView
+            android:text="标题"
+            android:layout_gravity="center_vertical"
+            android:textSize="16sp"
+            android:textColor="@color/main_text_black_dark"
+            android:layout_marginStart="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/et_title"
+            android:hint="请输入标题"
+            android:textColor="@color/main_text_black_dark"
+            android:textSize="16sp"
+            android:textColorHint="@color/main_text_gary_99"
+            android:gravity="center"
+            android:textCursorDrawable="@drawable/line_black"
+            android:background="@drawable/et_send_text"
+            android:paddingStart="30dp"
+            android:paddingEnd="30dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent" />
+    </android.support.v7.widget.LinearLayoutCompat>
     <android.support.v7.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -28,7 +53,8 @@
             android:padding="15dp"
             android:textColor="@color/app_text_dark"
             android:textColorHint="@color/app_text_gray"
-            android:textCursorDrawable="@color/black"
+            android:textCursorDrawable="@drawable/line_black"
+            android:background="@drawable/et_send_text"
             android:textSize="@dimen/third_title_16" />
         <View
             android:layout_width="match_parent"

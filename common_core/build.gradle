@@ -165,20 +165,22 @@ dependencies {
     api 'io.reactivex.rxjava2:rxandroid:2.1.0'
     api 'com.squareup.retrofit2:adapter-rxjava2:2.5.0'
 
-        //图片剪裁
+    //图片剪裁
 
-//        api 'com.github.yalantis:ucrop:2.2.2-native'
-        api  project(':ucrop')
+    //        api 'com.github.yalantis:ucrop:2.2.2-native'
+    api project(':ucrop')
 
     //图片处理
     api 'com.github.bumptech.glide:glide:4.8.0'
-//    api 'com.github.bumptech.glide:okhttp3-integration:4.0.0-RC0@aar'
+
+    //    api 'com.github.bumptech.glide:okhttp3-integration:4.0.0-RC0@aar'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
 
-//    //图片视频选取(包含ucrop、LuBan)
-//    api 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.3'
+    //    //图片视频选取(包含ucrop、LuBan)
+
+    //    api 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.3'
+
     //崩溃SpiderMan
     debugApi 'com.simple:spiderman:1.0.8'
     releaseApi 'com.simple:spiderman-no-op:1.0.8'
-
 }

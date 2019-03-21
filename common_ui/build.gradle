@@ -28,13 +28,13 @@ android {
 dependencies {
     api project(':common_core')
     //RecyclerView依赖
-    api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'
+    api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.35'
     //RecyclerView 分割线
     api 'com.choices.divider:RecyclerView_Divider:1.0.0'
-//    //图片处理
-//    api 'com.github.bumptech.glide:glide:4.8.0'
-//    api 'com.github.bumptech.glide:okhttp3-integration:4.0.0-RC0@aar'
-//    annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
+    //    //图片处理
+    //    api 'com.github.bumptech.glide:glide:4.8.0'
+    //    api 'com.github.bumptech.glide:okhttp3-integration:4.0.0-RC0@aar'
+    //    annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
     //图片压缩
     api 'top.zibin:Luban:1.1.8'
     //Banner依赖
@@ -51,16 +51,12 @@ dependencies {
     api 'com.daimajia.androidanimations:library:1.1.3@aar'
     //九宫格
     api 'com.lzy.widget:ninegridview:0.2.0'
-
     //圆形图片
     api 'de.hdodenhof:circleimageview:2.2.0'
-
     //视频剪裁
     api 'com.github.kui92:FFmpegLibrary:3.2'
-
     //BasePopup
-    api 'com.github.razerdp:BasePopup:2.1.7'
-
+    api 'com.github.razerdp:BasePopup:2.1.9'
     //拼音
     api 'com.github.promeg:tinypinyin:2.0.3'
     api 'io.reactivex:rxandroid:1.2.1'

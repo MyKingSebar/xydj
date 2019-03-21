@@ -1,6 +1,7 @@
 package com.yijia.common_yijia.main.message;
 
 import android.support.v7.widget.AppCompatTextView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -12,9 +13,14 @@ import com.example.latte.ui.recycler.MultipleRecyclerAdapter;
 import com.example.latte.ui.recycler.MultipleViewHolder;
 import com.example.yijia.delegates.LatteDelegate;
 import com.example.yijia.util.GlideUtils;
+import com.example.yijia.util.TimeFormat;
 import com.yijia.common_yijia.main.index.IIndexItemListener;
 import com.yijia.common_yijia.main.index.YjIndexItemType;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 
@@ -100,7 +106,15 @@ public final class NoticesAdapter extends MultipleRecyclerAdapter {
                 } else {
                     tvTime.setVisibility(View.VISIBLE);
                     add.setVisibility(View.GONE);
-                    tvTime.setText(createdTime);
+                    DateFormat df = new SimpleDateFormat("yyyy-M-dd HH:mm:ss");
+                    try {
+                        Date createdTime_d = df.parse(createdTime);
+                        Log.d("jialei","createdTime_d："+(createdTime_d.getYear()+- 1900)+","+createdTime_d.getMonth()+","+createdTime_d.getDay());
+                        String time= TimeFormat.getCompareNowString(createdTime_d);
+                        tvTime.setText(time);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                 }
                 break;
 

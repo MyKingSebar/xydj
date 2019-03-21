@@ -29,6 +29,7 @@ public class YjIndexDataConverter extends DataConverter {
             final int circleType = data.getInteger("circleType");//动态类型：1-文本，2-照片，3-语音，4-视频，5-家书
             final int contentType = data.getInteger("contentType");//内容类型：1-文字，2-语音
             final String content = data.getString("content");
+            final String title = data.getString("title");
             final String pictureUrl = data.getString("pictureUrl");
             final String voiceUrl = data.getString("audioUrl");
             final String videoUrl = data.getString("videoUrl");
@@ -86,6 +87,7 @@ public class YjIndexDataConverter extends DataConverter {
                     .setField(YjIndexMultipleFields.USER_NICK_NAME, userNickname)
 //                    .setField(YjIndexMultipleFields.USER_REAL_NAME, userRealName)
                     .setField(YjIndexMultipleFields.ISOWN, isOwn)
+                    .setField(YjIndexMultipleFields.TITLE, title)
                     .setField(YjIndexMultipleFields.CIRCLEID, circleId)
                     .setField(YjIndexMultipleFields.CONTENTTYPE, contentType)
                     .setField(YjIndexMultipleFields.LOCATION, location)

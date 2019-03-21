@@ -119,6 +119,7 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
     public void setIndexItemListener(IIndexItemListener listener) {
         this.mIndexItemListener = listener;
     }
+
     public void setIndexCanReadItemListener(IIndexCanReadItemListener listener) {
         this.mIndexCanReadItemListener = listener;
     }
@@ -146,6 +147,7 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
         final String[] imgs = entity.getField(YjIndexMultipleFields.IMGS);
         final String voiceUrl = entity.getField(YjIndexMultipleFields.VOICEURL);
         final String videoUrl = entity.getField(YjIndexMultipleFields.VIDEOURL);
+
 
         switch (holder.getItemViewType()) {
             case YjIndexItemType.INDEX_TEXT_ITEM:
@@ -186,10 +188,10 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
                 initMedias(holder, videoString);
                 break;
             case YjIndexItemType.INDEX_LETTER_ITEM:
+                final String title = entity.getField(YjIndexMultipleFields.TITLE);
                 initViewText(holder, circleId, userNickname, content, createdTime, likes, commentList.toJSONString());
-                initLetter(holder,circleId);
+                initLetter(holder, circleId, title);
                 break;
-
 
             default:
                 break;
@@ -211,7 +213,7 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
     private InputMethodManager mInputManager;
 
     @SuppressLint("WrongConstant")
-    private void showPopupcomment(int circleId, String content, MultipleViewHolder holder,long  replyUserId,String name) {
+    private void showPopupcomment(int circleId, String content, MultipleViewHolder holder, long replyUserId, String name) {
         final int CIRCLEID = circleId;
         final String CONTENT = content;
         if (popupView == null) {
@@ -219,9 +221,9 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
             popupView = LayoutInflater.from(mContext).inflate(R.layout.comment_popupwindow, null);
         }
         inputComment = (EditText) popupView.findViewById(R.id.et_discuss);
-        StringBuffer sb=new StringBuffer();
+        StringBuffer sb = new StringBuffer();
         sb.append("回复：");
-        if(name!=null){
+        if (name != null) {
             sb.append(name);
         }
         inputComment.setHint(sb.toString());
@@ -292,7 +294,7 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
                     Toast.makeText(mContext, "请输入评论内容", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                sendComment(CIRCLEID, nInputContentText, holder,replyUserId);
+                sendComment(CIRCLEID, nInputContentText, holder, replyUserId);
             }
         });
     }
@@ -336,7 +338,7 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
 //                        R.color.main_text_blue_57, isExpandDescripe[0]);
 //            }
 //        });
-        getLastIndexForLimit(tvContent,maxLine,content);
+        getLastIndexForLimit(tvContent, maxLine, content);
         //赋值
         tvName.setText(userNickname);
         //语音
@@ -357,8 +359,8 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
         DateFormat df = new SimpleDateFormat("yyyy-M-dd HH:mm:ss");
         try {
             Date createdTime_d = df.parse(createdTime);
-            Log.d("jialei","createdTime_d："+(createdTime_d.getYear()+- 1900)+","+createdTime_d.getMonth()+","+createdTime_d.getDay());
-            String time=TimeFormat.getCompareNowString(createdTime_d);
+            Log.d("jialei", "createdTime_d：" + (createdTime_d.getYear() + -1900) + "," + createdTime_d.getMonth() + "," + createdTime_d.getDay());
+            String time = TimeFormat.getCompareNowString(createdTime_d);
             tvTime.setText(time);
         } catch (ParseException e) {
             e.printStackTrace();
@@ -381,7 +383,7 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
         mCommentAdapter.setmYjIndexCommentListener(new YjIndexCommentListener() {
             @Override
             public void OnItemClick(long replyUserId, String name) {
-                showPopupcomment(circleId, content, holder,replyUserId,name);
+                showPopupcomment(circleId, content, holder, replyUserId, name);
             }
         });
         final LinearLayoutManager manager = new LinearLayoutManager(mContext);
@@ -401,7 +403,7 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
         tvComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showPopupcomment(circleId, content, holder,0,null);
+                showPopupcomment(circleId, content, holder, 0, null);
             }
         });
     }
@@ -418,10 +420,13 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
         }
         ngImgs.setAdapter(new NineGridViewClickAdapter(mContext, imageInfo));
     }
-    private void initLetter(MultipleViewHolder holder,int circleId) {
+
+    private void initLetter(MultipleViewHolder holder, int circleId, String title) {
         final AppCompatTextView canRead = holder.getView(R.id.tv_canread);
+        final AppCompatTextView tvTitle = holder.getView(R.id.tv_title);
+        tvTitle.setText(title);
         canRead.setOnClickListener(v -> {
-            if(mIndexCanReadItemListener!=null){
+            if (mIndexCanReadItemListener != null) {
                 mIndexCanReadItemListener.goCanReadList(circleId);
             }
         });
@@ -433,7 +438,7 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
         initializePlayer(playerView, medias);
     }
 
-    private void sendComment(int circleId, String nInputContentText, MultipleViewHolder holder,long replyUserId) {
+    private void sendComment(int circleId, String nInputContentText, MultipleViewHolder holder, long replyUserId) {
         final String url = "circle/insert_comment";
         final String token = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getYjtk();
         RxRestClient.builder()
@@ -578,17 +583,18 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
     }
 
     private int maxLine = 6;
+
     private void getLastIndexForLimit(TextView tv, int maxLine, String content) {
-         SpannableString elipseString;//收起的文字
-         SpannableString notElipseString;//展开的文字
+        SpannableString elipseString;//收起的文字
+        SpannableString notElipseString;//展开的文字
         //获取TextView的画笔对象
         TextPaint paint = tv.getPaint();
         //每行文本的布局宽度
-        int width =latteDelegate.getContext().getResources().getDisplayMetrics().widthPixels - dip2px(latteDelegate.getContext(),47+28);
+        int width = latteDelegate.getContext().getResources().getDisplayMetrics().widthPixels - dip2px(latteDelegate.getContext(), 47 + 28);
         //实例化StaticLayout 传入相应参数
-        StaticLayout staticLayout = new StaticLayout(content,paint,width, Layout.Alignment.ALIGN_NORMAL, 1, 0, false);
+        StaticLayout staticLayout = new StaticLayout(content, paint, width, Layout.Alignment.ALIGN_NORMAL, 1, 0, false);
         //判断content是行数是否超过最大限制行数3行
-        if (staticLayout.getLineCount()>maxLine) {
+        if (staticLayout.getLineCount() > maxLine) {
             //定义展开后的文本内容
             String string1 = content + "    收起";
             notElipseString = new SpannableString(string1);

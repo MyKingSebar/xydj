@@ -674,6 +674,10 @@ public class PhotoDelegate2 extends LatteDelegate {
                 .params("circleType", circleType)
                 .params("contentType", contentType)//1-文字，2-语音
                 .params("content", content)
+                .params("audioUrl", "")
+                .params("pictureUrl", "")
+                .params("videoUrl", "")
+                .params("videoCoverUrl", "")
                 .params(urlType, filesString)
                 .params("visibleType", visibleType)
 //                .params("visibleOrInvisibleUserIds",JSONArray.parseArray(JSON.toJSONString(visibleOrInvisibleUserIds2)))

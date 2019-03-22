@@ -26,11 +26,12 @@ import io.reactivex.schedulers.Schedulers;
 
 public class YjReFreshHandler extends RefreshHandler {
 
-    public YjReFreshHandler(SwipeRefreshLayout swipeRefreshLayout, RecyclerView recyclerView, DataConverter converter, PagingBean bean,LatteDelegate delegate,IIndexItemListener listener,IIndexCanReadItemListener readlistener) {
+    public YjReFreshHandler(SwipeRefreshLayout swipeRefreshLayout, RecyclerView recyclerView, DataConverter converter, PagingBean bean,LatteDelegate delegate,IIndexItemListener listener,IIndexCanReadItemListener readlistener,IPlayVideoListener playVideoListener) {
         super(swipeRefreshLayout, recyclerView, converter, bean);
         DELEGATE=delegate;
         LISTENER=listener;
         READLISTENER=readlistener;
+        PLAYLISTENER=playVideoListener;
     }
 //    private final SwipeRefreshLayout REFRESH_LAYOUT;
 //    private final PagingBean BEAN;
@@ -40,11 +41,12 @@ public class YjReFreshHandler extends RefreshHandler {
       private final LatteDelegate DELEGATE;
       private final IIndexItemListener LISTENER;
       private final IIndexCanReadItemListener READLISTENER;
+      private final IPlayVideoListener PLAYLISTENER;
 
     public static YjReFreshHandler create(SwipeRefreshLayout swipeRefreshLayout,
-                                        RecyclerView recyclerView, DataConverter converter,LatteDelegate delegate,IIndexItemListener listener,IIndexCanReadItemListener readlistener) {
+                                        RecyclerView recyclerView, DataConverter converter,LatteDelegate delegate,IIndexItemListener listener,IIndexCanReadItemListener readlistener,IPlayVideoListener playVideoListener) {
 
-        return new YjReFreshHandler(swipeRefreshLayout, recyclerView, converter, new PagingBean(),delegate,listener,readlistener);
+        return new YjReFreshHandler(swipeRefreshLayout, recyclerView, converter, new PagingBean(),delegate,listener,readlistener,playVideoListener);
     }
 
     private void refresh() {
@@ -90,6 +92,7 @@ public class YjReFreshHandler extends RefreshHandler {
                             mAdapter = new YjIndexAdapter(data,DELEGATE);
                             mAdapter.setIndexItemListener(LISTENER);
                             mAdapter.setIndexCanReadItemListener(READLISTENER);
+                            mAdapter.setmIPlayVideoListener(PLAYLISTENER);
                             mAdapter.setOnLoadMoreListener(YjReFreshHandler.this, RECYCLERVIEW);
                             final LinearLayoutManager manager = new LinearLayoutManager(Latte.getApplicationContext());
                             RECYCLERVIEW.setLayoutManager(manager);

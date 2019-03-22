@@ -29,6 +29,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -95,6 +96,11 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
 
     private IIndexItemListener mIndexItemListener = null;
     private IIndexCanReadItemListener mIndexCanReadItemListener = null;
+    private IPlayVideoListener mIPlayVideoListener = null;
+
+    public void setmIPlayVideoListener(IPlayVideoListener mIPlayVideoListener) {
+        this.mIPlayVideoListener = mIPlayVideoListener;
+    }
 
     private static final RequestOptions OPTIONS = new RequestOptions()
             .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -108,7 +114,7 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
         addItemType(YjIndexItemType.INDEX_TEXT_ITEM, R.layout.item_index_text);
         addItemType(YjIndexItemType.INDEX_IMAGE_ITEM, R.layout.item_index_image);
         addItemType(YjIndexItemType.INDEX_VOICE_ITEM, R.layout.item_index_voice);
-        addItemType(YjIndexItemType.INDEX_VIDEO_ITEM, R.layout.item_index_video);
+        addItemType(YjIndexItemType.INDEX_VIDEO_ITEM, R.layout.item_index_video2);
         addItemType(YjIndexItemType.INDEX_IMAGES_ITEM, R.layout.item_index_images);
         //TODO
         addItemType(YjIndexItemType.INDEX_LETTER_ITEM, R.layout.item_index_letter);
@@ -175,17 +181,17 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
 
                 break;
             case YjIndexItemType.INDEX_VOICE_ITEM:
-                String[] voiceString = voiceUrl.split(",");
-                LatteLogger.d("jialei", "voiceString" + voiceUrl);
-                initViewText(holder, circleId, userNickname, content, createdTime, likes, commentList.toJSONString());
-                initMedias(holder, voiceString);
+//                String[] voiceString = voiceUrl.split(",");
+//                LatteLogger.d("jialei", "voiceString" + voiceUrl);
+//                initViewText(holder, circleId, userNickname, content, createdTime, likes, commentList.toJSONString());
+//                initMedias(holder, voiceString,entity);
 
                 break;
             case YjIndexItemType.INDEX_VIDEO_ITEM:
                 String[] videoString = videoUrl.split(",");
                 LatteLogger.d("jialei", "videoString" + videoUrl);
                 initViewText(holder, circleId, userNickname, content, createdTime, likes, commentList.toJSONString());
-                initMedias(holder, videoString);
+                initMedias(holder, videoString, entity);
                 break;
             case YjIndexItemType.INDEX_LETTER_ITEM:
                 final String title = entity.getField(YjIndexMultipleFields.TITLE);
@@ -433,9 +439,24 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
     }
 
 
-    private void initMedias(MultipleViewHolder holder, String[] medias) {
-        final PlayerView playerView = holder.getView(R.id.video_view);
-        initializePlayer(playerView, medias);
+    private void initMedias(MultipleViewHolder holder, String[] medias, final MultipleItemEntity entity) {
+//        final PlayerView playerView = holder.getView(R.id.video_view);
+        final RelativeLayout rlVideo = holder.getView(R.id.rl_video);
+        final ImageView imVideo = holder.getView(R.id.iv_video);
+        final String videoCoverUrl = entity.getField(YjIndexMultipleFields.VIDEOCOVERURL);
+        Glide.with(mContext)
+                .load(videoCoverUrl)
+                .apply(OPTIONS)
+                .into(imVideo);
+        rlVideo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mIPlayVideoListener != null) {
+                    mIPlayVideoListener.play(medias);
+                }
+            }
+        });
+//        initializePlayer(playerView, medias);
     }
 
     private void sendComment(int circleId, String nInputContentText, MultipleViewHolder holder, long replyUserId) {

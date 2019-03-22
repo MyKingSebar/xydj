@@ -62,7 +62,7 @@ import razerdp.blur.PopupBlurOption;
 import static com.blankj.utilcode.util.PermissionUtils.getPermissions;
 
 
-public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemListener, IIndexItemListener, IndexCameraCheckInstener, IIndexCanReadItemListener {
+public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemListener, IIndexItemListener, IndexCameraCheckInstener, IIndexCanReadItemListener,IPlayVideoListener {
 
     private final int ALLMODE = 0;
     private final int IMAGEMODE = 1;
@@ -133,7 +133,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
 
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, View rootView) {
-        mRefreshHandler = YjReFreshHandler.create(mRefreshLayout, mRecyclerView, null, this, this, this);
+        mRefreshHandler = YjReFreshHandler.create(mRefreshLayout, mRecyclerView, null, this, this, this,this);
         CallbackManager.getInstance()
                 .addCallback(CallbackType.ON_SCAN, new IGlobalCallback<String>() {
                     @Override
@@ -251,6 +251,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
         mAdapter = new YjIndexAdapter(data, this);
         mAdapter.setIndexItemListener(this);
         mAdapter.setIndexCanReadItemListener(this);
+        mAdapter.setmIPlayVideoListener(this);
         final LinearLayoutManager manager = new LinearLayoutManager(getContext());
         //scorllview相关
         manager.setSmoothScrollbarEnabled(true);
@@ -506,4 +507,12 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
     }
 
 
+    @Override
+    public void play(String[] mediaUrl) {
+        PlayVideoDelagate
+                delegate = new PlayVideoDelagate();
+        mArgs.putStringArray("videos", mediaUrl);
+        delegate.setArguments(mArgs);
+        getParentDelegate().getSupportDelegate().start(delegate);
+    }
 }

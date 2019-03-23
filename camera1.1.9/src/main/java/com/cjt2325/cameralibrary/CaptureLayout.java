@@ -288,6 +288,7 @@ public class CaptureLayout extends FrameLayout {
         txt_param.setMargins(0, 0, 0, 0);
         txt_tip.setText("轻触拍照，长按摄像");
         txt_tip.setTextColor(0xFFFFFFFF);
+        txt_tip.setTextSize(16);
         txt_tip.setGravity(Gravity.CENTER);
         txt_tip.setLayoutParams(txt_param);
 

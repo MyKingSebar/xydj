@@ -345,6 +345,11 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
 //            }
 //        });
         getLastIndexForLimit(tvContent, maxLine, content);
+        if(TextUtils.isEmpty(content)){
+            tvContent.setVisibility(View.GONE);
+        }else {
+            tvContent.setVisibility(View.VISIBLE);
+        }
         //赋值
         tvName.setText(userNickname);
         //语音

@@ -50,7 +50,7 @@ public class CameraActivity extends AppCompatActivity {
         //设置视频保存路径
         jCameraView.setSaveVideoPath(Environment.getExternalStorageDirectory().getPath() + File.separator + "JCamera");
         jCameraView.setFeatures(JCameraView.BUTTON_STATE_ONLY_RECORDER);
-        jCameraView.setTip("JCameraView Tip");
+        jCameraView.setTip("按住拍摄，边拍边说点什么");
         jCameraView.setMediaQuality(JCameraView.MEDIA_QUALITY_MIDDLE);
         jCameraView.setBackkListener(new BackListener() {
             @Override

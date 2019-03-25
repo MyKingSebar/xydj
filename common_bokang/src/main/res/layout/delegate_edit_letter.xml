@@ -32,7 +32,9 @@
             android:id="@+id/tv_recipients"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:textColor="@color/main_text_black_dark"
+            android:textSize="@dimen/third_title_16" />
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/tv_add"

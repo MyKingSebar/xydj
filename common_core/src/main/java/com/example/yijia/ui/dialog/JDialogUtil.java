@@ -11,7 +11,7 @@ public enum  JDialogUtil {
     INSTANCE;
     private Dialog dialog=null;
     public void showRxDialogShapeLoading(Context context){
-        if (dialog.isShowing()){
+        if (dialog!=null&&dialog.isShowing()){
             dialog.dismiss();
         }
         dialog=new RxDialogShapeLoading(context);
@@ -19,7 +19,7 @@ public enum  JDialogUtil {
          dialog.show();
     }
     public void dismiss(){
-        if (dialog.isShowing()){
+        if (dialog!=null&&dialog.isShowing()){
             dialog.dismiss();
         }
     }

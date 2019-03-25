@@ -19,6 +19,7 @@ import com.example.latte.ec.R;
 import com.example.latte.ec.R2;
 import com.example.yijia.net.rx.BaseObserver;
 import com.example.yijia.net.rx.RxRestClient;
+import com.example.yijia.ui.dialog.JDialogUtil;
 import com.example.yijia.util.callback.CallbackManager;
 import com.example.yijia.util.callback.CallbackType;
 import com.example.yijia.util.callback.IGlobalCallback;
@@ -181,6 +182,7 @@ public class LetterDelagate extends LatteDelegate implements LatCallbackInterfac
             hideInput();
             return;
         }
+        JDialogUtil.INSTANCE.showRxDialogShapeLoading(getContext());
         RxRestClient.builder()
                 .url(url)
                 .params("yjtk", token)
@@ -214,11 +216,13 @@ public class LetterDelagate extends LatteDelegate implements LatCallbackInterfac
                             final String msg = JSON.parseObject(response).getString("msg");
                             Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
                         }
+                        JDialogUtil.INSTANCE.dismiss();
                     }
 
                     @Override
                     public void onFail(Throwable e) {
                         Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                        JDialogUtil.INSTANCE.dismiss();
                     }
                 });
     }

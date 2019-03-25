@@ -29,6 +29,6 @@
 
     </RelativeLayout>
 
-    <include layout="@layout/include_item_index_commet" />
+    <include layout="@layout/include_item_index_commet_withdelete" />
 
 </android.support.v7.widget.LinearLayoutCompat>

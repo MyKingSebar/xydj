@@ -565,7 +565,7 @@ public class JCameraView extends FrameLayout implements CameraInterface.CameraOp
                         }
                     });
                     mMediaPlayer.setLooping(true);
-                    mMediaPlayer.prepare();
+//                    mMediaPlayer.prepare();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

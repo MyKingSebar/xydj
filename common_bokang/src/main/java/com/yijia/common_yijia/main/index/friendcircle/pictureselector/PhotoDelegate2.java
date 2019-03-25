@@ -277,9 +277,9 @@ public class PhotoDelegate2 extends LatteDelegate {
         }
 
 
-        FullyGridLayoutManager manager = new FullyGridLayoutManager(getActivity(), 4, GridLayoutManager.VERTICAL, false);
+        FullyGridLayoutManager manager = new FullyGridLayoutManager(getContext(), 1, GridLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(manager);
-        adapter = new GridImageAdapter(getActivity(), onAddPicClickListener);
+        adapter = new GridImageAdapter(getContext(), onAddPicClickListener);
         adapter.setList(selectList);
         adapter.setSelectMax(maxselectnum);
         recyclerView.setAdapter(adapter);

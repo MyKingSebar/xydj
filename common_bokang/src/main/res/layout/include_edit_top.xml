@@ -29,6 +29,10 @@
         android:textSize="@dimen/second_title_18" />
 
     <android.support.v7.widget.AppCompatTextView
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
         android:id="@+id/tv_save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -37,6 +41,7 @@
         android:layout_marginEnd="15dp"
         android:layout_marginBottom="11dp"
         android:text="发送"
-        android:textColor="@color/main_text_black_dark"
+        android:background="@drawable/rectangle_main_orange"
+        android:textColor="@color/white"
         android:textSize="15sp" />
 </RelativeLayout>

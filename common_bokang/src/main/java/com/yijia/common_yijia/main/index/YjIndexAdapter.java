@@ -52,6 +52,7 @@ import com.example.latte.ui.recycler.MultipleFields;
 import com.example.latte.ui.recycler.MultipleItemEntity;
 import com.example.latte.ui.recycler.MultipleRecyclerAdapter;
 import com.example.latte.ui.recycler.MultipleViewHolder;
+import com.example.yijia.util.GlideUtils;
 import com.example.yijia.util.TimeFormat;
 import com.example.yijia.util.log.LatteLogger;
 import com.example.yijia.util.textViewSpanUtil;
@@ -80,6 +81,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -158,14 +160,14 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
         switch (holder.getItemViewType()) {
             case YjIndexItemType.INDEX_TEXT_ITEM:
 
-                initViewText(holder, circleId, userNickname, content, createdTime, likes, commentList.toJSONString());
+                initViewText(holder, circleId, userNickname, userHead,content, createdTime, likes, commentList.toJSONString());
 
 
                 break;
 
             case YjIndexItemType.INDEX_IMAGE_ITEM:
 
-                initViewText(holder, circleId, userNickname, content, createdTime, likes, commentList.toJSONString());
+                initViewText(holder, circleId, userNickname,content, content, createdTime, likes, commentList.toJSONString());
                 final AppCompatImageView tvImage = holder.getView(R.id.iv_photo);
                 Glide.with(mContext)
                         .load(imgs[0])
@@ -175,7 +177,7 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
                 break;
             case YjIndexItemType.INDEX_IMAGES_ITEM:
 
-                initViewText(holder, circleId, userNickname, content, createdTime, likes, commentList.toJSONString());
+                initViewText(holder, circleId, userNickname,content, content, createdTime, likes, commentList.toJSONString());
                 initImages(holder, imgs, imgs);
 
 
@@ -190,12 +192,12 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
             case YjIndexItemType.INDEX_VIDEO_ITEM:
                 String[] videoString = videoUrl.split(",");
                 LatteLogger.d("jialei", "videoString" + videoUrl);
-                initViewText(holder, circleId, userNickname, content, createdTime, likes, commentList.toJSONString());
+                initViewText(holder, circleId, userNickname, content,content, createdTime, likes, commentList.toJSONString());
                 initMedias(holder, videoString, entity);
                 break;
             case YjIndexItemType.INDEX_LETTER_ITEM:
                 final String title = entity.getField(YjIndexMultipleFields.TITLE);
-                initViewText(holder, circleId, userNickname, content, createdTime, likes, commentList.toJSONString());
+                initViewText(holder, circleId, userNickname,content, content, createdTime, likes, commentList.toJSONString());
                 initLetter(holder, circleId, title);
                 break;
 
@@ -305,7 +307,7 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
         });
     }
 
-    private void initViewText(MultipleViewHolder holder, final int circleId, String userNickname,
+    private void initViewText(MultipleViewHolder holder, final int circleId, String userNickname,String userHead,
                               final String content, String createdTime, String likes, String commentList) {
         //取出所以控件
         final AppCompatTextView tvName = holder.getView(R.id.tv_name);
@@ -317,6 +319,7 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
         final AppCompatTextView tvGetzan = holder.getView(R.id.tv_getzan);
         final RecyclerView rvComment = holder.getView(R.id.rv_comment);
         final AppCompatTextView tvComment = holder.getView(R.id.tv_comment);
+        final CircleImageView civ_img = holder.getView(R.id.civ_img);
         // 设置TextView可展示的宽度 ( 父控件宽度 - 左右margin - 左右padding）
 //        int whidth = ScreenUtils.getScreenWidth(latteDelegate.getContext()) - ScreenUtils.dip2px(latteDelegate.getContext(), 16 * 2);
 //        tvContent.initWidth(313+180);
@@ -344,6 +347,7 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
 //                        R.color.main_text_blue_57, isExpandDescripe[0]);
 //            }
 //        });
+        GlideUtils.load(latteDelegate.getContext(),userHead,civ_img,GlideUtils.USERMODE);
         getLastIndexForLimit(tvContent, maxLine, content);
         if(TextUtils.isEmpty(content)){
             tvContent.setVisibility(View.GONE);

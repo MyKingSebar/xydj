@@ -53,10 +53,11 @@ public class YjSignHandler {
         final int userStatus = user.getInteger("userStatus");
         final String tencentImUserId = user.getString("tencentImUserId");
         final String tencentImUserSig = user.getString("tencentImUserSig");
+        final String inviteCode = user.getString("inviteCode");
 
 
         final YjUserProfile profile = new YjUserProfile( id, yjtk,username,phone,email,nickname, imagePath, isComplete,
-                userStatus, tencentImUserId,tencentImUserSig);
+                userStatus, tencentImUserId,tencentImUserSig,inviteCode);
 
         YjDatabaseManager.getInstance().getDao().deleteAll();
         YjDatabaseManager.getInstance().getDao().insert(profile);

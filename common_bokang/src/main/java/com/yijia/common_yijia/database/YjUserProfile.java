@@ -18,10 +18,12 @@ public class YjUserProfile {
     int userStatus = 0;
     String tencentImUserId = null;
     String tencentImUserSig = null;
-    @Generated(hash = 57744088)
+    String inviteCode = null;
+    @Generated(hash = 959388270)
     public YjUserProfile(Long id, String yjtk, String username, String phone,
             String email, String nickname, String imagePath, int isComplete,
-            int userStatus, String tencentImUserId, String tencentImUserSig) {
+            int userStatus, String tencentImUserId, String tencentImUserSig,
+            String inviteCode) {
         this.id = id;
         this.yjtk = yjtk;
         this.username = username;
@@ -33,6 +35,7 @@ public class YjUserProfile {
         this.userStatus = userStatus;
         this.tencentImUserId = tencentImUserId;
         this.tencentImUserSig = tencentImUserSig;
+        this.inviteCode = inviteCode;
     }
     @Generated(hash = 900997910)
     public YjUserProfile() {
@@ -103,8 +106,12 @@ public class YjUserProfile {
     public void setTencentImUserSig(String tencentImUserSig) {
         this.tencentImUserSig = tencentImUserSig;
     }
-    
-
+    public String getInviteCode() {
+        return this.inviteCode;
+    }
+    public void setInviteCode(String inviteCode) {
+        this.inviteCode = inviteCode;
+    }
 
 
 }

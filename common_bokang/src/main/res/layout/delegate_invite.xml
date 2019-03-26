@@ -48,15 +48,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:gravity="center_vertical"
         android:layout_marginTop="29dp">
 
-        <CheckBox
+        <android.support.v7.widget.AppCompatCheckBox
             android:id="@+id/cb_guardian"
             android:layout_width="14dp"
             android:layout_height="14dp"
             android:background="@drawable/invite_checkbox"
             android:button="@null"
-            android:checked="true" />
+            android:checked="false" />
 
         <android.support.v7.widget.AppCompatTextView
             android:layout_width="wrap_content"
@@ -79,13 +80,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="70dp"
+        android:layout_marginBottom="60dp"
         android:gravity="center_horizontal"
-        android:lineHeight="20sp"
-        android:text="邀请码：XXXXXX
-        对方下载”壹家App“输入邀请码完成验证，
-        就可以看到你的照片及最新变化了。"
+        android:text="邀请码：XXXXXX\n对方下载”壹家App“输入邀请码完成验证，\n就可以看到你的照片及最新变化了。"
         android:textColor="#BEBEBE"
+        android:lineSpacingExtra="10dp"
         android:textSize="15sp" />
 
 </android.support.v7.widget.LinearLayoutCompat>

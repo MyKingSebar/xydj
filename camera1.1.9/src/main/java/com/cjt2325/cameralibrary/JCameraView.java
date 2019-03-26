@@ -2,7 +2,9 @@ package com.cjt2325.cameralibrary;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.hardware.Camera;
@@ -174,7 +176,25 @@ public class JCameraView extends FrameLayout implements CameraInterface.CameraOp
         mYjNo.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                machine.cancle(mVideoView.getHolder(), screenProp);
+                final AlertDialog.Builder normalDialog =
+                        new AlertDialog.Builder(getContext());
+                normalDialog.setTitle("是否放弃？");
+                normalDialog.setPositiveButton("确定",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                machine.cancle(mVideoView.getHolder(), screenProp);
+                            }
+                        });
+                normalDialog.setNegativeButton("关闭",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        });
+                // 显示
+                normalDialog.show();
+
             }
         });
         mYjGo.setOnClickListener(new OnClickListener() {
@@ -565,7 +585,7 @@ public class JCameraView extends FrameLayout implements CameraInterface.CameraOp
                         }
                     });
                     mMediaPlayer.setLooping(true);
-//                    mMediaPlayer.prepare();
+                    mMediaPlayer.prepare();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

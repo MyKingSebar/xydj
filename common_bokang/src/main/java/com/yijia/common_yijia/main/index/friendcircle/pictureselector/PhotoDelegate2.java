@@ -25,6 +25,7 @@ import com.example.yijia.net.rx.RxRestClient;
 import com.example.latte.ui.wxvideoedit.EsayVideoEditActivity;
 import com.example.yijia.ui.dialog.JDialogUtil;
 import com.example.yijia.ui.dialog.RxDialogShapeLoading;
+import com.example.yijia.ui.dialog.RxDialogSureCancelListener;
 import com.example.yijia.util.log.LatteLogger;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
@@ -62,7 +63,18 @@ public class PhotoDelegate2 extends LatteDelegate {
 
     @OnClick(R2.id.tv_back)
     void back() {
-        getSupportDelegate().pop();
+        JDialogUtil.INSTANCE.showRxDialogSureCancel(getContext(), null, 0, "放弃本次编辑内容吗？", new RxDialogSureCancelListener() {
+            @Override
+            public void RxDialogSure() {
+                getSupportDelegate().pop();
+                JDialogUtil.INSTANCE.dismiss();
+            }
+
+            @Override
+            public void RxDialogCancel() {
+                JDialogUtil.INSTANCE.dismiss();
+            }
+        });
     }
 
     //朋友圈参数

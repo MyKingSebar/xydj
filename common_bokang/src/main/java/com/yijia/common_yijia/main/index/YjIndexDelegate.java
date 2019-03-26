@@ -117,6 +117,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
 
     @OnClick({R2.id.icon_index_message, R2.id.icon_index_message2})
     void onCLickpublish(View v) {
+//        useSDCardWithCheck(v, this);
         useSDCardWithCheck(v, this);
 //        mSend.showContextMenu();
 //        getSupportDelegate().start(new PhotoDelegate());
@@ -131,7 +132,9 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
 
     @OnClick(R2.id.tv_invite)
     void mInvite() {
-        showToast("暂未开通");
+        getParentDelegate().getSupportDelegate().start(new InviteDelagate());
+
+//        showToast("暂未开通");
     }
 
     @Override
@@ -414,7 +417,8 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
     void initPopup() {
         enterAnimation = createVerticalAnimation(-1f, 0);
         dismissAnimation = createVerticalAnimation(0, -1f);
-        gravity = Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL;
+//        gravity = Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL;
+        gravity = Gravity.CENTER;
     }
 
     private Animation createVerticalAnimation(float fromY, float toY) {
@@ -461,8 +465,8 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
                 .config(new QuickPopupConfig()
                         .clipChildren(true)
                         .backgroundColor(Color.parseColor("#8C617D8A"))
-                        .withShowAnimation(enterAnimation)
-                        .withDismissAnimation(dismissAnimation)
+//                        .withShowAnimation(enterAnimation)
+//                        .withDismissAnimation(dismissAnimation)
                         .gravity(gravity)
                         .blurBackground(true, new BasePopupWindow.OnBlurOptionInitListener() {
                             @Override
@@ -491,7 +495,8 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
                         .withClick(R.id.ll_letter, v1 -> {
                             getParentDelegate().getSupportDelegate().start(new LetterDelagate());
                         }, true))
-                .show(v);
+//                .show(v);
+                .show();
     }
     /*popup END*/
 

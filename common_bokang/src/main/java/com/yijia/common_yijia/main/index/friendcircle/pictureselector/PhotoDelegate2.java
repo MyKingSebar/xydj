@@ -23,7 +23,9 @@ import com.example.latte.ec.R2;
 import com.example.yijia.net.rx.BaseObserver;
 import com.example.yijia.net.rx.RxRestClient;
 import com.example.latte.ui.wxvideoedit.EsayVideoEditActivity;
+import com.example.yijia.ui.dialog.JDialogUtil;
 import com.example.yijia.ui.dialog.RxDialogShapeLoading;
+import com.example.yijia.ui.dialog.RxDialogSureCancelListener;
 import com.example.yijia.util.log.LatteLogger;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
@@ -61,7 +63,18 @@ public class PhotoDelegate2 extends LatteDelegate {
 
     @OnClick(R2.id.tv_back)
     void back() {
-        getSupportDelegate().pop();
+        JDialogUtil.INSTANCE.showRxDialogSureCancel(getContext(), null, 0, "放弃本次编辑内容吗？", new RxDialogSureCancelListener() {
+            @Override
+            public void RxDialogSure() {
+                getSupportDelegate().pop();
+                JDialogUtil.INSTANCE.dismiss();
+            }
+
+            @Override
+            public void RxDialogCancel() {
+                JDialogUtil.INSTANCE.dismiss();
+            }
+        });
     }
 
     //朋友圈参数
@@ -79,7 +92,6 @@ public class PhotoDelegate2 extends LatteDelegate {
 
     private String urlType = "pictureUrl";
     private String urlTop = null;
-    RxDialogShapeLoading rxDialogShapeLoading = null;
     @OnClick(R2.id.tv_save)
     void save() {
 
@@ -277,9 +289,9 @@ public class PhotoDelegate2 extends LatteDelegate {
         }
 
 
-        FullyGridLayoutManager manager = new FullyGridLayoutManager(getActivity(), 4, GridLayoutManager.VERTICAL, false);
+        FullyGridLayoutManager manager = new FullyGridLayoutManager(getContext(), 1, GridLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(manager);
-        adapter = new GridImageAdapter(getActivity(), onAddPicClickListener);
+        adapter = new GridImageAdapter(getContext(), onAddPicClickListener);
         adapter.setList(selectList);
         adapter.setSelectMax(maxselectnum);
         recyclerView.setAdapter(adapter);
@@ -312,8 +324,6 @@ public class PhotoDelegate2 extends LatteDelegate {
             intoPick();
             isfirst = false;
         }
-        rxDialogShapeLoading=new RxDialogShapeLoading(getContext());
-        rxDialogShapeLoading.setCanceledOnTouchOutside(false);
     }
 
     private void intoPick() {
@@ -557,7 +567,7 @@ public class PhotoDelegate2 extends LatteDelegate {
                             upLoadInfo(token, etText.getText().toString(), filePath);
                         } else {
                             Toast.makeText(getContext(), object.getString("msg"), Toast.LENGTH_SHORT).show();
-                            rxDialogShapeLoading.dismiss();
+                            JDialogUtil.INSTANCE.dismiss();
                         }
                     }
 
@@ -565,13 +575,13 @@ public class PhotoDelegate2 extends LatteDelegate {
                     public void onFail(Throwable e) {
                         LatteLogger.e("picture/upload", "onFail:" + e.getMessage());
                         Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                        rxDialogShapeLoading.dismiss();
+                        JDialogUtil.INSTANCE.dismiss();
                     }
                 });
     }
 
     private void upLoadImg(String token) {
-        rxDialogShapeLoading.show();
+        JDialogUtil.INSTANCE.showRxDialogShapeLoading(getContext());
         mLong2 = 0;
         LatteLogger.w("upLoadImg", "upLoadImg");
 //        final String url = "picture/upload";
@@ -674,6 +684,10 @@ public class PhotoDelegate2 extends LatteDelegate {
                 .params("circleType", circleType)
                 .params("contentType", contentType)//1-文字，2-语音
                 .params("content", content)
+                .params("audioUrl", "")
+                .params("pictureUrl", "")
+                .params("videoUrl", "")
+                .params("videoCoverUrl", "")
                 .params(urlType, filesString)
                 .params("visibleType", visibleType)
 //                .params("visibleOrInvisibleUserIds",JSONArray.parseArray(JSON.toJSONString(visibleOrInvisibleUserIds2)))
@@ -695,11 +709,11 @@ public class PhotoDelegate2 extends LatteDelegate {
                             getSupportDelegate().pop();
                             //清缓存
                             PictureFileUtils.deleteCacheDirFile(Latte.getApplicationContext());
-                            rxDialogShapeLoading.dismiss();
+                            JDialogUtil.INSTANCE.dismiss();
                         } else {
                             final String msg = JSON.parseObject(response).getString("msg");
                             Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
-                            rxDialogShapeLoading.dismiss();
+                            JDialogUtil.INSTANCE.dismiss();
                         }
 
                     }
@@ -708,7 +722,7 @@ public class PhotoDelegate2 extends LatteDelegate {
                     public void onFail(Throwable e) {
                         LatteLogger.json("circle/insert", "onFail:" + e.getMessage());
                         Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                        rxDialogShapeLoading.dismiss();
+                        JDialogUtil.INSTANCE.dismiss();
                     }
                 });
     }

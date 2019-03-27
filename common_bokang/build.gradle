@@ -1,9 +1,11 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.jakewharton.butterknife'
 apply plugin: 'org.greenrobot.greendao'
+apply plugin: 'com.mob.sdk'
 
 android {
     compileSdkVersion 28
+    buildToolsVersion '28.0.3'
     defaultConfig {
         minSdkVersion 19
         targetSdkVersion 28
@@ -23,7 +25,6 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    buildToolsVersion '28.0.3'
     repositories{
 
         flatDir{
@@ -35,7 +36,35 @@ android {
         abortOnError false
     }
 }
-
+//MobSDK {
+//    appKey "2a986c7b5bb14"
+//    appSecret "ba40fb7e604fb6331b771471f341e2e7"
+//    ShareSDK {
+//        devInfo {
+////            SinaWeibo {
+////                appKey "568898243"
+////                appSecret "ba40fb7e604fb6331b771471f341e2e7"
+////                callbackUri "http://www.sharesdk.cn"
+////            }
+//            Wechat {
+//                appId "wxc2a7bbfa8dd91ff4"
+//                appSecret "2b979696ed63a209b37d7a22ba52736e"
+//                userName "gh_47652457d73c"
+////                path "pages/index/index.html?id=1"
+////                withShareTicket true
+////                miniprogramType 2
+//            }
+////            QQ {
+////                appId "100371282"
+////                appKey "aed9b0303e3ed1e27bae87c33761161d"
+////            }
+////
+//
+//
+//
+//        }
+//    }
+//}
 dependencies {
     //    implementation fileTree(include: ['*.jar'], dir: 'libs')
     api project(':common_ui')
@@ -51,6 +80,7 @@ dependencies {
     api 'cn.jiguang.sdk:jpush:3.1.8'
     api 'cn.jiguang.sdk:jcore:1.2.7'
     implementation project(':picture_library')
-//    api 'cjt.library.wheel:camera:1.1.9'
+    //    api 'cjt.library.wheel:camera:1.1.9'
     api project(':camera1.1.9')
+    api project(':mobshareplatform')
 }

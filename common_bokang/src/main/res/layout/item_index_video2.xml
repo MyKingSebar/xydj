@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:descendantFocusability="blocksDescendants"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <include layout="@layout/include_item_index_top" />
+
+    <RelativeLayout
+        android:id="@+id/rl_video"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="42dp"
+        android:layout_marginEnd="32dp"
+        android:layout_width="match_parent"
+        android:background="@drawable/rectangle_00_line"
+        android:layout_height="149dp">
+        <ImageView
+            android:id="@+id/iv_video"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_centerInParent="true"
+            android:background="@mipmap/icon_index_play"
+            android:layout_width="34dp"
+            android:layout_height="34dp" />
+
+    </RelativeLayout>
+
+    <include layout="@layout/include_item_index_commet_withdelete" />
+
+</android.support.v7.widget.LinearLayoutCompat>

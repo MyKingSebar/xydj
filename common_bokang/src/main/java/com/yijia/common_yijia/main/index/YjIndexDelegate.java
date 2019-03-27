@@ -29,6 +29,8 @@ import com.example.yijia.lisener.AppBarStateChangeListener;
 import com.example.yijia.net.rx.BaseObserver;
 import com.example.yijia.net.rx.RxRestClient;
 import com.example.latte.ui.recycler.MultipleItemEntity;
+import com.example.yijia.ui.dialog.JDialogUtil;
+import com.example.yijia.ui.dialog.RxDialogShapeLoading;
 import com.example.yijia.util.GlideUtils;
 import com.example.yijia.util.callback.CallbackManager;
 import com.example.yijia.util.callback.CallbackType;
@@ -62,7 +64,7 @@ import razerdp.blur.PopupBlurOption;
 import static com.blankj.utilcode.util.PermissionUtils.getPermissions;
 
 
-public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemListener, IIndexItemListener, IndexCameraCheckInstener, IIndexCanReadItemListener {
+public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemListener, IIndexItemListener, IndexCameraCheckInstener, IIndexCanReadItemListener,IPlayVideoListener ,IDeleteListener{
 
     private final int ALLMODE = 0;
     private final int IMAGEMODE = 1;
@@ -73,6 +75,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
     public static final String PICKTYPE = "PICKTYPE";
     boolean isFirst = true;
     private Bundle mArgsLetterpeople = null;
+    private RxDialogShapeLoading rxDialogShapeLoading=null;
 
     @BindView(R2.id.rv_index)
     RecyclerView mRecyclerView = null;
@@ -114,6 +117,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
 
     @OnClick({R2.id.icon_index_message, R2.id.icon_index_message2})
     void onCLickpublish(View v) {
+//        useSDCardWithCheck(v, this);
         useSDCardWithCheck(v, this);
 //        mSend.showContextMenu();
 //        getSupportDelegate().start(new PhotoDelegate());
@@ -128,12 +132,14 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
 
     @OnClick(R2.id.tv_invite)
     void mInvite() {
-        showToast("暂未开通");
+        getParentDelegate().getSupportDelegate().start(new InviteDelagate());
+
+//        showToast("暂未开通");
     }
 
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, View rootView) {
-        mRefreshHandler = YjReFreshHandler.create(mRefreshLayout, mRecyclerView, null, this, this, this);
+        mRefreshHandler = YjReFreshHandler.create(mRefreshLayout, mRecyclerView, null, this, this, this,this,this);
         CallbackManager.getInstance()
                 .addCallback(CallbackType.ON_SCAN, new IGlobalCallback<String>() {
                     @Override
@@ -243,23 +249,25 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
         mFriendsRecyclerView.setAdapter(friendsAdapter);
     }
 
-    private void getIndexSucceed(String response) {
-        final ArrayList<MultipleItemEntity> data =
-                new YjIndexDataConverter()
-                        .setJsonData(response)
-                        .convert();
-        mAdapter = new YjIndexAdapter(data, this);
-        mAdapter.setIndexItemListener(this);
-        mAdapter.setIndexCanReadItemListener(this);
-        final LinearLayoutManager manager = new LinearLayoutManager(getContext());
-        //scorllview相关
-        manager.setSmoothScrollbarEnabled(true);
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setNestedScrollingEnabled(false);
-        mRecyclerView.setFocusableInTouchMode(false);
-        mRecyclerView.setLayoutManager(manager);
-        mRecyclerView.setAdapter(mAdapter);
-    }
+//    private void getIndexSucceed(String response) {
+//        final ArrayList<MultipleItemEntity> data =
+//                new YjIndexDataConverter()
+//                        .setJsonData(response)
+//                        .convert();
+//        mAdapter = new YjIndexAdapter(data, this);
+//        mAdapter.setIndexItemListener(this);
+//        mAdapter.setIndexCanReadItemListener(this);
+//        mAdapter.setmIPlayVideoListener(this);
+//        mAdapter.setmDeleteListener(this);
+//        final LinearLayoutManager manager = new LinearLayoutManager(getContext());
+//        //scorllview相关
+//        manager.setSmoothScrollbarEnabled(true);
+//        mRecyclerView.setHasFixedSize(true);
+//        mRecyclerView.setNestedScrollingEnabled(false);
+//        mRecyclerView.setFocusableInTouchMode(false);
+//        mRecyclerView.setLayoutManager(manager);
+//        mRecyclerView.setAdapter(mAdapter);
+//    }
 
 
     private void initRefreshLayout() {
@@ -322,40 +330,40 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
                 });
     }
 
-    private void initIndexRecyclerView() {
-        final String url = "circle/query_timeline";
-        String token = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getYjtk();
-        RxRestClient.builder()
-                .url(url)
-                .params("yjtk", token)
-                .params("queryType", 1)
-                .params("pageNo", 1)
-                .params("pageSize", 20)
-                .params("beginCircleId", 0)
-                .build()
-                .post()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseObserver<String>(getContext()) {
-                    @Override
-                    public void onResponse(String response) {
-                        LatteLogger.json("query_timeline", response);
-                        final String status = JSON.parseObject(response).getString("status");
-                        if (TextUtils.equals(status, "1001")) {
-                            getIndexSucceed(response);
-                        } else {
-                            final String msg = JSON.parseObject(response).getString("msg");
-                            Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
-                        }
-
-                    }
-
-                    @Override
-                    public void onFail(Throwable e) {
-                        Toast.makeText(getContext(), "请稍后尝试", Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
+//    private void initIndexRecyclerView() {
+//        final String url = "circle/query_timeline";
+//        String token = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getYjtk();
+//        RxRestClient.builder()
+//                .url(url)
+//                .params("yjtk", token)
+//                .params("queryType", 1)
+//                .params("pageNo", 1)
+//                .params("pageSize", 20)
+//                .params("beginCircleId", 0)
+//                .build()
+//                .post()
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new BaseObserver<String>(getContext()) {
+//                    @Override
+//                    public void onResponse(String response) {
+//                        LatteLogger.json("query_timeline", response);
+//                        final String status = JSON.parseObject(response).getString("status");
+//                        if (TextUtils.equals(status, "1001")) {
+//                            getIndexSucceed(response);
+//                        } else {
+//                            final String msg = JSON.parseObject(response).getString("msg");
+//                            Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+//                        }
+//
+//                    }
+//
+//                    @Override
+//                    public void onFail(Throwable e) {
+//                        Toast.makeText(getContext(), "请稍后尝试", Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//    }
 
     @Override
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
@@ -409,7 +417,8 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
     void initPopup() {
         enterAnimation = createVerticalAnimation(-1f, 0);
         dismissAnimation = createVerticalAnimation(0, -1f);
-        gravity = Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL;
+//        gravity = Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL;
+        gravity = Gravity.CENTER;
     }
 
     private Animation createVerticalAnimation(float fromY, float toY) {
@@ -456,8 +465,8 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
                 .config(new QuickPopupConfig()
                         .clipChildren(true)
                         .backgroundColor(Color.parseColor("#8C617D8A"))
-                        .withShowAnimation(enterAnimation)
-                        .withDismissAnimation(dismissAnimation)
+//                        .withShowAnimation(enterAnimation)
+//                        .withDismissAnimation(dismissAnimation)
                         .gravity(gravity)
                         .blurBackground(true, new BasePopupWindow.OnBlurOptionInitListener() {
                             @Override
@@ -486,7 +495,8 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
                         .withClick(R.id.ll_letter, v1 -> {
                             getParentDelegate().getSupportDelegate().start(new LetterDelagate());
                         }, true))
-                .show(v);
+//                .show(v);
+                .show();
     }
     /*popup END*/
 
@@ -506,4 +516,51 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
     }
 
 
+    @Override
+    public void play(String[] mediaUrl) {
+        PlayVideoDelagate
+                delegate = new PlayVideoDelagate();
+        mArgs.putStringArray("videos", mediaUrl);
+        delegate.setArguments(mArgs);
+        getParentDelegate().getSupportDelegate().start(delegate);
+    }
+    @Override
+    public void delete(long id) {
+        JDialogUtil.INSTANCE.showRxDialogShapeLoading(getContext());
+        final String url = "/circle/delete_circle";
+        String token = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getYjtk();
+        RxRestClient.builder()
+                .url(url)
+                .params("yjtk", token)
+                .params("circleId", id)
+                .build()
+                .post()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseObserver<String>(getContext()) {
+                    @Override
+                    public void onResponse(String response) {
+                        LatteLogger.json("delete_circle", response);
+                        final String status = JSON.parseObject(response).getString("status");
+                        if (TextUtils.equals(status, "1001")) {
+                            showToast("删除成功");
+                            if (!isFirst) {
+                                Log.d("refresh", "onIndexItemClick");
+                                mRefreshHandler.firstPage();
+                            }
+                        } else {
+                            final String msg = JSON.parseObject(response).getString("msg");
+                            Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+                        }
+                        JDialogUtil.INSTANCE.dismiss();
+
+                    }
+
+                    @Override
+                    public void onFail(Throwable e) {
+                        Toast.makeText(getContext(), "请稍后尝试", Toast.LENGTH_SHORT).show();
+                        JDialogUtil.INSTANCE.dismiss();
+                    }
+                });
+    }
 }

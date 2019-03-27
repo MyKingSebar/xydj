@@ -1,6 +1,8 @@
 package com.yijia.common_yijia.main.index;
 
 import android.support.v7.widget.AppCompatTextView;
+import android.support.v7.widget.LinearLayoutCompat;
+import android.view.View;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
@@ -13,12 +15,18 @@ import java.util.List;
 
 
 public final class YjIndexCommentAdapter extends MultipleRecyclerAdapter {
+YjIndexCommentListener mYjIndexCommentListener=null;
+
+    public void setmYjIndexCommentListener(YjIndexCommentListener mYjIndexCommentListener) {
+        this.mYjIndexCommentListener = mYjIndexCommentListener;
+    }
 
     YjIndexCommentAdapter(List<MultipleItemEntity> data) {
         super(data);
         //添加item布局
         addItemType(YjIndexItemType.INDEX_COMMENTLIST_ITEM, R.layout.item_index_comment);
     }
+
 
     @Override
     protected void convert(MultipleViewHolder holder, final MultipleItemEntity entity) {
@@ -41,12 +49,21 @@ public final class YjIndexCommentAdapter extends MultipleRecyclerAdapter {
                 //取出所以控件
                 final AppCompatTextView tvName = holder.getView(R.id.tv_name);
                 final AppCompatTextView tvComment = holder.getView(R.id.tv_comment);
+                final LinearLayoutCompat ll = holder.getView(R.id.ll);
+                ll.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(mYjIndexCommentListener!=null){
+                            mYjIndexCommentListener.OnItemClick(commentUserId,commentUserNickname);
+                        }
+                    }
+                });
 
                 //赋值
                 tvName.setText(commentUserNickname + ":");
                 StringBuffer comment = new StringBuffer();
                 if (replyUserId != 0) {
-                    comment.append("@").append(replyUserNickname);
+                    comment.append("@").append(replyUserNickname).append(" ");
                 }
                 comment.append(commentContent);
                 tvComment.setText(comment.toString());

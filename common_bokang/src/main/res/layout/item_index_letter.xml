@@ -7,7 +7,7 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-    <include layout="@layout/include_item_index_top" />
+    <include layout="@layout/include_item_index_top_letter" />
 
 <RelativeLayout
     android:layout_marginTop="10dp"
@@ -31,6 +31,6 @@
         />
 </RelativeLayout>
    
-    <include layout="@layout/include_item_index_commet" />
+    <include layout="@layout/include_item_index_commet_withdelete" />
 
 </android.support.v7.widget.LinearLayoutCompat>

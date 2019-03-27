@@ -27,6 +27,7 @@ import com.example.latte.ec.R;
 import com.example.yijia.app.Latte;
 import com.example.yijia.net.rx.BaseObserver;
 import com.example.yijia.net.rx.RxRestClient;
+import com.example.yijia.ui.dialog.JDialogUtil;
 import com.example.yijia.util.log.LatteLogger;
 import com.luck.picture.lib.tools.PictureFileUtils;
 import com.yijia.common_yijia.database.YjDatabaseManager;
@@ -50,7 +51,7 @@ public class CameraActivity extends AppCompatActivity {
         //设置视频保存路径
         jCameraView.setSaveVideoPath(Environment.getExternalStorageDirectory().getPath() + File.separator + "JCamera");
         jCameraView.setFeatures(JCameraView.BUTTON_STATE_ONLY_RECORDER);
-        jCameraView.setTip("JCameraView Tip");
+        jCameraView.setTip("按住拍摄，边拍边说点什么");
         jCameraView.setMediaQuality(JCameraView.MEDIA_QUALITY_MIDDLE);
         jCameraView.setBackkListener(new BackListener() {
             @Override
@@ -156,6 +157,7 @@ public class CameraActivity extends AppCompatActivity {
 
 
     private void RxUpLoad(String token, File[] files) {
+        JDialogUtil.INSTANCE.showRxDialogShapeLoading(getContext());
         RxRestClient.builder()
                 .url("video/upload")
                 .params("yjtk", token)
@@ -178,13 +180,16 @@ public class CameraActivity extends AppCompatActivity {
                             upLoadInfo(token, "", filePath);
                         } else {
                             Toast.makeText(getContext(), object.getString("msg"), Toast.LENGTH_SHORT).show();
+                            JDialogUtil.INSTANCE.dismiss();
                         }
+
                     }
 
                     @Override
                     public void onFail(Throwable e) {
                         LatteLogger.e("picture/upload", "onFail:" + e.getMessage());
                         Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                        JDialogUtil.INSTANCE.dismiss();
                     }
                 });
     }
@@ -221,6 +226,7 @@ public class CameraActivity extends AppCompatActivity {
                             final String msg = JSON.parseObject(response).getString("msg");
                             Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
                         }
+                        JDialogUtil.INSTANCE.dismiss();
 
                     }
 
@@ -228,6 +234,7 @@ public class CameraActivity extends AppCompatActivity {
                     public void onFail(Throwable e) {
                         LatteLogger.json("circle/insert", "onFail:" + e.getMessage());
                         Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                        JDialogUtil.INSTANCE.dismiss();
                     }
                 });
     }

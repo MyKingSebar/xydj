@@ -29,7 +29,8 @@ public final class NoticesAdapter extends MultipleRecyclerAdapter {
     OkAddLisener mOkAddLisener = null;
 
 
-    private int[] icons = {R.mipmap.icon_notice1, R.mipmap.icon_notice2, R.mipmap.icon_notice3, R.mipmap.icon_notice4, R.mipmap.icon_notice5, R.mipmap.icon_notice6, R.mipmap.icon_notice7, R.mipmap.icon_notice8, R.mipmap.icon_notice9};
+    private int[] icons = {R.mipmap.icon_notice1, R.mipmap.icon_notice2, R.mipmap.icon_notice3, R.mipmap.icon_notice4, R.mipmap.icon_notice5, R.mipmap.icon_notice6, R.mipmap.icon_notice7, R.mipmap.icon_notice8,
+            R.mipmap.icon_notice9, R.mipmap.icon_notice9, R.mipmap.icon_notice9, R.mipmap.icon_notice9, R.mipmap.icon_notice9, R.mipmap.icon_notice9, R.mipmap.icon_notice9};
 
     public NoticesAdapter(List<MultipleItemEntity> data, LatteDelegate delegate) {
         super(data);

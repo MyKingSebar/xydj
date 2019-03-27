@@ -2,7 +2,9 @@ package com.cjt2325.cameralibrary;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.hardware.Camera;
@@ -168,27 +170,45 @@ public class JCameraView extends FrameLayout implements CameraInterface.CameraOp
         mSwitchCamera.setImageResource(iconSrc);
         mFlashLamp = (ImageView) view.findViewById(R.id.image_flash);
         mBack = (ImageView) view.findViewById(R.id.back);
-        mYjBottom=findViewById(R.id.yj_bottom);
-        mYjNo=findViewById(R.id.tv_no);
-        mYjGo=findViewById(R.id.tv_go);
+        mYjBottom = findViewById(R.id.yj_bottom);
+        mYjNo = findViewById(R.id.tv_no);
+        mYjGo = findViewById(R.id.tv_go);
         mYjNo.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                machine.cancle(mVideoView.getHolder(), screenProp);
+                final AlertDialog.Builder normalDialog =
+                        new AlertDialog.Builder(getContext());
+                normalDialog.setTitle("是否放弃？");
+                normalDialog.setPositiveButton("确定",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                machine.cancle(mVideoView.getHolder(), screenProp);
+                            }
+                        });
+                normalDialog.setNegativeButton("关闭",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        });
+                // 显示
+                normalDialog.show();
+
             }
         });
         mYjGo.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 machine.confirm();
-                Toast.makeText(getContext(),"上传中",Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "上传中", Toast.LENGTH_LONG).show();
             }
 
         });
         mBack.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(backListener!=null){
+                if (backListener != null) {
                     backListener.onBack();
                 }
             }
@@ -511,6 +531,8 @@ public class JCameraView extends FrameLayout implements CameraInterface.CameraOp
                 break;
             case TYPE_DEFAULT:
                 break;
+            default:
+                break;
         }
         mCaptureLayout.resetCaptureLayout();
         mYjBottom.setVisibility(GONE);
@@ -630,6 +652,7 @@ public class JCameraView extends FrameLayout implements CameraInterface.CameraOp
     public void setRightClickListener(ClickListener clickListener) {
         this.rightClickListener = clickListener;
     }
+
     public void setBackkListener(BackListener backkListener) {
         this.backListener = backkListener;
     }

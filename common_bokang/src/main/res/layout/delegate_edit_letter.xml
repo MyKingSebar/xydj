@@ -3,15 +3,88 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <include layout="@layout/include_edit_top" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/main_line_ef" />
+
+    <android.support.v7.widget.LinearLayoutCompat
+        android:id="@+id/ll_recipients"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/white"
+        android:gravity="center_vertical">
+
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="15dp"
+            android:text="收件人："
+            android:textColor="@color/main_text_black_dark"
+            android:textSize="@dimen/third_title_16" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tv_recipients"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/main_text_black_dark"
+            android:textSize="@dimen/third_title_16" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tv_add"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="15dp"
+            android:background="@mipmap/index_edit_addrecipients" />
+
+    </android.support.v7.widget.LinearLayoutCompat>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/main_line_ef" />
+
+    <android.support.v7.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/white">
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/et_title"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/et_send_text"
+            android:gravity="center_vertical"
+            android:hint="请输入标题"
+            android:maxEms="12"
+            android:maxLength="12"
+            android:maxLines="1"
+            android:paddingStart="30dp"
+            android:paddingLeft="15dp"
+            android:paddingEnd="30dp"
+            android:textColor="@color/main_text_black_dark"
+            android:textColorHint="@color/main_text_gary_99"
+            android:textCursorDrawable="@drawable/line_black"
+            android:textSize="16sp"
+            tools:text="哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇哇" />
+    </android.support.v7.widget.LinearLayoutCompat>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/main_line_ef" />
 
     <android.support.v7.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="13dp"
         android:layout_marginEnd="15dp"
         android:layout_weight="1"
         android:background="@drawable/et_send_text"
@@ -23,62 +96,31 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:background="@drawable/et_send_text"
             android:gravity="top|start"
             android:hint="开始给亲朋写信吧！只有自己和收件人可见"
             android:padding="15dp"
             android:textColor="@color/app_text_dark"
             android:textColorHint="@color/app_text_gray"
-            android:textCursorDrawable="@color/black"
+            android:textCursorDrawable="@drawable/line_black"
             android:textSize="@dimen/third_title_16" />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
-            android:background="@color/main_line_f9" />
-        <android.support.v7.widget.LinearLayoutCompat
-            android:id="@+id/ll_recipients"
-            android:layout_width="match_parent"
-            android:layout_marginBottom="28dp"
-            android:layout_height="44dp"
-            android:gravity="center_vertical">
 
-            <android.support.v7.widget.AppCompatTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="收件人："
-                android:textColor="@color/main_text_black_dark"
-                android:textSize="@dimen/third_title_16" />
-
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/tv_recipients"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/tv_add"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:background="@mipmap/index_edit_addrecipients" />
-
-        </android.support.v7.widget.LinearLayoutCompat>
 
     </android.support.v7.widget.LinearLayoutCompat>
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/bt_say"
-        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp"
         android:layout_marginBottom="28dp"
-        android:gravity="center"
-        android:textColor="@color/main_text_orange"
         android:drawableStart="@mipmap/index_edit_say"
         android:drawablePadding="0dp"
-        android:text="语音" />
+        android:gravity="center"
+        android:text="语音"
+        android:textColor="@color/main_text_orange"
+        android:visibility="gone" />
 
 
 </android.support.v7.widget.LinearLayoutCompat>

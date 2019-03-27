@@ -71,8 +71,10 @@
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/tv_comment"
+        android:background="@drawable/rectangle_gray_line"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="4dp"
         android:layout_below="@+id/rv_comment"
         android:layout_marginStart="41dp"
         android:layout_marginTop="7dp"

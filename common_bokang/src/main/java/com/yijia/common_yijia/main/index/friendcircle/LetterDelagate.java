@@ -19,6 +19,7 @@ import com.example.latte.ec.R;
 import com.example.latte.ec.R2;
 import com.example.yijia.net.rx.BaseObserver;
 import com.example.yijia.net.rx.RxRestClient;
+import com.example.yijia.ui.dialog.JDialogUtil;
 import com.example.yijia.util.callback.CallbackManager;
 import com.example.yijia.util.callback.CallbackType;
 import com.example.yijia.util.callback.IGlobalCallback;
@@ -41,6 +42,8 @@ public class LetterDelagate extends LatteDelegate implements LatCallbackInterfac
     int index = 0;
     @BindView(R2.id.et_text)
     AppCompatEditText etText;
+    @BindView(R2.id.et_title)
+    AppCompatEditText etTitle;
     @BindView(R2.id.tv_recipients)
     AppCompatTextView tv_recipients;
 
@@ -80,23 +83,16 @@ public class LetterDelagate extends LatteDelegate implements LatCallbackInterfac
     @Override
     public void onSupportVisible() {
         super.onSupportVisible();
-        Toast.makeText(_mActivity, "onSupportVisible", Toast.LENGTH_SHORT).show();
     }
 
     //无效
     @Override
     public void onFragmentResult(int requestCode, int resultCode, Bundle data) {
         super.onFragmentResult(requestCode, resultCode, data);
-        Toast.makeText(_mActivity, "onFragmentResult", Toast.LENGTH_SHORT).show();
-        showToast("ssssssssss");
-        Log.e("jialei", "requestCode:" + requestCode);
-        Log.e("jialei", "resultCode:" + resultCode);
-        Log.e("jialei", "ididid:" + data.getLong("friendId", 0));
         int i = requestCode;
         int i1 = resultCode;
         Bundle bundle = data;
         String t1 = bundle.getString("friendName", "");
-        Toast.makeText(_mActivity, "" + requestCode + resultCode + data.toString(), Toast.LENGTH_SHORT).show();
 
         if (requestCode == LETTERCODE && resultCode == 4) {
             if (data != null) {
@@ -117,7 +113,7 @@ public class LetterDelagate extends LatteDelegate implements LatCallbackInterfac
     void save() {
         final String token = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getYjtk();
         contentType = 1;
-        upLoadInfo(token, etText.getText().toString(), "");
+        upLoadInfo(token,etTitle.getText().toString(), etText.getText().toString(), "");
 
     }
 
@@ -170,7 +166,7 @@ public class LetterDelagate extends LatteDelegate implements LatCallbackInterfac
     }
 
 
-    private void upLoadInfo(String token, String content, String filesString) {
+    private void upLoadInfo(String token, String title,String content, String filesString) {
         LatteLogger.w("upLoadImg", "upLoadInfo");
         final String url = "circle/insert";
         if (circleType == 1) {
@@ -181,6 +177,12 @@ public class LetterDelagate extends LatteDelegate implements LatCallbackInterfac
             hideInput();
             return;
         }
+        if(TextUtils.isEmpty(title)){
+            showToast("请输入标题");
+            hideInput();
+            return;
+        }
+        JDialogUtil.INSTANCE.showRxDialogShapeLoading(getContext());
         RxRestClient.builder()
                 .url(url)
                 .params("yjtk", token)
@@ -190,10 +192,15 @@ public class LetterDelagate extends LatteDelegate implements LatCallbackInterfac
                 .params("content", content)
 //                .params(urlType, filesString)
                 .params("visibleType", visibleType)
+                .params("audioUrl", "")
+                .params("pictureUrl", "")
+                .params("videoUrl", "")
+                .params("videoCoverUrl", "")
                 .params("visibleOrInvisibleUserIds", new Gson().toJson(new long[]{friendId}))
                 .params("location", location)
                 .params("longitude", longitude)
                 .params("latitude", latitude)
+                .params("title",title )
                 .build()
                 .post()
                 .subscribeOn(Schedulers.io())
@@ -209,11 +216,13 @@ public class LetterDelagate extends LatteDelegate implements LatCallbackInterfac
                             final String msg = JSON.parseObject(response).getString("msg");
                             Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
                         }
+                        JDialogUtil.INSTANCE.dismiss();
                     }
 
                     @Override
                     public void onFail(Throwable e) {
                         Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                        JDialogUtil.INSTANCE.dismiss();
                     }
                 });
     }

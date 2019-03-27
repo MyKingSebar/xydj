@@ -195,4 +195,6 @@ public abstract class BaseDelegate extends Fragment implements ISupportFragment 
     public void post(Runnable runnable) {
         DELEGATE.post(runnable);
     }
+
+
 }

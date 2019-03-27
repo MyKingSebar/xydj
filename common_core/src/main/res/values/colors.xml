@@ -6,6 +6,7 @@
     <color name="rect">#aae84e40</color>
     <color name="gray_80_25">#25808080</color>
 
+    <color name="dialog_red">#ff0006</color>
 
     <color name="main_text_black_dark">#333333</color>
     <color name="main_text_orange">#FDBA63</color>

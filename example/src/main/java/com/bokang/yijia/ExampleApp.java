@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import com.example.commcon_xfyun.XunFei;
 import com.example.common_tencent_tuikit.TuiKitConfig;
 import com.example.yijia.app.Latte;
+import com.mob.MobSDK;
 import com.yijia.common_yijia.icon.FontEcModule;
 import com.yijia.common_yijia.icon.FontYJModule;
 import com.example.yijia.net.Interceptors.DebugInterceptor;
@@ -53,15 +54,16 @@ public class ExampleApp extends MultiDexApplication {
         initNineGrideView();
 //        initSmallVideo();
         initXfYun();
+        initMob();
 //        DatabaseManager.getInstance().init(this);
         YjDatabaseManager.getInstance().init(this);
-        if(TextUtils.equals(MODE,MODE_DEBUG)){
+        if (TextUtils.equals(MODE, MODE_DEBUG)) {
             initFragmentDeBug();
         }
 
     }
 
-    private void initSpiderMan(){
+    private void initSpiderMan() {
         //放在其他库初始化前
         SpiderMan.init(this);
     }
@@ -84,7 +86,6 @@ public class ExampleApp extends MultiDexApplication {
 //                .withInterceptor(new AddCookieInterceptor())
                 .configure();
     }
-
 
 
     private void initXfYun() {
@@ -186,5 +187,8 @@ public class ExampleApp extends MultiDexApplication {
         return null;
     }
 
+    private void initMob() {
+        MobSDK.init(this);
+    }
 
 }

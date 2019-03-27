@@ -28,7 +28,10 @@ public class InviteDelagate extends LatteDelegate {
     @BindView(R2.id.cb_guardian)
     AppCompatCheckBox cbGuardian;
     String inviteCode = null;
-    private long friendId = 0;
+    //是否指定为监护人：
+    //int isGuardian
+    //1-是，2-否
+    private long isGuardian = 2;
 
 
     @OnClick(R2.id.tv_back)
@@ -101,6 +104,9 @@ public class InviteDelagate extends LatteDelegate {
 //        // 启动分享GUI
 //        oks.show(getContext());
         WechatShare ws=new WechatShare();
-        ws.shareWebpager("关注以后就可以看到一家人的所有照片啦!","我用小壹机器人记录一家人的回忆\n快来关注吧!","www.baidu.com","https://t3.ftcdn.net/jpg/02/01/25/00/240_F_201250053_xMFe9Hax6w01gOiinRLEPX0Wt1zGCzYz.jpg");
+        if(cbGuardian.isChecked()){
+            isGuardian=1;
+        }
+        ws.shareWebpager("关注以后就可以看到一家人的所有照片啦!","我用小壹机器人记录一家人的回忆快来关注吧!","http://192.168.1.113:8880/?inviteCode="+inviteCode+"&isGuardian="+isGuardian,"http://47.105.157.64/group1/M00/00/05/rB8Ql1yaIqSAXICMAAAockYvlx4722.png");
     }
 }

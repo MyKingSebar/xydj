@@ -10,16 +10,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
-import com.example.yijia.app.AccountManager;
-import com.example.yijia.delegates.LatteDelegate;
 import com.example.latte.ec.R;
 import com.example.latte.ec.R2;
 import com.example.latte.ui.widget.HeadLayout;
+import com.example.yijia.app.AccountManager;
+import com.example.yijia.delegates.LatteDelegate;
 import com.tencent.imsdk.TIMCallBack;
 import com.tencent.imsdk.TIMManager;
 import com.yijia.common_yijia.database.YjDatabaseManager;
+import com.yijia.common_yijia.main.mine.GuardianshipDelegate;
 import com.yijia.common_yijia.main.mine.NodisturbDelegate;
 import com.yijia.common_yijia.sign.SignInDelegate;
 import com.yijia.common_yijia.sign.SignInNoteOnlyDelegate;
@@ -84,11 +84,12 @@ public class SetUpDelegate extends LatteDelegate implements HeadLayout.OnClickHe
         } else if (i == R.id.log_out) {
             showDialog();
         }else if (i == R.id.specified){
-            Toast.makeText(_mActivity, "指定关系", Toast.LENGTH_SHORT).show();
+            getSupportDelegate().start(new GuardianshipDelegate());
         }
     }
 
     //是否退出的 dialog
+    @Override
     public void showDialog() {
 //        TextView msg = new TextView(_mActivity);
 //        msg.setText("是否确定退出？");

@@ -7,16 +7,15 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatTextView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.example.commcon_xfyun.Lat;
 import com.example.commcon_xfyun.LatCallbackInterface;
-import com.example.yijia.delegates.LatteDelegate;
 import com.example.latte.ec.R;
 import com.example.latte.ec.R2;
+import com.example.yijia.delegates.LatteDelegate;
 import com.example.yijia.net.rx.BaseObserver;
 import com.example.yijia.net.rx.RxRestClient;
 import com.example.yijia.ui.dialog.JDialogUtil;
@@ -76,7 +75,12 @@ public class LetterDelagate extends LatteDelegate implements LatCallbackInterfac
 
     @OnClick(R2.id.ll_recipients)
     void recipients() {
-        getSupportDelegate().startForResult(new LetterchoosefriendDelegate(), LETTERCODE);
+        LetterchoosefriendDelegate delegate = new LetterchoosefriendDelegate();
+         Bundle mArgs = null;
+        mArgs.putString(LetterchoosefriendDelegate.CHOOSEFRIENDTYPEKEY, LetterchoosefriendDelegate.choosefriendType.LETTERCHOOSEFRIEND.name());
+        delegate.setArguments(mArgs);
+        getParentDelegate().getSupportDelegate().start(delegate);
+//        getSupportDelegate().startForResult(new LetterchoosefriendDelegate(), LETTERCODE);
     }
 
 
@@ -85,29 +89,29 @@ public class LetterDelagate extends LatteDelegate implements LatCallbackInterfac
         super.onSupportVisible();
     }
 
-    //无效
-    @Override
-    public void onFragmentResult(int requestCode, int resultCode, Bundle data) {
-        super.onFragmentResult(requestCode, resultCode, data);
-        int i = requestCode;
-        int i1 = resultCode;
-        Bundle bundle = data;
-        String t1 = bundle.getString("friendName", "");
-
-        if (requestCode == LETTERCODE && resultCode == 4) {
-            if (data != null) {
-                tv_recipients.setText(data.getString("friendName", ""));
-                friendId = data.getLong("friendId", 0);
-//                final String qrCode = data.getString("SCAN_RESULT");
-//                final IGlobalCallback<String> callback = CallbackManager
-//                        .getInstance()
-//                        .getCallback(CallbackType.ON_SCAN);
-//                if (callback != null) {
-//                    callback.executeCallback(qrCode);
-//                }
-            }
-        }
-    }
+//    //无效
+//    @Override
+//    public void onFragmentResult(int requestCode, int resultCode, Bundle data) {
+//        super.onFragmentResult(requestCode, resultCode, data);
+//        int i = requestCode;
+//        int i1 = resultCode;
+//        Bundle bundle = data;
+//        String t1 = bundle.getString("friendName", "");
+//
+//        if (requestCode == LETTERCODE && resultCode == 4) {
+//            if (data != null) {
+//                tv_recipients.setText(data.getString("friendName", ""));
+//                friendId = data.getLong("friendId", 0);
+////                final String qrCode = data.getString("SCAN_RESULT");
+////                final IGlobalCallback<String> callback = CallbackManager
+////                        .getInstance()
+////                        .getCallback(CallbackType.ON_SCAN);
+////                if (callback != null) {
+////                    callback.executeCallback(qrCode);
+////                }
+//            }
+//        }
+//    }
 
     @OnClick(R2.id.tv_save)
     void save() {
@@ -136,7 +140,7 @@ public class LetterDelagate extends LatteDelegate implements LatCallbackInterfac
         mStringBuffer = new StringBuffer();
         checkLat();
         CallbackManager.getInstance()
-                .addCallback(CallbackType.FRAGMENT_LETTER_RESULT, new IGlobalCallback<String>() {
+                .addCallback(CallbackType.FRAGMENT_LETTER_CHOOSEFRIEND_RESULT, new IGlobalCallback<String>() {
                     @Override
                     public void executeCallback(@Nullable String args) {
                         assert args != null;

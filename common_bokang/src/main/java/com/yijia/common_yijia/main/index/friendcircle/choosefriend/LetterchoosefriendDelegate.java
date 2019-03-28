@@ -11,15 +11,15 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
-import com.example.yijia.delegates.LatteDelegate;
 import com.example.latte.ec.R;
 import com.example.latte.ec.R2;
-import com.example.yijia.net.rx.BaseObserver;
-import com.example.yijia.net.rx.RxRestClient;
 import com.example.latte.ui.contactlist.cn.CNPinyin;
 import com.example.latte.ui.contactlist.cn.CNPinyinFactory;
 import com.example.latte.ui.contactlist.search.CharIndexView;
 import com.example.latte.ui.contactlist.stickyheader.StickyHeaderDecoration;
+import com.example.yijia.delegates.LatteDelegate;
+import com.example.yijia.net.rx.BaseObserver;
+import com.example.yijia.net.rx.RxRestClient;
 import com.example.yijia.util.callback.CallbackManager;
 import com.example.yijia.util.callback.CallbackType;
 import com.example.yijia.util.callback.IGlobalCallback;
@@ -27,21 +27,25 @@ import com.example.yijia.util.log.LatteLogger;
 import com.google.gson.Gson;
 import com.yijia.common_yijia.database.YjDatabaseManager;
 
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
 
-import butterknife.BindView;
-import butterknife.OnClick;
-
 public class LetterchoosefriendDelegate extends LatteDelegate implements ChooseFriendItemLisener {
+    public enum choosefriendType{
+        LETTERCHOOSEFRIEND,
+        GUARDIANSHIPCHOOSEFRIEND
+    }
+     String choosefriendTypeString=null;
+    public static final String CHOOSEFRIENDTYPEKEY="choosefriendType";
     @BindView(R2.id.tv_save)
     AppCompatTextView tvSave;
     @BindView(R2.id.tv_title)
@@ -127,6 +131,8 @@ public class LetterchoosefriendDelegate extends LatteDelegate implements ChooseF
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        final Bundle args = getArguments();
+        choosefriendTypeString = args.getString(LetterchoosefriendDelegate.CHOOSEFRIENDTYPEKEY);
     }
 
     private void initFriendsRecyclerView() {
@@ -223,9 +229,20 @@ public class LetterchoosefriendDelegate extends LatteDelegate implements ChooseF
         bundle.putLong("friendId", contact.getFriendUserId());
         bundle.putString("friendName", contact.getNickname());
         getSupportDelegate().setFragmentResult(4, bundle);
-        final IGlobalCallback<String> callback = CallbackManager
-                .getInstance()
-                .getCallback(CallbackType.FRAGMENT_LETTER_RESULT);
+        final IGlobalCallback<String> callback;
+        if(TextUtils.equals(choosefriendTypeString,choosefriendType.LETTERCHOOSEFRIEND.name())){
+            callback= CallbackManager
+                    .getInstance()
+                    .getCallback(CallbackType.FRAGMENT_LETTER_CHOOSEFRIEND_RESULT);
+        }else if(TextUtils.equals(choosefriendTypeString,choosefriendType.GUARDIANSHIPCHOOSEFRIEND.name())){
+            callback= CallbackManager
+                    .getInstance()
+                    .getCallback(CallbackType.FRAGMENT_GUARDIANSHIP_CHOOSEFRIEND_RESULT);
+        }else {
+            callback=null;
+            return;
+        }
+
         if (callback != null) {
             callback.executeCallback(contact.getNickname() + "," + contact.getFriendUserId());
         }

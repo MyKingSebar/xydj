@@ -19,5 +19,6 @@ public enum YjIndexMultipleFields {
     VISIBLETYPE,
     IMGS,
     STATUS,
-    TITLE
+    TITLE,
+    ISMAIN
 }

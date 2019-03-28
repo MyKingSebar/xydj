@@ -13,7 +13,7 @@
     <TextView
         android:gravity="center_vertical"
         android:textColor="#333333"
-        android:textSize="14sp"
+        android:textSize="20sp"
         android:layout_marginLeft="10dp"
         android:id="@+id/nickname"
         android:layout_width="match_parent"

@@ -29,12 +29,18 @@ public enum  JDialogUtil {
         final RxDialogSureCancel rxDialogSureCancel = new RxDialogSureCancel(context);
         if(!TextUtils.isEmpty(titletxt)){
             rxDialogSureCancel.getTitleView().setText(titletxt);
+        }else {
+            rxDialogSureCancel.getTitleView().setVisibility(View.GONE);
         }
         if(logo!=0){
             rxDialogSureCancel.getLogoView().setBackgroundResource(logo);
+        }else {
+            rxDialogSureCancel.getLogoView().setVisibility(View.GONE);
         }
         if(!TextUtils.isEmpty(text)){
             rxDialogSureCancel.getContentView().setText(text);
+        }else {
+            rxDialogSureCancel.getContentView().setVisibility(View.GONE);
         }
         rxDialogSureCancel.getSureView().setOnClickListener(new View.OnClickListener() {
             @Override

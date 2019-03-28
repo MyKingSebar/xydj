@@ -1,14 +1,14 @@
 package com.yijia.common_yijia.main.friends.bean;
 
 public class FriendsBean {
-    private String friendUserId;
+    private long friendUserId;
     private String nickname;
     private String realName;
     private String userStatus;
     private String userHead;
     private String identifier;
 
-    public FriendsBean(String friendUserId, String nickname, String realName, String userStatus, String userHead, String identifier) {
+    public FriendsBean(long friendUserId, String nickname, String realName, String userStatus, String userHead, String identifier) {
         this.friendUserId = friendUserId;
         this.nickname = nickname;
         this.realName = realName;
@@ -20,11 +20,11 @@ public class FriendsBean {
     public FriendsBean() {
     }
 
-    public String getFriendUserId() {
+    public long getFriendUserId() {
         return friendUserId;
     }
 
-    public void setFriendUserId(String friendUserId) {
+    public void setFriendUserId(long friendUserId) {
         this.friendUserId = friendUserId;
     }
 

@@ -58,13 +58,11 @@ public final class GuardianshipAdapter extends MultipleRecyclerAdapter {
                         .load(userHead)
                         .apply(GlideUtils.USEROPTIONS)
                         .into(imageView);
-                tvDelete.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (mGuardianshipListener != null) {
-                            mGuardianshipListener.onitemclick(friendUserId);
-                        }
+                tvDelete.setOnLongClickListener((View.OnLongClickListener) v -> {
+                    if (mGuardianshipListener != null) {
+                        mGuardianshipListener.onitemclick(friendUserId);
                     }
+                    return false;
                 });
 
 

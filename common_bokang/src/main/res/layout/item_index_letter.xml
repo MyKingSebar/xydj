@@ -15,9 +15,8 @@
     android:layout_marginStart="47dp"
     android:layout_marginEnd="15dp"
     android:layout_height="75dp">
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/aaaa"
-        android:background="@color/edit_yellow"
+    <com.example.latte.ui.progressbar.LetterPlayProgressBar
+        android:id="@+id/bp_letterplay"
         android:layout_width="match_parent"
         android:layout_height="50dp" />
     

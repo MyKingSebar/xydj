@@ -1,7 +1,6 @@
 package com.yijia.common_yijia.main.mine;
 
 import android.support.v7.widget.AppCompatTextView;
-import android.view.View;
 
 import com.bumptech.glide.Glide;
 import com.example.latte.ec.R;
@@ -58,7 +57,7 @@ public final class GuardianshipAdapter extends MultipleRecyclerAdapter {
                         .load(userHead)
                         .apply(GlideUtils.USEROPTIONS)
                         .into(imageView);
-                tvDelete.setOnLongClickListener((View.OnLongClickListener) v -> {
+                tvDelete.setOnLongClickListener(v -> {
                     if (mGuardianshipListener != null) {
                         mGuardianshipListener.onitemclick(friendUserId);
                     }

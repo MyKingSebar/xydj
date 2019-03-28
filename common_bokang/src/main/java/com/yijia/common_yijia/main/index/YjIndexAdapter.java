@@ -6,11 +6,11 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
-import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Layout;
@@ -42,21 +42,20 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.commcon_xfyun.Tts;
-import com.example.yijia.app.Latte;
-import com.example.yijia.delegates.LatteDelegate;
 import com.example.latte.ec.R;
-import com.example.yijia.net.rx.BaseObserver;
-import com.example.yijia.net.rx.RxRestClient;
-import com.example.yijia.ui.dialog.JDialogUtil;
-import com.example.yijia.ui.expandtextview.ExpandTextView;
+import com.example.latte.ui.progressbar.LetterPlayProgressBar;
+import com.example.latte.ui.progressbar.LetterPlayProgressBarPlayListener;
 import com.example.latte.ui.recycler.MultipleFields;
 import com.example.latte.ui.recycler.MultipleItemEntity;
 import com.example.latte.ui.recycler.MultipleRecyclerAdapter;
 import com.example.latte.ui.recycler.MultipleViewHolder;
+import com.example.yijia.delegates.LatteDelegate;
+import com.example.yijia.net.rx.BaseObserver;
+import com.example.yijia.net.rx.RxRestClient;
+import com.example.yijia.ui.dialog.JDialogUtil;
 import com.example.yijia.util.GlideUtils;
 import com.example.yijia.util.TimeFormat;
 import com.example.yijia.util.log.LatteLogger;
-import com.example.yijia.util.textViewSpanUtil;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.DefaultRenderersFactory;
 import com.google.android.exoplayer2.ExoPlayer;
@@ -67,7 +66,8 @@ import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
-import com.luck.picture.lib.tools.ScreenUtils;
+import com.iflytek.cloud.SpeechError;
+import com.iflytek.cloud.SynthesizerListener;
 import com.lzy.ninegrid.ImageInfo;
 import com.lzy.ninegrid.NineGridView;
 import com.lzy.ninegrid.preview.NineGridViewClickAdapter;
@@ -124,7 +124,6 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
         addItemType(YjIndexItemType.INDEX_VOICE_ITEM, R.layout.item_index_voice);
         addItemType(YjIndexItemType.INDEX_VIDEO_ITEM, R.layout.item_index_video2);
         addItemType(YjIndexItemType.INDEX_IMAGES_ITEM, R.layout.item_index_images);
-        //TODO
         addItemType(YjIndexItemType.INDEX_LETTER_ITEM, R.layout.item_index_letter);
 
     }
@@ -173,7 +172,7 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
 
             case YjIndexItemType.INDEX_IMAGE_ITEM:
 
-                initViewText(holder, circleId, userNickname, content, content, createdTime, likes, commentList.toJSONString(),isOwn);
+                initViewText(holder, circleId, userNickname, userHead, content, createdTime, likes, commentList.toJSONString(),isOwn);
                 final AppCompatImageView tvImage = holder.getView(R.id.iv_photo);
                 Glide.with(mContext)
                         .load(imgs[0])
@@ -183,7 +182,7 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
                 break;
             case YjIndexItemType.INDEX_IMAGES_ITEM:
 
-                initViewText(holder, circleId, userNickname, content, content, createdTime, likes, commentList.toJSONString(),isOwn);
+                initViewText(holder, circleId, userNickname, userHead, content, createdTime, likes, commentList.toJSONString(),isOwn);
                 initImages(holder, imgs, imgs);
 
 
@@ -198,13 +197,13 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
             case YjIndexItemType.INDEX_VIDEO_ITEM:
                 String[] videoString = videoUrl.split(",");
                 LatteLogger.d("jialei", "videoString" + videoUrl);
-                initViewText(holder, circleId, userNickname, content, content, createdTime, likes, commentList.toJSONString(),isOwn);
+                initViewText(holder, circleId, userNickname, userHead, content, createdTime, likes, commentList.toJSONString(),isOwn);
                 initMedias(holder, videoString, entity);
                 break;
             case YjIndexItemType.INDEX_LETTER_ITEM:
                 final String title = entity.getField(YjIndexMultipleFields.TITLE);
-                initViewText(holder, circleId, userNickname, content, content, createdTime, likes, commentList.toJSONString(),isOwn);
-                initLetter(holder, circleId, title);
+                initViewText(holder, circleId, userNickname, userHead, content, createdTime, likes, commentList.toJSONString(),isOwn);
+                initLetter(holder, circleId, title,content);
                 break;
 
             default:
@@ -355,12 +354,9 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
 //                        R.color.main_text_blue_57, isExpandDescripe[0]);
 //            }
 //        });
-        tvDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(mDeleteListener!=null){
-                    mDeleteListener.delete(circleId);
-                }
+        tvDelete.setOnClickListener(v -> {
+            if(mDeleteListener!=null){
+                mDeleteListener.delete(circleId);
             }
         });
         tvCansee.setVisibility(View.GONE);
@@ -423,12 +419,7 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
                         .setJsonData(commentList)
                         .convert();
         mCommentAdapter = new YjIndexCommentAdapter(data);
-        mCommentAdapter.setmYjIndexCommentListener(new YjIndexCommentListener() {
-            @Override
-            public void OnItemClick(long replyUserId, String name) {
-                showPopupcomment(circleId, content, holder, replyUserId, name);
-            }
-        });
+        mCommentAdapter.setmYjIndexCommentListener((replyUserId, name) -> showPopupcomment(circleId, content, holder, replyUserId, name));
         final LinearLayoutManager manager = new LinearLayoutManager(mContext);
         rvComment.setLayoutManager(manager);
         rvComment.setAdapter(mCommentAdapter);
@@ -443,12 +434,7 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
 //        });
 
         //说一句
-        tvComment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showPopupcomment(circleId, content, holder, 0, null);
-            }
-        });
+        tvComment.setOnClickListener(v -> showPopupcomment(circleId, content, holder, 0, null));
     }
 
     private void initImages(MultipleViewHolder holder, String[] imgs, String[] bigImgs) {
@@ -464,15 +450,76 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
         ngImgs.setAdapter(new NineGridViewClickAdapter(mContext, imageInfo));
     }
 
-    private void initLetter(MultipleViewHolder holder, int circleId, String title) {
-//        final AppCompatTextView canRead = holder.getView(R.id.tv_canread);
+    private void initLetter(MultipleViewHolder holder, int circleId, String title,String content) {
+        final boolean[] canContinue = {false};
         final AppCompatTextView tvTitle = holder.getView(R.id.tv_title);
         final AppCompatTextView tvCansee = holder.getView(R.id.tv_cansee);
+        final LetterPlayProgressBar bpLetterPlay = holder.getView(R.id.bp_letterplay);
         tvCansee.setVisibility(View.VISIBLE);
         tvTitle.setText(title);
         tvCansee.setOnClickListener(v -> {
             if (mIndexCanReadItemListener != null) {
                 mIndexCanReadItemListener.goCanReadList(circleId);
+            }
+        });
+        bpLetterPlay.setmLetterPlayProgressBarPlayListener(new LetterPlayProgressBarPlayListener() {
+            @Override
+            public void letterPlay() {
+                if(canContinue[0]){
+                    tts.resume();
+                    canContinue[0]=false;
+                }else {
+                    canContinue[0] =true;
+                    readContent(content, new SynthesizerListener() {
+                        @Override
+                        public void onSpeakBegin() {
+
+                        }
+
+                        @Override
+                        public void onBufferProgress(int i, int i1, int i2, String s) {
+
+                        }
+
+                        @Override
+                        public void onSpeakPaused() {
+
+                        }
+
+                        @Override
+                        public void onSpeakResumed() {
+
+                        }
+
+                        @Override
+                        public void onSpeakProgress(int i, int i1, int i2) {
+                            bpLetterPlay.setProgress(i);
+                            if(i==100){
+                                canContinue[0]=false;
+                                bpLetterPlay.setPlay(false);
+                            }
+                        }
+
+                        @Override
+                        public void onCompleted(SpeechError speechError) {
+                            bpLetterPlay.setProgress(100);
+                            canContinue[0]=false;
+                            bpLetterPlay.setPlay(false);
+                        }
+
+                        @Override
+                        public void onEvent(int i, int i1, int i2, Bundle bundle) {
+
+                        }
+                    });
+                }
+
+            }
+
+            @Override
+            public void letterStop() {
+                tts.pause();
+                canContinue[0]=true;
             }
         });
     }
@@ -640,9 +687,12 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
         }
     }
 
-    private void readContent(String text) {
-        tts.start(text);
+    private void readContent(String text, SynthesizerListener mTtsListener2) {
+        tts.start(text,mTtsListener2);
     }
+
+
+
 
     private int maxLine = 6;
 

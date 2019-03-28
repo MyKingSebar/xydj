@@ -25,7 +25,6 @@ public class Tts {
     private Context mContext = null;
 
     public Tts(Context mContext) {
-        Log.e("jialei","Tts.mContext==null"+(mContext==null));
         this.mContext = mContext;
         onCreate();
         initParam();
@@ -95,6 +94,9 @@ public class Tts {
     public void resume() {
         mTts.resumeSpeaking();
     }
+    public boolean isSpeaking() {
+        return mTts.isSpeaking();
+    }
 
     // 开始合成
     // 收到onCompleted 回调时，合成结束、生成合成音频
@@ -109,6 +111,27 @@ public class Tts {
         // 设置参数
         setParam();
         int code = mTts.startSpeaking(text, mTtsListener);
+//			/**
+//			 * 只保存音频不进行播放接口,调用此接口请注释startSpeaking接口
+//			 * text:要合成的文本，uri:需要保存的音频全路径，listener:回调接口
+//			*/
+			/*String path = Environment.getExternalStorageDirectory()+"/tts.pcm";
+			int code = mTts.synthesizeToUri(text, path, mTtsListener);*/
+
+        if (code != ErrorCode.SUCCESS) {
+            showTip("语音合成失败,错误码: " + code);
+        }
+    }
+    public void start(String text,SynthesizerListener mTtsListener2) {
+        if(!check()){
+            return;
+        }
+        // 移动数据分析，收集开始合成事件
+        FlowerCollector.onEvent(mContext, "tts_play");
+
+        // 设置参数
+        setParam();
+        int code = mTts.startSpeaking(text, mTtsListener2);
 //			/**
 //			 * 只保存音频不进行播放接口,调用此接口请注释startSpeaking接口
 //			 * text:要合成的文本，uri:需要保存的音频全路径，listener:回调接口

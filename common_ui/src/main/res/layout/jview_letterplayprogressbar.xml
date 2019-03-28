@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:background="#fffff9ec"
+    android:layout_height="50dp">
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tv_play"
+        android:background="@mipmap/button_letter_play"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.example.yijia.ui.roundprogressbar.RxRoundProgressBar
+        android:id="@+id/rx_round_pd"
+        android:layout_width="0dp"
+        app:layout_constraintHorizontal_weight="1"
+        android:layout_height="3dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tv_play"
+        app:layout_constraintTop_toTopOf="parent"
+        app:rcBackgroundColor="#FFECD2"
+        app:rcBackgroundPadding="0dp"
+        app:rcMax="100"
+        app:rcProgress="0"
+        app:rcProgressColor="#FFD196"
+        app:rcRadius="20dp" />
+</android.support.constraint.ConstraintLayout>

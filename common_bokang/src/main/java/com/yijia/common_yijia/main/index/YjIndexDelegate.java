@@ -1,6 +1,5 @@
 package com.yijia.common_yijia.main.index;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -22,15 +21,15 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
-import com.example.yijia.delegates.bottom.BottomItemDelegate;
 import com.example.latte.ec.R;
 import com.example.latte.ec.R2;
+import com.example.latte.ui.recycler.MultipleItemEntity;
+import com.example.yijia.delegates.bottom.BottomItemDelegate;
 import com.example.yijia.lisener.AppBarStateChangeListener;
 import com.example.yijia.net.rx.BaseObserver;
 import com.example.yijia.net.rx.RxRestClient;
-import com.example.latte.ui.recycler.MultipleItemEntity;
 import com.example.yijia.ui.dialog.JDialogUtil;
-import com.example.yijia.ui.dialog.RxDialogShapeLoading;
+import com.example.yijia.ui.dialog.RxDialogSureCancelListener;
 import com.example.yijia.util.GlideUtils;
 import com.example.yijia.util.callback.CallbackManager;
 import com.example.yijia.util.callback.CallbackType;
@@ -42,7 +41,6 @@ import com.yijia.common_yijia.main.index.friendcircle.IndexCameraCheckInstener;
 import com.yijia.common_yijia.main.index.friendcircle.LetterDelagate;
 import com.yijia.common_yijia.main.index.friendcircle.LetterPeopleDelagate;
 import com.yijia.common_yijia.main.index.friendcircle.pictureselector.PhotoDelegate2;
-import com.yijia.common_yijia.main.index.friendcircle.smallvideo.CameraActivity;
 import com.yijia.common_yijia.main.index.friendcircle.smallvideo.SmallCameraLisener;
 import com.yijia.common_yijia.main.index.friends.IFriendsItemListener;
 import com.yijia.common_yijia.main.index.friends.IndexFriendsAdapter;
@@ -61,8 +59,6 @@ import razerdp.basepopup.QuickPopupBuilder;
 import razerdp.basepopup.QuickPopupConfig;
 import razerdp.blur.PopupBlurOption;
 
-import static com.blankj.utilcode.util.PermissionUtils.getPermissions;
-
 
 public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemListener, IIndexItemListener, IndexCameraCheckInstener, IIndexCanReadItemListener,IPlayVideoListener ,IDeleteListener{
 
@@ -75,7 +71,6 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
     public static final String PICKTYPE = "PICKTYPE";
     boolean isFirst = true;
     private Bundle mArgsLetterpeople = null;
-    private RxDialogShapeLoading rxDialogShapeLoading=null;
 
     @BindView(R2.id.rv_index)
     RecyclerView mRecyclerView = null;
@@ -369,7 +364,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         super.onLazyInitView(savedInstanceState);
         initRefreshLayout();
-        initRecyclerView();
+//        initRecyclerView();
 //        initFriendsRecyclerView();
 //        initIndexRecyclerView();
         Log.d("refresh", "onLazyInitView");
@@ -380,10 +375,10 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
     @Override
     public void onSupportVisible() {
         super.onSupportVisible();
-        if (!isFirst) {
-            Log.d("refresh", "onSupportVisible!isFirs");
-            mRefreshHandler.firstPage();
-        }
+//        if (!isFirst) {
+//            Log.d("refresh", "onSupportVisible!isFirs");
+//            mRefreshHandler.firstPage();
+//        }
     }
 
     @Override
@@ -461,7 +456,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
 
     void showIndexPopup(View v) {
         QuickPopupBuilder.with(getContext())
-                .contentView(R.layout.basepopu_index)
+                .contentView(R.layout.basepopu_index_big)
                 .config(new QuickPopupConfig()
                         .clipChildren(true)
                         .backgroundColor(Color.parseColor("#8C617D8A"))
@@ -526,6 +521,22 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
     }
     @Override
     public void delete(long id) {
+        JDialogUtil.INSTANCE.showRxDialogSureCancel(getContext(),"",0,"确认删除？", new RxDialogSureCancelListener() {
+            @Override
+            public void RxDialogSure() {
+                JDialogUtil.INSTANCE.dismiss();
+                deletego(id);
+            }
+
+            @Override
+            public void RxDialogCancel() {
+                JDialogUtil.INSTANCE.dismiss();
+            }
+        });
+
+    }
+
+    private void deletego(long id){
         JDialogUtil.INSTANCE.showRxDialogShapeLoading(getContext());
         final String url = "/circle/delete_circle";
         String token = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getYjtk();

@@ -76,10 +76,10 @@ public class LetterDelagate extends LatteDelegate implements LatCallbackInterfac
     @OnClick(R2.id.ll_recipients)
     void recipients() {
         LetterchoosefriendDelegate delegate = new LetterchoosefriendDelegate();
-         Bundle mArgs = null;
+         Bundle mArgs = new Bundle();
         mArgs.putString(LetterchoosefriendDelegate.CHOOSEFRIENDTYPEKEY, LetterchoosefriendDelegate.choosefriendType.LETTERCHOOSEFRIEND.name());
         delegate.setArguments(mArgs);
-        getParentDelegate().getSupportDelegate().start(delegate);
+        getSupportDelegate().start(delegate);
 //        getSupportDelegate().startForResult(new LetterchoosefriendDelegate(), LETTERCODE);
     }
 

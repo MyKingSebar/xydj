@@ -54,13 +54,6 @@ public class YjReFreshHandler extends RefreshHandler {
     private void refresh() {
         REFRESH_LAYOUT.setRefreshing(true);
         firstPage();
-//        Latte.getHandler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                //进行一些网络请求
-//                REFRESH_LAYOUT.setRefreshing(false);
-//            }
-//        }, 2000);
     }
 
     public void firstPage() {
@@ -100,6 +93,9 @@ public class YjReFreshHandler extends RefreshHandler {
                             final LinearLayoutManager manager = new LinearLayoutManager(Latte.getApplicationContext());
                             RECYCLERVIEW.setLayoutManager(manager);
                             RECYCLERVIEW.setAdapter(mAdapter);
+                            if(data.size()>0){
+                                BEAN.setBeginCircleId(data.get(data.size()-1).getField(YjIndexMultipleFields.CIRCLEID));
+                            }
                             BEAN.addIndex();
                             REFRESH_LAYOUT.setRefreshing(false);
                         } else {
@@ -123,6 +119,7 @@ public class YjReFreshHandler extends RefreshHandler {
         final int currentCount = BEAN.getCurrentCount();
         final int total = BEAN.getTotal();
         final int index = BEAN.getPageIndex();
+        final int BeginCircleId = BEAN.getBeginCircleId();
         if(index<=1){
             return;
         }
@@ -137,7 +134,7 @@ public class YjReFreshHandler extends RefreshHandler {
                     .params("queryType", 3)
                     .params("pageNo", index)
                     .params("pageSize", 20)
-                    .params("beginCircleId", 0)
+                    .params("beginCircleId", BeginCircleId)
                     .build()
                     .post()
                     .subscribeOn(Schedulers.io())
@@ -145,14 +142,18 @@ public class YjReFreshHandler extends RefreshHandler {
                     .subscribe(new BaseObserver<String>(Latte.getApplicationContext()) {
                         @Override
                         public void onResponse(String response) {
+
                             LatteLogger.json("query_timeline", response);
                             final JSONObject object = JSON.parseObject(response);
                             final String status = object.getString("status");
                             if (TextUtils.equals(status, "1001")) {
-                                if(null==object.getInteger("totalCount")){
+                                final JSONObject jsondata = object.getJSONObject("data");
+
+                                if(null==jsondata.getInteger("totalCount")){
                                     return;
                                 }
-                                final int totalCount = object.getInteger("totalCount");
+                                final int totalCount = jsondata.getInteger("totalCount");
+//                                final int totalCount = object.getInteger("totalCount");
                                 BEAN.setTotal(totalCount)
                                         .setPageSize(20);
                                 final ArrayList<MultipleItemEntity> data =
@@ -165,7 +166,16 @@ public class YjReFreshHandler extends RefreshHandler {
 //                                final LinearLayoutManager manager = new LinearLayoutManager(Latte.getApplicationContext());
 //                                RECYCLERVIEW.setLayoutManager(manager);
 //                                RECYCLERVIEW.setAdapter(mAdapter);
+                                if(data.size()>0){
+                                    BEAN.setBeginCircleId(data.get(data.size()-1).getField(YjIndexMultipleFields.CIRCLEID));
+                                }else {
+                                    mAdapter.loadMoreEnd(true);
+                                    REFRESH_LAYOUT.setRefreshing(false);
+                                    return;
+                                }
                                 mAdapter.addData(data);
+                                int size=mAdapter.getData().size();
+                                BEAN.setCurrentCount(mAdapter.getData().size());
                                 mAdapter.loadMoreComplete();
                                 BEAN.addIndex();
                                 REFRESH_LAYOUT.setRefreshing(false);

@@ -3,7 +3,7 @@
     <!-- 第一层阴影 -->
     <item>
         <shape>
-            <solid android:color="@android:color/darker_gray" />
+            <solid android:color="#ffd8d8d8" />
             <corners android:radius="17dp" />
         </shape>
     </item>

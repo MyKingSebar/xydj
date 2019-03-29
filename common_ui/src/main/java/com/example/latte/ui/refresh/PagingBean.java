@@ -3,6 +3,17 @@ package com.example.latte.ui.refresh;
 public final class PagingBean {
     //当前是第几页
     private int mPageIndex = 0;
+
+    private int beginCircleId = 0;
+
+    public int getBeginCircleId() {
+        return beginCircleId;
+    }
+
+    public void setBeginCircleId(int beginCircleId) {
+        this.beginCircleId = beginCircleId;
+    }
+
     //总数据条数
     private int mTotal = 0;
     //一页显示几条数据

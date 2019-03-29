@@ -38,10 +38,11 @@ public class MyFriendsAdapter extends BaseQuickAdapter<FriendsBean, BaseViewHold
                 .load(item.getUserHead())
                 .apply(requestOptions)
                 .into(userHead);
-        helper.getView(R.id.ll_friend).setOnClickListener(v -> {
+        helper.getView(R.id.ll_friend).setOnLongClickListener(v -> {
             if (mCommonClickListener != null) {
                 mCommonClickListener.commonClick(item.getFriendUserId()+"");
             }
+            return false;
         });
     }
 }

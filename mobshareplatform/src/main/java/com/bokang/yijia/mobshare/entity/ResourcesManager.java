@@ -4,7 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.text.TextUtils;
 
-import com.bokang.yijia.R;
+import com.bokang.yijia.mobshareplatform.R;
 import com.mob.MobSDK;
 import com.mob.tools.network.NetworkHelper;
 import com.mob.tools.utils.BitmapHelper;

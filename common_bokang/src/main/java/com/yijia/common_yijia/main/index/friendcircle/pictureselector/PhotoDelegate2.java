@@ -16,15 +16,14 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.example.yijia.app.Latte;
-import com.example.yijia.delegates.LatteDelegate;
 import com.example.latte.ec.R;
 import com.example.latte.ec.R2;
+import com.example.latte.ui.wxvideoedit.EsayVideoEditActivity;
+import com.example.yijia.app.Latte;
+import com.example.yijia.delegates.LatteDelegate;
 import com.example.yijia.net.rx.BaseObserver;
 import com.example.yijia.net.rx.RxRestClient;
-import com.example.latte.ui.wxvideoedit.EsayVideoEditActivity;
 import com.example.yijia.ui.dialog.JDialogUtil;
-import com.example.yijia.ui.dialog.RxDialogShapeLoading;
 import com.example.yijia.ui.dialog.RxDialogSureCancelListener;
 import com.example.yijia.util.log.LatteLogger;
 import com.luck.picture.lib.PictureSelector;
@@ -692,6 +691,7 @@ public class PhotoDelegate2 extends LatteDelegate {
                 .params("visibleType", visibleType)
 //                .params("visibleOrInvisibleUserIds",JSONArray.parseArray(JSON.toJSONString(visibleOrInvisibleUserIds2)))
                 //TODO 如果不行就用new Gson（）.toJson()这个
+//                .params("visibleOrInvisibleUserIds", Arrays.toString(visibleOrInvisibleUserIds))
                 .params("visibleOrInvisibleUserIds", Arrays.toString(visibleOrInvisibleUserIds))
                 .params("location", location)
                 .params("longitude", longitude)

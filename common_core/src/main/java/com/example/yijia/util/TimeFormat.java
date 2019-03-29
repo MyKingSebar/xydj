@@ -5,7 +5,6 @@ import android.text.format.Time;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
 public class TimeFormat {
@@ -22,13 +21,13 @@ public class TimeFormat {
             long days = diff / (1000 * 60 * 60 * 24);
             long hours = (diff - days * (1000 * 60 * 60 * 24)) / (1000 * 60 * 60);
             long minutes = (diff - days * (1000 * 60 * 60 * 24) - hours * (1000 * 60 * 60)) / (1000 * 60);
-            if(diff<6000){
+            if(diff<60000){
                 return "一分钟前";
-            }else if(diff<3600000){
+            }else if(diff<60000*60){
                 return minutes+"分钟前";
-            }else if(diff<3600000*24){
+            }else if(diff<60000*60*24){
                 return hours+"小时前";
-            }else if(diff<3600000*24*2){
+            }else if(diff<60000*60*24*2){
                 return "一天前";
             }else {
                 SimpleDateFormat format = new SimpleDateFormat("M月d日");

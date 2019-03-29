@@ -83,7 +83,7 @@ public class FriendsDelegate extends BottomItemDelegate implements HeadLayout.On
         friendsPresenter = new FriendsPresenter(this);
         token= YjDatabaseManager.getInstance().getDao().loadAll().get(0).getYjtk();
         friendsPresenter.reqFriendData(token);
-        friendsPresenter.reqGuardianData(token);
+//        friendsPresenter.reqGuardianData(token);
     }
 
     private void initFriendsHead() {
@@ -124,6 +124,7 @@ public class FriendsDelegate extends BottomItemDelegate implements HeadLayout.On
         }
         //有好友的处理
         noFriends.setVisibility(View.GONE);
+        friendsBeans.clear();
         for (int i = 0; i < friends.size(); i++) {
             final JSONObject jsonObject = friends.getJSONObject(i);
             Log.e("qqqq", "respFriendsSuccess: "+jsonObject.toJSONString() );

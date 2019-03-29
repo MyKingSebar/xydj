@@ -37,7 +37,7 @@
         android:layout_width="226dp"
         android:layout_height="34dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="30dp"
         android:background="@drawable/botton_invite_wechat"
         android:gravity="center"
         android:text="短信邀请"
@@ -82,7 +82,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="60dp"
         android:gravity="center_horizontal"
-        android:text="邀请码：XXXXXX\n对方下载”壹家App“输入邀请码完成验证，\n就可以看到你的照片及最新变化了。"
+        android:text="对方下载”壹家App“输入邀请码完成验证，\n就可以看到你的照片及最新变化了。"
         android:textColor="#BEBEBE"
         android:lineSpacingExtra="10dp"
         android:textSize="15sp" />

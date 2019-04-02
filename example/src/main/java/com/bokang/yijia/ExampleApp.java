@@ -7,14 +7,12 @@ import android.support.annotation.Nullable;
 import android.support.multidex.MultiDexApplication;
 import android.text.TextUtils;
 
+import com.example.baidutext.BaiDuTextConfig;
 import com.example.commcon_xfyun.XunFei;
 import com.example.common_tencent_tuikit.TuiKitConfig;
-import com.example.yijia.app.Latte;
-import com.mob.MobSDK;
-import com.yijia.common_yijia.icon.FontEcModule;
-import com.yijia.common_yijia.icon.FontYJModule;
-import com.example.yijia.net.Interceptors.DebugInterceptor;
 import com.example.latte.ui.ninegridview.GlideImageLoader;
+import com.example.yijia.app.Latte;
+import com.example.yijia.net.Interceptors.DebugInterceptor;
 import com.example.yijia.util.callback.CallbackManager;
 import com.example.yijia.util.callback.CallbackType;
 import com.example.yijia.util.callback.IGlobalCallback;
@@ -25,12 +23,16 @@ import com.joanzapata.iconify.fonts.FontAwesomeModule;
 import com.lzy.ninegrid.NineGridView;
 import com.mabeijianxi.smallvideorecord2.DeviceUtils;
 import com.mabeijianxi.smallvideorecord2.JianXiCamera;
+import com.mob.MobSDK;
 import com.simple.spiderman.SpiderMan;
 import com.yijia.common_yijia.database.YjDatabaseManager;
+import com.yijia.common_yijia.icon.FontEcModule;
+import com.yijia.common_yijia.icon.FontYJModule;
 
 import java.io.File;
 
 import cn.jpush.android.api.JPushInterface;
+import me.yokeyword.fragmentation.BuildConfig;
 import me.yokeyword.fragmentation.Fragmentation;
 import me.yokeyword.fragmentation.helper.ExceptionHandler;
 
@@ -57,10 +59,16 @@ public class ExampleApp extends MultiDexApplication {
         initMob();
 //        DatabaseManager.getInstance().init(this);
         YjDatabaseManager.getInstance().init(this);
+
         if (TextUtils.equals(MODE, MODE_DEBUG)) {
             initFragmentDeBug();
         }
+        initBauDuText();
 
+    }
+
+    private void initBauDuText() {
+        BaiDuTextConfig.INSTANCE.initAccessTokenLicenseFile(this);
     }
 
     private void initSpiderMan() {

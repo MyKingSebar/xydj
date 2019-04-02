@@ -1,7 +1,8 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.mob.sdk'
 
-
+// 获取当前系统时间
+def releaseTime() { return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC")) }
 android {
     compileSdkVersion 28
     buildToolsVersion '28.0.3'
@@ -39,6 +40,13 @@ android {
                 JPUSH_APPKEY : "92d47be47c94c2172b6dad0e",
                 JPUSH_CHANNEL: "developer-default",
         ]
+
+        android.applicationVariants.all { variant ->
+            // 更新至Android Studio 3.3 gradle 4.10.1
+            variant.outputs.all {
+                outputFileName = "小壹当家-${variant.versionCode}-${variant.versionName}-${releaseTime()}.apk"
+            }
+        }
 
     }
     //指定jdk版本
@@ -157,7 +165,6 @@ dependencies {
     //    implementation 'com.android.support:appcompat-v7:26.1.0'
     api 'com.facebook.stetho:stetho:1.5.0'
     api 'com.facebook.stetho:stetho-okhttp3:1.5.0'
-
     api 'com.android.support:multidex:1.0.3'
     annotationProcessor "com.github.hotchemi:permissionsdispatcher-processor:2.4.0"
     implementation 'me.jessyan:autosize:1.1.1'

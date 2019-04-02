@@ -70,7 +70,7 @@ public class SetUpDelegate extends LatteDelegate implements HeadLayout.OnClickHe
     }
 
     //点击条目事件
-    @OnClick({R2.id.setup_pwd, R2.id.nodisturb, R2.id.log_out,R2.id.specified})
+    @OnClick({R2.id.setup_pwd, R2.id.nodisturb, R2.id.log_out,R2.id.specified,R2.id.identity})
     public void onViewClicked(View view) {
 //        getSupportDelegate().pop();
         getSupportDelegate().popTo(SignInDelegate.class, false);
@@ -85,6 +85,10 @@ public class SetUpDelegate extends LatteDelegate implements HeadLayout.OnClickHe
             showDialog();
         }else if (i == R.id.specified){
             getSupportDelegate().start(new GuardianshipDelegate());
+        }
+        //身份验证
+        else if (i == R.id.identity){
+            getSupportDelegate().start(new IdentityAuthenticationDelegate());
         }
     }
 

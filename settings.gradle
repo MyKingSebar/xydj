@@ -1,4 +1,4 @@
-include ':example', ':common_tencent_tuikit', ':mobshareplatform',
+include ':example', ':common_tencent_tuikit', ':mobshareplatform', ':baidutext',
         ':common_annotations', ':common_compiler', ':common_core', ':common_bokang', ':common_ui',
         ':common_rongim', ':CallLib', ':IMLib', ':IMKit', ':CallKit', ':RCSticker',
         ':common_xfyun', ':common_tencentmonitor',
@@ -6,5 +6,6 @@ include ':example', ':common_tencent_tuikit', ':mobshareplatform',
         ':tuikit', ':tencent_trtc_sdk',
         //代替pictureselect
         ':picture_library',':ucrop',
-        ':camera1.1.9'
+        ':camera1.1.9',
+        ':ocr_ui'
 

@@ -42,7 +42,7 @@
 
 
     <application
-        tools:replace="android:name"
+        tools:replace="android:name,android:icon"
         android:name="com.bokang.yijia.ExampleApp"
         android:allowBackup="true"
         android:icon="@mipmap/icon"

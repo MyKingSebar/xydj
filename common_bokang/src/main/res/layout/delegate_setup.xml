@@ -37,6 +37,32 @@
             android:src="@mipmap/youjiantou" />
 
     </LinearLayout>
+    <LinearLayout
+        android:id="@+id/identity"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_marginTop="13dp"
+        android:background="#ffffff"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="15dp"
+            android:layout_weight="1"
+            android:text="身份验证"
+            android:textColor="#333333"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:layout_width="5dp"
+            android:layout_height="10dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="14dp"
+            android:src="@mipmap/youjiantou" />
+
+    </LinearLayout>
 
     <View
         android:layout_width="match_parent"

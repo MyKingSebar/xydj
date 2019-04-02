@@ -56,6 +56,7 @@ public class IdentityAuthenticationDelegate extends LatteDelegate {
     AppCompatTextView tvId;
 
     String token = null;
+    IDCardResult mIDCardResult=null;
 
     @Override
     public Object setLayout() {
@@ -69,7 +70,11 @@ public class IdentityAuthenticationDelegate extends LatteDelegate {
 
     @OnClick(R2.id.tv_ok)
     void ok() {
-        getSupportDelegate().pop();
+        if(TextUtils.isEmpty(tvName.getText())||TextUtils.isEmpty(tvId.getText())||TextUtils.isEmpty(tvTime.getText())){
+            showToast("请验证");
+            return;
+        }
+        insertIdCardInfo(token);
     }
 
     @OnClick(R2.id.relativeLayout)
@@ -91,7 +96,8 @@ public class IdentityAuthenticationDelegate extends LatteDelegate {
         intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH,
                 BDTFileUtil.getSaveFile(getContext()).getAbsolutePath());
         intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_ID_CARD_FRONT);
-        startActivityForResult(intent, ResultCode.MINE_AUTHENTICATION);    }
+        startActivityForResult(intent, ResultCode.MINE_AUTHENTICATION);
+    }
 
 
     @Override
@@ -165,6 +171,48 @@ public class IdentityAuthenticationDelegate extends LatteDelegate {
                     }
                 });
     }
+    private void insertIdCardInfo(String token) {
+        if(mIDCardResult==null){
+            showToast("请验证");
+            return;
+        }
+        JDialogUtil.INSTANCE.showRxDialogShapeLoading(getContext());
+        String url = "user/insert_id_card_info";
+        RxRestClient.builder()
+                .url(url)
+                .params("yjtk", token)
+                .params("idNumber", mIDCardResult.getIdNumber()+"")
+                .params("name", mIDCardResult.getName()+"")
+                .params("birthday", mIDCardResult.getBirthday()+"")
+                .params("gender", mIDCardResult.getGender()+"")
+                .params("ethnic", mIDCardResult.getEthnic()+"")
+                .params("address", mIDCardResult.getAddress()+"")
+                .build()
+                .post()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseObserver<String>(getContext()) {
+                    @Override
+                    public void onResponse(String response) {
+                        final String status = JSON.parseObject(response).getString("status");
+                        Log.e("jialei", "insert_id_card_info" + new Gson().toJson(response));
+                        if (TextUtils.equals(status, "1001")) {
+                            JDialogUtil.INSTANCE.dismiss();
+                            getSupportDelegate().pop();
+                        } else {
+                            final String msg = JSON.parseObject(response).getString("msg");
+                            Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+                            JDialogUtil.INSTANCE.dismiss();
+                        }
+                    }
+
+                    @Override
+                    public void onFail(Throwable e) {
+                        Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                        JDialogUtil.INSTANCE.dismiss();
+                    }
+                });
+    }
 
 
     @Override
@@ -218,8 +266,14 @@ public class IdentityAuthenticationDelegate extends LatteDelegate {
             @Override
             public void onResult(IDCardResult result) {
                 if (result != null) {
-                    showToast(result.toString());
-                    LatteLogger.d("recIDCard",result.toString());
+                    LatteLogger.d("recIDCard", result.toString());
+                    String name = "" + result.getName();
+                    tvName.setText(name);
+                    String id = "" + result.getIdCardSide();
+                    tvId.setText(id);
+                    String birthday = "" + result.getBirthday();
+                    tvTime.setText(birthday);
+                    mIDCardResult=result;
                 }
             }
 

@@ -18,14 +18,14 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSON;
 import com.bokang.tencent_trtc_sdk.TrtcConfig;
 import com.example.common_tencent_tuikit.TuiKitConfig;
+import com.example.latte.ui.launcher.ILauncherListener;
+import com.example.latte.ui.launcher.OnLauncherFinishTag;
 import com.example.yijia.activities.ProxyActivity;
 import com.example.yijia.app.IUserChecker;
 import com.example.yijia.app.Latte;
 import com.example.yijia.delegates.LatteDelegate;
 import com.example.yijia.net.rx.BaseObserver;
 import com.example.yijia.net.rx.RxRestClient;
-import com.example.latte.ui.launcher.ILauncherListener;
-import com.example.latte.ui.launcher.OnLauncherFinishTag;
 import com.example.yijia.util.log.LatteLogger;
 import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMCustomElem;
@@ -40,6 +40,7 @@ import com.yhao.floatwindow.PermissionListener;
 import com.yhao.floatwindow.Screen;
 import com.yhao.floatwindow.ViewStateListener;
 import com.yijia.common_yijia.database.YjDatabaseManager;
+import com.yijia.common_yijia.main.YjBottomDelegate_with3;
 import com.yijia.common_yijia.main.index.friendcircle.smallvideo.CameraActivity;
 import com.yijia.common_yijia.main.index.friendcircle.smallvideo.SmallCameraLisener;
 import com.yijia.common_yijia.main.message.trtc.CallIntentData;
@@ -48,8 +49,6 @@ import com.yijia.common_yijia.main.message.trtc.TRTCMainActivity;
 import com.yijia.common_yijia.sign.ISignListener;
 import com.yijia.common_yijia.sign.SignInNoteOnlyDelegate;
 import com.yijia.common_yijia.sign.SignUpSecondDelegate;
-import com.yijia.common_yijia.main.YjBottomDelegate;
-
 
 import cn.jpush.android.api.JPushInterface;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -100,7 +99,7 @@ public class ExampleActivity extends ProxyActivity implements
         if(checkAccont()){
             initJPush();
             loginTencentIM();
-            YjBottomDelegate delegate=new YjBottomDelegate();
+            YjBottomDelegate_with3 delegate=new YjBottomDelegate_with3();
             delegate.setmSmallCameraLisener(this);
             return delegate;
         }else {
@@ -192,7 +191,7 @@ private void initJPush(){
         Log.e("qqqq", "goMain");
         initJPush();
         loginTencentIM();
-        YjBottomDelegate delegate=new YjBottomDelegate();
+        YjBottomDelegate_with3 delegate=new YjBottomDelegate_with3();
         delegate.setmSmallCameraLisener(this);
         getSupportDelegate().startWithPop(delegate);
     }

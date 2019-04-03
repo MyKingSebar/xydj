@@ -21,6 +21,7 @@ import com.tencent.imsdk.TIMManager;
 import com.yijia.common_yijia.database.YjDatabaseManager;
 import com.yijia.common_yijia.main.mine.GuardianshipDelegate;
 import com.yijia.common_yijia.main.mine.NodisturbDelegate;
+import com.yijia.common_yijia.main.mine.UserProfilesDelegate;
 import com.yijia.common_yijia.sign.SignInDelegate;
 import com.yijia.common_yijia.sign.SignInNoteOnlyDelegate;
 
@@ -88,7 +89,7 @@ public class SetUpDelegate extends LatteDelegate implements HeadLayout.OnClickHe
         }
         //身份验证
         else if (i == R.id.identity){
-            getSupportDelegate().start(new IdentityAuthenticationDelegate());
+            getSupportDelegate().start(new UserProfilesDelegate());
         }
     }
 

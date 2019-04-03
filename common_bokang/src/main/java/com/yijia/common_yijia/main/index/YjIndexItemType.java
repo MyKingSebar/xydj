@@ -17,5 +17,6 @@ public class YjIndexItemType {
     public static final int INDEX_NOTICELIST_ITEM = 109;
 
     public static final int GUARDUABSHIPLIST_ITEM = 120;
+    public static final int USERPROFILESLIST_ITEM = 121;
 
 }

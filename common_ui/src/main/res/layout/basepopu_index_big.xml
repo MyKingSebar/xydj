@@ -33,7 +33,10 @@
             android:text="相册" />
 
     </android.support.v7.widget.LinearLayoutCompat>
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/main_line_default_f5"/>
     <android.support.v7.widget.LinearLayoutCompat
         android:id="@+id/ll_vodeo"
         android:layout_width="match_parent"
@@ -59,7 +62,10 @@
             android:text="微拍" />
 
     </android.support.v7.widget.LinearLayoutCompat>
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/main_line_default_f5"/>
     <android.support.v7.widget.LinearLayoutCompat
         android:id="@+id/ll_letter"
         android:layout_width="match_parent"

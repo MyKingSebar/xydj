@@ -19,13 +19,10 @@ import com.example.yijia.delegates.LatteDelegate;
 import com.example.yijia.net.rx.BaseObserver;
 import com.example.yijia.net.rx.RxRestClient;
 import com.example.yijia.ui.dialog.JDialogUtil;
-import com.example.yijia.util.callback.CallbackManager;
-import com.example.yijia.util.callback.CallbackType;
-import com.example.yijia.util.callback.IGlobalCallback;
 import com.google.gson.Gson;
 import com.yijia.common_yijia.database.YjDatabaseManager;
-import com.yijia.common_yijia.main.index.GuardianshipDataConverter;
-import com.yijia.common_yijia.main.index.friendcircle.choosefriend.LetterchoosefriendDelegate;
+import com.yijia.common_yijia.main.friends.CommonClickListener;
+import com.yijia.common_yijia.main.mine.setup.IdentityAuthenticationDelegate;
 
 import java.util.ArrayList;
 
@@ -34,7 +31,7 @@ import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-public class UserProfilesDelegate extends LatteDelegate implements GuardianshipListener {
+public class UserProfilesDelegate extends LatteDelegate implements CommonClickListener {
     @BindView(R2.id.tv_save)
     AppCompatTextView tvSave;
     @BindView(R2.id.tv_title)
@@ -44,14 +41,14 @@ public class UserProfilesDelegate extends LatteDelegate implements GuardianshipL
     @BindView(R2.id.rv)
     RecyclerView rv;
 
-    GuardianshipAdapter mAdapter = null;
+    UserProfilesAdapter mAdapter = null;
     ArrayList<MultipleItemEntity> data = null;
     String token = null;
     long friendId=0;
 
     @Override
     public Object setLayout() {
-        return R.layout.delegate_guardianship;
+        return R.layout.delegate_userprofiles;
     }
 
     @OnClick(R2.id.tv_back)
@@ -61,11 +58,7 @@ public class UserProfilesDelegate extends LatteDelegate implements GuardianshipL
 
     @OnClick(R2.id.tv_icon)
     void add() {
-        LetterchoosefriendDelegate delegate = new LetterchoosefriendDelegate();
-        Bundle mArgs = new Bundle();
-        mArgs.putString(LetterchoosefriendDelegate.CHOOSEFRIENDTYPEKEY, LetterchoosefriendDelegate.choosefriendType.GUARDIANSHIPCHOOSEFRIEND.name());
-        delegate.setArguments(mArgs);
-        getSupportDelegate().start(delegate);
+        getSupportDelegate().start(new IdentityAuthenticationDelegate());
     }
 
     @Override
@@ -78,43 +71,51 @@ public class UserProfilesDelegate extends LatteDelegate implements GuardianshipL
     public void onBindView(@Nullable Bundle savedInstanceState, @NonNull View rootView) {
         token = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getYjtk();
         initView();
-        initCallback();
-        getGuardianshipInfo(token, 1);
+//        initCallback();
+        getUserProfilesInfo(token);
     }
 
-    private void initCallback() {
-        CallbackManager.getInstance()
-                .addCallback(CallbackType.FRAGMENT_GUARDIANSHIP_CHOOSEFRIEND_RESULT, new IGlobalCallback<String>() {
-                    @Override
-                    public void executeCallback(@Nullable String args) {
-                        assert args != null;
-                        String[] arg = args.split(",");
-                        if (arg.length == 2) {
-                            friendId = Long.parseLong(arg[1]);
-                            if(friendId!=0){
-                                JDialogUtil.INSTANCE.showRxDialogShapeLoading(getContext());
-                                saveGuardianshipInfo(token,friendId);
-                            }
-                        }
-                    }
-                });
-
-        final LinearLayoutManager manager = new LinearLayoutManager(getContext());
-        rv.setLayoutManager(manager);
-
-
-    }
+//    private void initCallback() {
+//        CallbackManager.getInstance()
+//                .addCallback(CallbackType.FRAGMENT_GUARDIANSHIP_CHOOSEFRIEND_RESULT, new IGlobalCallback<String>() {
+//                    @Override
+//                    public void executeCallback(@Nullable String args) {
+//                        assert args != null;
+//                        String[] arg = args.split(",");
+//                        if (arg.length == 2) {
+//                            friendId = Long.parseLong(arg[1]);
+//                            if(friendId!=0){
+//                                JDialogUtil.INSTANCE.showRxDialogShapeLoading(getContext());
+//                                saveGuardianshipInfo(token,friendId);
+//                            }
+//                        }
+//                    }
+//                });
+//
+//        final LinearLayoutManager manager = new LinearLayoutManager(getContext());
+//        rv.setLayoutManager(manager);
+//
+//
+//    }
 
     private void initView() {
         tvTitle.setText("用户档案");
         tvIcon.setVisibility(View.VISIBLE);
         tvSave.setVisibility(View.GONE);
+        final LinearLayoutManager manager = new LinearLayoutManager(getContext());
+        rv.setLayoutManager(manager);
     }
 
-    private void getGuardianshipInfo(String token, int type) {
-        String url = "guardianship/query_guardianship/";
+    @Override
+    public void onSupportVisible() {
+        super.onSupportVisible();
+        getUserProfilesInfo(token);
+    }
+
+    private void getUserProfilesInfo(String token) {
+        String url = "user/query_id_card_info_list";
         RxRestClient.builder()
-                .url(url + type)
+                .url(url)
                 .params("yjtk", token)
                 .build()
                 .get()
@@ -126,82 +127,13 @@ public class UserProfilesDelegate extends LatteDelegate implements GuardianshipL
                         final String status = JSON.parseObject(response).getString("status");
                         Log.e("jialei","query_guardianship"+new Gson().toJson(response));
                         if (TextUtils.equals(status, "1001")) {
-                            data = new GuardianshipDataConverter()
+                            data = new UserProfilesDataConverter()
                                     .setJsonData(response)
                                     .convert();
-                            mAdapter = new GuardianshipAdapter(data, UserProfilesDelegate.this);
-                            mAdapter.setmGuardianshipListener(UserProfilesDelegate.this);
+                            mAdapter = new UserProfilesAdapter(data, UserProfilesDelegate.this);
+                            mAdapter.setmCommonClickListener(UserProfilesDelegate.this);
                             rv.setAdapter(mAdapter);
-                            if (data.size() > 0) {
-                                tvIcon.setVisibility(View.GONE);
-                            } else {
-                                tvIcon.setVisibility(View.VISIBLE);
-                            }
                             JDialogUtil.INSTANCE.dismiss();
-                        } else {
-                            final String msg = JSON.parseObject(response).getString("msg");
-                            Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
-                            JDialogUtil.INSTANCE.dismiss();
-                        }
-                    }
-
-                    @Override
-                    public void onFail(Throwable e) {
-                        Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                        JDialogUtil.INSTANCE.dismiss();
-                    }
-                });
-    }
-
-    private void deleteGuardianshipInfo(String token, long guardianUserId) {
-        String url = "/guardianship/delete_guardian";
-        RxRestClient.builder()
-                .url(url)
-                .params("yjtk", token)
-                .params("guardianUserId", guardianUserId)
-                .build()
-                .post()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseObserver<String>(getContext()) {
-                    @Override
-                    public void onResponse(String response) {
-                        final String status = JSON.parseObject(response).getString("status");
-                        if (TextUtils.equals(status, "1001")) {
-                            Toast.makeText(getContext(), "删除成功", Toast.LENGTH_SHORT).show();
-                            data = new ArrayList<MultipleItemEntity>();
-                            mAdapter = new GuardianshipAdapter(data, UserProfilesDelegate.this);
-                            rv.setAdapter(mAdapter);
-                            tvIcon.setVisibility(View.VISIBLE);
-                        } else {
-                            final String msg = JSON.parseObject(response).getString("msg");
-                            Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                    @Override
-                    public void onFail(Throwable e) {
-                        Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
-    private void saveGuardianshipInfo(String token, long guardianUserId) {
-        String url = "/guardianship/save_guardian";
-        RxRestClient.builder()
-                .url(url)
-                .params("yjtk", token)
-                .params("guardianUserId", guardianUserId)
-                .build()
-                .post()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseObserver<String>(getContext()) {
-                    @Override
-                    public void onResponse(String response) {
-                        final String status = JSON.parseObject(response).getString("status");
-                        if (TextUtils.equals(status, "1001")) {
-                            Toast.makeText(getContext(), "添加成功", Toast.LENGTH_SHORT).show();
-                            getGuardianshipInfo(token,1);
                         } else {
                             final String msg = JSON.parseObject(response).getString("msg");
                             Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
@@ -219,7 +151,11 @@ public class UserProfilesDelegate extends LatteDelegate implements GuardianshipL
 
 
     @Override
-    public void onitemclick(long id) {
-        deleteGuardianshipInfo(token, id);
+    public void commonClick(String info) {
+        IdentityAuthenticationDelegate mIdentityAuthenticationDelegate=new IdentityAuthenticationDelegate();
+        Bundle bundle=new Bundle();
+        bundle.putString("id",info);
+        mIdentityAuthenticationDelegate.setArguments(bundle);
+        getSupportDelegate().start(mIdentityAuthenticationDelegate);
     }
 }

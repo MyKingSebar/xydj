@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.example.common_tencent_tuikit.Constants;
 import com.example.common_tencent_tuikit.R;
+import com.example.common_tencent_tuikit.R2;
 import com.example.yijia.delegates.LatteDelegate;
 import com.tencent.qcloud.uikit.business.session.model.SessionInfo;
 import com.tencent.qcloud.uikit.business.session.view.SessionPanel;
@@ -14,12 +15,18 @@ import com.tencent.qcloud.uikit.business.session.view.wedgit.SessionClickListene
 import com.yijia.common_yijia.main.message.trtc.GroupChatFragment;
 import com.yijia.common_yijia.main.message.trtc.PersonalChatFragment;
 
+import butterknife.OnClick;
+
 
 public class SessionFragment extends LatteDelegate implements SessionClickListener {
     private View baseView;
     private SessionPanel sessionPanel;
 
     LatteDelegate mCurrentFragment = null;
+    @OnClick(R2.id.tv_back)
+    void back(){
+        getSupportDelegate().pop();
+    }
 
     @Override
     public Object setLayout() {

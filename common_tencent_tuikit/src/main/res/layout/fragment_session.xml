@@ -2,8 +2,40 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
    >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:background="@color/white">
 
+        <RelativeLayout
+            android:id="@+id/tv_back"
+            android:layout_width="44dp"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerInParent="true"
+                android:layout_marginBottom="11dp"
+                android:background="@drawable/back" />
+        </RelativeLayout>
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="9dp"
+            android:text="亲友团"
+            android:textColor="@color/main_text_black_dark"
+            android:textSize="@dimen/second_title_18" />
+
+
+    </RelativeLayout>
     <com.tencent.qcloud.uikit.business.session.view.SessionPanel
         android:id="@+id/session_panel"
         android:layout_width="match_parent"

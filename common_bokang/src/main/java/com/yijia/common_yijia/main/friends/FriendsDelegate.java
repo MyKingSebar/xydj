@@ -18,7 +18,7 @@ import com.example.common_tencent_tuikit.Constants;
 import com.example.latte.ec.R;
 import com.example.latte.ec.R2;
 import com.example.latte.ui.widget.HeadLayout;
-import com.example.yijia.delegates.bottom.BottomItemDelegate;
+import com.example.yijia.delegates.LatteDelegate;
 import com.example.yijia.net.rx.BaseObserver;
 import com.example.yijia.net.rx.RxRestClient;
 import com.example.yijia.ui.dialog.JDialogUtil;
@@ -45,7 +45,7 @@ import io.reactivex.schedulers.Schedulers;
  * 亲友团列表
  */
 
-public class FriendsDelegate extends BottomItemDelegate implements HeadLayout.OnClickHeadHeadImage, FriendsView ,CommonClickListener{
+public class FriendsDelegate extends LatteDelegate implements HeadLayout.OnClickHeadHeadImage, FriendsView ,CommonClickListener{
     @BindView(R2.id.head_layout)
     HeadLayout headLayout;
     @BindView(R2.id.guardianship_recycler)

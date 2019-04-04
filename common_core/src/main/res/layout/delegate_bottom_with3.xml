@@ -7,13 +7,14 @@
         android:id="@+id/bottom_bar_delegate_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="-12dp"
         android:layout_above="@+id/bottom_bar"/>
 
 
     <android.support.v7.widget.LinearLayoutCompat
         android:id="@+id/bottom_bar"
         android:layout_width="match_parent"
-        android:background="@color/main_text_white"
+        android:background="@mipmap/background_buttom3"
         android:layout_height="70dp"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal"/>

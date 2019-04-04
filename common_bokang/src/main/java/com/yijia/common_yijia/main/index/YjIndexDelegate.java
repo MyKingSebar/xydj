@@ -45,6 +45,7 @@ import com.yijia.common_yijia.main.index.friendcircle.smallvideo.SmallCameraLise
 import com.yijia.common_yijia.main.index.friends.IFriendsItemListener;
 import com.yijia.common_yijia.main.index.friends.IndexFriendsAdapter;
 import com.yijia.common_yijia.main.index.friends.YjIndexFriendsDataConverter;
+import com.yijia.common_yijia.main.mine.MineDelegate;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -113,16 +114,17 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
     @OnClick({R2.id.icon_index_message, R2.id.icon_index_message2})
     void onCLickpublish(View v) {
 //        useSDCardWithCheck(v, this);
-        useSDCardWithCheck(v, this);
 //        mSend.showContextMenu();
 //        getSupportDelegate().start(new PhotoDelegate());
+        useSDCardWithCheck(v, this);
 
     }
 
 
     @OnClick({R2.id.icon_index_scan, R2.id.icon_index_scan2})
     void onCLickScanOrCode() {
-        startScanWithCheck(this.getParentDelegate());
+        getParentDelegate().getSupportDelegate().start(new MineDelegate());
+//        startScanWithCheck(this.getParentDelegate());
     }
 
     @OnClick(R2.id.tv_invite)

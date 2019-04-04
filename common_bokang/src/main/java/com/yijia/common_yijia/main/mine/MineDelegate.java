@@ -3,9 +3,11 @@ package com.yijia.common_yijia.main.mine;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -13,14 +15,15 @@ import com.alibaba.fastjson.JSONObject;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.latte.ec.R;
+import com.example.latte.ec.R2;
+import com.example.latte.ui.widget.UserTextLineView;
 import com.example.yijia.app.AccountManager;
 import com.example.yijia.app.IUserChecker;
 import com.example.yijia.delegates.bottom.BottomItemDelegate;
-import com.example.latte.ec.R;
-import com.example.latte.ec.R2;
-import com.example.latte.ui.widget.HeadLayout;
-import com.example.latte.ui.widget.UserTextLineView;
 import com.yijia.common_yijia.database.YjDatabaseManager;
+import com.yijia.common_yijia.main.friends.FriendsDelegate;
+import com.yijia.common_yijia.main.message.view.fragment.NoticeDelegate;
 import com.yijia.common_yijia.main.mine.personaldata.PersonalDataDelegate;
 import com.yijia.common_yijia.main.mine.setup.SetUpDelegate;
 
@@ -31,9 +34,13 @@ import butterknife.OnClick;
  * 我的页面
  **/
 public class MineDelegate extends BottomItemDelegate {
+    @BindView(R2.id.tv_save)
+    AppCompatTextView tvSave;
+    @BindView(R2.id.tv_title)
+    AppCompatTextView tvTitle;
+    @BindView(R2.id.tv_back)
+    RelativeLayout tvBack;
 
-    @BindView(R2.id.head_layout)
-    HeadLayout headLayout;
     @BindView(R2.id.head_portrait)
     LinearLayout headPortrait;
     @BindView(R2.id.photo_album)
@@ -108,8 +115,8 @@ public class MineDelegate extends BottomItemDelegate {
 
     private void initMineHead() {
         //初始化头布局
-        headLayout.setHeadName("个人中心", "#333333", 18);
-        headLayout.setHeadlayoutBagColor("#ffffff");
+        tvSave.setVisibility(View.GONE);
+        tvBack.setOnClickListener(v -> getSupportDelegate().pop());
     }
 
     @Override
@@ -174,12 +181,12 @@ public class MineDelegate extends BottomItemDelegate {
     }
 
     //点击每个条目的事件
-    @OnClick({R2.id.head_portrait, R2.id.photo_album, R2.id.letter, R2.id.About_us, R2.id.help, R2.id.set_up, R2.id.pro_card, R2.id.remote_supervision})
+    @OnClick({R2.id.head_portrait, R2.id.photo_album, R2.id.letter, R2.id.About_us, R2.id.help, R2.id.set_up, R2.id.pro_card, R2.id.remote_supervision,R2.id.my_friends,R2.id.my_life,R2.id.my_message})
     public void onViewClicked(View view) {
         int i = view.getId();
         if (i == R.id.head_portrait) {
             //点击头像条目  跳转到个人资料页面
-            getParentDelegate().getSupportDelegate().start(new PersonalDataDelegate());
+            getSupportDelegate().start(new PersonalDataDelegate());
         }
         else if (i == R.id.remote_supervision) {
             Toast.makeText(_mActivity, "远程监护", Toast.LENGTH_SHORT).show();
@@ -192,12 +199,21 @@ public class MineDelegate extends BottomItemDelegate {
             Toast.makeText(_mActivity, "家书", Toast.LENGTH_SHORT).show();
         } else if (i == R.id.About_us) {
             //跳转到关于我们
-            getParentDelegate().getSupportDelegate().start(new AboutUsDelegate());
+            getSupportDelegate().start(new AboutUsDelegate());
         } else if (i == R.id.help) {
             Toast.makeText(_mActivity, "帮助", Toast.LENGTH_SHORT).show();
         } else if (i == R.id.set_up) {
             //点击设置条目 跳转到设置页面
-            getParentDelegate().getSupportDelegate().start(new SetUpDelegate());
+            getSupportDelegate().start(new SetUpDelegate());
+        } else if (i == R.id.my_friends) {
+            //我的通讯录
+            getSupportDelegate().start(new FriendsDelegate());
+        } else if (i == R.id.my_life) {
+            //生活语录
+
+        } else if (i == R.id.my_message) {
+            //我的消息
+            getSupportDelegate().start(new NoticeDelegate());
         }
     }
 }

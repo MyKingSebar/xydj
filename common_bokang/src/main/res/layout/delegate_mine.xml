@@ -4,15 +4,13 @@
     android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+<include
+    android:id="@+id/include"
+    layout="@layout/include_edit_top"/>
 
-    <com.example.latte.ui.widget.HeadLayout
-        android:id="@+id/head_layout"
-        android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:gravity="center_vertical"/>
 
     <ScrollView
-        android:layout_below="@+id/head_layout"
+        android:layout_below="@+id/include"
         android:layout_margin="15dp"
         android:background="#ffffff"
         android:scrollbars="none"
@@ -61,6 +59,7 @@
                 app:hasArrow="true"
                 app:iconDrawable="@mipmap/mine_yuancheng"
                 app:text="远程看护"
+                app:textSize="20sp"
                 app:textColor="@color/light_black"/>
 
             <com.example.latte.ui.widget.UserTextLineView
@@ -70,6 +69,7 @@
                 app:hasArrow="true"
                 app:iconDrawable="@mipmap/mine_qinshuka"
                 app:text="亲属卡"
+                app:textSize="20sp"
                 app:textColor="@color/light_black"/>
 
             <com.example.latte.ui.widget.UserTextLineView
@@ -79,6 +79,25 @@
                 app:hasArrow="true"
                 app:iconDrawable="@mipmap/mine_xiangce"
                 app:text="看护相册"
+                app:textSize="20sp"
+                app:textColor="@color/light_black"/>
+            <com.example.latte.ui.widget.UserTextLineView
+                android:id="@+id/my_life"
+                android:layout_width="match_parent"
+                android:layout_height="68dp"
+                app:hasArrow="true"
+                app:iconDrawable="@mipmap/icon_mine_life"
+                app:text="生活语录"
+                app:textSize="20sp"
+                app:textColor="@color/light_black"/>
+            <com.example.latte.ui.widget.UserTextLineView
+                android:id="@+id/my_message"
+                android:layout_width="match_parent"
+                android:layout_height="68dp"
+                app:hasArrow="true"
+                app:iconDrawable="@mipmap/icon_mine_message"
+                app:text="我的消息"
+                app:textSize="20sp"
                 app:textColor="@color/light_black"/>
 
             <com.example.latte.ui.widget.UserTextLineView
@@ -88,6 +107,16 @@
                 app:hasArrow="true"
                 app:iconDrawable="@mipmap/mine_jiashu"
                 app:text="我的家书"
+                app:textSize="20sp"
+                app:textColor="@color/light_black"/>
+            <com.example.latte.ui.widget.UserTextLineView
+                android:id="@+id/my_friends"
+                android:layout_width="match_parent"
+                android:layout_height="68dp"
+                app:hasArrow="true"
+                app:iconDrawable="@mipmap/icon_mine_friends"
+                app:text="我的通讯录"
+                app:textSize="20sp"
                 app:textColor="@color/light_black"/>
 
             <com.example.latte.ui.widget.UserTextLineView
@@ -97,6 +126,7 @@
                 app:hasArrow="true"
                 app:iconDrawable="@mipmap/mine_guanyuwomen"
                 app:text="关于我们"
+                app:textSize="20sp"
                 app:textColor="@color/light_black"/>
 
             <com.example.latte.ui.widget.UserTextLineView
@@ -106,6 +136,7 @@
                 app:hasArrow="true"
                 app:iconDrawable="@mipmap/mine_bangzhu"
                 app:text="帮助"
+                app:textSize="20sp"
                 app:textColor="@color/light_black"/>
 
             <com.example.latte.ui.widget.UserTextLineView
@@ -115,6 +146,7 @@
                 app:hasArrow="true"
                 app:iconDrawable="@mipmap/mine_shezhi"
                 app:text="设置"
+                app:textSize="20sp"
                 app:textColor="@color/light_black"/>
         </LinearLayout>
 

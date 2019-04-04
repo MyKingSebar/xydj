@@ -79,15 +79,15 @@ public abstract class BaseBottomDelegate_with3 extends LatteDelegate implements 
             final AppCompatTextView itemTitle = (AppCompatTextView) item.getChildAt(0);
             final BottomTabBean bean = TAB_BEANS.get(i);
 
-            final CharSequence mIcon=bean.getIcon();
-            final int mIconId=bean.getIconId();
-            final int mIconcId=bean.getIconclickedid();
+            final CharSequence mIcon = bean.getIcon();
+            final int mIconId = bean.getIconId();
+            final int mIconcId = bean.getIconclickedid();
             //初始化数据
-            if(mIconId!=0){
+            if (mIconId != 0) {
                 itemTitle.setBackgroundResource(mIconId);
             }
             if (i == mIndexDelegate) {
-                if(mIconcId!=0){
+                if (mIconcId != 0) {
                     itemTitle.setBackgroundResource(mIconcId);
                 }
             }
@@ -104,8 +104,8 @@ public abstract class BaseBottomDelegate_with3 extends LatteDelegate implements 
             final RelativeLayout item = (RelativeLayout) mBottomBar.getChildAt(i);
             final AppCompatTextView itemTitle = (AppCompatTextView) item.getChildAt(0);
 
-            final int mIconId=TAB_BEANS.get(i).getIconId();
-            if(mIconId!=0){
+            final int mIconId = TAB_BEANS.get(i).getIconId();
+            if (mIconId != 0) {
                 itemTitle.setBackgroundResource(mIconId);
             }
 
@@ -117,20 +117,20 @@ public abstract class BaseBottomDelegate_with3 extends LatteDelegate implements 
         final int tag = (int) v.getTag();
         resetColor();
         final RelativeLayout item = (RelativeLayout) v;
-        final AppCompatTextView itemTitle  = (AppCompatTextView) item.getChildAt(0);
+        final AppCompatTextView itemTitle = (AppCompatTextView) item.getChildAt(0);
 
-        final CharSequence mIcon=TAB_BEANS.get(tag).getIcon();
-        final int mIconcId=TAB_BEANS.get(tag).getIconclickedid();
-        if(mIcon!=null){
+        final CharSequence mIcon = TAB_BEANS.get(tag).getIcon();
+        final int mIconcId = TAB_BEANS.get(tag).getIconclickedid();
+        if (mIcon != null) {
             itemTitle.setTextColor(mClickedColor);
         }
-        if(mIconcId!=0){
+        if (mIconcId != 0) {
             itemTitle.setBackgroundResource(mIconcId);
         }
 
 
-        getSupportDelegate().showHideFragment(ITEM_DELEGATES.get(tag),ITEM_DELEGATES.get(mCurrentDelegate));
+        getSupportDelegate().showHideFragment(ITEM_DELEGATES.get(tag), ITEM_DELEGATES.get(mCurrentDelegate));
         //一定要注意先后顺序
-        mCurrentDelegate=tag;
+        mCurrentDelegate = tag;
     }
 }

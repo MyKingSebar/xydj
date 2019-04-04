@@ -55,10 +55,8 @@ import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-import razerdp.basepopup.BasePopupWindow;
 import razerdp.basepopup.QuickPopupBuilder;
 import razerdp.basepopup.QuickPopupConfig;
-import razerdp.blur.PopupBlurOption;
 
 
 public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemListener, IIndexItemListener, IndexCameraCheckInstener, IIndexCanReadItemListener,IPlayVideoListener ,IDeleteListener{
@@ -465,13 +463,8 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
 //                        .withShowAnimation(enterAnimation)
 //                        .withDismissAnimation(dismissAnimation)
                         .gravity(gravity)
-                        .blurBackground(true, new BasePopupWindow.OnBlurOptionInitListener() {
-                            @Override
-                            public void onCreateBlurOption(PopupBlurOption option) {
-                                option.setBlurRadius(6)
-                                        .setBlurPreScaleRatio(0.9f);
-                            }
-                        })
+                        .blurBackground(true, option -> option.setBlurRadius(6)
+                                .setBlurPreScaleRatio(0.9f))
                         .withClick(R.id.ll_camera, v1 -> {
                             PhotoDelegate2 delegate = new PhotoDelegate2();
                             mArgs.putInt(PICKTYPE, ALLMODE);

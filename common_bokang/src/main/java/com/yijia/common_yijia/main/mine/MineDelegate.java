@@ -22,7 +22,7 @@ import com.example.yijia.app.AccountManager;
 import com.example.yijia.app.IUserChecker;
 import com.example.yijia.delegates.bottom.BottomItemDelegate;
 import com.yijia.common_yijia.database.YjDatabaseManager;
-import com.yijia.common_yijia.main.friends.FriendsDelegate;
+import com.yijia.common_yijia.main.friends.FriendsDelegate2;
 import com.yijia.common_yijia.main.message.view.fragment.NoticeDelegate;
 import com.yijia.common_yijia.main.mine.personaldata.PersonalDataDelegate;
 import com.yijia.common_yijia.main.mine.setup.SetUpDelegate;
@@ -207,7 +207,7 @@ public class MineDelegate extends BottomItemDelegate {
             getSupportDelegate().start(new SetUpDelegate());
         } else if (i == R.id.my_friends) {
             //我的通讯录
-            getSupportDelegate().start(new FriendsDelegate());
+            getSupportDelegate().start(new FriendsDelegate2());
         } else if (i == R.id.my_life) {
             //生活语录
 

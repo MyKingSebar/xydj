@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
@@ -11,10 +12,10 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
-import com.example.latte.ui.recycler.MultipleItemEntity;
-import com.example.yijia.delegates.LatteDelegate;
 import com.example.latte.ec.R;
 import com.example.latte.ec.R2;
+import com.example.latte.ui.recycler.MultipleItemEntity;
+import com.example.yijia.delegates.LatteDelegate;
 import com.example.yijia.net.rx.BaseObserver;
 import com.example.yijia.net.rx.RxRestClient;
 import com.example.yijia.util.callback.CallbackManager;
@@ -22,10 +23,6 @@ import com.example.yijia.util.callback.CallbackType;
 import com.example.yijia.util.callback.IGlobalCallback;
 import com.yijia.common_yijia.database.YjDatabaseManager;
 import com.yijia.common_yijia.main.index.IIndexItemListener;
-import com.yijia.common_yijia.main.index.YjReFreshHandler;
-import com.yijia.common_yijia.main.index.friendcircle.LetterPeopleAdapter;
-import com.yijia.common_yijia.main.index.friendcircle.LetterPeopleDataConverter;
-import com.yijia.common_yijia.main.index.friendcircle.LetterPeopleDelagate;
 import com.yijia.common_yijia.main.message.NoticeDataConverter;
 import com.yijia.common_yijia.main.message.NoticeFreshHandler;
 import com.yijia.common_yijia.main.message.NoticesAdapter;
@@ -36,6 +33,7 @@ import com.yijia.common_yijia.main.message.view.iview.NoticeView;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -43,6 +41,16 @@ import io.reactivex.schedulers.Schedulers;
  * 通知页面
  */
 public class NoticeDelegate extends LatteDelegate implements NoticeView, IIndexItemListener, OkAddLisener {
+
+    @BindView(R2.id.tv_save)
+    AppCompatTextView tvSave;
+    @BindView(R2.id.tv_title)
+    AppCompatTextView tvTitle;
+    @OnClick(R2.id.tv_back)
+    void back() {
+        getSupportDelegate().pop();
+    }
+
     //    @BindView(R2.id.notice_recycler)
 //    RecyclerView noticeRecycler;
     private NoticePresenter notice_presenter;
@@ -62,6 +70,7 @@ public class NoticeDelegate extends LatteDelegate implements NoticeView, IIndexI
 
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, @NonNull View rootView) {
+        initView();
         initRecycler();
         mRefreshHandler = NoticeFreshHandler.create(mRefreshLayout, rv, null, this, this,this);
         CallbackManager.getInstance()
@@ -71,6 +80,11 @@ public class NoticeDelegate extends LatteDelegate implements NoticeView, IIndexI
                         mRefreshHandler.firstPage();
                     }
                 });
+    }
+
+    private void initView() {
+            tvTitle.setText("我的消息");
+            tvSave.setVisibility(View.GONE);
     }
 
     @Override

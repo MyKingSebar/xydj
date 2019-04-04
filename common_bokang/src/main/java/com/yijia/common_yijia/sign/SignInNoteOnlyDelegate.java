@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatTextView;
 import android.text.Editable;
@@ -14,9 +15,9 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.yijia.delegates.LatteDelegate;
 import com.example.latte.ec.R;
 import com.example.latte.ec.R2;
+import com.example.yijia.delegates.LatteDelegate;
 import com.example.yijia.net.rx.BaseObserver;
 import com.example.yijia.net.rx.RxRestClient;
 import com.example.yijia.util.log.LatteLogger;
@@ -162,11 +163,11 @@ public class SignInNoteOnlyDelegate extends LatteDelegate implements ITimeListen
                 if(!TextUtils.isEmpty(mPhone.getText().toString())&&!TextUtils.isEmpty(mNote.getText().toString())){
                     mLogin.setClickable(true);
                     mLogin.setBackgroundResource(R.mipmap.buttom_login_orange);
-                    mLogin.setTextColor(getResources().getColor(R.color.app_text_orange));
+                    mLogin.setTextColor(ContextCompat.getColor(getContext(),R.color.main_text_orange));
                 }else {
                     mLogin.setClickable(false);
                     mLogin.setBackgroundResource(R.mipmap.buttom_login_gray);
-                    mLogin.setTextColor(getResources().getColor(R.color.app_text_gray));
+                    mLogin.setTextColor(ContextCompat.getColor(getContext(),R.color.main_text_gary_99));
                 }
             }
         };
@@ -189,7 +190,7 @@ public class SignInNoteOnlyDelegate extends LatteDelegate implements ITimeListen
                         mGetNote.setClickable(true);
                         mGetNote.setBackgroundResource(R.mipmap.buttom_logup_getnote_orange);
                         mGetNote.setText("获取验证码");
-                        mGetNote.setTextColor(getResources().getColor(R.color.app_text_orange));
+                        mGetNote.setTextColor(ContextCompat.getColor(getContext(),R.color.app_text_orange));
                     }
                 }
             }
@@ -206,7 +207,7 @@ public class SignInNoteOnlyDelegate extends LatteDelegate implements ITimeListen
 //            mPhoneL.setError(null);
             mCount = 60;
             mGetNote.setClickable(false);
-            mGetNote.setTextColor(getResources().getColor(R.color.app_text_gray));
+            mGetNote.setTextColor(ContextCompat.getColor(getContext(),R.color.app_text_gray));
             mGetNote.setBackgroundResource(R.mipmap.buttom_logup_getnote_gray);
             initTimer();
 

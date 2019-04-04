@@ -7,9 +7,10 @@
     android:layout_height="56dp">
 
     <ImageView
+        android:layout_marginStart="15dp"
         android:id="@+id/userHead"
-        android:layout_width="35dp"
-        android:layout_height="35dp" />
+        android:layout_width="40dp"
+        android:layout_height="40dp" />
 
     <TextView
         android:gravity="center_vertical"

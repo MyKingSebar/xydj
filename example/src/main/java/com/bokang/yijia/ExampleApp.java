@@ -27,6 +27,7 @@ import com.mob.MobSDK;
 import com.simple.spiderman.SpiderMan;
 import com.yijia.common_yijia.database.YjDatabaseManager;
 import com.yijia.common_yijia.icon.FontEcModule;
+import com.yijia.common_yijia.icon.FontYJIndexTopModule;
 import com.yijia.common_yijia.icon.FontYJModule;
 
 import java.io.File;
@@ -81,6 +82,7 @@ public class ExampleApp extends MultiDexApplication {
                 .withIcon(new FontAwesomeModule())
                 .withIcon(new FontEcModule())
                 .withIcon(new FontYJModule())
+                .withIcon(new FontYJIndexTopModule())
                 .withLoaderDelayed(1000)
                 .withApiHost("http://47.104.86.251:8080/")
                 .withInterceptor(new DebugInterceptor("test", R.raw.test))

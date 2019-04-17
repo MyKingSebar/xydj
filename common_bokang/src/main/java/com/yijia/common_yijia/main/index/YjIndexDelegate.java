@@ -59,7 +59,7 @@ import razerdp.basepopup.QuickPopupBuilder;
 import razerdp.basepopup.QuickPopupConfig;
 
 
-public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemListener, IIndexItemListener, IndexCameraCheckInstener, IIndexCanReadItemListener,IPlayVideoListener ,IDeleteListener{
+public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemListener, IIndexItemListener, IndexCameraCheckInstener, IIndexCanReadItemListener, IPlayVideoListener, IDeleteListener {
 
     private final int ALLMODE = 0;
     private final int IMAGEMODE = 1;
@@ -93,10 +93,10 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
     @BindView(R2.id.tv_name)
     AppCompatTextView tv_name = null;
 
-    private SmallCameraLisener mSmallCameraLisener=null;
+    private SmallCameraLisener mSmallCameraLisener = null;
 
-    public void setSmallCameraLisener(SmallCameraLisener mSmallCameraLisener){
-        this.mSmallCameraLisener=mSmallCameraLisener;
+    public void setSmallCameraLisener(SmallCameraLisener mSmallCameraLisener) {
+        this.mSmallCameraLisener = mSmallCameraLisener;
     }
 
     private YjReFreshHandler mRefreshHandler = null;
@@ -134,7 +134,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
 
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, View rootView) {
-        mRefreshHandler = YjReFreshHandler.create(mRefreshLayout, mRecyclerView, null, this, this, this,this,this);
+        mRefreshHandler = YjReFreshHandler.create(mRefreshLayout, mRecyclerView, null, this, this, this, this, this);
         CallbackManager.getInstance()
                 .addCallback(CallbackType.ON_SCAN, new IGlobalCallback<String>() {
                     @Override
@@ -168,15 +168,12 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
             @Override
             public void onStateChanged(AppBarLayout appBarLayout, State state) {
                 if (state == State.EXPANDED) {
-
                     //展开状态
                     mToolbar.setVisibility(View.GONE);
                 } else if (state == State.COLLAPSED) {
-
                     //折叠状态
                     mToolbar.setVisibility(View.VISIBLE);
                 } else {
-
                     //中间状态
                     mToolbar.setVisibility(View.GONE);
                 }
@@ -472,7 +469,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
                             getParentDelegate().getSupportDelegate().start(delegate);
                         }, true)
                         .withClick(R.id.ll_vodeo, v1 -> {
-                            if(mSmallCameraLisener!=null){
+                            if (mSmallCameraLisener != null) {
                                 mSmallCameraLisener.go();
                             }
 //                            Intent intent=new Intent(getActivity(), CameraActivity.class);
@@ -514,9 +511,10 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
         delegate.setArguments(mArgs);
         getParentDelegate().getSupportDelegate().start(delegate);
     }
+
     @Override
     public void delete(long id) {
-        JDialogUtil.INSTANCE.showRxDialogSureCancel(getContext(),"",0,"确认删除？", new RxDialogSureCancelListener() {
+        JDialogUtil.INSTANCE.showRxDialogSureCancel(getContext(), "", 0, "确认删除？", new RxDialogSureCancelListener() {
             @Override
             public void RxDialogSure() {
                 JDialogUtil.INSTANCE.dismiss();
@@ -531,7 +529,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
 
     }
 
-    private void deletego(long id){
+    private void deletego(long id) {
         JDialogUtil.INSTANCE.showRxDialogShapeLoading(getContext());
         final String url = "/circle/delete_circle";
         String token = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getYjtk();

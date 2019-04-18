@@ -136,12 +136,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
     public void onBindView(@Nullable Bundle savedInstanceState, View rootView) {
         mRefreshHandler = YjReFreshHandler.create(mRefreshLayout, mRecyclerView, null, this, this, this, this, this);
         CallbackManager.getInstance()
-                .addCallback(CallbackType.ON_SCAN, new IGlobalCallback<String>() {
-                    @Override
-                    public void executeCallback(@Nullable String args) {
-                        Toast.makeText(getContext(), args, Toast.LENGTH_LONG).show();
-                    }
-                });
+                .addCallback(CallbackType.ON_SCAN, (IGlobalCallback<String>) args -> Toast.makeText(getContext(), args, Toast.LENGTH_LONG).show());
 
         this.registerForContextMenu(mSend);
 //        mSend.setOnCreateContextMenuListener(this);

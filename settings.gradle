@@ -7,5 +7,6 @@ include ':example', ':common_tencent_tuikit', ':mobshareplatform', ':baidutext',
         //代替pictureselect
         ':picture_library',':ucrop',
         ':camera1.1.9',
-        ':ocr_ui'
+        ':ocr_ui',
+        ':ui_magicindicator'
 

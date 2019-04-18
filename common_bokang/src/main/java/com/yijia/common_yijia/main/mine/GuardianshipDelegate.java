@@ -112,10 +112,13 @@ public class GuardianshipDelegate extends LatteDelegate implements GuardianshipL
     }
 
     private void getGuardianshipInfo(String token, int type) {
-        String url = "guardianship/query_guardianship/";
+        String url = "query_guardianship/";
         RxRestClient.builder()
                 .url(url + type)
                 .params("yjtk", token)
+                .params("queryType", 3)
+                .params("pageNo", 1)
+                .params("pageSize", 100)
                 .build()
                 .get()
                 .subscribeOn(Schedulers.io())

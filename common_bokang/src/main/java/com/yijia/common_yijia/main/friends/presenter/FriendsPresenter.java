@@ -71,7 +71,7 @@ public class FriendsPresenter extends BasePresenter<FriendsView> {
 
     @SuppressLint("CheckResult")
     public void reqGuardianData(String token) {
-        String url = "/guardianship/query_guardianship/"+3;
+        String url = "/query_guardianship/"+3;
         RxRestClient.builder()
                 .url(url)
                 .params("yjtk", token)

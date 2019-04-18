@@ -1,4 +1,4 @@
-package com.yijia.common_yijia.main.index;
+package com.yijia.common_yijia.main.robot;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -6,10 +6,12 @@ import com.alibaba.fastjson.JSONObject;
 import com.example.latte.ui.recycler.DataConverter;
 import com.example.latte.ui.recycler.MultipleFields;
 import com.example.latte.ui.recycler.MultipleItemEntity;
+import com.yijia.common_yijia.main.index.YjIndexItemType;
+import com.yijia.common_yijia.main.index.YjIndexMultipleFields;
 
 import java.util.ArrayList;
 
-public class GuardianshipDataConverter extends DataConverter {
+public class RobotGuardianshipDataConverter extends DataConverter {
 
     @Override
     public ArrayList<MultipleItemEntity> convert() {
@@ -36,7 +38,7 @@ public class GuardianshipDataConverter extends DataConverter {
 
 
             final MultipleItemEntity entity = MultipleItemEntity.builder()
-                    .setField(MultipleFields.ITEM_TYPE, YjIndexItemType.GUARDUABSHIPLIST_ITEM)
+                    .setField(MultipleFields.ITEM_TYPE, YjIndexItemType.ROBOTGUARDUABSHIP_ITEM)
                     .setField(MultipleFields.ID, friendUserId)
                     .setField(MultipleFields.TENCENTIMUSERID, tencentImUserId)
                     .setField(MultipleFields.IMAGE_URL, headImage)

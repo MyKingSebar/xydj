@@ -1,11 +1,10 @@
-package com.yijia.common_yijia.main.robot;
+package com.yijia.common_yijia.main.robot.robotmain;
 
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
@@ -21,18 +20,8 @@ import com.example.yijia.net.rx.RxRestClient;
 import com.example.yijia.ui.dialog.JDialogUtil;
 import com.example.yijia.util.log.LatteLogger;
 import com.google.gson.Gson;
-import com.yijia.common_yijia.database.YjDatabaseManager;
 import com.yijia.common_yijia.main.friends.CommonClickListener;
-import com.yijia.common_yijia.main.index.GuardianshipDataConverter;
-import com.yijia.common_yijia.main.index.IDeleteListener;
-import com.yijia.common_yijia.main.index.IIndexCanReadItemListener;
-import com.yijia.common_yijia.main.index.IIndexItemListener;
-import com.yijia.common_yijia.main.index.IPlayVideoListener;
-import com.yijia.common_yijia.main.index.YjIndexAdapter;
-import com.yijia.common_yijia.main.index.YjIndexDataConverter;
 import com.yijia.common_yijia.main.index.YjIndexMultipleFields;
-import com.yijia.common_yijia.main.mine.GuardianshipAdapter;
-import com.yijia.common_yijia.main.mine.GuardianshipDelegate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +46,6 @@ public class RobotGuardianshipReFreshHandler extends RefreshHandler {
 
     public static RobotGuardianshipReFreshHandler create(SwipeRefreshLayout swipeRefreshLayout,
                                                          RecyclerView recyclerView, DataConverter converter, LatteDelegate delegate,CommonClickListener mCommonClickListener,String yjyk) {
-
         return new RobotGuardianshipReFreshHandler(swipeRefreshLayout, recyclerView, converter, new PagingBean(),delegate,mCommonClickListener,yjyk);
     }
 

@@ -10,7 +10,7 @@ import com.example.yijia.delegates.bottom.ItemBuilder;
 import com.yijia.common_yijia.main.find.FindDelegate;
 import com.yijia.common_yijia.main.index.YjIndexDelegate;
 import com.yijia.common_yijia.main.index.friendcircle.smallvideo.SmallCameraLisener;
-import com.yijia.common_yijia.main.robot.RobotMainDelegate;
+import com.yijia.common_yijia.main.robot.robotmain.RobotMainDelegate;
 
 import java.util.LinkedHashMap;
 

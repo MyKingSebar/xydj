@@ -1,4 +1,4 @@
-package com.yijia.common_yijia.main.robot;
+package com.yijia.common_yijia.main.robot.robotmain;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;

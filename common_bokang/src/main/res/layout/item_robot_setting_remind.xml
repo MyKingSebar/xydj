@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cl"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/white"
+    android:paddingStart="15dp"
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="130dp">
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="13dp"
+        android:textColor="@color/main_text_black_46"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="妈妈的小壹" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tv_d_liveness"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="今日活跃度"
+        android:textColor="@color/main_text_black_46"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_name" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tv_liveness"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="11dp"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/main_text_black_46"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@+id/tv_d_liveness"
+        app:layout_constraintTop_toBottomOf="@+id/tv_name"
+        tools:text="每天 8:00～9:00" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tv_liveness2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="24dp"
+        android:textColor="@color/main_text_gary_99"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_d_liveness"
+        tools:text="在设置时间段，小壹会主动询问用户是否播放该娱乐内容" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tv_liveness3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="6dp"
+        android:background="@mipmap/button_robot_setting_remind_swtich"
+        android:textColor="@color/main_text_black_46"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/tv_liveness2"
+        app:layout_constraintEnd_toEndOf="parent" />
+</android.support.constraint.ConstraintLayout>

@@ -1,4 +1,4 @@
-package com.yijia.common_yijia.main.robot;
+package com.yijia.common_yijia.main.robot.robotmain;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -58,6 +58,15 @@ public class RobotGuardianshipDelegate extends LatteDelegate implements CommonCl
 
     @Override
     public void commonClick(String info) {
-
+        RobotHisRobotDelegate mDelegate=new RobotHisRobotDelegate();
+        Bundle bundle=new Bundle();
+        long id=Long.parseLong(info);
+        if(id==0){
+            showToast("网络异常id=0");
+            return;
+        }
+        bundle.putLong(RobotHisRobotDelegate.USERID,id);
+        mDelegate.setArguments(bundle);
+        getParentDelegate().getSupportDelegate().start(mDelegate);
     }
 }

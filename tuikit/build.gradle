@@ -59,7 +59,7 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.5.2'
     //    implementation 'com.github.promeg:tinypinyin:1.0.0' // ~80KB
     //    implementation(name: 'imsdk_4.0.0.1', ext: 'aar')
-    api 'com.tencent.imsdk:imsdk:4.0.0.1'
+    api 'com.tencent.imsdk:imsdk:4.2.52'
     annotationProcessor 'com.jakewharton:butterknife-compiler:9.0.0-rc2'
 }
 

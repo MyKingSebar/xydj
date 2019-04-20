@@ -13,10 +13,11 @@ import com.tencent.imsdk.TIMConversationType;
 import com.tencent.imsdk.TIMCustomElem;
 import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMMessage;
-import com.tencent.qcloud.uikit.business.chat.bokang.BokangChatListener;
-import com.tencent.qcloud.uikit.business.chat.bokang.BokangChatManager;
+import com.tencent.qcloud.bokang.BokangChatListener;
+import com.tencent.qcloud.bokang.BokangChatManager;
 import com.tencent.qcloud.uikit.business.chat.model.MessageInfoUtil;
 import com.yijia.common_yijia.database.YjDatabaseManager;
+import com.yijia.common_yijia.main.message.trtc2.TRTCMainActivity2;
 
 /**
  * @author JiaLei, Email 15033111957@163.com, Date on 2019/2/27.
@@ -76,7 +77,7 @@ public class CallWaitingActivity extends Activity implements BokangChatListener,
             }
             String sig = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getTencentImUserSig();
             String userId = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getTencentImUserId();
-            final Intent intent = new Intent(this, TRTCMainActivity.class);
+            final Intent intent = new Intent(this, TRTCMainActivity2.class);
             intent.putExtra("roomId", roomId);
             intent.putExtra("userId", userId);
             intent.putExtra("sdkAppId", TrtcConfig.SDKAPPID);

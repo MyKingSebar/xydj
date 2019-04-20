@@ -28,7 +28,7 @@ android {
     repositories{
 
         flatDir{
-            dirs 'libs', '/../tencent_trtc_sdk/libs'
+            dirs 'libs', '/../tencent_trtc_sdk/libs','/../tuikit4.2.52/libs'
         }
     }
     lintOptions{

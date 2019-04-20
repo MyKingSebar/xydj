@@ -5,26 +5,20 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.AppCompatTextView;
-import android.view.View;
 import android.widget.Toast;
 
 import com.bokang.tencent_trtc_sdk.TrtcConfig;
 import com.example.latte.ec.R;
-import com.example.latte.ec.R2;
 import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMConversationType;
 import com.tencent.imsdk.TIMCustomElem;
-import com.tencent.imsdk.TIMElemType;
 import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMMessage;
-import com.tencent.imsdk.TIMMessageListener;
-import com.tencent.imsdk.conversation.MessageListener;
-import com.tencent.qcloud.uikit.business.chat.bokang.BokangChatListener;
-import com.tencent.qcloud.uikit.business.chat.bokang.BokangChatManager;
+import com.tencent.qcloud.bokang.BokangChatListener;
+import com.tencent.qcloud.bokang.BokangChatManager;
 import com.tencent.qcloud.uikit.business.chat.model.MessageInfoUtil;
 import com.yijia.common_yijia.database.YjDatabaseManager;
-
-import java.util.List;
+import com.yijia.common_yijia.main.message.trtc2.TRTCMainActivity2;
 
 /**
  * @author JiaLei, Email 15033111957@163.com, Date on 2019/2/27.
@@ -93,7 +87,7 @@ public class CalledWaitingActivity extends Activity implements BoKangSendMessage
             bokangSendMessageUtil.sendMessage(bokangSendMessageUtil.buildBokangMessage(MessageInfoUtil.BOKANG_VIDEO_CONNECT));
             String sig = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getTencentImUserSig();
             String userId = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getTencentImUserId();
-            final Intent intent = new Intent(CalledWaitingActivity.this, TRTCMainActivity.class);
+            final Intent intent = new Intent(CalledWaitingActivity.this, TRTCMainActivity2.class);
             intent.putExtra("roomId", roomid);
             intent.putExtra("userId", userId);
             intent.putExtra("sdkAppId", TrtcConfig.SDKAPPID);

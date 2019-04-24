@@ -11,6 +11,7 @@ import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.TIMMessageListener;
 import com.tencent.imsdk.ext.message.TIMConversationExt;
+import com.tencent.imsdk.ext.message.TIMMessageExt;
 import com.tencent.imsdk.log.QLog;
 import com.tencent.qcloud.uikit.business.chat.c2c.model.C2CChatInfo;
 import com.tencent.qcloud.uikit.business.chat.c2c.model.C2CChatProvider;
@@ -102,6 +103,21 @@ public class BokangChatManager implements TIMMessageListener{
                     if (data.equals(MessageInfoUtil.BOKANG)) {
                         if(mBokangChatListener!=null){
                             mBokangChatListener.newBokangMessage(customElem,conversation);
+                            TIMConversationExt conExt = new TIMConversationExt(conversation);
+                            conExt.setReadMessage(null, new TIMCallBack() {
+                                @Override
+                                public void onError(int code, String desc) {
+                                    Log.e("~~~", "setReadMessage failed, code: " + code + "|desc: " + desc);
+                                }
+
+                                @Override
+                                public void onSuccess() {
+                                    Log.d("~~~", "setReadMessage succ");
+                                }
+                            });
+                            TIMMessageExt msgExt = new TIMMessageExt(msg);
+                            msgExt.remove();
+//        Log.e("~~TIMService dm:", msgExt.remove() + "");
                         }
                         Log.d("jialei","bokang自定义消息接收:"+new String(customElem.getExt()));
                     }

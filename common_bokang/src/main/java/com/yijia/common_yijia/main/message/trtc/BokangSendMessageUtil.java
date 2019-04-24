@@ -73,7 +73,11 @@ public class BokangSendMessageUtil {
                 Log.e("jialei","BokangSendMessageUtil.onSuccess:");
                 if(messageListener!=null){
                     messageListener.messageSuccess(timMessage);
+
                 }
+                //发送后删除
+                TIMMessageExt msgExt = new TIMMessageExt(timMessage);
+                msgExt.remove();
 
 
             }

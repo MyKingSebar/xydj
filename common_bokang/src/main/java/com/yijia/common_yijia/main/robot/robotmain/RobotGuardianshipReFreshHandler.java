@@ -42,6 +42,7 @@ public class RobotGuardianshipReFreshHandler extends RefreshHandler {
       private final CommonClickListener mCommonClickListener;
       private final String token;
       private final int TYPE=2;
+      private final int PAGESIZE=20;
 
 
     public static RobotGuardianshipReFreshHandler create(SwipeRefreshLayout swipeRefreshLayout,
@@ -54,13 +55,13 @@ public class RobotGuardianshipReFreshHandler extends RefreshHandler {
         firstPage();
     }
     public void firstPage() {
-        String url = "/query_guardianship/";
+        String url = "guardianship/query_guardianship/"+TYPE+"/"+1+"/"+PAGESIZE;
         RxRestClient.builder()
-                .url(url + TYPE)
+                .url(url)
                 .params("yjtk", token)
-                .params("queryType", 3)
-                .params("pageNo", 1)
-                .params("pageSize", 20)
+//                .params("queryType", 2)
+//                .params("pageNo", 1)
+//                .params("pageSize", 20)
                 .build()
                 .get()
                 .subscribeOn(Schedulers.io())
@@ -68,9 +69,14 @@ public class RobotGuardianshipReFreshHandler extends RefreshHandler {
                 .subscribe(new BaseObserver<String>(Latte.getApplicationContext()) {
                     @Override
                     public void onResponse(String response) {
-                        final String status = JSON.parseObject(response).getString("status");
+                        final JSONObject object = JSON.parseObject(response);
+                        final String status =object.getString("status");
                         Log.e("jialei","query_guardianship"+new Gson().toJson(response));
                         if (TextUtils.equals(status, "1001")) {
+                            final JSONObject jsondata = object.getJSONObject("data");
+                            final int totalCount = jsondata.getInteger("totalCount");
+                            BEAN.setTotal(totalCount)
+                                    .setPageSize(20).setPageIndex(1);
                             List<MultipleItemEntity> data  = new RobotGuardianshipDataConverter()
                                     .setJsonData(response)
                                     .convert();
@@ -80,9 +86,6 @@ public class RobotGuardianshipReFreshHandler extends RefreshHandler {
                             final LinearLayoutManager manager = new LinearLayoutManager(Latte.getApplicationContext());
                             RECYCLERVIEW.setLayoutManager(manager);
                             RECYCLERVIEW.setAdapter(mAdapter);
-                            if(data.size()>0){
-                                BEAN.setBeginCircleId(data.get(data.size()-1).getField(YjIndexMultipleFields.CIRCLEID));
-                            }
                             BEAN.addIndex();
                             REFRESH_LAYOUT.setRefreshing(false);
                         } else {
@@ -106,7 +109,6 @@ public class RobotGuardianshipReFreshHandler extends RefreshHandler {
         final int currentCount = BEAN.getCurrentCount();
         final int total = BEAN.getTotal();
         final int index = BEAN.getPageIndex();
-        final int BeginCircleId = BEAN.getBeginCircleId();
         if(index<=1){
             return;
         }
@@ -114,13 +116,13 @@ public class RobotGuardianshipReFreshHandler extends RefreshHandler {
         if (mAdapter.getData().size() < pageSize || currentCount >= total) {
             mAdapter.loadMoreEnd(true);
         } else {
-            String url = "query_guardianship/";
+            String url = "query_guardianship/"+TYPE+"/"+index+"/"+PAGESIZE;
             RxRestClient.builder()
-                    .url(url + TYPE)
+                    .url(url)
                     .params("yjtk", token)
-                    .params("queryType", 3)
-                    .params("pageNo", index)
-                    .params("pageSize", 20)
+//                    .params("queryType", 2)
+//                    .params("pageNo", index)
+//                    .params("pageSize", 20)
                     .build()
                     .post()
                     .subscribeOn(Schedulers.io())
@@ -140,13 +142,13 @@ public class RobotGuardianshipReFreshHandler extends RefreshHandler {
                                 }
                                 final int totalCount = jsondata.getInteger("totalCount");
                                 BEAN.setTotal(totalCount)
-                                        .setPageSize(20);
+                                        .setPageSize(pageSize);
                                 final ArrayList<MultipleItemEntity> data =
                                         new RobotGuardianshipDataConverter()
                                                 .setJsonData(response)
                                                 .convert();
                                 if(data.size()>0){
-                                    BEAN.setBeginCircleId(data.get(data.size()-1).getField(YjIndexMultipleFields.CIRCLEID));
+
                                 }else {
                                     mAdapter.loadMoreEnd(true);
                                     REFRESH_LAYOUT.setRefreshing(false);

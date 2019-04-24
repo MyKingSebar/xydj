@@ -358,6 +358,10 @@ public class ChatBottomInputGroup extends LinearLayout implements View.OnClickLi
         this.msgHandler = handler;
     }
 
+    public MessageHandler getMsgHandler() {
+        return msgHandler ;
+    }
+
 
     @Override
     public void onClick(View view) {

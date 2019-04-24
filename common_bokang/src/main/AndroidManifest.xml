@@ -22,6 +22,11 @@
             android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait" />
         <activity
+            android:name="com.yijia.common_yijia.main.message.trtc2.TRTCMainActivity3"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait" />
+        <activity
             android:name="com.yijia.common_yijia.main.message.trtc.CallWaitingActivity"
             android:launchMode="singleTask"
             android:windowSoftInputMode="adjustPan"

@@ -69,36 +69,36 @@ public class FriendsPresenter extends BasePresenter<FriendsView> {
         });
     }
 
-    @SuppressLint("CheckResult")
-    public void reqGuardianData(String token) {
-        String url = "/query_guardianship/"+3;
-        RxRestClient.builder()
-                .url(url)
-                .params("yjtk", token)
-//                .params("type", 3)
-                .build()
-                .get()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<String>() {
-                    @Override
-                    public void accept(String response) throws Exception {
-                        final JSONObject object = JSON.parseObject(response);
-                        final String status = object.getString("status");
-                        if (TextUtils.equals(status, "1001")) {
-                            final JSONObject data = object.getJSONObject("data");
-                            final JSONArray guardianUserList = data.getJSONArray("guardianUserList");
-                            final JSONArray oldMapUserList = data.getJSONArray("oldMapUserList");
-                            getView().respGuardianSuccess(guardianUserList, oldMapUserList);
-                        } else {
-                            getView().respGuardianError("请求监护人错误");
-                        }
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        getView().respGuardianError(throwable.getMessage());
-                    }
-                });
-    }
+//    @SuppressLint("CheckResult")
+//    public void reqGuardianData(String token) {
+//        String url = "/query_guardianship/"+3;
+//        RxRestClient.builder()
+//                .url(url)
+//                .params("yjtk", token)
+////                .params("type", 3)
+//                .build()
+//                .get()
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Consumer<String>() {
+//                    @Override
+//                    public void accept(String response) throws Exception {
+//                        final JSONObject object = JSON.parseObject(response);
+//                        final String status = object.getString("status");
+//                        if (TextUtils.equals(status, "1001")) {
+//                            final JSONObject data = object.getJSONObject("data");
+//                            final JSONArray guardianUserList = data.getJSONArray("guardianUserList");
+//                            final JSONArray oldMapUserList = data.getJSONArray("oldMapUserList");
+//                            getView().respGuardianSuccess(guardianUserList, oldMapUserList);
+//                        } else {
+//                            getView().respGuardianError("请求监护人错误");
+//                        }
+//                    }
+//                }, new Consumer<Throwable>() {
+//                    @Override
+//                    public void accept(Throwable throwable) throws Exception {
+//                        getView().respGuardianError(throwable.getMessage());
+//                    }
+//                });
+//    }
 }

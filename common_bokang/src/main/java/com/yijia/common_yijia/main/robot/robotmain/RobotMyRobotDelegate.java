@@ -1,5 +1,6 @@
 package com.yijia.common_yijia.main.robot.robotmain;
 
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -29,10 +30,17 @@ import com.example.yijia.delegates.bottom.BottomItemDelegate;
 import com.example.yijia.net.rx.BaseObserver;
 import com.example.yijia.net.rx.RxRestClient;
 import com.example.yijia.ui.TextViewUtils;
+import com.tencent.imsdk.TIMConversationType;
+import com.tencent.imsdk.TIMManager;
+import com.tencent.imsdk.TIMMessage;
+import com.tencent.qcloud.uikit.business.chat.model.MessageInfoUtil;
 import com.yijia.common_yijia.database.YjDatabaseManager;
 import com.yijia.common_yijia.main.message.MessageTabPagerAdapter;
 import com.yijia.common_yijia.main.message.NoticeDataConverter;
 import com.yijia.common_yijia.main.message.NoticesAdapter;
+import com.yijia.common_yijia.main.message.trtc.BoKangSendMessageListener;
+import com.yijia.common_yijia.main.message.trtc.BokangSendMessageUtil;
+import com.yijia.common_yijia.main.message.trtc.CallWaitingActivity;
 import com.yijia.common_yijia.main.robot.setting.remind.RobotRemindSettingDelegate;
 
 import java.util.Arrays;
@@ -49,6 +57,10 @@ public class RobotMyRobotDelegate extends LatteDelegate {
     String token = null;
     long userId=0;
     boolean isOnline=false;
+
+    String testChatId="ee5ef61d9c2c4ed0905860c568501855";
+
+    BokangSendMessageUtil bokangSendMessageUtil=null;
 
     @Override
     public Object setLayout() {
@@ -79,7 +91,7 @@ public class RobotMyRobotDelegate extends LatteDelegate {
         tvRemind.setOnClickListener(v -> {
             //TODO 提醒设置
             if(checkRobotLogin()){
-                RobotHisRobotDelegate mDelegate=new RobotHisRobotDelegate();
+                RobotRemindSettingDelegate mDelegate=new RobotRemindSettingDelegate();
                 Bundle bundle=new Bundle();
                 if(userId==0){
                     showToast("网络异常id=0");
@@ -98,11 +110,32 @@ public class RobotMyRobotDelegate extends LatteDelegate {
         tvGuardianship.setOnClickListener(v -> {
             //TODO 远程看护
             checkRobotLogin();
+            final Intent intent2 = new Intent(getContext(), CallWaitingActivity.class);
+            int userId = (YjDatabaseManager.getInstance().getDao().loadAll().get(0).getId()).intValue();
+            intent2.putExtra("roomid",userId);
+            intent2.putExtra("chatId",testChatId);
+            intent2.putExtra(CallWaitingActivity.TYPE_KEY,CallWaitingActivity.TYPE_VIDEO);
+            getActivity().startActivity(intent2);
+            bokangSendMessageUtil.sendOnLineMessage(bokangSendMessageUtil.buildBokangMessage(MessageInfoUtil.BOKANG_VIDEO_WAIT,userId+""));
         });
         tvHealth.setOnClickListener(v -> {
             //TODO 健康记录
             checkRobotLogin();
         });
+
+        bokangSendMessageUtil = new BokangSendMessageUtil(TIMManager.getInstance().getConversation(TIMConversationType.C2C, testChatId), new BoKangSendMessageListener() {
+            @Override
+            public void messageSuccess(TIMMessage timMessage) {
+
+            }
+
+            @Override
+            public void messageError(int code, String desc) {
+
+            }
+        }, getContext());
+
+
     }
     private boolean checkRobotLogin(){
         if(isOnline){

@@ -5,6 +5,7 @@ import android.graphics.drawable.AnimationDrawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -94,6 +95,7 @@ public class ChatAdapter extends IChatAdapter {
 
         LayoutInflater inflater = LayoutInflater.from(TUIKit.getAppContext());
         RecyclerView.ViewHolder holder = new ChatTextHolder(inflater.inflate(R.layout.chat_adapter_text, parent, false));
+        Log.d("jialei","onCreateViewHolder:viewType:"+viewType);
         switch (viewType) {
             case MessageInfo.MSG_TYPE_TEXT:
                 holder = new ChatTextHolder(inflater.inflate(R.layout.chat_adapter_text, parent, false));

@@ -16,7 +16,7 @@ import java.util.List;
  * Created by valexhuang on 2018/7/17.
  */
 
-public class C2CChatProvider implements IChatProvider {
+public class C2CChatProvider2 implements IChatProvider {
 
     private ArrayList<MessageInfo> dataSource = new ArrayList();
 

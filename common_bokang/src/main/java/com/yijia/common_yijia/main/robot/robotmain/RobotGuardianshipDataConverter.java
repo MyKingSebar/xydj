@@ -16,7 +16,7 @@ public class RobotGuardianshipDataConverter extends DataConverter {
     @Override
     public ArrayList<MultipleItemEntity> convert() {
         final JSONObject dataObject = JSON.parseObject(getJsonData()).getJSONObject("data");
-        final JSONArray guardianUserList = dataObject.getJSONArray("guardianUserList");
+        final JSONArray guardianUserList = dataObject.getJSONArray("userList");
         final int size = guardianUserList.size();
         for (int i = 0; i < size; i++) {
             final JSONObject data = guardianUserList.getJSONObject(i);

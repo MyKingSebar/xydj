@@ -1,4 +1,4 @@
-package com.yijia.common_yijia.main.message.trtc;
+package com.yijia.common_yijia.main.message.trtc2;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -18,7 +18,6 @@ import com.tencent.qcloud.uikit.common.component.titlebar.PageTitleBar;
  */
 
 public class GroupChatFragment2 extends LatteDelegate {
-    private View mBaseView;
     private GroupChatPanel chatPanel;
     private PageTitleBar chatTitleBar;
     private String groupChatId;
@@ -30,13 +29,12 @@ public class GroupChatFragment2 extends LatteDelegate {
 
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, @NonNull View rootView) {
-        initView();
+        initView(rootView);
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-//        mBaseView = inflater.inflate(R.layout.chat_fragment_group, container, false);
         Bundle datas = getArguments();
         //由会话列表传入的会话ID（群组ID）
         groupChatId = datas.getString(Constants.INTENT_DATA);
@@ -45,9 +43,9 @@ public class GroupChatFragment2 extends LatteDelegate {
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
-    private void initView() {
+    private void initView(View rootView){
         //从布局文件中获取聊天面板组件
-        chatPanel = mBaseView.findViewById(R.id.chat_panel);
+        chatPanel = rootView.findViewById(R.id.chat_panel);
         //单聊组件的默认UI和交互初始化
         chatPanel.initDefault();
         /*
@@ -60,12 +58,7 @@ public class GroupChatFragment2 extends LatteDelegate {
         //获取标题栏
         chatTitleBar = chatPanel.getTitleBar();
         //设置标题栏的返回按钮点击事件,需开发者自行控制
-        chatTitleBar.setLeftClick(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getActivity().finish();
-            }
-        });
+        chatTitleBar.setLeftClick(view -> getSupportDelegate().pop());
 
     }
 

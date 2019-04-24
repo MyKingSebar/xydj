@@ -26,8 +26,9 @@ import com.yijia.common_yijia.database.YjDatabaseManager;
 import com.yijia.common_yijia.main.friends.adapter.MyFriendsAdapter;
 import com.yijia.common_yijia.main.friends.bean.FriendsBean;
 import com.yijia.common_yijia.main.friends.presenter.FriendsPresenter;
+import com.yijia.common_yijia.main.friends.view.fragment.AddFriendsDelegate;
 import com.yijia.common_yijia.main.friends.view.iview.FriendsView;
-import com.yijia.common_yijia.main.message.trtc.PersonalChatFragment2;
+import com.yijia.common_yijia.main.message.trtc2.PersonalChatFragment2;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,7 +80,8 @@ public class FriendsDelegate2 extends LatteDelegate implements  FriendsView ,Com
 
     private void initView() {
         tvTitle.setText("我的通讯录");
-        tvSave.setVisibility(View.GONE);
+        tvSave.setVisibility(View.VISIBLE);
+        tvSave.setOnClickListener(v -> getSupportDelegate().start(new AddFriendsDelegate()));
     }
 
     @Override
@@ -195,4 +197,6 @@ public class FriendsDelegate2 extends LatteDelegate implements  FriendsView ,Com
                     }
                 });
     }
+
+
 }

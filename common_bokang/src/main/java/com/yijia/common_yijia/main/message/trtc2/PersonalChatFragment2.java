@@ -1,4 +1,4 @@
-package com.yijia.common_yijia.main.message.trtc;
+package com.yijia.common_yijia.main.message.trtc2;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,40 +11,53 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.common_tencent_tuikit.Constants;
-import com.example.common_tencent_tuikit.R;
 import com.example.common_tencent_tuikit.chat.title_bottom.ChatTitieBottomAdapter;
 import com.example.common_tencent_tuikit.chat.title_bottom.TitleBottomChildType;
 import com.example.common_tencent_tuikit.chat.title_bottom.TitleBottomItemListener;
 import com.example.common_tencent_tuikit.chat.title_bottom.TitleBottomPersonalChatDataConverter;
-import com.example.yijia.delegates.LatteDelegate;
+import com.example.latte.ec.R;
 import com.example.latte.ui.recycler.MultipleItemEntity;
+import com.example.yijia.delegates.LatteDelegate;
 import com.tencent.imsdk.TIMConversationType;
+import com.tencent.imsdk.TIMFriendshipManager;
 import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMMessage;
+import com.tencent.imsdk.TIMUserProfile;
+import com.tencent.imsdk.TIMValueCallBack;
 import com.tencent.qcloud.uikit.business.chat.c2c.view.C2CChatPanel;
 import com.tencent.qcloud.uikit.business.chat.model.MessageInfoUtil;
 import com.tencent.qcloud.uikit.business.chat.view.ChatBottomInputGroup;
 import com.tencent.qcloud.uikit.common.component.titlebar.PageTitleBar;
 import com.yijia.common_yijia.database.YjDatabaseManager;
+import com.yijia.common_yijia.main.message.trtc.BoKangSendMessageListener;
+import com.yijia.common_yijia.main.message.trtc.BokangSendMessageUtil;
+import com.yijia.common_yijia.main.message.trtc.CallWaitingActivity;
 
 import java.util.ArrayList;
+import java.util.List;
 
+/**
+ * Created by valxehuang on 2018/7/30.
+ */
 
-public class PersonalChatFragment extends LatteDelegate {
-    private View mBaseView;
+public class PersonalChatFragment2 extends LatteDelegate {
+    private String TAG="PersonalChatFragment2";
     private C2CChatPanel chatPanel;
     private PageTitleBar chatTitleBar;
-        private ChatBottomInputGroup mInputGroup;
-        private ChatBottomInputGroup.MessageHandler mMsgHandler;
     private String chatId;
 
-    BokangSendMessageUtil  bokangSendMessageUtil=null;
+    private TextView cpTitle,cpRingt,cpLeft;
 
-    private RecyclerView mRecycleView = null;
-    private ChatTitieBottomAdapter mChatTitieBottomAdapter = null;
-    private TitleBottomItemListener mTitleBottomItemListener = null;
+    private RecyclerView mRecycleView=null;
+    private ChatTitieBottomAdapter mChatTitieBottomAdapter=null;
+    private TitleBottomItemListener mTitleBottomItemListener=null;
+    private ChatBottomInputGroup mInputGroup;
+    private ChatBottomInputGroup.MessageHandler mMsgHandler;
+    BokangSendMessageUtil bokangSendMessageUtil=null;
+
 
     @Override
     public Object setLayout() {
@@ -54,29 +67,46 @@ public class PersonalChatFragment extends LatteDelegate {
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, @NonNull View rootView) {
         initView(rootView);
+        initView2(rootView);
+
+    }
+
+    private void initView2(View rootView) {
+        if(chatId==null){
+            return;
+        }
+        List<String> users = new ArrayList<String>();
+        users.add(chatId);
+        TIMFriendshipManager.getInstance().getUsersProfile(users, false, new TIMValueCallBack<List<TIMUserProfile>>() {
+            @Override
+            public void onError(int code, String desc){
+                //错误码 code 和错误描述 desc，可用于定位请求失败原因
+                //错误码 code 列表请参见错误码表
+                Log.e(TAG, "getUsersProfile failed: " + code + " desc");
+            }
+
+            @Override
+            public void onSuccess(List<TIMUserProfile> timUserProfiles) {
+                for(TIMUserProfile res : timUserProfiles){
+                    cpTitle.setText(res.getNickName());
+                    Log.e(TAG, "identifier: " + res.getIdentifier() + " nickName: " + res.getNickName());
+                }
+            }
+        });
     }
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         Bundle datas = getArguments();
         //由会话列表传入的会话ID
         chatId = datas.getString(Constants.INTENT_DATA);
         return super.onCreateView(inflater, container, savedInstanceState);
+//        return mBaseView;
     }
 
-    //    @Nullable
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-//        mBaseView = inflater.inflate(R.layout.chat_fragment_personal, container, false);
-//        Bundle datas = getArguments();
-//        //由会话列表传入的会话ID
-//        chatId = datas.getString(Constants.INTENT_DATA);
-//        return mBaseView;
-//    }
 
-
-    private void initView(View rootView) {
+    private void initView(View rootView){
 
         //从布局文件中获取聊天面板组件
         chatPanel = rootView.findViewById(R.id.chat_panel);
@@ -92,26 +122,27 @@ public class PersonalChatFragment extends LatteDelegate {
         chatTitleBar = chatPanel.getTitleBar();
         //单聊面板标记栏返回按钮点击事件，这里需要开发者自行控制
         chatTitleBar.setLeftClick(view -> getSupportDelegate().pop());
+        cpTitle=chatTitleBar.getCenterTitle();
         //单聊面板 标题下方功能栏
-        mRecycleView = chatTitleBar.getmBottomRecycle();
+        mRecycleView=chatTitleBar.getmBottomRecycle();
         initBottomRecycle();
 
         this.mInputGroup=chatPanel.mInputGroup;
         mMsgHandler=mInputGroup.getMsgHandler();
 
         bokangSendMessageUtil = new BokangSendMessageUtil(TIMManager.getInstance().getConversation(TIMConversationType.C2C, chatId), new BoKangSendMessageListener() {
-                    @Override
-                    public void messageSuccess(TIMMessage timMessage) {
+            @Override
+            public void messageSuccess(TIMMessage timMessage) {
 
-                    }
+            }
 
-                    @Override
-                    public void messageError(int code, String desc) {
+            @Override
+            public void messageError(int code, String desc) {
 
-                    }
-                }, getContext());
+            }
+        }, getContext());
+
     }
-
     private void initBottomRecycle() {
         mChatTitieBottomAdapter = new ChatTitieBottomAdapter(initTitleBottomData());
         mChatTitieBottomAdapter.setCartItemListener(initTitleBottomItemListener());
@@ -122,7 +153,7 @@ public class PersonalChatFragment extends LatteDelegate {
         mRecycleView.setAdapter(mChatTitieBottomAdapter);
     }
 
-    private TitleBottomItemListener initTitleBottomItemListener() {
+        private TitleBottomItemListener initTitleBottomItemListener() {
         mTitleBottomItemListener = (type, name) -> {
             Log.d("jialei","type:"+type);
             if (type == null) {
@@ -168,11 +199,10 @@ public class PersonalChatFragment extends LatteDelegate {
         return mTitleBottomItemListener;
     }
 
-    private ArrayList<MultipleItemEntity> initTitleBottomData() {
+    private ArrayList<MultipleItemEntity> initTitleBottomData(){
         final ArrayList<MultipleItemEntity> data =
                 new TitleBottomPersonalChatDataConverter()
                         .convert();
         return data;
     }
-
 }

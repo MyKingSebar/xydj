@@ -49,14 +49,30 @@ public class MessageInfoUtil {
     public static final String BOKANG = "bokang";
 
     //博康自定义消息内容
-    //请求视频
-    public static final String BOKANG_VIDEO_WAIT = "video_wait";
-    //接收视频
-    public static final String BOKANG_VIDEO_CONNECT = "video_connect";
-    //拒绝接收视频
-    public static final String BOKANG_VIDEO_REFUSE = "video_refuse";
-    //视频挂断
-    public static final String BOKANG_VIDEO_DROP = "video_drop";
+    /**
+     * 请求监护
+     */
+    public static final String BOKANG_MONITOR_WAIT = "msg_MONITOR";
+    /**
+     * 请求语音
+     */
+    public static final String BOKANG_VOICE_WAIT = "msg_VOICE";
+    /**
+     * 请求视频
+     */
+    public static final String BOKANG_VIDEO_WAIT = "msg_VEDIO";
+    /**
+     * 接收视频
+     */
+    public static final String BOKANG_VIDEO_CONNECT = "msg_CONNECT";
+    /**
+     * 拒绝接收视频
+     */
+    public static final String BOKANG_VIDEO_REFUSE = "msg_CLOSE";
+    /**
+     * 视频挂断
+     */
+    public static final String BOKANG_VIDEO_DROP = "msg_CLOSE";
 
 
 

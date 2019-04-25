@@ -14,7 +14,7 @@ public class GuardianshipDataConverter extends DataConverter {
     @Override
     public ArrayList<MultipleItemEntity> convert() {
         final JSONObject dataObject = JSON.parseObject(getJsonData()).getJSONObject("data");
-        final JSONArray guardianUserList = dataObject.getJSONArray("guardianUserList");
+        final JSONArray guardianUserList = dataObject.getJSONArray("userList");
         final int size = guardianUserList.size();
         for (int i = 0; i < size; i++) {
             final JSONObject data = guardianUserList.getJSONObject(i);
@@ -22,12 +22,18 @@ public class GuardianshipDataConverter extends DataConverter {
             final long friendUserId = data.getInteger("userId");
             final String nickname = data.getString("nickname");
             final String realName = data.getString("realName");
+
             /**
              * 主监护人：1是2否
              */
             final int isMain = data.getInteger("isMain");
             final String headImage = data.getString("headImage");
             final String tencentImUserId = data.getString("tencentImUserId");
+            //是否有机器人：1-是，-2否
+            final int hasRobot = data.getInteger("hasRobot");
+            //活跃度
+            final int activeness = data.getInteger("activeness");
+
 
             final MultipleItemEntity entity = MultipleItemEntity.builder()
                     .setField(MultipleFields.ITEM_TYPE, YjIndexItemType.GUARDUABSHIPLIST_ITEM)
@@ -37,6 +43,8 @@ public class GuardianshipDataConverter extends DataConverter {
                     .setField(YjIndexMultipleFields.ISMAIN, isMain)
                     .setField(YjIndexMultipleFields.USER_REAL_NAME, realName)
                     .setField(YjIndexMultipleFields.USER_NICK_NAME, nickname)
+                    .setField(YjIndexMultipleFields.HASROBOT, hasRobot)
+                    .setField(YjIndexMultipleFields.ACTIVENESS, activeness)
                     .build();
 
             ENTITIES.add(entity);

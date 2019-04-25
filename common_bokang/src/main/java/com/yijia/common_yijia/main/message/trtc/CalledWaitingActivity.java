@@ -5,32 +5,34 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.AppCompatTextView;
-import android.view.View;
 import android.widget.Toast;
 
 import com.bokang.tencent_trtc_sdk.TrtcConfig;
 import com.example.latte.ec.R;
-import com.example.latte.ec.R2;
 import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMConversationType;
 import com.tencent.imsdk.TIMCustomElem;
-import com.tencent.imsdk.TIMElemType;
 import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMMessage;
-import com.tencent.imsdk.TIMMessageListener;
-import com.tencent.imsdk.conversation.MessageListener;
-import com.tencent.qcloud.uikit.business.chat.bokang.BokangChatListener;
-import com.tencent.qcloud.uikit.business.chat.bokang.BokangChatManager;
+import com.tencent.qcloud.bokang.BokangChatListener;
+import com.tencent.qcloud.bokang.BokangChatManager;
 import com.tencent.qcloud.uikit.business.chat.model.MessageInfoUtil;
 import com.yijia.common_yijia.database.YjDatabaseManager;
-
-import java.util.List;
+import com.yijia.common_yijia.main.message.trtc2.TRTCMainActivity2;
+import com.yijia.common_yijia.main.message.trtc2.TRTCMainActivity3;
 
 /**
  * @author JiaLei, Email 15033111957@163.com, Date on 2019/2/27.
  * PS: Not easy to write code, please indicate.
  */
 public class CalledWaitingActivity extends Activity implements BoKangSendMessageListener, BokangChatListener {
+    public static final String TYPE_KEY="type";
+    public static final int TYPE_VIDEO=1;
+    public static final int TYPE_VOICE=2;
+//    public static final int TYPE_KANHU=3;
+    int type=0;
+
+
     TIMConversation conversation = null;
     BokangSendMessageUtil bokangSendMessageUtil = null;
     BokangChatManager mBokangChatManager = null;
@@ -54,6 +56,7 @@ public class CalledWaitingActivity extends Activity implements BoKangSendMessage
             Toast.makeText(getApplicationContext(), "获取会话失败", Toast.LENGTH_LONG).show();
             finish();
         }
+        type=intent.getIntExtra(TYPE_KEY,0);
         bokangSendMessageUtil = new BokangSendMessageUtil(conversation, this, getApplicationContext());
         mBokangChatManager = BokangChatManager.getInstance();
         mBokangChatManager.setBokangChatListener(this);
@@ -86,18 +89,28 @@ public class CalledWaitingActivity extends Activity implements BoKangSendMessage
         tvAnswer=findViewById(R.id.tv_answer);
         tvAnswerb=findViewById(R.id.tv_answer_b);
         clDrop.setOnClickListener(v -> {
-            bokangSendMessageUtil.sendMessage(bokangSendMessageUtil.buildBokangMessage(MessageInfoUtil.BOKANG_VIDEO_REFUSE));
+            bokangSendMessageUtil.sendOnLineMessage(bokangSendMessageUtil.buildBokangMessage(MessageInfoUtil.BOKANG_VIDEO_REFUSE));
             finish();
         });
         clAnswer.setOnClickListener(v -> {
-            bokangSendMessageUtil.sendMessage(bokangSendMessageUtil.buildBokangMessage(MessageInfoUtil.BOKANG_VIDEO_CONNECT));
+            bokangSendMessageUtil.sendOnLineMessage(bokangSendMessageUtil.buildBokangMessage(MessageInfoUtil.BOKANG_VIDEO_CONNECT));
             String sig = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getTencentImUserSig();
             String userId = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getTencentImUserId();
-            final Intent intent = new Intent(CalledWaitingActivity.this, TRTCMainActivity.class);
+            final Intent intent = new Intent(CalledWaitingActivity.this, TRTCMainActivity3.class);
             intent.putExtra("roomId", roomid);
             intent.putExtra("userId", userId);
             intent.putExtra("sdkAppId", TrtcConfig.SDKAPPID);
             intent.putExtra("userSig", sig);
+            switch (type) {
+                case TYPE_VIDEO:
+                    intent.putExtra(TRTCMainActivity3.TYPE_KEY, TRTCMainActivity3.TYPE_VIDEO);
+                    break;
+                case TYPE_VOICE:
+                    intent.putExtra(TRTCMainActivity3.TYPE_KEY, TRTCMainActivity3.TYPE_VOICE);
+                    break;
+                default:
+                    break;
+            }
             //TODO 需要指定会话ID（即聊天对象的identify，具体可参考IMSDK接入文档）
             intent.putExtra("chatId", conversation.getPeer());
             startActivity(intent);

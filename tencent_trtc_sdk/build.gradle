@@ -32,5 +32,5 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     //TRTC SDK
     //    api 'com.tencent.liteav:LiteAVSDK_TRTC:6.0.1688'
-    api(name: 'LiteAVSDK_TRTC_6.1.6454', ext: 'aar')
+    api(name: 'LiteAVSDK_TRTC_6.3.7089', ext: 'aar')
 }

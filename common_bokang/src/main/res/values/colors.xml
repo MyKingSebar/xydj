@@ -14,4 +14,9 @@
     <color name="color_f6">#f6f6f6</color>
 
     <color name="charIndexColor">#33000000</color>
+
+    <color name="text_E8635D">#E8635D</color>
+    <color name="text_3DC39A">#3DC39A</color>
+    <color name="text_EC8B2F">#EC8B2F</color>
+
 </resources>

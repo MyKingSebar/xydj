@@ -25,8 +25,10 @@ import com.mabeijianxi.smallvideorecord2.DeviceUtils;
 import com.mabeijianxi.smallvideorecord2.JianXiCamera;
 import com.mob.MobSDK;
 import com.simple.spiderman.SpiderMan;
+import com.tencent.qcloud.bokang.BokangChatManager;
 import com.yijia.common_yijia.database.YjDatabaseManager;
 import com.yijia.common_yijia.icon.FontEcModule;
+import com.yijia.common_yijia.icon.FontYJIndexTopModule;
 import com.yijia.common_yijia.icon.FontYJModule;
 
 import java.io.File;
@@ -64,7 +66,12 @@ public class ExampleApp extends MultiDexApplication {
             initFragmentDeBug();
         }
         initBauDuText();
+        initBokangChatManager();
 
+    }
+
+    private void initBokangChatManager() {
+        BokangChatManager.getInstance().init();
     }
 
     private void initBauDuText() {
@@ -81,6 +88,7 @@ public class ExampleApp extends MultiDexApplication {
                 .withIcon(new FontAwesomeModule())
                 .withIcon(new FontEcModule())
                 .withIcon(new FontYJModule())
+                .withIcon(new FontYJIndexTopModule())
                 .withLoaderDelayed(1000)
                 .withApiHost("http://47.104.86.251:8080/")
                 .withInterceptor(new DebugInterceptor("test", R.raw.test))

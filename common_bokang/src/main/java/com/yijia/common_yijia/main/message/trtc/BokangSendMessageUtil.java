@@ -35,6 +35,7 @@ public class BokangSendMessageUtil {
         conversation.sendMessage(mMessage, new TIMValueCallBack<TIMMessage>() {
             @Override
             public void onError(final int code, final String desc) {
+                Log.e("jialei","BokangSendMessageUtil.onError:"+code);
                 if(messageListener!=null){
                     messageListener.messageError(code,desc);
                 }
@@ -43,9 +44,40 @@ public class BokangSendMessageUtil {
 
             @Override
             public void onSuccess(final TIMMessage timMessage) {
+                Log.e("jialei","BokangSendMessageUtil.onSuccess:");
                 if(messageListener!=null){
                     messageListener.messageSuccess(timMessage);
                 }
+
+
+            }
+        });
+    }
+    public void sendOnLineMessage(TIMMessage mMessage){
+        if(conversation==null){
+            Log.e("jialei","BokangSendMessageUtil.conversation==null");
+            return;
+        }
+        conversation.sendOnlineMessage(mMessage, new TIMValueCallBack<TIMMessage>() {
+            @Override
+            public void onError(final int code, final String desc) {
+                Log.e("jialei","BokangSendMessageUtil.onError:"+code);
+                if(messageListener!=null){
+                    messageListener.messageError(code,desc);
+                }
+
+            }
+
+            @Override
+            public void onSuccess(final TIMMessage timMessage) {
+                Log.e("jialei","BokangSendMessageUtil.onSuccess:");
+                if(messageListener!=null){
+                    messageListener.messageSuccess(timMessage);
+
+                }
+                //发送后删除
+                TIMMessageExt msgExt = new TIMMessageExt(timMessage);
+                msgExt.remove();
 
 
             }

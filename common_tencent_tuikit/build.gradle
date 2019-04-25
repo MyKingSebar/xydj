@@ -33,14 +33,14 @@ android {
 
     repositories{
         flatDir{
-            dirs 'libs', '../tencent_trtc_sdk/libs'
+            dirs 'libs', '../tencent_trtc_sdk/libs','../tuikit4.2.52/libs'
         }
     }
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    api project(':tuikit')
+    api project(':tuikit4.2.52')
     annotationProcessor 'com.jakewharton:butterknife-compiler:9.0.0-rc2'
     api project(':tencent_trtc_sdk')
 }

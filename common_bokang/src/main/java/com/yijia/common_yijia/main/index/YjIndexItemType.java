@@ -19,4 +19,8 @@ public class YjIndexItemType {
     public static final int GUARDUABSHIPLIST_ITEM = 120;
     public static final int USERPROFILESLIST_ITEM = 121;
 
+
+
+    public static final int ROBOTGUARDUABSHIP_ITEM = 300;
+
 }

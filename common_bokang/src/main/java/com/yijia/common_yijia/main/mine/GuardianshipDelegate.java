@@ -49,6 +49,9 @@ public class GuardianshipDelegate extends LatteDelegate implements GuardianshipL
     String token = null;
     long friendId=0;
 
+    private final int QUERYTYPE=1;
+    private final int PAGESIZE=100;
+
     @Override
     public Object setLayout() {
         return R.layout.delegate_guardianship;
@@ -79,7 +82,7 @@ public class GuardianshipDelegate extends LatteDelegate implements GuardianshipL
         token = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getYjtk();
         initView();
         initCallback();
-        getGuardianshipInfo(token, 1);
+        getGuardianshipInfo(token);
     }
 
     private void initCallback() {
@@ -111,11 +114,14 @@ public class GuardianshipDelegate extends LatteDelegate implements GuardianshipL
         tvSave.setVisibility(View.GONE);
     }
 
-    private void getGuardianshipInfo(String token, int type) {
-        String url = "guardianship/query_guardianship/";
+    private void getGuardianshipInfo(String token) {
+        String url = "guardianship/query_guardianship/"+QUERYTYPE+"/1/"+PAGESIZE;
         RxRestClient.builder()
-                .url(url + type)
+                .url(url)
                 .params("yjtk", token)
+//                .params("queryType", 3)
+//                .params("pageNo", 1)
+//                .params("pageSize", 100)
                 .build()
                 .get()
                 .subscribeOn(Schedulers.io())
@@ -201,7 +207,7 @@ public class GuardianshipDelegate extends LatteDelegate implements GuardianshipL
                         final String status = JSON.parseObject(response).getString("status");
                         if (TextUtils.equals(status, "1001")) {
                             Toast.makeText(getContext(), "添加成功", Toast.LENGTH_SHORT).show();
-                            getGuardianshipInfo(token,1);
+                            getGuardianshipInfo(token);
                         } else {
                             final String msg = JSON.parseObject(response).getString("msg");
                             Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();

@@ -3,9 +3,10 @@ include ':example', ':common_tencent_tuikit', ':mobshareplatform', ':baidutext',
         ':common_rongim', ':CallLib', ':IMLib', ':IMKit', ':CallKit', ':RCSticker',
         ':common_xfyun', ':common_tencentmonitor',
         //腾讯im、实时音视频
-        ':tuikit', ':tencent_trtc_sdk',
+        ':tuikit4.2.52', ':tencent_trtc_sdk',
         //代替pictureselect
         ':picture_library',':ucrop',
         ':camera1.1.9',
-        ':ocr_ui'
+        ':ocr_ui',
+        ':ui_magicindicator'
 

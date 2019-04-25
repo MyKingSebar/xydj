@@ -13,16 +13,24 @@ import com.tencent.imsdk.TIMConversationType;
 import com.tencent.imsdk.TIMCustomElem;
 import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMMessage;
-import com.tencent.qcloud.uikit.business.chat.bokang.BokangChatListener;
-import com.tencent.qcloud.uikit.business.chat.bokang.BokangChatManager;
+import com.tencent.qcloud.bokang.BokangChatListener;
+import com.tencent.qcloud.bokang.BokangChatManager;
 import com.tencent.qcloud.uikit.business.chat.model.MessageInfoUtil;
 import com.yijia.common_yijia.database.YjDatabaseManager;
+import com.yijia.common_yijia.main.message.trtc2.TRTCMainActivity2;
+import com.yijia.common_yijia.main.message.trtc2.TRTCMainActivity3;
 
 /**
  * @author JiaLei, Email 15033111957@163.com, Date on 2019/2/27.
  * PS: Not easy to write code, please indicate.
  */
 public class CallWaitingActivity extends Activity implements BokangChatListener, BoKangSendMessageListener {
+    public static final String TYPE_KEY = "type";
+    public static final int TYPE_VIDEO = 1;
+    public static final int TYPE_VOICE = 2;
+    public static final int TYPE_KANHU = 3;
+    int type = 0;
+
     BokangChatManager mBokangChatManager = null;
     TIMConversation conversation = null;
     Intent intent = null;
@@ -41,6 +49,7 @@ public class CallWaitingActivity extends Activity implements BokangChatListener,
         if (intent != null) {
             roomId = intent.getIntExtra("roomid", 0);
             chatId = intent.getStringExtra("chatId");
+            type = intent.getIntExtra(TYPE_KEY, 0);
         }
         setContentView(R.layout.activity_call_waiting_cl);
         mBokangChatManager = BokangChatManager.getInstance();
@@ -63,7 +72,7 @@ public class CallWaitingActivity extends Activity implements BokangChatListener,
         tvSperkerb = findViewById(R.id.tv_speaker_b);
 
         clDrop.setOnClickListener(v -> {
-            bokangSendMessageUtil.sendMessage(bokangSendMessageUtil.buildBokangMessage(MessageInfoUtil.BOKANG_VIDEO_REFUSE));
+            bokangSendMessageUtil.sendOnLineMessage(bokangSendMessageUtil.buildBokangMessage(MessageInfoUtil.BOKANG_VIDEO_REFUSE));
             finish();
         });
     }
@@ -76,13 +85,28 @@ public class CallWaitingActivity extends Activity implements BokangChatListener,
             }
             String sig = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getTencentImUserSig();
             String userId = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getTencentImUserId();
-            final Intent intent = new Intent(this, TRTCMainActivity.class);
+            final Intent intent = new Intent(this, TRTCMainActivity3.class);
             intent.putExtra("roomId", roomId);
             intent.putExtra("userId", userId);
             intent.putExtra("sdkAppId", TrtcConfig.SDKAPPID);
             intent.putExtra("userSig", sig);
             //TODO 需要指定会话ID（即聊天对象的identify，具体可参考IMSDK接入文档）
             intent.putExtra("chatId", chatId);
+            switch (type) {
+                case TYPE_VIDEO:
+                    intent.putExtra(TRTCMainActivity3.TYPE_KEY, TRTCMainActivity3.TYPE_VIDEO);
+                    break;
+                case TYPE_VOICE:
+                    intent.putExtra(TRTCMainActivity3.TYPE_KEY, TRTCMainActivity3.TYPE_VOICE);
+                    break;
+                case TYPE_KANHU:
+                    intent.putExtra(TRTCMainActivity3.TYPE_KEY, TRTCMainActivity3.TYPE_KANHU);
+                    break;
+                default:
+                    break;
+
+            }
+
             startActivity(intent);
             finish();
         } else if (new String(ele.getExt()).equals(MessageInfoUtil.BOKANG_VIDEO_REFUSE)) {

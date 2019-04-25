@@ -91,12 +91,7 @@ public class PersonalChatFragment extends LatteDelegate {
         //获取单聊面板的标题栏
         chatTitleBar = chatPanel.getTitleBar();
         //单聊面板标记栏返回按钮点击事件，这里需要开发者自行控制
-        chatTitleBar.setLeftClick(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getSupportDelegate().pop();
-            }
-        });
+        chatTitleBar.setLeftClick(view -> getSupportDelegate().pop());
         //单聊面板 标题下方功能栏
         mRecycleView = chatTitleBar.getmBottomRecycle();
         initBottomRecycle();
@@ -138,6 +133,7 @@ public class PersonalChatFragment extends LatteDelegate {
                 int userId = (YjDatabaseManager.getInstance().getDao().loadAll().get(0).getId()).intValue();
                 intent2.putExtra("roomid",userId);
                 intent2.putExtra("chatId",chatId);
+                intent2.putExtra(CallWaitingActivity.TYPE_KEY,CallWaitingActivity.TYPE_VIDEO);
                 getActivity().startActivity(intent2);
 //                BokangSendMessageUtil  bokangSendMessageUtil = new BokangSendMessageUtil(TIMManager.getInstance().getConversation(TIMConversationType.C2C, chatId), new BoKangSendMessageListener() {
 //                    @Override
@@ -150,7 +146,7 @@ public class PersonalChatFragment extends LatteDelegate {
 //
 //                    }
 //                }, getContext());
-                bokangSendMessageUtil.sendMessage(bokangSendMessageUtil.buildBokangMessage(MessageInfoUtil.BOKANG_VIDEO_WAIT,userId+""));
+                bokangSendMessageUtil.sendOnLineMessage(bokangSendMessageUtil.buildBokangMessage(MessageInfoUtil.BOKANG_VIDEO_WAIT,userId+""));
 //                if (mMsgHandler != null) {
 //                    mMsgHandler.sendMessage(MessageInfoUtil.buildBokangMessage(MessageInfoUtil.BOKANG_VIDEO_WAIT, userId + ""));
 //                }

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cl"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/white"
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="81dp">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginStart="15dp"
+        android:background="@color/main_line_default_f5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_img"
+        android:background="@drawable/radius5_background_white"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_hasrobot"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:background="@drawable/radius5_background_white"
+        android:src="@mipmap/icon_button3_robot"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_img"
+        app:layout_constraintEnd_toEndOf="@+id/iv_img" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:textColor="@color/main_text_black_46"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/iv_img"
+        app:layout_constraintTop_toTopOf="@+id/iv_img"
+        tools:text="妈妈的小壹" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tv_d_liveness"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="今日活跃度"
+        android:textColor="@color/main_text_black_46"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_img"
+        app:layout_constraintStart_toEndOf="@+id/iv_img" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tv_liveness"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:textColor="@color/main_text_black_46"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_img"
+        app:layout_constraintStart_toEndOf="@+id/tv_d_liveness"
+        tools:text="20" />
+</android.support.constraint.ConstraintLayout>

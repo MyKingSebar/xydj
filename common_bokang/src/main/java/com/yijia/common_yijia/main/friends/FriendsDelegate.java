@@ -31,7 +31,7 @@ import com.yijia.common_yijia.main.friends.bean.GuardianBean;
 import com.yijia.common_yijia.main.friends.presenter.FriendsPresenter;
 import com.yijia.common_yijia.main.friends.view.fragment.AddFriendsDelegate;
 import com.yijia.common_yijia.main.friends.view.iview.FriendsView;
-import com.yijia.common_yijia.main.message.trtc.PersonalChatFragment;
+import com.yijia.common_yijia.main.message.trtc2.PersonalChatFragment2;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,7 +68,7 @@ public class FriendsDelegate extends LatteDelegate implements HeadLayout.OnClick
     //监护人列表
     private List<GuardianBean> guardianBeans;
 
-    PersonalChatFragment mCurrentFragment=null;
+    PersonalChatFragment2 mCurrentFragment=null;
     String token=null;
     @Override
     public Object setLayout() {
@@ -152,7 +152,7 @@ public class FriendsDelegate extends LatteDelegate implements HeadLayout.OnClick
             String nickname = friendsBeans.get(position).getNickname();
             Bundle mArgs = new Bundle();
             mArgs.putString(Constants.INTENT_DATA, identifier);
-            mCurrentFragment = new PersonalChatFragment();
+            mCurrentFragment = new PersonalChatFragment2();
             mCurrentFragment.setArguments(mArgs);
             getParentDelegate().getSupportDelegate().start(mCurrentFragment);
 

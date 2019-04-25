@@ -46,7 +46,7 @@ public class InviteDelagate extends LatteDelegate {
 
     @OnClick(R2.id.tv_note)
     void inviteNote() {
-        JSmsUtil.INSTENCE.sendSmsWithBody(getContext(), "", "关注以后就可以看到一家人的所有照片啦!"+"我用小壹机器人记录一家人的回忆快来关注吧!"+"http://47.104.86.251/h5/invite/index.html?inviteCode="+inviteCode+"&isGuardian="+isGuardian);
+        JSmsUtil.INSTENCE.sendSmsWithBody(getContext(), "", "关注以后就可以看到一家人的所有照片啦!"+"我用小壹机器人记录一家人的回忆快来关注吧!"+"http://47.104.86.251/h5/invite/index.html?inviteCode="+inviteCode);
     }
 
 
@@ -107,6 +107,6 @@ public class InviteDelagate extends LatteDelegate {
         if(cbGuardian.isChecked()){
             isGuardian=1;
         }
-        ws.shareWebpager("关注以后就可以看到一家人的所有照片啦!","我用小壹机器人记录一家人的回忆快来关注吧!","http://192.168.1.113:8880/?inviteCode="+inviteCode+"&isGuardian="+isGuardian,"http://47.105.157.64/group1/M00/00/05/rB8Ql1yaIqSAXICMAAAockYvlx4722.png");
+        ws.shareWebpager("关注以后就可以看到一家人的所有照片啦!","我用小壹机器人记录一家人的回忆快来关注吧!","http://47.104.86.251/h5/invite/index.html#/?inviteCode="+inviteCode,"http://47.105.157.64/group1/M00/00/05/rB8Ql1yaIqSAXICMAAAockYvlx4722.png");
     }
 }

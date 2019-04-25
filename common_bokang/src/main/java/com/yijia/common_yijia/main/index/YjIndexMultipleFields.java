@@ -20,5 +20,7 @@ public enum YjIndexMultipleFields {
     IMGS,
     STATUS,
     TITLE,
-    ISMAIN
+    ISMAIN,
+    HASROBOT,
+    ACTIVENESS
 }

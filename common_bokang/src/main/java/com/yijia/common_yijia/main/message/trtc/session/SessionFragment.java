@@ -12,14 +12,13 @@ import com.example.yijia.delegates.LatteDelegate;
 import com.tencent.qcloud.uikit.business.session.model.SessionInfo;
 import com.tencent.qcloud.uikit.business.session.view.SessionPanel;
 import com.tencent.qcloud.uikit.business.session.view.wedgit.SessionClickListener;
-import com.yijia.common_yijia.main.message.trtc.GroupChatFragment;
-import com.yijia.common_yijia.main.message.trtc.PersonalChatFragment;
+import com.yijia.common_yijia.main.message.trtc2.GroupChatFragment2;
+import com.yijia.common_yijia.main.message.trtc2.PersonalChatFragment2;
 
 import butterknife.OnClick;
 
 
 public class SessionFragment extends LatteDelegate implements SessionClickListener {
-    private View baseView;
     private SessionPanel sessionPanel;
 
     LatteDelegate mCurrentFragment = null;
@@ -64,17 +63,18 @@ public class SessionFragment extends LatteDelegate implements SessionClickListen
         bundle.putString(Constants.INTENT_DATA, session.getPeer());
         if (session.isGroup()) {
             //如果是群组，跳转到群聊界面
-            mCurrentFragment = new GroupChatFragment();
+            mCurrentFragment = new GroupChatFragment2();
             mCurrentFragment.setArguments(bundle);
-            getParentDelegate().getSupportDelegate().start(mCurrentFragment);
+            getSupportDelegate().start(mCurrentFragment);
 //            ChatActivity.startGroupChat(getActivity(), session.getPeer());
         } else {
             //否则跳转到C2C单聊界面
 
-            mCurrentFragment = new PersonalChatFragment();
+            mCurrentFragment = new PersonalChatFragment2();
             mCurrentFragment.setArguments(bundle);
-            getParentDelegate().getSupportDelegate().start(mCurrentFragment);
+            getSupportDelegate().start(mCurrentFragment);
 //            ChatActivity.startC2CChat(getActivity(), session.getPeer());
+
 
         }
     }

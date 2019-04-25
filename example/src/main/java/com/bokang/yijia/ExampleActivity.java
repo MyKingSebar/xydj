@@ -27,11 +27,16 @@ import com.example.yijia.delegates.LatteDelegate;
 import com.example.yijia.net.rx.BaseObserver;
 import com.example.yijia.net.rx.RxRestClient;
 import com.example.yijia.util.log.LatteLogger;
+import com.tencent.imsdk.TIMCallBack;
 import com.tencent.imsdk.TIMConversation;
+import com.tencent.imsdk.TIMConversationType;
 import com.tencent.imsdk.TIMCustomElem;
+import com.tencent.imsdk.TIMManager;
+import com.tencent.imsdk.ext.message.TIMConversationExt;
+import com.tencent.imsdk.ext.message.TIMMessageExt;
+import com.tencent.qcloud.bokang.BokangChatListener;
+import com.tencent.qcloud.bokang.BokangChatManager;
 import com.tencent.qcloud.uikit.TUIKit;
-import com.tencent.qcloud.uikit.business.chat.bokang.BokangChatListener;
-import com.tencent.qcloud.uikit.business.chat.bokang.BokangChatManager;
 import com.tencent.qcloud.uikit.business.chat.model.MessageInfoUtil;
 import com.tencent.qcloud.uikit.common.IUIKitCallBack;
 import com.yhao.floatwindow.FloatWindow;
@@ -44,8 +49,10 @@ import com.yijia.common_yijia.main.YjBottomDelegate_with3;
 import com.yijia.common_yijia.main.index.friendcircle.smallvideo.CameraActivity;
 import com.yijia.common_yijia.main.index.friendcircle.smallvideo.SmallCameraLisener;
 import com.yijia.common_yijia.main.message.trtc.CallIntentData;
+import com.yijia.common_yijia.main.message.trtc.CallWaitingActivity;
 import com.yijia.common_yijia.main.message.trtc.CalledWaitingActivity;
-import com.yijia.common_yijia.main.message.trtc.TRTCMainActivity;
+import com.yijia.common_yijia.main.message.trtc2.TRTCMainActivity2;
+import com.yijia.common_yijia.main.message.trtc2.TRTCMainActivity3;
 import com.yijia.common_yijia.sign.ISignListener;
 import com.yijia.common_yijia.sign.SignInNoteOnlyDelegate;
 import com.yijia.common_yijia.sign.SignUpSecondDelegate;
@@ -86,6 +93,10 @@ public class ExampleActivity extends ProxyActivity implements
     @Override
     protected void onResume() {
         super.onResume();
+        if(checkAccont()){
+            //TODO 测试
+            loginTencentIM();
+        }
         mBokangChatManager = BokangChatManager.getInstance();
         mBokangChatManager.setBokangChatListener(this);
     }
@@ -130,8 +141,6 @@ public class ExampleActivity extends ProxyActivity implements
     @Override
     public void onSignUpSecondSuccess() {
         goMain();
-
-
     }
 
     @Override
@@ -272,7 +281,7 @@ private void initJPush(){
             imageView.setOnClickListener(v -> {
                 String sig = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getTencentImUserSig();
                 String userId = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getTencentImUserId();
-                final Intent intent = new Intent(ExampleActivity.this, TRTCMainActivity.class);
+                final Intent intent = new Intent(ExampleActivity.this, TRTCMainActivity3.class);
                 intent.putExtra("roomId", 100);
                 intent.putExtra("userId", userId);
                 intent.putExtra("sdkAppId", TrtcConfig.SDKAPPID);
@@ -345,16 +354,26 @@ private void initJPush(){
     @Override
     public void newBokangMessage(TIMCustomElem ele,TIMConversation conversation) {
         String ss=new String(ele.getExt());
+        Log.d("newBokangMessage","ss:"+ss);
         if(ss==null){
             return;
         }
-        if (ss.equals(MessageInfoUtil.BOKANG_VIDEO_WAIT)) {
-            Intent intent = new Intent(this, CalledWaitingActivity.class);
-            CallIntentData data=new CallIntentData();
+        Intent intent = new Intent(this, CalledWaitingActivity.class);
+        CallIntentData data=new CallIntentData();
 //            data.setConversation(conversation);
+        if (ss.equals(MessageInfoUtil.BOKANG_VIDEO_WAIT)) {
             data.setPeer(conversation.getPeer());
             data.setRoomid(Integer.parseInt(ele.getDesc()));
             intent.putExtra("CallIntentData",data);
+            intent.putExtra(CalledWaitingActivity.TYPE_KEY,CalledWaitingActivity.TYPE_VIDEO);
+            Log.d("newBokangMessage","peer:"+conversation.getPeer()+",CallIntentData:"+data);
+            startActivity(intent);
+        }else if(ss.equals(MessageInfoUtil.BOKANG_VOICE_WAIT)) {
+            data.setPeer(conversation.getPeer());
+            data.setRoomid(Integer.parseInt(ele.getDesc()));
+            intent.putExtra("CallIntentData",data);
+            intent.putExtra(CalledWaitingActivity.TYPE_KEY,CalledWaitingActivity.TYPE_VOICE);
+            Log.d("newBokangMessage","peer:"+conversation.getPeer()+",CallIntentData:"+data);
             startActivity(intent);
         }
     }

@@ -83,7 +83,8 @@ android {
 
     repositories {
         flatDir {
-            dirs 'libs', '/../tencent_trtc_sdk/libs'
+            dirs 'libs'
+            dirs '../tencent_trtc_sdk/libs'
         }
     }
 }

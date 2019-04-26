@@ -13,6 +13,7 @@ import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -45,7 +46,7 @@ import java.util.List;
  * Created by valxehuang on 2018/7/18.
  */
 
-public class ChatBottomInputGroupCu extends LinearLayout implements View.OnClickListener, UIKitAudioArmMachine.AudioRecordCallback, TextWatcher {
+public class ChatBottomInputGroupCust extends LinearLayout implements View.OnClickListener, UIKitAudioArmMachine.AudioRecordCallback, TextWatcher {
 
     /**
      * 语音/文字切换输入按钮
@@ -63,7 +64,7 @@ public class ChatBottomInputGroupCu extends LinearLayout implements View.OnClick
     /**
      * 消息发送按钮
      */
-    public Button sendBtn;
+    public ImageView sendBtn;
 
     /**
      * 语音长按按钮
@@ -78,7 +79,7 @@ public class ChatBottomInputGroupCu extends LinearLayout implements View.OnClick
 
     private FaceFragment faceFragment;
 
-    private View moreGroup;
+    private View faceGroup, actionGroup;
     private ChatInputHandler inputHandler;
     private MessageHandler msgHandler;
     private Activity activity;
@@ -94,27 +95,31 @@ public class ChatBottomInputGroupCu extends LinearLayout implements View.OnClick
     private int currentState;
     private int lastMsgLineCount;
     private float startRecordY;
+    private LinearLayout mainLayout;
 
 
-    public ChatBottomInputGroupCu(Context context) {
+    public ChatBottomInputGroupCust(Context context) {
         super(context);
         init();
     }
 
-    public ChatBottomInputGroupCu(Context context, @Nullable AttributeSet attrs) {
+    public ChatBottomInputGroupCust(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-    public ChatBottomInputGroupCu(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public ChatBottomInputGroupCust(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
     }
 
     private void init() {
+
         activity = (Activity) getContext();
+
         inflate(getContext(), R.layout.chat_bottom_group_cust, this);
-        moreGroup = findViewById(R.id.more_groups);
+        faceGroup = findViewById(R.id.face_groups);
+        actionGroup = findViewById(R.id.action_groups);
         voiceBtn = findViewById(R.id.chat_voice_input);
         switchBtn = findViewById(R.id.voice_input_switch);
         switchBtn.setOnClickListener(this);
@@ -124,6 +129,7 @@ public class ChatBottomInputGroupCu extends LinearLayout implements View.OnClick
         moreBtn.setOnClickListener(this);
         sendBtn = findViewById(R.id.send_btn);
         sendBtn.setOnClickListener(this);
+        mainLayout = findViewById(R.id.chat_main_layout);
         msgEditor = findViewById(R.id.chat_message_input);
         msgEditor.addTextChangedListener(this);
         msgEditor.setOnTouchListener(new OnTouchListener() {
@@ -160,7 +166,7 @@ public class ChatBottomInputGroupCu extends LinearLayout implements View.OnClick
                     if (inputHandler != null)
                         inputHandler.startRecording();
                     start = System.currentTimeMillis();
-                    UIKitAudioArmMachine.getInstance().startRecord(ChatBottomInputGroupCu.this);
+                    UIKitAudioArmMachine.getInstance().startRecord(ChatBottomInputGroupCust.this);
 
                 } else if (motionEvent.getAction() == MotionEvent.ACTION_MOVE) {
                     if (motionEvent.getY() - startRecordY < -100) {
@@ -186,7 +192,57 @@ public class ChatBottomInputGroupCu extends LinearLayout implements View.OnClick
             }
         });
 
+        if (fragmentManager == null)
+            fragmentManager = activity.getFragmentManager();
+        if (faceFragment == null)
+            faceFragment = new FaceFragment();
+        faceFragment.setListener(new FaceFragment.OnEmojiClickListener() {
+            @Override
+            public void onEmojiDelete() {
+                int index = msgEditor.getSelectionStart();
+                Editable editable = msgEditor.getText();
+                boolean isFace = false;
+                if (index <= 0)
+                    return;
+                if (editable.charAt(index - 1) == ']') {
+                    for (int i = index - 2; i >= 0; i--) {
+                        if (editable.charAt(i) == '[') {
+                            String faceChar = editable.subSequence(i, index).toString();
+                            if (FaceManager.isFaceChar(faceChar)) {
+                                editable.delete(i, index);
+                                isFace = true;
+                            }
+                            break;
+                        }
+                    }
+                }
+                if (!isFace) {
+                    editable.delete(index - 1, index);
+                }
+            }
+
+            @Override
+            public void onEmojiClick(Emoji emoji) {
+                int index = msgEditor.getSelectionStart();
+                Editable editable = msgEditor.getText();
+                editable.insert(index, emoji.getFilter());
+                FaceManager.handlerEmojiText(msgEditor, editable.toString());
+            }
+
+            @Override
+            public void onCustomFaceClick(int groupIndex, Emoji emoji) {
+                msgHandler.sendMessage(MessageInfoUtil.buildCustomFaceMessage(groupIndex, emoji.getFilter()));
+            }
+        });
+
+        fragmentManager.beginTransaction().replace(R.id.face_groups, faceFragment).commitAllowingStateLoss();
+
         initDefaultActions();
+
+        if (actionsFragment == null)
+            actionsFragment = new ChatActionsFragment();
+        actionsFragment.setActions(actions);
+        fragmentManager.beginTransaction().replace(R.id.action_groups, actionsFragment).commitAllowingStateLoss();
 
     }
 
@@ -359,35 +415,38 @@ public class ChatBottomInputGroupCu extends LinearLayout implements View.OnClick
     }
 
     public MessageHandler getMsgHandler() {
-        return msgHandler ;
+        return msgHandler;
     }
 
 
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.voice_input_switch) {
-            if (currentState == STATE_SOFT_INPUT)
-                currentState = STATE_VOICE_INPUT;
-            else
-                currentState = STATE_SOFT_INPUT;
-            if (currentState == STATE_VOICE_INPUT) {
-                switchBtn.setImageResource(R.drawable.action_textinput_selector);
-                voiceBtn.setVisibility(VISIBLE);
-                msgEditor.setVisibility(GONE);
-                faceBtn.setVisibility(View.GONE);
-                hideSoftInput();
-            } else {
-                switchBtn.setImageResource(R.drawable.action_audio_selector);
-                voiceBtn.setVisibility(GONE);
-                msgEditor.setVisibility(VISIBLE);
-                faceBtn.setVisibility(View.VISIBLE);
-                showSoftInput();
-            }
+//            if (currentState == STATE_SOFT_INPUT)
+//                currentState = STATE_VOICE_INPUT;
+//            else
+//                currentState = STATE_SOFT_INPUT;
+//            if (currentState == STATE_VOICE_INPUT) {
+//                switchBtn.setImageResource(R.drawable.action_textinput_selector);
+//                voiceBtn.setVisibility(VISIBLE);
+//                msgEditor.setVisibility(GONE);
+//                faceBtn.setVisibility(View.GONE);
+//                hideSoftInput();
+//            } else {
+//                switchBtn.setImageResource(R.drawable.action_audio_selector);
+//                voiceBtn.setVisibility(GONE);
+//                msgEditor.setVisibility(VISIBLE);
+//                faceBtn.setVisibility(View.VISIBLE);
+//                showSoftInput();
+//            }
+
+            if (null != voiceClickListener)
+                voiceClickListener.onClick();
 
         } else if (view.getId() == R.id.face_btn) {
             if (currentState == STATE_FACE_INPUT) {
                 currentState = STATE_NONE_INPUT;
-                moreGroup.setVisibility(View.GONE);
+                faceGroup.setVisibility(View.GONE);
             } else {
                 showFaceViewGroup();
                 currentState = STATE_FACE_INPUT;
@@ -395,7 +454,7 @@ public class ChatBottomInputGroupCu extends LinearLayout implements View.OnClick
         } else if (view.getId() == R.id.more_btn) {
             if (currentState == STATE_ACTION_INPUT) {
                 currentState = STATE_NONE_INPUT;
-                moreGroup.setVisibility(View.GONE);
+                actionGroup.setVisibility(View.GONE);
             } else {
                 showActionsGroup();
                 currentState = STATE_ACTION_INPUT;
@@ -410,15 +469,16 @@ public class ChatBottomInputGroupCu extends LinearLayout implements View.OnClick
     }
 
     private void showSoftInput() {
-        hideActionsGroup();
+
      /*   if (moreGroup.getVisibility() == VISIBLE) {
             activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING | WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         } else {
             activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE | WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         }*/
         currentState = STATE_SOFT_INPUT;
-        switchBtn.setImageResource(R.drawable.action_audio_selector);
-        faceBtn.setImageResource(R.drawable.bottom_action_face_normal);
+//        activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+//        switchBtn.setImageResource(R.drawable.action_audio_selector);
+//        faceBtn.setImageResource(R.drawable.bottom_action_face_normal);
         msgEditor.requestFocus();
         InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.showSoftInput(msgEditor, 0);
@@ -427,8 +487,10 @@ public class ChatBottomInputGroupCu extends LinearLayout implements View.OnClick
                 @Override
                 public void run() {
                     inputHandler.popupAreaShow();
+                    faceGroup.setVisibility(GONE);
+                    actionGroup.setVisibility(GONE);
                 }
-            }, 200);
+            }, 100);
 
     }
 
@@ -439,95 +501,70 @@ public class ChatBottomInputGroupCu extends LinearLayout implements View.OnClick
         msgEditor.clearFocus();
         if (inputHandler != null)
             inputHandler.popupAreaHide();
-        moreGroup.setVisibility(View.GONE);
-        currentState = STATE_NONE_INPUT;
+        faceGroup.setVisibility(GONE);
+        actionGroup.setVisibility(GONE);
+
     }
 
     private void showFaceViewGroup() {
-        if (fragmentManager == null)
-            fragmentManager = activity.getFragmentManager();
-        if (faceFragment == null)
-            faceFragment = new FaceFragment();
-        hideSoftInput();
-//        postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-        moreGroup.setVisibility(View.VISIBLE);
-        msgEditor.requestFocus();
-        faceFragment.setListener(new FaceFragment.OnEmojiClickListener() {
+
+//        activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
+
+        if (currentState == STATE_ACTION_INPUT) {
+            actionGroup.setVisibility(GONE);
+            faceGroup.setVisibility(View.VISIBLE);
+        } else {
+            hideSoftInput();
+        }
+
+
+        postDelayed(new Runnable() {
             @Override
-            public void onEmojiDelete() {
-                int index = msgEditor.getSelectionStart();
-                Editable editable = msgEditor.getText();
-                boolean isFace = false;
-                if (index <= 0)
-                    return;
-                if (editable.charAt(index - 1) == ']') {
-                    for (int i = index - 2; i >= 0; i--) {
-                        if (editable.charAt(i) == '[') {
-                            String faceChar = editable.subSequence(i, index).toString();
-                            if (FaceManager.isFaceChar(faceChar)) {
-                                editable.delete(i, index);
-                                isFace = true;
-                            }
-                            break;
+            public void run() {
+                faceGroup.setVisibility(View.VISIBLE);
+                msgEditor.requestFocus();
+
+//                fragmentManager.beginTransaction().setCustomAnimations()
+                if (inputHandler != null)
+                    postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            inputHandler.popupAreaShow();
                         }
-                    }
-                }
-                if (!isFace) {
-                    editable.delete(index - 1, index);
-                }
-            }
+                    }, 200);
 
-            @Override
-            public void onEmojiClick(Emoji emoji) {
-                int index = msgEditor.getSelectionStart();
-                Editable editable = msgEditor.getText();
-                editable.insert(index, emoji.getFilter());
-                FaceManager.handlerEmojiText(msgEditor, editable.toString());
+                currentState = STATE_FACE_INPUT;
             }
-
-            @Override
-            public void onCustomFaceClick(int groupIndex, Emoji emoji) {
-                msgHandler.sendMessage(MessageInfoUtil.buildCustomFaceMessage(groupIndex, emoji.getFilter()));
-            }
-        });
-        fragmentManager.beginTransaction().replace(R.id.more_groups, faceFragment).commitAllowingStateLoss();
-        if (inputHandler != null)
-            postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    inputHandler.popupAreaShow();
-                }
-            }, 100);
-
-        //      }
-        //  }, 100);
+        }, 100);
 
     }
 
     private void showActionsGroup() {
-        if (fragmentManager == null)
-            fragmentManager = activity.getFragmentManager();
-        if (actionsFragment == null)
-            actionsFragment = new ChatActionsFragment();
 
-        actionsFragment.setActions(actions);
-        hideSoftInput();
-        moreGroup.setVisibility(View.VISIBLE);
-        fragmentManager.beginTransaction().replace(R.id.more_groups, actionsFragment).commitAllowingStateLoss();
-        if (inputHandler != null)
-            postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    inputHandler.popupAreaShow();
-                }
-            }, 100);
+        if (currentState == STATE_FACE_INPUT) {
+            faceGroup.setVisibility(GONE);
+            actionGroup.setVisibility(View.VISIBLE);
+        } else {
+            hideSoftInput();
+        }
+
+        postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                actionGroup.setVisibility(View.VISIBLE);
+
+                if (inputHandler != null)
+                    postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            inputHandler.popupAreaShow();
+                        }
+                    }, 200);
+                currentState = STATE_ACTION_INPUT;
+            }
+        }, 100);
     }
 
-    private void hideActionsGroup() {
-        moreGroup.setVisibility(View.GONE);
-    }
 
     @Override
     public void recordComplete(long duration) {
@@ -568,8 +605,20 @@ public class ChatBottomInputGroupCu extends LinearLayout implements View.OnClick
 
         if (!TextUtils.isEmpty(s.toString())) {
             sendAble = true;
-            sendBtn.setVisibility(View.VISIBLE);
-            moreBtn.setVisibility(View.GONE);
+            if (sendBtn.getVisibility() == View.GONE) {
+                sendBtn.setVisibility(View.VISIBLE);
+                moreBtn.setVisibility(View.GONE);
+
+                //small the voice button(switchBtn)
+                int width = moreBtn.getWidth();
+                ViewGroup.LayoutParams params = switchBtn.getLayoutParams();
+                params.height = (int) (width * 1.1);
+                params.width = (int) (width * 1.1);
+                mainLayout.setPadding(mainLayout.getPaddingLeft(), 20, mainLayout.getPaddingRight(), mainLayout.getPaddingBottom());
+
+            }
+
+
             if (msgEditor.getLineCount() != lastMsgLineCount) {
                 lastMsgLineCount = msgEditor.getLineCount();
                 if (inputHandler != null)
@@ -577,8 +626,16 @@ public class ChatBottomInputGroupCu extends LinearLayout implements View.OnClick
             }
         } else {
             sendAble = false;
-            sendBtn.setVisibility(View.GONE);
-            moreBtn.setVisibility(View.VISIBLE);
+            if (sendBtn.getVisibility() == View.VISIBLE) {
+                sendBtn.setVisibility(View.GONE);
+                moreBtn.setVisibility(View.VISIBLE);
+                int width = moreBtn.getWidth();
+                ViewGroup.LayoutParams params = switchBtn.getLayoutParams();
+                params.height = (int) (width * 1.4);
+                params.width = (int) (width * 1.4);
+                mainLayout.setPadding(mainLayout.getPaddingLeft(), 0, mainLayout.getPaddingRight(), mainLayout.getPaddingBottom());
+            }
+
 
         }
     }
@@ -602,6 +659,16 @@ public class ChatBottomInputGroupCu extends LinearLayout implements View.OnClick
         void tooShortRecording();
 
         void cancelRecording();
+    }
+
+    public interface VoiceClickListener {
+        void onClick();
+    }
+
+    private VoiceClickListener voiceClickListener;
+
+    public void setOnVoiceClickListener(VoiceClickListener voiceClickListener) {
+        this.voiceClickListener = voiceClickListener;
     }
 
 }

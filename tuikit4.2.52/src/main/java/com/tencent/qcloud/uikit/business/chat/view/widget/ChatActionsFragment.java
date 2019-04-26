@@ -25,6 +25,7 @@ public class ChatActionsFragment extends BaseFragment {
     private List<MessageOperaUnit> actions;
     private IUIKitCallBack mCallback;
 
+    public boolean isShow = false;
     public static final int REQUEST_CODE_FILE = 1011;
 
     @Nullable

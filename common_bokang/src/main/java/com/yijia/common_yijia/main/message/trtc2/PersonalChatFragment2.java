@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +37,7 @@ import com.tencent.qcloud.uikit.business.chat.model.MessageInfoUtil;
 import com.tencent.qcloud.uikit.business.chat.view.ChatBottomInputGroupCust;
 import com.tencent.qcloud.uikit.common.component.titlebar.PageTitleBar;
 import com.yijia.common_yijia.database.YjDatabaseManager;
+import com.yijia.common_yijia.main.find.TtsPopup;
 import com.yijia.common_yijia.main.message.trtc.BoKangSendMessageListener;
 import com.yijia.common_yijia.main.message.trtc.BokangSendMessageUtil;
 import com.yijia.common_yijia.main.message.trtc.CallWaitingActivity;
@@ -61,6 +63,7 @@ public class PersonalChatFragment2 extends LatteDelegate {
     private ChatBottomInputGroupCust mInputGroup;
     private ChatBottomInputGroupCust.MessageHandler mMsgHandler;
     BokangSendMessageUtil bokangSendMessageUtil=null;
+    private TtsPopup mTtsPopup;
 
 
     @Override
@@ -161,6 +164,18 @@ public class PersonalChatFragment2 extends LatteDelegate {
 
             }
         }, getContext());
+
+        mTtsPopup = new TtsPopup(getActivity());
+
+        chatPanel.setOnVoiceClickListener(new ChatBottomInputGroupCust.VoiceClickListener() {
+            @Override
+            public void onClick() {
+                mTtsPopup.setId(chatId);
+                mTtsPopup.setPopupGravity(Gravity.CENTER);
+                mTtsPopup.setAllowDismissWhenTouchOutside(false);
+                mTtsPopup.showPopupWindow();
+            }
+        });
 
     }
     private void initBottomRecycle() {

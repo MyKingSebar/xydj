@@ -58,6 +58,7 @@ public class FaceFragment extends BaseFragment implements View.OnClickListener {
     private int vMargin = 0;
     private OnEmojiClickListener listener;
     private RecentEmojiManager recentManager;
+    public boolean isShow = false;
 
     public void setListener(OnEmojiClickListener listener) {
         this.listener = listener;

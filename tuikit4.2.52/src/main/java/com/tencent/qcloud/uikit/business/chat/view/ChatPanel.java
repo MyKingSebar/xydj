@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.tencent.qcloud.uikit.R;
@@ -27,10 +28,8 @@ import com.tencent.qcloud.uikit.business.chat.model.MessageInfo;
 import com.tencent.qcloud.uikit.business.chat.view.widget.ChatAdapter;
 import com.tencent.qcloud.uikit.business.chat.view.widget.MessageOperaUnit;
 import com.tencent.qcloud.uikit.business.chat.view.widget.ChatListEvent;
-import com.tencent.qcloud.uikit.common.component.audio.UIKitAudioArmMachine;
 import com.tencent.qcloud.uikit.common.component.titlebar.PageTitleBar;
 import com.tencent.qcloud.uikit.common.utils.PopWindowUtil;
-import com.tencent.qcloud.uikit.common.utils.ScreenUtil;
 import com.tencent.qcloud.uikit.common.utils.UIUtils;
 
 import java.util.ArrayList;
@@ -56,7 +55,7 @@ public abstract class ChatPanel extends LinearLayout implements IChatPanel {
     /**
      * 聊天面板底部输入组件
      */
-    public ChatBottomInputGroup mInputGroup;
+    public ChatBottomInputGroupCust mInputGroup;
 
 
     /**
@@ -118,6 +117,7 @@ public abstract class ChatPanel extends LinearLayout implements IChatPanel {
             }
         });
 
+
         /**
          * 设置消息列表空白处点击处理
          */
@@ -165,12 +165,13 @@ public abstract class ChatPanel extends LinearLayout implements IChatPanel {
         });
 
         mInputGroup = findViewById(R.id.chat_bottom_box);
-        mInputGroup.setInputHandler(new ChatBottomInputGroup.ChatInputHandler()
+        mInputGroup.setInputHandler(new ChatBottomInputGroupCust.ChatInputHandler()
 
         {
             @Override
             public void popupAreaShow() {
                 scrollToEnd();
+
             }
 
             @Override
@@ -342,7 +343,7 @@ public abstract class ChatPanel extends LinearLayout implements IChatPanel {
 
     @Override
     public void initDefault() {
-        mInputGroup.setMsgHandler(new ChatBottomInputGroup.MessageHandler() {
+        mInputGroup.setMsgHandler(new ChatBottomInputGroupCust.MessageHandler() {
             @Override
             public void sendMessage(MessageInfo msg) {
                 ChatPanel.this.sendMessage(msg);
@@ -376,6 +377,10 @@ public abstract class ChatPanel extends LinearLayout implements IChatPanel {
 
     public PageTitleBar getTitleBar() {
         return mTitleBar;
+    }
+
+    public void setOnVoiceClickListener(ChatBottomInputGroupCust.VoiceClickListener voiceClickListener) {
+        mInputGroup.setOnVoiceClickListener(voiceClickListener);
     }
 
 }

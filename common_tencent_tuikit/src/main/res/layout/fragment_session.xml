@@ -36,7 +36,7 @@
 
 
     </RelativeLayout>
-    <com.tencent.qcloud.uikit.business.session.view.SessionPanel
+    <com.tencent.qcloud.bokang.session.view.BokangSessionPanel
         android:id="@+id/session_panel"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

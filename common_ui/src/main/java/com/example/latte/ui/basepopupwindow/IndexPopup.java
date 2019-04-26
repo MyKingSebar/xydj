@@ -24,6 +24,7 @@ public class IndexPopup extends BasePopupWindow {
 
     public IndexPopup(Context context, int width, int height, boolean delayInit) {
         super(context, width, height, delayInit);
+
     }
 
     // 必须实现，这里返回您的contentView

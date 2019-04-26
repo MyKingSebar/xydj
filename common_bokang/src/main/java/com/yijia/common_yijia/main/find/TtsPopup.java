@@ -32,6 +32,11 @@ public class TtsPopup extends BasePopupWindow implements  LatCallbackInterface {
     private AppCompatEditText mInputEdittext;
     private Context mContext=null;
     private String tencentId=null;
+    private TtsPopuCallBack mTtsPopuCallBack=null;
+
+    public void setmTtsPopuCallBack(TtsPopuCallBack mTtsPopuCallBack) {
+        this.mTtsPopuCallBack = mTtsPopuCallBack;
+    }
 
     private Lat mlat = null;
     StringBuffer mStringBuffer = null;
@@ -60,7 +65,11 @@ public class TtsPopup extends BasePopupWindow implements  LatCallbackInterface {
                 Toast.makeText(mContext,"还未输入文字",Toast.LENGTH_LONG).show();
                 return;
             }
-            bokangSendMessageUtil.sendMessage(bokangSendMessageUtil.buildBokangTextMessage(mInputEdittext.getText().toString()));
+            if(mTtsPopuCallBack!=null){
+                mTtsPopuCallBack.TtsBack(mInputEdittext.getText().toString());
+            }else {
+                bokangSendMessageUtil.sendMessage(bokangSendMessageUtil.buildBokangTextMessage(mInputEdittext.getText().toString()));
+            }
             dismiss();
         });
         mInputEdittext=findViewById(R.id.et_text);

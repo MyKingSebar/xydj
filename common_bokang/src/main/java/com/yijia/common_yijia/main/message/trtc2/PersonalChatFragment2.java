@@ -1,6 +1,7 @@
 package com.yijia.common_yijia.main.message.trtc2;
 
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,6 +12,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.common_tencent_tuikit.Constants;
@@ -29,7 +33,7 @@ import com.tencent.imsdk.TIMUserProfile;
 import com.tencent.imsdk.TIMValueCallBack;
 import com.tencent.qcloud.uikit.business.chat.c2c.view.C2CChatPanel;
 import com.tencent.qcloud.uikit.business.chat.model.MessageInfoUtil;
-import com.tencent.qcloud.uikit.business.chat.view.ChatBottomInputGroup;
+import com.tencent.qcloud.uikit.business.chat.view.ChatBottomInputGroupCust;
 import com.tencent.qcloud.uikit.common.component.titlebar.PageTitleBar;
 import com.yijia.common_yijia.database.YjDatabaseManager;
 import com.yijia.common_yijia.main.message.trtc.BoKangSendMessageListener;
@@ -54,8 +58,8 @@ public class PersonalChatFragment2 extends LatteDelegate {
     private RecyclerView mRecycleView=null;
     private ChatTitieBottomAdapter mChatTitieBottomAdapter=null;
     private TitleBottomItemListener mTitleBottomItemListener=null;
-    private ChatBottomInputGroup mInputGroup;
-    private ChatBottomInputGroup.MessageHandler mMsgHandler;
+    private ChatBottomInputGroupCust mInputGroup;
+    private ChatBottomInputGroupCust.MessageHandler mMsgHandler;
     BokangSendMessageUtil bokangSendMessageUtil=null;
 
 
@@ -68,6 +72,21 @@ public class PersonalChatFragment2 extends LatteDelegate {
     public void onBindView(@Nullable Bundle savedInstanceState, @NonNull View rootView) {
         initView(rootView);
         initView2(rootView);
+
+        final View decorView = getActivity().getWindow().getDecorView();
+        decorView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                Rect r = new Rect();
+                decorView.getWindowVisibleDisplayFrame(r);
+                int screenHeight = decorView.getRootView().getHeight();
+                int height = screenHeight - r.bottom;
+
+                LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) chatPanel.getLayoutParams();
+                lp.setMargins(0, 0, 0, height);
+                chatPanel.requestLayout();
+            }
+        });
 
     }
 
@@ -102,6 +121,7 @@ public class PersonalChatFragment2 extends LatteDelegate {
         //由会话列表传入的会话ID
         chatId = datas.getString(Constants.INTENT_DATA);
         return super.onCreateView(inflater, container, savedInstanceState);
+
 //        return mBaseView;
     }
 

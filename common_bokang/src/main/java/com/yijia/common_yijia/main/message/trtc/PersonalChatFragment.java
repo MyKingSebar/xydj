@@ -26,6 +26,7 @@ import com.tencent.imsdk.TIMMessage;
 import com.tencent.qcloud.uikit.business.chat.c2c.view.C2CChatPanel;
 import com.tencent.qcloud.uikit.business.chat.model.MessageInfoUtil;
 import com.tencent.qcloud.uikit.business.chat.view.ChatBottomInputGroup;
+import com.tencent.qcloud.uikit.business.chat.view.ChatBottomInputGroupCust;
 import com.tencent.qcloud.uikit.common.component.titlebar.PageTitleBar;
 import com.yijia.common_yijia.database.YjDatabaseManager;
 
@@ -36,8 +37,8 @@ public class PersonalChatFragment extends LatteDelegate {
     private View mBaseView;
     private C2CChatPanel chatPanel;
     private PageTitleBar chatTitleBar;
-        private ChatBottomInputGroup mInputGroup;
-        private ChatBottomInputGroup.MessageHandler mMsgHandler;
+        private ChatBottomInputGroupCust mInputGroup;
+        private ChatBottomInputGroupCust.MessageHandler mMsgHandler;
     private String chatId;
 
     BokangSendMessageUtil  bokangSendMessageUtil=null;

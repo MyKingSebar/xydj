@@ -4,12 +4,12 @@ apply plugin: 'com.mob.sdk'
 // 获取当前系统时间
 def releaseTime() { return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC")) }
 android {
-    compileSdkVersion 28
-    buildToolsVersion '28.0.3'
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
     defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
         applicationId "com.bokang.yijia"
-        minSdkVersion 19
-        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"

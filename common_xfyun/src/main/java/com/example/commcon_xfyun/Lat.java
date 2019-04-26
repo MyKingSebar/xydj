@@ -43,6 +43,7 @@ public class Lat {
     public static final int INPUTASS = 2;
 
     private Context mContext = null;
+    boolean withUi=false;
 
     private LatCallbackInterface mLatCallbackInterface = null;
 
@@ -51,6 +52,9 @@ public class Lat {
         this.mtype = type;
         this.mLatCallbackInterface = latCallbackInterface;
         onCreate();
+    }
+    public void setWithUi(boolean with){
+        withUi=with;
     }
 
     // 语音听写对象
@@ -123,9 +127,10 @@ public class Lat {
         mIatResults.clear();
         // 设置参数
         setParam();
-        boolean isShowDialog = mSharedPreferences.getBoolean(
-                mContext.getString(R.string.pref_key_iat_show), true);
-        if (isShowDialog) {
+//        boolean isShowDialog = mSharedPreferences.getBoolean(
+//                mContext.getString(R.string.pref_key_iat_show), true);
+//        if (isShowDialog) {
+        if (withUi) {
             // 显示听写对话框
             mIatDialog.setListener(mRecognizerDialogListener);
             mIatDialog.show();
@@ -228,6 +233,9 @@ public class Lat {
                 showTip(error.getPlainDescription(true) + "\n请确认是否已开通翻译功能");
             } else {
                 showTip(error.getPlainDescription(true));
+            }
+            if (mLatCallbackInterface != null) {
+                mLatCallbackInterface.latError(error.getPlainDescription(true));
             }
         }
 

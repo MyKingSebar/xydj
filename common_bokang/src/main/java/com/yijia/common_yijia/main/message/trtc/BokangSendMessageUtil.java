@@ -6,6 +6,7 @@ import android.util.Log;
 import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMCustomElem;
 import com.tencent.imsdk.TIMMessage;
+import com.tencent.imsdk.TIMTextElem;
 import com.tencent.imsdk.TIMValueCallBack;
 import com.tencent.imsdk.ext.message.TIMMessageExt;
 import com.tencent.imsdk.log.QLog;
@@ -85,6 +86,14 @@ public class BokangSendMessageUtil {
     }
 
 
+    public TIMMessage buildBokangTextMessage(String message){
+        TIMMessage TIMMsg = new TIMMessage();
+        //添加文本内容
+        TIMTextElem elem = new TIMTextElem();
+        elem.setText(message);
+        TIMMsg.addElement(elem);
+        return TIMMsg;
+    }
     public TIMMessage buildBokangMessage(String message){
         TIMMessage TIMMsg = new TIMMessage();
 

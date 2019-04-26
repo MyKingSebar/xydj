@@ -383,4 +383,8 @@ public abstract class ChatPanel extends LinearLayout implements IChatPanel {
         mInputGroup.setOnVoiceClickListener(voiceClickListener);
     }
 
+    public void sendChatMsg(String s) {
+        mInputGroup.sendChatMsg(s);
+    }
+
 }

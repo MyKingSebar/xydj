@@ -671,4 +671,9 @@ public class ChatBottomInputGroupCust extends LinearLayout implements View.OnCli
         this.voiceClickListener = voiceClickListener;
     }
 
+    public void sendChatMsg(String s) {
+        if (msgHandler != null)
+            msgHandler.sendMessage(MessageInfoUtil.buildTextMessage(s));
+    }
+
 }

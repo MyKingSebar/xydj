@@ -37,6 +37,7 @@ import com.tencent.qcloud.uikit.business.chat.model.MessageInfoUtil;
 import com.tencent.qcloud.uikit.business.chat.view.ChatBottomInputGroupCust;
 import com.tencent.qcloud.uikit.common.component.titlebar.PageTitleBar;
 import com.yijia.common_yijia.database.YjDatabaseManager;
+import com.yijia.common_yijia.main.find.TtsPopuCallBack;
 import com.yijia.common_yijia.main.find.TtsPopup;
 import com.yijia.common_yijia.main.message.trtc.BoKangSendMessageListener;
 import com.yijia.common_yijia.main.message.trtc.BokangSendMessageUtil;
@@ -166,13 +167,20 @@ public class PersonalChatFragment2 extends LatteDelegate {
         }, getContext());
 
         mTtsPopup = new TtsPopup(getActivity());
+        mTtsPopup.setId(chatId);
+        mTtsPopup.setPopupGravity(Gravity.CENTER);
+        mTtsPopup.setAllowDismissWhenTouchOutside(false);
+        mTtsPopup.setmTtsPopuCallBack(new TtsPopuCallBack() {
+            @Override
+            public void TtsBack(String s) {
+                chatPanel.sendChatMsg(s);
+            }
+        });
 
         chatPanel.setOnVoiceClickListener(new ChatBottomInputGroupCust.VoiceClickListener() {
             @Override
             public void onClick() {
-                mTtsPopup.setId(chatId);
-                mTtsPopup.setPopupGravity(Gravity.CENTER);
-                mTtsPopup.setAllowDismissWhenTouchOutside(false);
+
                 mTtsPopup.showPopupWindow();
             }
         });

@@ -121,13 +121,6 @@ public class UserInfoDelegate extends LatteDelegate {
                             String tencentImUserSig = user.getString("tencentImUserSig");
                             String inviteCode = user.getString("inviteCode");
 
-                            //是否有机器人：1-是，-2否
-                            int hasRobot = user.getInteger("hasRobot");
-
-                            //活跃度
-                            int activeness = user.getInteger("activeness");
-                            //机器人在线状态：1-是，2-否
-                            int robotOnline = user.getInteger("robotOnline");
                             if (nickname != null) {
                                 tv_name.setText(nickname);
                             }

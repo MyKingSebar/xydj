@@ -5,17 +5,29 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.AppCompatTextView;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.bokang.yijia.mobshare.platform.wechat.friends.WechatShare;
 import com.example.latte.ec.R;
 import com.example.latte.ec.R2;
 import com.example.yijia.delegates.LatteDelegate;
+import com.example.yijia.net.rx.BaseObserver;
+import com.example.yijia.net.rx.RxRestClient;
+import com.example.yijia.ui.dialog.JDialogUtil;
 import com.example.yijia.ui.sms.JSmsUtil;
+import com.example.yijia.util.log.LatteLogger;
+import com.google.gson.JsonObject;
 import com.yijia.common_yijia.database.YjDatabaseManager;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 
 public class InviteDelagate extends LatteDelegate {
@@ -33,6 +45,11 @@ public class InviteDelagate extends LatteDelegate {
     //1-是，2-否
     private long isGuardian = 2;
 
+    private String weChartdesc=null;
+    private String imageUrl=null;
+    private String linkUrl=null;
+    private String smsMsg=null;
+    private String weChattitle=null;
 
     @OnClick(R2.id.tv_back)
     void back() {
@@ -46,7 +63,7 @@ public class InviteDelagate extends LatteDelegate {
 
     @OnClick(R2.id.tv_note)
     void inviteNote() {
-        JSmsUtil.INSTENCE.sendSmsWithBody(getContext(), "", "关注以后就可以看到一家人的所有照片啦!"+"我用小壹机器人记录一家人的回忆快来关注吧!"+"http://47.104.86.251/h5/invite/index.html?inviteCode="+inviteCode);
+        JSmsUtil.INSTENCE.sendSmsWithBody(getContext(), "", smsMsg);
     }
 
 
@@ -67,6 +84,7 @@ public class InviteDelagate extends LatteDelegate {
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, @NonNull View rootView) {
         init();
+        getInvite();
     }
 
 
@@ -75,7 +93,7 @@ public class InviteDelagate extends LatteDelegate {
         tvSave.setVisibility(View.INVISIBLE);
         tvTitle.setText("邀请");
         String content = tvInvitecode.getText().toString();
-        tvInvitecode.setText(content.replace("XXXXXX", inviteCode));
+//        tvInvitecode.setText(content.replace("XXXXXX", inviteCode));
     }
 
 
@@ -107,6 +125,49 @@ public class InviteDelagate extends LatteDelegate {
         if(cbGuardian.isChecked()){
             isGuardian=1;
         }
-        ws.shareWebpager("关注以后就可以看到一家人的所有照片啦!","我用小壹机器人记录一家人的回忆快来关注吧!","http://47.104.86.251/h5/invite/index.html#/?inviteCode="+inviteCode,"http://47.105.157.64/group1/M00/00/05/rB8Ql1yaIqSAXICMAAAockYvlx4722.png");
+        ws.shareWebpager(weChartdesc,weChattitle,linkUrl,imageUrl);
+    }
+
+    private void getInvite() {
+        JDialogUtil.INSTANCE.showRxDialogShapeLoading(getContext());
+        final String url = "/friend/query_invite_code";
+        String token = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getYjtk();
+        RxRestClient.builder()
+                .url(url)
+                .params("yjtk", token)
+                .build()
+                .post()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseObserver<String>(getContext()) {
+                    @Override
+                    public void onResponse(String response) {
+                        LatteLogger.json("delete_circle", response);
+                        JSONObject object=JSON.parseObject(response);
+                        final String status = object.getString("status");
+                        if (TextUtils.equals(status, "1001")) {
+                            JSONObject data=object.getJSONObject("data");
+                            weChartdesc=data.getString("weChartdesc");
+                            imageUrl=data.getString("imageUrl");
+                            linkUrl=data.getString("linkUrl");
+                            smsMsg=data.getString("smsMsg");
+                            weChattitle=data.getString("weChattitle");
+
+                        } else {
+                            final String msg = JSON.parseObject(response).getString("msg");
+                            Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+                            getSupportDelegate().pop();
+                        }
+                        JDialogUtil.INSTANCE.dismiss();
+
+                    }
+
+                    @Override
+                    public void onFail(Throwable e) {
+                        Toast.makeText(getContext(), "请稍后尝试", Toast.LENGTH_SHORT).show();
+                        JDialogUtil.INSTANCE.dismiss();
+                        getSupportDelegate().pop();
+                    }
+                });
     }
 }

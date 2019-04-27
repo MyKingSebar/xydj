@@ -1,13 +1,16 @@
 package com.yijia.common_yijia.main.friends;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Toast;
 
@@ -28,6 +31,9 @@ import com.yijia.common_yijia.main.friends.bean.FriendsBean;
 import com.yijia.common_yijia.main.friends.presenter.FriendsPresenter;
 import com.yijia.common_yijia.main.friends.view.fragment.AddFriendsDelegate;
 import com.yijia.common_yijia.main.friends.view.iview.FriendsView;
+import com.yijia.common_yijia.main.index.InviteDelagate;
+import com.yijia.common_yijia.main.index.friendcircle.LetterDelagate;
+import com.yijia.common_yijia.main.index.friendcircle.pictureselector.PhotoDelegate2;
 import com.yijia.common_yijia.main.message.trtc2.PersonalChatFragment2;
 
 import java.util.ArrayList;
@@ -37,6 +43,8 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import razerdp.basepopup.QuickPopupBuilder;
+import razerdp.basepopup.QuickPopupConfig;
 
 
 /**
@@ -50,6 +58,8 @@ public class FriendsDelegate2 extends LatteDelegate implements  FriendsView ,Com
     AppCompatTextView tvSave;
     @BindView(R2.id.tv_title)
     AppCompatTextView tvTitle;
+    @BindView(R2.id.tv_icon)
+    AppCompatTextView tvIcon;
 
     @OnClick(R2.id.tv_back)
     void back() {
@@ -80,8 +90,10 @@ public class FriendsDelegate2 extends LatteDelegate implements  FriendsView ,Com
 
     private void initView() {
         tvTitle.setText("我的通讯录");
-        tvSave.setVisibility(View.VISIBLE);
-        tvSave.setOnClickListener(v -> getSupportDelegate().start(new AddFriendsDelegate()));
+        tvSave.setVisibility(View.INVISIBLE);
+        tvIcon.setVisibility(View.VISIBLE);
+        tvIcon.setOnClickListener(v -> showIndexPopup(v));
+        tvIcon.setBackground(ContextCompat.getDrawable(getContext(),R.mipmap.icon_addfriend));
     }
 
     @Override
@@ -198,5 +210,25 @@ public class FriendsDelegate2 extends LatteDelegate implements  FriendsView ,Com
                 });
     }
 
+    void showIndexPopup(View v) {
+        QuickPopupBuilder.with(getContext())
+                .contentView(R.layout.basepopu_addfriends)
+                .config(new QuickPopupConfig()
+                        .clipChildren(true)
+//                        .backgroundColor(Color.parseColor("#8C617D8A"))
+//                        .withShowAnimation(enterAnimation)
+//                        .withDismissAnimation(dismissAnimation)
+                        .gravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL)
+                        .blurBackground(true, option -> option.setBlurRadius(6)
+                                .setBlurPreScaleRatio(0.9f))
+                        .withClick(R.id.tv_invite, v1 -> {
+                            getSupportDelegate().start(new InviteDelagate());
+                        }, true)
+                        .withClick(R.id.tv_add, v1 -> {
+                            getSupportDelegate().start(new AddFriendsDelegate());
+                        }, true)
+                )
+                .show(v);
+    }
 
 }

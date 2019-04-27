@@ -8,6 +8,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.latte.ec.R;
+import com.example.yijia.util.GlideUtils;
 import com.yijia.common_yijia.main.friends.CommonClickListener;
 import com.yijia.common_yijia.main.friends.bean.FriendsBean;
 
@@ -29,15 +30,16 @@ public class MyFriendsAdapter extends BaseQuickAdapter<FriendsBean, BaseViewHold
     protected void convert(BaseViewHolder helper, FriendsBean item) {
         helper.setText(R.id.nickname, item.getNickname());
         ImageView userHead = helper.getView(R.id.userHead);
-        if (requestOptions == null) {
-            requestOptions = RequestOptions.circleCropTransform()
-                    // .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true);
-        }
-        Glide.with(mContext)
-                .load(item.getUserHead())
-                .apply(requestOptions)
-                .into(userHead);
+//        if (requestOptions == null) {
+//            requestOptions = RequestOptions.circleCropTransform()
+//                    // .diskCacheStrategy(DiskCacheStrategy.NONE)
+//                    .skipMemoryCache(true);
+//        }
+//        Glide.with(mContext)
+//                .load(item.getUserHead())
+//                .apply(requestOptions)
+//                .into(userHead);
+        GlideUtils.load(mContext,item.getUserHead(),userHead,GlideUtils.USERMODE);
         helper.getView(R.id.ll_friend).setOnLongClickListener(v -> {
             if (mCommonClickListener != null) {
                 mCommonClickListener.commonClick(item.getFriendUserId()+"");

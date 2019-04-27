@@ -83,8 +83,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:layout_marginLeft="45dp"
-            android:layout_marginTop="-5dp"
+            android:layout_marginLeft="60dp"
+            android:layout_marginTop="10dp"
             android:includeFontPadding="false"
             android:textColor="#fff"
             android:textSize="10sp" />

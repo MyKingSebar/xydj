@@ -26,13 +26,13 @@ import com.yijia.common_yijia.main.message.trtc.BokangSendMessageUtil;
 
 import razerdp.basepopup.BasePopupWindow;
 
-public class TtsPopup extends BasePopupWindow implements  LatCallbackInterface {
+public class TtsPopup extends BasePopupWindow implements LatCallbackInterface {
     private AppCompatTextView mCancelButton;
     private AppCompatTextView mCompeleteButton;
     private AppCompatEditText mInputEdittext;
-    private Context mContext=null;
-    private String tencentId=null;
-    private TtsPopuCallBack mTtsPopuCallBack=null;
+    private Context mContext = null;
+    private String tencentId = null;
+    private TtsPopuCallBack mTtsPopuCallBack = null;
 
     public void setmTtsPopuCallBack(TtsPopuCallBack mTtsPopuCallBack) {
         this.mTtsPopuCallBack = mTtsPopuCallBack;
@@ -49,30 +49,32 @@ public class TtsPopup extends BasePopupWindow implements  LatCallbackInterface {
 
     public TtsPopup(Context context) {
         super(context);
-        mContext=context;
-        mCancelButton=findViewById(R.id.tv_cancel);
-        mCancelButton.setOnClickListener(v->{
+        mContext = context;
+        mCancelButton = findViewById(R.id.tv_cancel);
+        mCancelButton.setOnClickListener(v -> {
             dismiss();
         });
-        mCompeleteButton=findViewById(R.id.tv_ok);
-        mCompeleteButton.setOnClickListener(v->{
-            if(TextUtils.isEmpty(tencentId)){
-                Toast.makeText(mContext,"tencentId==null",Toast.LENGTH_LONG).show();
+        mCompeleteButton = findViewById(R.id.tv_ok);
+        mCompeleteButton.setOnClickListener(v -> {
+            if (TextUtils.isEmpty(tencentId)) {
+                Toast.makeText(mContext, "tencentId==null", Toast.LENGTH_LONG).show();
                 dismiss();
                 return;
             }
-            if(TextUtils.isEmpty(mInputEdittext.getText())){
-                Toast.makeText(mContext,"还未输入文字",Toast.LENGTH_LONG).show();
+            if (TextUtils.isEmpty(mInputEdittext.getText())) {
+                Toast.makeText(mContext, "还未输入文字", Toast.LENGTH_LONG).show();
                 return;
             }
-            if(mTtsPopuCallBack!=null){
+            if (mTtsPopuCallBack != null) {
                 mTtsPopuCallBack.TtsBack(mInputEdittext.getText().toString());
-            }else {
+            } else {
                 bokangSendMessageUtil.sendMessage(bokangSendMessageUtil.buildBokangTextMessage(mInputEdittext.getText().toString()));
             }
+            mStringBuffer.setLength(0);
+            mInputEdittext.setText("");
             dismiss();
         });
-        mInputEdittext=findViewById(R.id.et_text);
+        mInputEdittext = findViewById(R.id.et_text);
         mStringBuffer = new StringBuffer();
         checkLat();
         setClipChildren(false);
@@ -99,9 +101,10 @@ public class TtsPopup extends BasePopupWindow implements  LatCallbackInterface {
         mlat.iatStart();
     }
 
-    public void setId(String tencentId){
-        this.tencentId=tencentId;
+    public void setId(String tencentId) {
+        this.tencentId = tencentId;
     }
+
     // 必须实现，这里返回您的contentView
     // 为了让库更加准确的做出适配，强烈建议使用createPopupById()进行inflate
     @Override
@@ -131,9 +134,10 @@ public class TtsPopup extends BasePopupWindow implements  LatCallbackInterface {
             mlat = new Lat(mContext, Lat.INPUTASS, this);
         }
     }
+
     @Override
     public void latSuccess(String s) {
-        Log.d("latSuccess","latSuccess:"+s);
+        Log.d("latSuccess", "latSuccess:" + s);
         mStringBuffer.setLength(0);
         mStringBuffer.append(mInputEdittext.getText().toString());
         if (index < 0 || index >= mStringBuffer.length()) {
@@ -165,8 +169,8 @@ public class TtsPopup extends BasePopupWindow implements  LatCallbackInterface {
 
     private void initIm() {
         if (!TextUtils.isEmpty(tencentId)) {
-            conversation = TIMManager.getInstance().getConversation(TIMConversationType.C2C,tencentId);
-        }else {
+            conversation = TIMManager.getInstance().getConversation(TIMConversationType.C2C, tencentId);
+        } else {
             Toast.makeText(mContext, "获取会话id失败", Toast.LENGTH_LONG).show();
             dismiss();
         }
@@ -183,15 +187,15 @@ public class TtsPopup extends BasePopupWindow implements  LatCallbackInterface {
         initLatAndIm();
     }
 
-    BoKangSendMessageListener mBoKangSendMessageListener=new BoKangSendMessageListener() {
+    BoKangSendMessageListener mBoKangSendMessageListener = new BoKangSendMessageListener() {
         @Override
         public void messageSuccess(TIMMessage timMessage) {
-            Log.e("jialei","TtsPopu:success"+timMessage);
+            Log.e("jialei", "TtsPopu:success" + timMessage);
         }
 
         @Override
         public void messageError(int code, String desc) {
-            Log.e("jialei","TtsPopu:messageError"+code+",+desc");
+            Log.e("jialei", "TtsPopu:messageError" + code + ",+desc");
         }
     };
 

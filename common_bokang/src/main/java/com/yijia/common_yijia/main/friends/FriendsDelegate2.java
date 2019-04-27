@@ -131,8 +131,11 @@ public class FriendsDelegate2 extends LatteDelegate implements  FriendsView ,Com
         adapter.setOnItemClickListener((adapter1, view, position) -> {
             String identifier = friendsBeans.get(position).getIdentifier();
             String nickname = friendsBeans.get(position).getNickname();
+            String headUrl = friendsBeans.get(position).getUserHead();
             Bundle mArgs = new Bundle();
             mArgs.putString(Constants.INTENT_DATA, identifier);
+            mArgs.putString(Constants.INTENT_NAME, nickname);
+            mArgs.putString(Constants.INTENT_URL, headUrl);
             mCurrentFragment = new PersonalChatFragment2();
             mCurrentFragment.setArguments(mArgs);
             getSupportDelegate().start(mCurrentFragment);

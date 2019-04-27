@@ -105,24 +105,19 @@ public class BokangSessionAdapter extends ISessionAdapter {
         } else {
             holder.item_left.setBackgroundColor(Color.WHITE);
         }
-        if (mSessionPanel.getInfoView() != null) {
-            holder.iv_icon.invokeInformation(session, mSessionPanel.getInfoView());
-        }
+//        if (mSessionPanel.getInfoView() != null) {
+//            holder.iv_icon.invokeInformation(session, mSessionPanel.getInfoView());
+//        }
 
-      /*  if (session.isGroup()) {
-            ArrayList<String> imageUrls = new ArrayList<>();
-            imageUrls.add("http://pic.qiantucdn.com/58pic/22/06/55/57b2d98e109c6_1024.jpg");
-            imageUrls.add("http://www.zhlzw.com/UploadFiles/Article_UploadFiles/201204/20120412123914329.jpg");
-            holder.iv_icon.setIconUrls(imageUrls);
-        } else {
 
-        }
-*/
-        holder.iv_icon.setIconUrls(null);
         if (session.isGroup()) {
             holder.tv_speak.setVisibility(View.INVISIBLE);
             holder.iv_icon.setDefaultImageResId(R.drawable.default_group);
         } else {
+            List<String> urls = new ArrayList<>();
+            urls.add(session.getIconUrl());
+            holder.iv_icon.setIconUrls(urls);
+
             holder.tv_speak.setVisibility(View.VISIBLE);
             holder.tv_speak.setOnClickListener(v->{
                 if(mBokangSessionListener!=null){

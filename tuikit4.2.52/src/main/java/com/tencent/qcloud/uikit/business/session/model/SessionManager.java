@@ -184,8 +184,12 @@ public class SessionManager implements UIKitRequestHandler, TIMRefreshListener, 
         info.setLastMessage(msg);
         if (isGroup)
             info.setTitle(session.getGroupName());
-        else
+        else {
+
             info.setTitle(session.getPeer());
+//            info.setTitle(message.getSenderProfile().getNickName());
+//            info.setIconUrl(message.getSenderProfile().getFaceUrl());
+        }
         info.setPeer(session.getPeer());
         info.setGroup(session.getType() == TIMConversationType.Group);
         if (ext.getUnreadMessageNum() > 0)

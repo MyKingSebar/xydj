@@ -50,14 +50,19 @@ public class C2CChatPanel extends ChatPanel implements IChatPanel {
     }
 
 
-    public void setBaseChatId(String chatId) {
+    public void setBaseChatId(String chatId, String name, String url) {
         mPresenter = new C2CChatPresenter(this);
-        this.mBaseInfo = mPresenter.getC2CChatInfo(chatId);
+        this.mBaseInfo = mPresenter.getC2CChatInfo(chatId, name, url);
         if (mBaseInfo == null)
             return;
         String chatTitle = mBaseInfo.getChatName();
         mTitleBar.setTitle(chatTitle, PageTitleBar.POSITION.CENTER);
         mPresenter.loadChatMessages(null);
+    }
+
+    @Override
+    public void setBaseChatId(String chatId) {
+        setBaseChatId(chatId, "", "");
     }
 
     @Override

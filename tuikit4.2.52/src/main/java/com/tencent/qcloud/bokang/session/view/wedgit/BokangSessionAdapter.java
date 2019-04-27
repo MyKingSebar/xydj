@@ -2,13 +2,19 @@
 package com.tencent.qcloud.bokang.session.view.wedgit;
 
 import android.graphics.Color;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.yijia.util.GlideUtils;
+import com.tencent.imsdk.TIMFriendshipManager;
+import com.tencent.imsdk.TIMUserProfile;
+import com.tencent.imsdk.TIMValueCallBack;
 import com.tencent.qcloud.bokang.session.view.BokangSessionPanel;
 import com.tencent.qcloud.uikit.R;
 import com.tencent.qcloud.uikit.TUIKit;
@@ -114,9 +120,6 @@ public class BokangSessionAdapter extends ISessionAdapter {
             holder.tv_speak.setVisibility(View.INVISIBLE);
             holder.iv_icon.setDefaultImageResId(R.drawable.default_group);
         } else {
-            List<String> urls = new ArrayList<>();
-            urls.add(session.getIconUrl());
-            holder.iv_icon.setIconUrls(urls);
 
             holder.tv_speak.setVisibility(View.VISIBLE);
             holder.tv_speak.setOnClickListener(v->{
@@ -127,7 +130,39 @@ public class BokangSessionAdapter extends ISessionAdapter {
             holder.iv_icon.setDefaultImageResId(R.drawable.default_head);
         }
 
-        holder.tv_title.setText(session.getTitle());
+        if(TextUtils.isEmpty(session.getIconUrl()) && TextUtils.isEmpty(session.getTitle())) {
+            List<String> ids = new ArrayList<>(1);
+            ids.add(session.getPeer());
+            TIMFriendshipManager.getInstance().getUsersProfile(ids,false, new TIMValueCallBack<List<TIMUserProfile>>() {
+                @Override
+                public void onError(int i, String s) {
+
+                }
+
+                @Override
+                public void onSuccess(List<TIMUserProfile> timUserProfiles) {
+
+                    session.setIconUrl(timUserProfiles.get(0).getFaceUrl());
+                    session.setTitle(timUserProfiles.get(0).getNickName());
+
+                    ImageView imageView = new ImageView(TUIKit.getAppContext());
+
+                    GlideUtils.load(TUIKit.getAppContext(), timUserProfiles.get(0).getFaceUrl(), imageView, GlideUtils.USERMODE);
+
+                    holder.iv_icon.setProfileImageView(imageView);
+
+                    holder.tv_title.setText(timUserProfiles.get(0).getNickName());
+                }
+            });
+        } else {
+
+            GlideUtils.load(TUIKit.getAppContext(), session.getIconUrl(), holder.iv_icon.getProfileImageView(), GlideUtils.USERMODE);
+
+            holder.tv_title.setText(session.getTitle());
+        }
+
+
+
         holder.tv_msg.setText("");
         holder.tv_time.setText("");
         if (lastMsg != null) {

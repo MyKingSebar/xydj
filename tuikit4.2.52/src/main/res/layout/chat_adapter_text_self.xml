@@ -91,7 +91,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
                         android:padding="10dp"
-                        android:textColor="#fff"
+                        android:textColor="#000"
                         android:textSize="15sp" />
                 </LinearLayout>
 

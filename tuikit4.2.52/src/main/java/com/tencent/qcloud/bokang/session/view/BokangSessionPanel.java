@@ -9,6 +9,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
@@ -402,18 +403,18 @@ public class BokangSessionPanel extends RelativeLayout implements ISessionPanel 
         }
         setSessionAdapter(adapter);
 
-       /* setSessionIconInvoke(new DynamicSessionIconView() {
-            @Override
-            public void parseInformation(SessionInfo info) {
-                ImageView img = new ImageView(getContext());
-                img.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-                img.setImageResource(R.drawable.message_send_fail);
-                RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(UIUtils.getPxByDp(10), UIUtils.getPxByDp(10));
-                params.addRule(RelativeLayout.RIGHT_OF, mViewId);
-                params.setMargins(-UIUtils.getPxByDp(5), 0, 0, 0);
-                addChild(img, params);
-            }
-        });*/
+//        setSessionIconInvoke(new DynamicSessionIconView() {
+//            @Override
+//            public void parseInformation(SessionInfo info) {
+//                ImageView img = new ImageView(getContext());
+//                img.setScaleType(ImageView.ScaleType.FIT_XY);
+//                img.setImageResource(R.drawable.message_send_fail);
+//                RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(UIUtils.getPxByDp(10), UIUtils.getPxByDp(10));
+//                params.addRule(RelativeLayout.RIGHT_OF, mViewId);
+//                params.setMargins(-UIUtils.getPxByDp(5), 0, 0, 0);
+//                addChild(img, params);
+//            }
+//        });
 
         mPresenter = new BokangSessionPresenter(this);
         mPresenter.loadSessionData();

@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 import com.example.latte.ec.R;
 import com.example.latte.ec.R2;
 import com.example.yijia.delegates.bottom.BottomItemDelegate;
+import com.yijia.common_yijia.main.find.homedoc.HomeDoctorDelegate;
 import com.yijia.common_yijia.main.message.trtc.session.SessionFragment;
 
 import butterknife.BindView;
@@ -44,9 +45,11 @@ public class FindDelegate extends BottomItemDelegate {
     }
     @OnClick(R2.id.ll_homedoc)
     void ll_homedoc() {
+        getParentDelegate().getSupportDelegate().start(new HomeDoctorDelegate());
     }
     @OnClick(R2.id.ll_door)
     void ll_door() {
+
     }
     @OnClick(R2.id.ll_health)
     void ll_health() {

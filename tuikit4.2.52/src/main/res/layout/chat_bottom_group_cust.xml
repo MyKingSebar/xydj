@@ -21,11 +21,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:maxLines="2"
+            android:maxLines="5"
             android:padding="5dp"
             android:paddingLeft="8dp"
             android:background="@drawable/msg_editor_border"
-            android:maxHeight="120dp"
+            android:hint="输入消息内容"
             android:minHeight="30dp"/>
 
 

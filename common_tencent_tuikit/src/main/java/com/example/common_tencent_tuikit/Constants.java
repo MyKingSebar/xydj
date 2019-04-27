@@ -40,5 +40,7 @@ public class Constants {
 
 
     public static final String INTENT_DATA = "INTENT_DATA";
+    public static final String INTENT_NAME = "INTENT_NAME";
+    public static final String INTENT_URL = "INTENT_URL";
 
 }

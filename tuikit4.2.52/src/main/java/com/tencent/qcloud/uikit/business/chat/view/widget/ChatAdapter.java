@@ -227,7 +227,8 @@ public class ChatAdapter extends IChatAdapter {
                 if (mRecycleView.getSelfBubble() != null) {
                     chatHolder.dataView.setBackground(mRecycleView.getSelfBubble());
                 } else {
-                    chatHolder.dataView.setBackgroundResource(R.drawable.chat_opposite_bg);
+                    chatHolder.dataView.setBackgroundResource(R.drawable.chat_self_bg);
+
                 }
             }
 

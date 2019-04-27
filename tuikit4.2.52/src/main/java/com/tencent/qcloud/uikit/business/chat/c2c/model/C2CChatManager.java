@@ -7,6 +7,7 @@ import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMConversationType;
 import com.tencent.imsdk.TIMElem;
 import com.tencent.imsdk.TIMElemType;
+import com.tencent.imsdk.TIMFriendshipManager;
 import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.TIMMessageListener;
@@ -17,6 +18,8 @@ import com.tencent.imsdk.ext.message.TIMMessageLocator;
 import com.tencent.imsdk.log.QLog;
 import com.tencent.qcloud.uikit.business.chat.model.MessageInfo;
 import com.tencent.qcloud.uikit.business.chat.model.MessageInfoUtil;
+import com.tencent.qcloud.uikit.business.session.model.SessionInfo;
+import com.tencent.qcloud.uikit.business.session.model.SessionManager;
 import com.tencent.qcloud.uikit.common.IUIKitCallBack;
 import com.tencent.qcloud.uikit.common.utils.UIUtils;
 import com.tencent.qcloud.uikit.operation.UIKitMessageRevokedManager;
@@ -77,13 +80,25 @@ public class C2CChatManager implements TIMMessageListener, UIKitMessageRevokedMa
         return mC2CChats.put(chatInfo.getPeer(), chatInfo) == null;
     }
 
-    public C2CChatInfo getC2CChatInfo(String peer) {
+    public C2CChatInfo getC2CChatInfo(String peer, String name, String url) {
         C2CChatInfo chatInfo = mC2CChats.get(peer);
         if (chatInfo == null) {
+
             chatInfo = new C2CChatInfo();
             chatInfo.setPeer(peer);
-            chatInfo.setChatName(peer);
+            chatInfo.setChatName(name);
             mC2CChats.put(peer, chatInfo);
+
+            C2CChatInfo ci = new C2CChatInfo();
+            ci.setPeer(peer);
+            ci.setChatName(name);
+            C2CChatManager.getInstance().addChatInfo(ci);
+
+            SessionInfo si = new SessionInfo();
+            si.setPeer(peer);
+            si.setIconUrl(url);
+            si.setTitle(name);
+            SessionManager.getInstance().addSession(si);
         }
         return chatInfo;
     }

@@ -20,6 +20,7 @@ import com.example.latte.ec.R2;
 import com.example.latte.ui.widget.UserTextLineView;
 import com.example.yijia.app.AccountManager;
 import com.example.yijia.app.IUserChecker;
+import com.example.yijia.delegates.LatteDelegate;
 import com.example.yijia.delegates.bottom.BottomItemDelegate;
 import com.yijia.common_yijia.database.YjDatabaseManager;
 import com.yijia.common_yijia.main.friends.FriendsDelegate2;
@@ -33,7 +34,7 @@ import butterknife.OnClick;
 /**
  * 我的页面
  **/
-public class MineDelegate extends BottomItemDelegate {
+public class MineDelegate extends LatteDelegate {
     @BindView(R2.id.tv_save)
     AppCompatTextView tvSave;
     @BindView(R2.id.tv_title)

@@ -52,7 +52,7 @@ import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-public class RobotMyRobotDelegate extends LatteDelegate {
+public class RobotMyRobotDelegate extends BottomItemDelegate {
     AppCompatTextView tvCall, tvRemind, tvMessage, tvGuardianship, tvHealth, tvLiveness, tvRobotImg;
     String token = null;
     long userId=0;

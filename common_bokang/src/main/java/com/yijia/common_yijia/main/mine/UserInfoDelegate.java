@@ -65,7 +65,7 @@ public class UserInfoDelegate extends LatteDelegate {
     @OnClick(R2.id.tv_add)
     void add() {
         //TODO
-        addfriendreq(id,token);
+        addfriendreq(id, token);
     }
 
     @Override
@@ -140,6 +140,7 @@ public class UserInfoDelegate extends LatteDelegate {
                     }
                 });
     }
+
     private void getRecentInfo() {
 //        String token = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getYjtk();
 //        long id = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getId();
@@ -159,7 +160,7 @@ public class UserInfoDelegate extends LatteDelegate {
                         final JSONObject obj = JSON.parseObject(response);
                         final String status = obj.getString("status");
                         if (TextUtils.equals(status, "1001")) {
-                            Log.e("jialei","getRecentInfo:"+new Gson().toJson(response));
+                            Log.e("jialei", "getRecentInfo:" + new Gson().toJson(response));
                             final List<MultipleItemEntity> data =
                                     new UserRecentBehaviorConverter()
                                             .setJsonData(response)
@@ -183,33 +184,33 @@ public class UserInfoDelegate extends LatteDelegate {
     }
 
     @SuppressLint("CheckResult")
-    private void addfriendreq(long targetUserId, String token){
-            String url = "/friend/insert_friend_apply";
-            RxRestClient.builder()
-                    .url(url)
-                    .params("yjtk", token)
-                    .params("targetUserId",targetUserId)
-                    .build()
-                    .post()
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Consumer<String>() {
-                        @Override
-                        public void accept(String response) throws Exception {
-                            final JSONObject object = JSON.parseObject(response);
-                            final String status = object.getString("status");
-                            if (TextUtils.equals(status, "1001")) {
-                               showToast("发送成功");
-                            }else{
-                                showToast(object.getString("msg"));
-                            }
+    private void addfriendreq(long targetUserId, String token) {
+        String url = "/friend/insert_friend_apply";
+        RxRestClient.builder()
+                .url(url)
+                .params("yjtk", token)
+                .params("targetUserId", targetUserId)
+                .build()
+                .post()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<String>() {
+                    @Override
+                    public void accept(String response) throws Exception {
+                        final JSONObject object = JSON.parseObject(response);
+                        final String status = object.getString("status");
+                        if (TextUtils.equals(status, "1001")) {
+                            showToast("发送成功");
+                        } else {
+                            showToast(object.getString("msg"));
                         }
-                    }, new Consumer<Throwable>() {
-                        @Override
-                        public void accept(Throwable throwable) throws Exception {
-                            showToast(throwable.getMessage());
-                        }
-                    });
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        showToast(throwable.getMessage());
+                    }
+                });
     }
 
 }

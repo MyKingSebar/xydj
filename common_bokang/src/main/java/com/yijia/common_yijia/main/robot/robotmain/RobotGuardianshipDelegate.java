@@ -10,10 +10,11 @@ import android.view.View;
 
 import com.example.latte.ec.R;
 import com.example.yijia.delegates.LatteDelegate;
+import com.example.yijia.delegates.bottom.BottomItemDelegate;
 import com.yijia.common_yijia.database.YjDatabaseManager;
 import com.yijia.common_yijia.main.friends.CommonClickListener;
 
-public class RobotGuardianshipDelegate extends LatteDelegate implements CommonClickListener {
+public class RobotGuardianshipDelegate extends BottomItemDelegate implements CommonClickListener {
     RecyclerView mRecyelerView=null;
     String token = null;
     private RobotGuardianshipReFreshHandler mRobotGuardianshipReFreshHandler = null;
@@ -69,4 +70,5 @@ public class RobotGuardianshipDelegate extends LatteDelegate implements CommonCl
         mDelegate.setArguments(bundle);
         getParentDelegate().getSupportDelegate().start(mDelegate);
     }
+
 }

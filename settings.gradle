@@ -8,5 +8,5 @@ include ':example', ':common_tencent_tuikit', ':mobshareplatform', ':baidutext',
         ':picture_library',':ucrop',
         ':camera1.1.9',
         ':ocr_ui',
-        ':ui_magicindicator'
+        ':ui_magicindicator1.6.0'
 

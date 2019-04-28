@@ -85,7 +85,6 @@ public class PersonalChatFragment2 extends LatteDelegate {
                 decorView.getWindowVisibleDisplayFrame(r);
                 int screenHeight = decorView.getRootView().getHeight();
                 int height = screenHeight - r.bottom;
-
                 LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) chatPanel.getLayoutParams();
                 lp.setMargins(0, 0, 0, height);
                 chatPanel.requestLayout();

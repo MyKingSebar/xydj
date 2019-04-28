@@ -161,23 +161,17 @@ public class RobotHisRobotDelegate extends LatteDelegate {
                             String tencentImUserSig = user.getString("tencentImUserSig");
                             String inviteCode = user.getString("inviteCode");
 
-                            //是否有机器人：1-是，-2否
-                            hasRobot= user.getInteger("hasRobot");
-                            //活跃度
-                            int activeness = user.getInteger("activeness");
-                            //机器人在线状态：1-是，2-否
-                            int robotOnline = user.getInteger("robotOnline");
-                            switch (robotOnline) {
-                                case 1:
-                                    isOnline = true;
-                                    break;
-                                case 2:
-                                    isOnline = false;
-                                    break;
-                                default:
-                                    break;
-                            }
-                            TextViewUtils.AppCompatTextViewSetText(tvLiveness, activeness + "");
+//                            switch (robotOnline) {
+//                                case 1:
+//                                    isOnline = true;
+//                                    break;
+//                                case 2:
+//                                    isOnline = false;
+//                                    break;
+//                                default:
+//                                    break;
+//                            }
+//                            TextViewUtils.AppCompatTextViewSetText(tvLiveness, activeness + "");
                             TextViewUtils.AppCompatTextViewSetText(tvTitle, nickname + "的小壹");
                             bokangSendMessageUtil = new BokangSendMessageUtil(TIMManager.getInstance().getConversation(TIMConversationType.C2C, tencentImUserId), new BoKangSendMessageListener() {
                                 @Override

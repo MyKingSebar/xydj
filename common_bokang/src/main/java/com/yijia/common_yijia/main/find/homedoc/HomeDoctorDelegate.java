@@ -91,14 +91,15 @@ public class HomeDoctorDelegate extends LatteDelegate implements CommonClickList
 
     @Override
     public void commonClick(String info) {
-        RobotHisRobotDelegate mDelegate = new RobotHisRobotDelegate();
+
+        HomeDoctorInDelegate mDelegate = new HomeDoctorInDelegate();
         Bundle bundle = new Bundle();
         long id = Long.parseLong(info);
         if (id == 0) {
             showToast("网络异常id=0");
             return;
         }
-        bundle.putLong(RobotHisRobotDelegate.USERID, id);
+        bundle.putLong(HomeDoctorInDelegate.ID_KEY, id);
         mDelegate.setArguments(bundle);
         getParentDelegate().getSupportDelegate().start(mDelegate);
     }

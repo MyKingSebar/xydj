@@ -23,5 +23,6 @@ public class YjIndexItemType {
 
     public static final int ROBOTGUARDUABSHIP_ITEM = 300;
     public static final int FIND_HOMEDOCTOR_ITEM = 301;
+    public static final int FIND_HOMEDOCTOR_IN_ITEM = 302;
 
 }

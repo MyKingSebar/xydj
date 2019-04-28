@@ -3,6 +3,9 @@ package com.tencent.qcloud.uikit.business.session.model;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.tencent.imsdk.TIMFriendshipManager;
+import com.tencent.imsdk.TIMUserProfile;
+import com.tencent.imsdk.TIMValueCallBack;
 import com.tencent.qcloud.uikit.common.IUIKitCallBack;
 import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMConversationType;
@@ -185,10 +188,8 @@ public class SessionManager implements UIKitRequestHandler, TIMRefreshListener, 
         if (isGroup)
             info.setTitle(session.getGroupName());
         else {
+//            info.setTitle(session.getPeer());
 
-            info.setTitle(session.getPeer());
-//            info.setTitle(message.getSenderProfile().getNickName());
-//            info.setIconUrl(message.getSenderProfile().getFaceUrl());
         }
         info.setPeer(session.getPeer());
         info.setGroup(session.getType() == TIMConversationType.Group);
@@ -314,6 +315,8 @@ public class SessionManager implements UIKitRequestHandler, TIMRefreshListener, 
     public boolean addSession(SessionInfo sessionInfo) {
         List<SessionInfo> sessionInfos = new ArrayList<>();
         sessionInfos.add(sessionInfo);
+        if (mProvider == null)
+            mProvider = new SessionProvider();
         return mProvider.addSessions(sessionInfos);
     }
 

@@ -58,6 +58,11 @@ public class SessionIconView extends RelativeLayout {
 
     }
 
+    public ImageView getProfileImageView() {
+        return mIconView ;
+
+    }
+
     /**
      * 设置会话头像的url
      *

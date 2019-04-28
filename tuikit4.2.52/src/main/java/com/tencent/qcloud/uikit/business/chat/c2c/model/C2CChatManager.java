@@ -83,22 +83,11 @@ public class C2CChatManager implements TIMMessageListener, UIKitMessageRevokedMa
     public C2CChatInfo getC2CChatInfo(String peer, String name, String url) {
         C2CChatInfo chatInfo = mC2CChats.get(peer);
         if (chatInfo == null) {
-
             chatInfo = new C2CChatInfo();
             chatInfo.setPeer(peer);
             chatInfo.setChatName(name);
             mC2CChats.put(peer, chatInfo);
 
-            C2CChatInfo ci = new C2CChatInfo();
-            ci.setPeer(peer);
-            ci.setChatName(name);
-            C2CChatManager.getInstance().addChatInfo(ci);
-
-            SessionInfo si = new SessionInfo();
-            si.setPeer(peer);
-            si.setIconUrl(url);
-            si.setTitle(name);
-            SessionManager.getInstance().addSession(si);
         }
         return chatInfo;
     }

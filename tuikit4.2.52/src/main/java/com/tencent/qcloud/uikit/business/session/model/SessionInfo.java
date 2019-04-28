@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import com.tencent.qcloud.uikit.business.chat.model.MessageInfo;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class SessionInfo implements Serializable, Comparable<SessionInfo> {
 
@@ -51,6 +52,16 @@ public class SessionInfo implements Serializable, Comparable<SessionInfo> {
      * 最后一条消息，MessageInfo对象
      */
     private MessageInfo lastMessage;
+
+    private List<String> urls;
+
+    public List<String> getUrls() {
+        return urls;
+    }
+
+    public void setUrls(List<String> urls) {
+        this.urls = urls;
+    }
 
     public SessionInfo() {
 

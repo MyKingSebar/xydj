@@ -71,6 +71,10 @@ public class ChatIconView extends RelativeLayout {
 
     }
 
+    public SynthesizedImageView getImageView() {
+        return mIconView;
+    }
+
     public void setDefaultImageResId(int resId) {
         mDefaultImageResId = resId;
         mIconView.defaultImage(resId);

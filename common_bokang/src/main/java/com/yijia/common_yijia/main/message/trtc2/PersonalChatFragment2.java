@@ -75,7 +75,7 @@ public class PersonalChatFragment2 extends LatteDelegate {
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, @NonNull View rootView) {
         initView(rootView);
-//        initView2(rootView);
+        initView2(rootView);
 
         final View decorView = getActivity().getWindow().getDecorView();
         decorView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -93,29 +93,29 @@ public class PersonalChatFragment2 extends LatteDelegate {
 
     }
 
-//    private void initView2(View rootView) {
-//        if(chatId==null){
-//            return;
-//        }
-//        List<String> users = new ArrayList<String>();
-//        users.add(chatId);
-//        TIMFriendshipManager.getInstance().getUsersProfile(users, false, new TIMValueCallBack<List<TIMUserProfile>>() {
-//            @Override
-//            public void onError(int code, String desc){
-//                //错误码 code 和错误描述 desc，可用于定位请求失败原因
-//                //错误码 code 列表请参见错误码表
-//                Log.e(TAG, "getUsersProfile failed: " + code + " desc");
-//            }
-//
-//            @Override
-//            public void onSuccess(List<TIMUserProfile> timUserProfiles) {
-//                for(TIMUserProfile res : timUserProfiles){
-//                    cpTitle.setText(res.getNickName());
-//                    Log.e(TAG, "identifier: " + res.getIdentifier() + " nickName: " + res.getNickName());
-//                }
-//            }
-//        });
-//    }
+    private void initView2(View rootView) {
+        if(chatId==null){
+            return;
+        }
+        List<String> users = new ArrayList<String>();
+        users.add(chatId);
+        TIMFriendshipManager.getInstance().getUsersProfile(users, false, new TIMValueCallBack<List<TIMUserProfile>>() {
+            @Override
+            public void onError(int code, String desc){
+                //错误码 code 和错误描述 desc，可用于定位请求失败原因
+                //错误码 code 列表请参见错误码表
+                Log.e(TAG, "getUsersProfile failed: " + code + " desc");
+            }
+
+            @Override
+            public void onSuccess(List<TIMUserProfile> timUserProfiles) {
+                for(TIMUserProfile res : timUserProfiles){
+                    cpTitle.setText(res.getNickName());
+                    Log.e(TAG, "identifier: " + res.getIdentifier() + " nickName: " + res.getNickName());
+                }
+            }
+        });
+    }
 
     @Nullable
     @Override

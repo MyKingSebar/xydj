@@ -100,7 +100,7 @@ public class ChatListView extends RecyclerView {
         return mChatIcon;
     }
 
-    public void setUserChatIcon(DynamicChatUserIconView mUserIcon) {
+    public void setUserChatIcon(DynamicChatUserIconView mChatIcon) {
         this.mChatIcon = mChatIcon;
     }
 

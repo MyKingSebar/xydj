@@ -15,9 +15,11 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.yijia.util.GlideUtils;
 import com.tencent.imsdk.TIMCallBack;
 import com.tencent.imsdk.TIMFaceElem;
 import com.tencent.imsdk.TIMFileElem;
+import com.tencent.imsdk.TIMFriendshipManager;
 import com.tencent.imsdk.TIMImage;
 import com.tencent.imsdk.TIMImageElem;
 import com.tencent.imsdk.TIMImageType;
@@ -25,6 +27,8 @@ import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.TIMSnapshot;
 import com.tencent.imsdk.TIMSoundElem;
 import com.tencent.imsdk.TIMTextElem;
+import com.tencent.imsdk.TIMUserProfile;
+import com.tencent.imsdk.TIMValueCallBack;
 import com.tencent.imsdk.TIMVideo;
 import com.tencent.imsdk.TIMVideoElem;
 import com.tencent.imsdk.log.QLog;
@@ -95,7 +99,7 @@ public class ChatAdapter extends IChatAdapter {
 
         LayoutInflater inflater = LayoutInflater.from(TUIKit.getAppContext());
         RecyclerView.ViewHolder holder = new ChatTextHolder(inflater.inflate(R.layout.chat_adapter_text, parent, false));
-        Log.d("jialei","onCreateViewHolder:viewType:"+viewType);
+        Log.d("jialei", "onCreateViewHolder:viewType:" + viewType);
         switch (viewType) {
             case MessageInfo.MSG_TYPE_TEXT:
                 holder = new ChatTextHolder(inflater.inflate(R.layout.chat_adapter_text, parent, false));
@@ -264,8 +268,29 @@ public class ChatAdapter extends IChatAdapter {
         if (mRecycleView.getUserChatIcon() != null) {
             chatHolder.userIcon.setDynamicChatIconView(mRecycleView.getUserChatIcon());
         }
-        chatHolder.userIcon.invokeInformation(msg);
         chatHolder.userIcon.setDefaultImageResId(R.drawable.default_head);
+        List<String> ids = new ArrayList<>(1);
+        ids.add(msg.getFromUser());
+        chatHolder.userIcon.setTag(msg.getFromUser());
+        TIMFriendshipManager.getInstance().getUsersProfile(ids, false, new TIMValueCallBack<List<TIMUserProfile>>() {
+
+            @Override
+            public void onError(int i, String s) {
+
+            }
+
+            @Override
+            public void onSuccess(List<TIMUserProfile> timUserProfiles) {
+                if(chatHolder.userIcon.getTag().equals(msg.getFromUser())){
+                    String url = timUserProfiles.get(0).getFaceUrl();
+                    GlideUtils.load(TUIKit.getAppContext(), url, chatHolder.userIcon.getImageView(), GlideUtils.USERMODE);
+                }
+
+            }
+        });
+
+        chatHolder.userIcon.invokeInformation(msg);
+
 
         switch (getItemViewType(position)) {
             case MessageInfo.MSG_TYPE_TEXT:
@@ -577,45 +602,29 @@ public class ChatAdapter extends IChatAdapter {
         }
 
 
-        if (mRecycleView.getNameColor() != 0)
-
-        {
+        if (mRecycleView.getNameColor() != 0) {
             chatHolder.userName.setTextColor(mRecycleView.getNameColor());
         }
-        if (mRecycleView.getNameSize() != 0)
-
-        {
+        if (mRecycleView.getNameSize() != 0) {
             chatHolder.userName.setTextSize(mRecycleView.getNameSize());
         }
 
-        if (msg.isGroup())
-
-        {
+        if (msg.isGroup()) {
             chatHolder.userName.setVisibility(View.VISIBLE);
             chatHolder.userName.setText(msg.getFromUser());
-        } else
-
-        {
+        } else {
             chatHolder.userName.setVisibility(View.GONE);
         }
-        if (msg.getStatus() == MessageInfo.MSG_STATUS_SEND_FAIL)
-
-        {
+        if (msg.getStatus() == MessageInfo.MSG_STATUS_SEND_FAIL) {
             chatHolder.status.setVisibility(View.VISIBLE);
-        } else
-
-        {
+        } else {
             chatHolder.status.setVisibility(View.GONE);
         }
 
-        if (msg.getStatus() == MessageInfo.MSG_STATUS_SENDING || msg.getStatus() == MessageInfo.MSG_STATUS_DOWNLOADING)
-
-        {
+        if (msg.getStatus() == MessageInfo.MSG_STATUS_SENDING || msg.getStatus() == MessageInfo.MSG_STATUS_DOWNLOADING) {
             if (chatHolder.progress != null)
                 chatHolder.progress.setVisibility(View.VISIBLE);
-        } else
-
-        {
+        } else {
             if (chatHolder.progress != null)
                 chatHolder.progress.setVisibility(View.GONE);
         }

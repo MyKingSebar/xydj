@@ -10,6 +10,7 @@ import com.tencent.qcloud.uikit.api.chat.IChatPanel;
 import com.tencent.qcloud.uikit.business.chat.c2c.model.C2CChatInfo;
 import com.tencent.qcloud.uikit.business.chat.c2c.model.C2CChatManager;
 import com.tencent.qcloud.uikit.business.chat.c2c.presenter.C2CChatPresenter;
+import com.tencent.qcloud.uikit.business.chat.view.DynamicChatUserIconView;
 import com.tencent.qcloud.uikit.common.component.action.PopActionClickListener;
 import com.tencent.qcloud.uikit.common.component.action.PopMenuAction;
 import com.tencent.qcloud.uikit.business.chat.model.MessageInfo;
@@ -88,8 +89,16 @@ public class C2CChatPanel extends ChatPanel implements IChatPanel {
         mTitleBar.getLeftGroup().setVisibility(View.VISIBLE);
         mTitleBar.getRightGroup().setVisibility(GONE);
         ChatAdapter adapter = new ChatAdapter();
+
         setChatAdapter(adapter);
         initDefaultEvent();
+
+        mChatList.setUserChatIcon(new DynamicChatUserIconView() {
+            @Override
+            public void parseInformation(MessageInfo info) {
+
+            }
+        });
     }
 
     @Override

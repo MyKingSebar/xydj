@@ -137,6 +137,9 @@ public class GuardianshipDelegate extends LatteDelegate implements GuardianshipL
                                     .convert();
                             mAdapter = new GuardianshipAdapter(data, GuardianshipDelegate.this);
                             mAdapter.setmGuardianshipListener(GuardianshipDelegate.this);
+                            mAdapter.setmCommonClickListener(v->{
+                                showToast("长按删除");
+                            });
                             rv.setAdapter(mAdapter);
                             if (data.size() > 0) {
                                 tvIcon.setVisibility(View.GONE);

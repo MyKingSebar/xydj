@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
+import com.example.latte.R;
+import com.example.yijia.app.Latte;
 import com.example.yijia.ui.dialog.RxDialogShapeLoading;
 
 public abstract class LatteDelegate extends PermissionCheckerDelegate {
@@ -36,5 +38,9 @@ public abstract class LatteDelegate extends PermissionCheckerDelegate {
         //强制隐藏键盘
         imm.hideSoftInputFromWindow(this.getView().getWindowToken(), 0);
     }
-
+    @Override
+    public boolean onBackPressedSupport() {
+        getSupportDelegate().pop();
+        return true;
+    }
 }

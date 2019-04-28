@@ -279,16 +279,17 @@ private void initJPush(){
                     .build();
 
             imageView.setOnClickListener(v -> {
-                String sig = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getTencentImUserSig();
-                String userId = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getTencentImUserId();
-                final Intent intent = new Intent(ExampleActivity.this, TRTCMainActivity3.class);
-                intent.putExtra("roomId", 100);
-                intent.putExtra("userId", userId);
-                intent.putExtra("sdkAppId", TrtcConfig.SDKAPPID);
-                intent.putExtra("userSig", sig);
-                //TODO 需要指定会话ID（即聊天对象的identify，具体可参考IMSDK接入文档）
-//            intent.putExtra("chatId", chatId);
-                startActivity(intent);
+//                String sig = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getTencentImUserSig();
+//                String userId = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getTencentImUserId();
+//                final Intent intent = new Intent(ExampleActivity.this, TRTCMainActivity3.class);
+//                intent.putExtra("roomId", 100);
+//                intent.putExtra("userId", userId);
+//                intent.putExtra("sdkAppId", TrtcConfig.SDKAPPID);
+//                intent.putExtra("userSig", sig);
+//                //TODO 需要指定会话ID（即聊天对象的identify，具体可参考IMSDK接入文档）
+////            intent.putExtra("chatId", chatId);
+//                startActivity(intent);
+                Toast.makeText(getApplicationContext(), "别点了笨蛋！", Toast.LENGTH_SHORT).show();
             });
 //            imageView.setOnClickListener(v ->
 //

@@ -10,6 +10,7 @@ import com.example.latte.ui.recycler.MultipleRecyclerAdapter;
 import com.example.latte.ui.recycler.MultipleViewHolder;
 import com.example.yijia.delegates.LatteDelegate;
 import com.example.yijia.util.GlideUtils;
+import com.yijia.common_yijia.main.friends.CommonClickListener;
 import com.yijia.common_yijia.main.index.YjIndexItemType;
 import com.yijia.common_yijia.main.index.YjIndexMultipleFields;
 
@@ -21,6 +22,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public final class GuardianshipAdapter extends MultipleRecyclerAdapter {
     private LatteDelegate mDelegate = null;
     private GuardianshipListener mGuardianshipListener = null;
+    private CommonClickListener mCommonClickListener=null;
+
+    public void setmCommonClickListener(CommonClickListener mCommonClickListener) {
+        this.mCommonClickListener = mCommonClickListener;
+    }
 
     public void setmGuardianshipListener(GuardianshipListener mGuardianshipListener) {
         this.mGuardianshipListener = mGuardianshipListener;
@@ -57,6 +63,11 @@ public final class GuardianshipAdapter extends MultipleRecyclerAdapter {
                         .load(userHead)
                         .apply(GlideUtils.USEROPTIONS)
                         .into(imageView);
+                tvDelete.setOnClickListener(v->{
+                    if(mCommonClickListener!=null){
+                        mCommonClickListener.commonClick("");
+                    }
+                });
                 tvDelete.setOnLongClickListener(v -> {
                     if (mGuardianshipListener != null) {
                         mGuardianshipListener.onitemclick(friendUserId);

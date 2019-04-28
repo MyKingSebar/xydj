@@ -149,6 +149,8 @@ public class TRTCMainActivity3 extends Activity implements View.OnClickListener,
                 trtcCloud.stopLocalPreview();
                 break;
             case TYPE_KANHU:
+                trtcCloud.muteLocalAudio(true);
+                trtcCloud.muteLocalVideo(true);
                 trtcCloud.stopLocalPreview();
                 trtcCloud.stopLocalAudio();
                 break;

@@ -27,6 +27,7 @@ import com.tencent.qcloud.uikit.business.session.view.SessionIconView;
 import com.tencent.qcloud.uikit.common.BackgroundTasks;
 import com.tencent.qcloud.uikit.common.utils.DateTimeUtil;
 import com.tencent.qcloud.uikit.common.utils.UIUtils;
+import com.tencent.qcloud.uikit.common.widget.gatherimage.SynthesizedImageView;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -40,7 +41,7 @@ public class BokangSessionAdapter extends ISessionAdapter {
 
     private BokangSessionPanel mSessionPanel;
 
-    private BokangSessionListener mBokangSessionListener=null;
+    private BokangSessionListener mBokangSessionListener = null;
 
     public void setmBokangSessionListener(BokangSessionListener mBokangSessionListener) {
         this.mBokangSessionListener = mBokangSessionListener;
@@ -99,6 +100,7 @@ public class BokangSessionAdapter extends ISessionAdapter {
             holder.tv_speak = (TextView) convertView.findViewById(R.id.session_speak);
             holder.tv_unRead = (TextView) convertView.findViewById(R.id.session_unRead);
             holder.item_right_txt = (TextView) convertView.findViewById(R.id.item_right_txt);
+            holder.imageView = convertView.findViewById(R.id.session_icon_personal);
             convertView.setTag(holder);
         } else {// 有直接获得ViewHolder
             holder = (ViewHolder) convertView.getTag();
@@ -119,21 +121,29 @@ public class BokangSessionAdapter extends ISessionAdapter {
         if (session.isGroup()) {
             holder.tv_speak.setVisibility(View.INVISIBLE);
             holder.iv_icon.setDefaultImageResId(R.drawable.default_group);
+            holder.imageView.setVisibility(View.GONE);
+            holder.iv_icon.setVisibility(View.VISIBLE);
         } else {
 
+            holder.imageView.setVisibility(View.VISIBLE);
+            holder.iv_icon.setVisibility(View.INVISIBLE);
+
             holder.tv_speak.setVisibility(View.VISIBLE);
-            holder.tv_speak.setOnClickListener(v->{
-                if(mBokangSessionListener!=null){
-                    mBokangSessionListener.sperkClick(session.getPeer(),v);
+            holder.tv_speak.setOnClickListener(v -> {
+                if (mBokangSessionListener != null) {
+                    mBokangSessionListener.sperkClick(session.getPeer(), v);
                 }
             });
             holder.iv_icon.setDefaultImageResId(R.drawable.default_head);
         }
 
-        if(TextUtils.isEmpty(session.getIconUrl()) && TextUtils.isEmpty(session.getTitle())) {
+        final String peer = session.getPeer();
+        holder.iv_icon.setTag(peer);
+
+        if (TextUtils.isEmpty(session.getIconUrl()) && TextUtils.isEmpty(session.getTitle())) {
             List<String> ids = new ArrayList<>(1);
-            ids.add(session.getPeer());
-            TIMFriendshipManager.getInstance().getUsersProfile(ids,false, new TIMValueCallBack<List<TIMUserProfile>>() {
+            ids.add(peer);
+            TIMFriendshipManager.getInstance().getUsersProfile(ids, false, new TIMValueCallBack<List<TIMUserProfile>>() {
                 @Override
                 public void onError(int i, String s) {
 
@@ -141,26 +151,36 @@ public class BokangSessionAdapter extends ISessionAdapter {
 
                 @Override
                 public void onSuccess(List<TIMUserProfile> timUserProfiles) {
+                    if (null == timUserProfiles || !holder.iv_icon.getTag().equals(peer))
+                        return;
+                    if (session.isGroup()) {
+                        List<String> urls = new ArrayList<>(timUserProfiles.size());
+                        int len = timUserProfiles.size();
+                        for (int i = 0; i < len; i++) {
+                            urls.set(i, timUserProfiles.get(i).getFaceUrl());
+                        }
+                        holder.iv_icon.setIconUrls(urls);
 
-                    session.setIconUrl(timUserProfiles.get(0).getFaceUrl());
-                    session.setTitle(timUserProfiles.get(0).getNickName());
+                        session.setUrls(urls);
 
-                    ImageView imageView = new ImageView(TUIKit.getAppContext());
-
-                    GlideUtils.load(TUIKit.getAppContext(), timUserProfiles.get(0).getFaceUrl(), imageView, GlideUtils.USERMODE);
-
-                    holder.iv_icon.setProfileImageView(imageView);
-
-                    holder.tv_title.setText(timUserProfiles.get(0).getNickName());
+                    } else {
+                        GlideUtils.load(TUIKit.getAppContext(), timUserProfiles.get(0).getFaceUrl(), holder.imageView, GlideUtils.USERMODE);
+                        session.setIconUrl(timUserProfiles.get(0).getFaceUrl());
+                        session.setTitle(timUserProfiles.get(0).getNickName());
+                        holder.tv_title.setText(timUserProfiles.get(0).getNickName());
+                    }
                 }
             });
         } else {
+            if (session.isGroup()) {
+                holder.iv_icon.setIconUrls(session.getUrls());
+                holder.tv_title.setText(session.getTitle());
+            } else {
+                GlideUtils.load(TUIKit.getAppContext(), session.getIconUrl(), holder.imageView, GlideUtils.USERMODE);
 
-            GlideUtils.load(TUIKit.getAppContext(), session.getIconUrl(), holder.iv_icon.getProfileImageView(), GlideUtils.USERMODE);
-
-            holder.tv_title.setText(session.getTitle());
+                holder.tv_title.setText(session.getTitle());
+            }
         }
-
 
 
         holder.tv_msg.setText("");
@@ -212,6 +232,8 @@ public class BokangSessionAdapter extends ISessionAdapter {
         SessionIconView iv_icon;
         TextView item_right_txt;
         TextView tv_speak;
+
+        ImageView imageView;
     }
 
     /**

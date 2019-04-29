@@ -38,7 +38,7 @@ import java.util.List;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-public class HomeDoctorDelegate extends LatteDelegate implements CommonClickListener, SwipeRefreshLayout.OnRefreshListener {
+public class HomeDoctorDelegate extends LatteDelegate implements  SwipeRefreshLayout.OnRefreshListener {
     RecyclerView mRecyelerView = null;
     String token = null;
     SwipeRefreshLayout mRefreshLayout = null;
@@ -89,20 +89,6 @@ public class HomeDoctorDelegate extends LatteDelegate implements CommonClickList
     }
 
 
-    @Override
-    public void commonClick(String info) {
-
-        HomeDoctorInDelegate mDelegate = new HomeDoctorInDelegate();
-        Bundle bundle = new Bundle();
-        long id = Long.parseLong(info);
-        if (id == 0) {
-            showToast("网络异常id=0");
-            return;
-        }
-        bundle.putLong(HomeDoctorInDelegate.ID_KEY, id);
-        mDelegate.setArguments(bundle);
-        getParentDelegate().getSupportDelegate().start(mDelegate);
-    }
 
     public void getHomedoc() {
         mRefreshLayout.setRefreshing(true);
@@ -124,10 +110,11 @@ public class HomeDoctorDelegate extends LatteDelegate implements CommonClickList
                             List<MultipleItemEntity> data = new HomeDoctorDataConverter()
                                     .setJsonData(response)
                                     .convert();
+                            if(data==null){
+                                return;
+                            }
                             mAdapter = new HomeDoctorAdapter(data);
-                            mAdapter.setCommonClickListener(v -> {
-                                //TODO
-                            });
+                            mAdapter.setCommonClickListener(info -> getSupportDelegate().start(HomeDoctorInDelegate.create(info)));
 //                            mAdapter.setOnLoadMoreListener(HomeDoctorDelegate.this, mRecyelerView);
                             final LinearLayoutManager manager = new LinearLayoutManager(Latte.getApplicationContext());
                             mRecyelerView.setLayoutManager(manager);

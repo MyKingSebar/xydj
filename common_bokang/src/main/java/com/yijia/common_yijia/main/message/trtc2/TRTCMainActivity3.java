@@ -767,7 +767,6 @@ public class TRTCMainActivity3 extends Activity implements View.OnClickListener,
     public void onEnableAudioHandFree(boolean bEnable){
         enableAudioHandFree(bEnable);
     }
-
     @Override
     public void onMirrorLocalVideo(boolean bMirror){
 

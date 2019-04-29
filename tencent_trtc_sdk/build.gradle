@@ -10,10 +10,10 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-//        ndk {
-//            //目前 TRTC SDK 支持 armeabi 和 armeabi-v7a
-//            abiFilters "armeabi", "armeabi-v7a"
-//        }
+        ndk {
+            //目前 TRTC SDK 支持 armeabi 和 armeabi-v7a
+            abiFilters "armeabi", "armeabi-v7a"
+        }
     }
     buildTypes {
         release {

@@ -66,6 +66,15 @@ public class PersonalChatFragment2 extends LatteDelegate {
     BokangSendMessageUtil bokangSendMessageUtil=null;
     private TtsPopup mTtsPopup;
 
+    public static PersonalChatFragment2 create(String chatId,String chatName,String chatHeadUrl) {
+        final Bundle args = new Bundle();
+        args.putString(Constants.INTENT_DATA,chatId);
+        args.putString(Constants.INTENT_NAME,chatName);
+        args.putString(Constants.INTENT_URL,chatHeadUrl);
+        final PersonalChatFragment2 delegate = new PersonalChatFragment2();
+        delegate.setArguments(args);
+        return delegate;
+    }
 
     @Override
     public Object setLayout() {

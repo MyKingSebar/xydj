@@ -1,8 +1,14 @@
 package com.example.yijia.ui;
 
+import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.text.PrecomputedTextCompat;
 import android.support.v7.widget.AppCompatTextView;
 
+import com.example.latte.R;
+
+import java.util.Objects;
 import java.util.concurrent.Future;
 
 /**
@@ -15,5 +21,12 @@ public class TextViewUtils {
         Future<PrecomputedTextCompat> future = PrecomputedTextCompat.getTextFuture(
                 text, tv.getTextMetricsParamsCompat(), null);
         tv.setTextFuture(future);
+
+    }
+    public static int getColor(Context mCOntext,int mRcolor){
+        return ContextCompat.getColor(Objects.requireNonNull(mCOntext), mRcolor);
+    }
+    public static Drawable getDrawable(Context mCOntext, int mRid){
+        return ContextCompat.getDrawable(Objects.requireNonNull(mCOntext), mRid);
     }
 }

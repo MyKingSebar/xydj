@@ -32,9 +32,12 @@ import com.example.yijia.app.Latte;
 import com.example.yijia.delegates.LatteDelegate;
 import com.example.yijia.net.rx.BaseObserver;
 import com.example.yijia.net.rx.RxRestClient;
+import com.example.yijia.ui.TextViewUtils;
+import com.example.yijia.util.GlideUtils;
 import com.google.gson.Gson;
 import com.yijia.common_yijia.database.YjDatabaseManager;
 import com.yijia.common_yijia.main.friends.CommonClickListener;
+import com.yijia.common_yijia.main.message.trtc2.PersonalChatFragmentLittle;
 import com.yijia.common_yijia.main.robot.robotmain.RobotMainTabPagerAdapter;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
@@ -46,6 +49,7 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerTit
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.CommonPagerTitleView;
 
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -64,6 +68,17 @@ public class HomeDoctorInDelegate extends LatteDelegate {
     RecyclerView mRecyelerView = null;
     ViewPager mViewPager = null;
     MagicIndicator magicIndicator=null;
+    HomeDoctorInTabPagerAdapter mHomeDoctorInTabPagerAdapter=null;
+
+
+    public static HomeDoctorInDelegate create(String id) {
+        final Bundle args = new Bundle();
+        args.putString(ID_KEY,id);
+        final HomeDoctorInDelegate delegate = new HomeDoctorInDelegate();
+        delegate.setArguments(args);
+        return delegate;
+    }
+
 
     @Override
     public Object setLayout() {
@@ -75,7 +90,7 @@ public class HomeDoctorInDelegate extends LatteDelegate {
         super.onCreate(savedInstanceState);
         final Bundle args = getArguments();
         assert args != null;
-        doctorId = args.getLong(ID_KEY);
+        doctorId = Long.parseLong(Objects.requireNonNull(args.getString(ID_KEY)));
     }
 
     @Override
@@ -129,8 +144,8 @@ public class HomeDoctorInDelegate extends LatteDelegate {
                             List<MultipleItemEntity> data = new HomeDoctorInDataConverter()
                                     .setJsonData(response)
                                     .convert();
-
-
+                            mHomeDoctorInTabPagerAdapter=new HomeDoctorInTabPagerAdapter(getFragmentManager(),data);
+                            mViewPager.setAdapter(mHomeDoctorInTabPagerAdapter);
                             initMagicIndicator1(data);
 
 
@@ -138,14 +153,14 @@ public class HomeDoctorInDelegate extends LatteDelegate {
 
 
 
-                            mAdapter = new HomeDoctorAdapter(data);
-                            mAdapter.setCommonClickListener(v -> {
-                                //TODO
-                            });
-//                            mAdapter.setOnLoadMoreListener(HomeDoctorDelegate.this, mRecyelerView);
-                            final LinearLayoutManager manager = new LinearLayoutManager(Latte.getApplicationContext());
-                            mRecyelerView.setLayoutManager(manager);
-                            mRecyelerView.setAdapter(mAdapter);
+//                            mAdapter = new HomeDoctorAdapter(data);
+//                            mAdapter.setCommonClickListener(v -> {
+//                                //TODO
+//                            });
+////                            mAdapter.setOnLoadMoreListener(HomeDoctorDelegate.this, mRecyelerView);
+//                            final LinearLayoutManager manager = new LinearLayoutManager(Latte.getApplicationContext());
+//                            mRecyelerView.setLayoutManager(manager);
+//                            mRecyelerView.setAdapter(mAdapter);
                         } else {
                             final String msg = JSON.parseObject(response).getString("msg");
                             Toast.makeText(Latte.getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
@@ -189,44 +204,43 @@ public class HomeDoctorInDelegate extends LatteDelegate {
                 CommonPagerTitleView commonPagerTitleView = new CommonPagerTitleView(context);
                 // load custom layout
                 View customLayout = LayoutInflater.from(context).inflate(R.layout.item_tab_homedoctorin, null);
-                final ImageView titleImg = (ImageView) customLayout.findViewById(R.id.title_img);
-                final TextView tv_title = (TextView) customLayout.findViewById(R.id.tv_title);
-                final TextView tv_text = (TextView) customLayout.findViewById(R.id.tv_text);
-                titleImg.setImageResource(R.mipmap.ic_launcher);
-//                titleText.setText(mDataList.get(index));
+                final ImageView titleImg =customLayout.findViewById(R.id.title_img);
+                final AppCompatTextView tv_title = customLayout.findViewById(R.id.tv_title);
+                final AppCompatTextView tv_text =customLayout.findViewById(R.id.tv_text);
+                TextViewUtils.AppCompatTextViewSetText(tv_title, data.get(index).getField(HomeDoctorInMultipleFields.DOCTNAME));
+                TextViewUtils.AppCompatTextViewSetText(tv_text, data.get(index).getField(HomeDoctorInMultipleFields.DOCTLEVELNAME));
+                GlideUtils.load(getContext(),data.get(index).getField(HomeDoctorInMultipleFields.DOCTHEADIMAGE),titleImg,GlideUtils.USERMODE);
+
                 commonPagerTitleView.setContentView(customLayout);
 
                 commonPagerTitleView.setOnPagerTitleChangeListener(new CommonPagerTitleView.OnPagerTitleChangeListener() {
 
                     @Override
                     public void onSelected(int index, int totalCount) {
-//                        titleText.setTextColor(Color.WHITE);
+                        tv_title.setTextColor(TextViewUtils.getColor(getContext(),R.color.main_text_orange));
+                        tv_text.setTextColor(TextViewUtils.getColor(getContext(),R.color.main_text_orange));
                     }
 
                     @Override
                     public void onDeselected(int index, int totalCount) {
-//                        titleText.setTextColor(Color.LTGRAY);
+                        tv_title.setTextColor(TextViewUtils.getColor(getContext(),R.color.main_text_black_dark));
+                        tv_text.setTextColor(TextViewUtils.getColor(getContext(),R.color.main_text_gary_99));
                     }
 
                     @Override
                     public void onLeave(int index, int totalCount, float leavePercent, boolean leftToRight) {
-                        titleImg.setScaleX(1.3f + (0.8f - 1.3f) * leavePercent);
-                        titleImg.setScaleY(1.3f + (0.8f - 1.3f) * leavePercent);
+//                        titleImg.setScaleX(1.3f + (0.8f - 1.3f) * leavePercent);
+//                        titleImg.setScaleY(1.3f + (0.8f - 1.3f) * leavePercent);
                     }
 
                     @Override
                     public void onEnter(int index, int totalCount, float enterPercent, boolean leftToRight) {
-                        titleImg.setScaleX(0.8f + (1.3f - 0.8f) * enterPercent);
-                        titleImg.setScaleY(0.8f + (1.3f - 0.8f) * enterPercent);
+//                        titleImg.setScaleX(0.8f + (1.3f - 0.8f) * enterPercent);
+//                        titleImg.setScaleY(0.8f + (1.3f - 0.8f) * enterPercent);
                     }
                 });
 
-                commonPagerTitleView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mViewPager.setCurrentItem(index);
-                    }
-                });
+                commonPagerTitleView.setOnClickListener(v -> mViewPager.setCurrentItem(index));
 
                 return commonPagerTitleView;
             }

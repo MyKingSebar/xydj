@@ -440,8 +440,10 @@ public class ChatBottomInputGroupCust extends LinearLayout implements View.OnCli
 //                showSoftInput();
 //            }
 
-            if (null != voiceClickListener)
+            if (null != voiceClickListener) {
+                hideSoftInput();
                 voiceClickListener.onClick();
+            }
 
         } else if (view.getId() == R.id.face_btn) {
             if (currentState == STATE_FACE_INPUT) {

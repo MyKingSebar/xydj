@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.latte.ec.R;
@@ -22,6 +23,7 @@ import com.example.yijia.app.AccountManager;
 import com.example.yijia.app.IUserChecker;
 import com.example.yijia.delegates.LatteDelegate;
 import com.example.yijia.delegates.bottom.BottomItemDelegate;
+import com.example.yijia.util.GlideUtils;
 import com.yijia.common_yijia.database.YjDatabaseManager;
 import com.yijia.common_yijia.main.friends.FriendsDelegate2;
 import com.yijia.common_yijia.main.message.view.fragment.NoticeDelegate;
@@ -90,17 +92,7 @@ public class MineDelegate extends LatteDelegate {
             public void onSignIn() {
                 String nickname = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getNickname();
                 String imagePath = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getImagePath();
-                if (imagePath != null) {
-                    Glide.with(_mActivity)
-                            .load(imagePath)
-                            .apply(mRequestOptions)
-                            .into(userImagePath);
-                } else {
-                    Glide.with(_mActivity)
-                            .load(R.mipmap.ic_launcher)
-                            .apply(mRequestOptions)
-                            .into(userImagePath);
-                }
+                GlideUtils.load(_mActivity, imagePath, userImagePath, GlideUtils.USERMODE);
                 if (nickname != null) {
                     userNickname.setText(nickname);
                 } else {

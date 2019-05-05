@@ -19,6 +19,7 @@ import com.example.yijia.delegates.LatteDelegate;
 import com.tencent.imsdk.TIMCallBack;
 import com.tencent.imsdk.TIMManager;
 import com.yijia.common_yijia.database.YjDatabaseManager;
+import com.yijia.common_yijia.main.YjBottomDelegate_with3;
 import com.yijia.common_yijia.main.mine.GuardianshipDelegate;
 import com.yijia.common_yijia.main.mine.NodisturbDelegate;
 import com.yijia.common_yijia.main.mine.UserProfilesDelegate;
@@ -127,7 +128,7 @@ public class SetUpDelegate extends LatteDelegate implements HeadLayout.OnClickHe
                 });
 
                 getSupportDelegate().pop();
-                getSupportDelegate().startWithPop(new SignInNoteOnlyDelegate());
+                getSupportDelegate().startWithPopTo(new SignInNoteOnlyDelegate(), YjBottomDelegate_with3.class, true);
             }
         });
         builder.setNegativeButton("取消", null);

@@ -111,6 +111,7 @@ public class TRTCMainActivity3 extends Activity implements View.OnClickListener,
 
         //获取前一个页面得到的进房参数
         Intent intent       = getIntent();
+        type=intent.getIntExtra(TRTCMainActivity3.TYPE_KEY,0);
         mSdkAppId        = intent.getIntExtra("sdkAppId", 0);
         roomId          = intent.getIntExtra("roomId", 0);
         selfUserId   = intent.getStringExtra("userId");

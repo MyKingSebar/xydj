@@ -86,11 +86,8 @@ public class SignInNoteOnlyDelegate extends LatteDelegate implements ITimeListen
 
     @OnClick(R2.id.btn_sign_in)
     void onClickSignIn() {
-
-        InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(mLogin.getWindowToken(), 0);
+        getSupportDelegate().hideSoftInput();
         if (checkForm()) {
-
             final String url = "user/login";
             RxRestClient.builder()
                     .url(url)

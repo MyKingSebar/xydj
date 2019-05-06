@@ -227,7 +227,7 @@ public class FriendsDelegate extends LatteDelegate implements HeadLayout.OnClick
 
     private void deleteFriend(int id){
         JDialogUtil.INSTANCE.showRxDialogShapeLoading(getContext());
-        String url = "/friend/delete_friend";
+        String url = "friend/delete_friend";
         RxRestClient.builder()
                 .url(url)
                 .params("yjtk", token)

@@ -150,7 +150,7 @@ public class RobotMyRobotDelegate extends BottomItemDelegate {
             return;
         }
         RxRestClient.builder()
-                .url("/robot/query_robot_is_online")
+                .url("robot/query_robot_is_online")
                 .params("yjtk", token)
                 .params("targetUserId", userId)
                 .build()
@@ -183,7 +183,7 @@ public class RobotMyRobotDelegate extends BottomItemDelegate {
             return;
         }
         RxRestClient.builder()
-                .url("/robot/query_activeness")
+                .url("robot/query_activeness")
                 .params("yjtk", token)
                 .params("targetUserId", userId)
                 .build()

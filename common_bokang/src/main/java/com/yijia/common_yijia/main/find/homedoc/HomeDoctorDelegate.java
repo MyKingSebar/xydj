@@ -92,7 +92,7 @@ public class HomeDoctorDelegate extends LatteDelegate implements  SwipeRefreshLa
 
     public void getHomedoc() {
         mRefreshLayout.setRefreshing(true);
-        String url = "/doct/query_doct_team";
+        String url = "doct/query_doct_team";
         RxRestClient.builder()
                 .url(url)
                 .params("yjtk", token)
@@ -129,7 +129,7 @@ public class HomeDoctorDelegate extends LatteDelegate implements  SwipeRefreshLa
 
                     @Override
                     public void onFail(Throwable e) {
-                        Toast.makeText(Latte.getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(Latte.getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                         mRefreshLayout.setRefreshing(false);
                     }
                 });

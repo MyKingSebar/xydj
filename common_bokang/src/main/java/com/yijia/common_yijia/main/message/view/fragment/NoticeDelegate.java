@@ -74,12 +74,7 @@ public class NoticeDelegate extends LatteDelegate implements NoticeView, IIndexI
         initRecycler();
         mRefreshHandler = NoticeFreshHandler.create(mRefreshLayout, rv, null, this, this,this);
         CallbackManager.getInstance()
-                .addCallback(CallbackType.REFRESHNOTIFY, new IGlobalCallback<String>() {
-                    @Override
-                    public void executeCallback(@Nullable String args) {
-                        mRefreshHandler.firstPage();
-                    }
-                });
+                .addCallback(CallbackType.REFRESHNOTIFY, (IGlobalCallback<String>) args -> mRefreshHandler.firstPage());
     }
 
     private void initView() {
@@ -111,12 +106,10 @@ public class NoticeDelegate extends LatteDelegate implements NoticeView, IIndexI
         mRefreshLayout.setProgressViewOffset(true, 120, 300);
     }
 
-    private void
-
-    addfriend(long friendApplyId) {
+    private void addfriend(long friendApplyId) {
         String token = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getYjtk();
         RxRestClient.builder()
-                .url("/friend/dispose_friend_apply")
+                .url("friend/dispose_friend_apply")
                 .params("yjtk", token)
                 .params("friendApplyId", friendApplyId)
                 .params("isAgree", 1)

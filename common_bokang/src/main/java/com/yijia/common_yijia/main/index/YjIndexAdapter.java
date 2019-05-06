@@ -592,7 +592,7 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
     }
 
     private void zan(int circleId, final View v) {
-        final String url = "/circle/like/" + circleId;
+        final String url = "circle/like/" + circleId;
         final String token = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getYjtk();
         RxRestClient.builder()
                 .url(url)

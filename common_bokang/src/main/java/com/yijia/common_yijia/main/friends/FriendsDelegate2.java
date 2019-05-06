@@ -181,7 +181,7 @@ public class FriendsDelegate2 extends LatteDelegate implements  FriendsView ,Com
 
     private void deleteFriend(int id){
         JDialogUtil.INSTANCE.showRxDialogShapeLoading(getContext());
-        String url = "/friend/delete_friend";
+        String url = "friend/delete_friend";
         RxRestClient.builder()
                 .url(url)
                 .params("yjtk", token)

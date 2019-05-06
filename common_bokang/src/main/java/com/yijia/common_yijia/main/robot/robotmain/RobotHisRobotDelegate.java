@@ -134,7 +134,7 @@ public class RobotHisRobotDelegate extends LatteDelegate {
             return;
         }
         RxRestClient.builder()
-                .url("/user/query_user_info")
+                .url("user/query_user_info")
                 .params("yjtk", token)
                 .params("type", 1)
                 .params("keyword", "" + userId)

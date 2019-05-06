@@ -29,7 +29,7 @@ public class FriendsPresenter extends BasePresenter<FriendsView> {
             @SuppressLint("CheckResult")
             @Override
             public void onSignIn() {
-                final String url = "/friend/query_friends";
+                final String url = "friend/query_friends";
 
                 RxRestClient.builder()
                         .url(url)

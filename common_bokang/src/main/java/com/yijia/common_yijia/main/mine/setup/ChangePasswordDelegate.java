@@ -124,7 +124,7 @@ public class ChangePasswordDelegate extends LatteDelegate implements HeadLayout.
                 if (TextUtils.equals(newPwd.getText().toString(),originalPwd.getText().toString())){
                     Toast.makeText(_mActivity, "新密码不能和旧密码相同", Toast.LENGTH_SHORT).show();
                 }else{
-                    final String url = "/user/update_password";
+                    final String url = "user/update_password";
                     AccountManager.checkAccont(new IUserChecker() {
                         @Override
                         public void onSignIn() {

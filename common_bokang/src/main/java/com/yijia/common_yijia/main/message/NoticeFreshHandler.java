@@ -67,7 +67,7 @@ public class NoticeFreshHandler extends RefreshHandler {
     public void firstPage() {
         String token = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getYjtk();
         RxRestClient.builder()
-                .url("/notification/query_list")
+                .url("notification/query_list")
                 .params("yjtk", token)
                 .params("pageNo", 1)
                 .params("pageSize", 200)
@@ -104,7 +104,7 @@ public class NoticeFreshHandler extends RefreshHandler {
 
                     @Override
                     public void onFail(Throwable e) {
-                        Toast.makeText(Latte.getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(Latte.getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                         REFRESH_LAYOUT.setRefreshing(false);
                     }
                 });
@@ -124,7 +124,7 @@ public class NoticeFreshHandler extends RefreshHandler {
         } else {
             String token = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getYjtk();
             RxRestClient.builder()
-                    .url("/notification/query_list")
+                    .url("notification/query_list")
                     .params("yjtk", token)
                     .params("pageNo", 1)
                     .params("pageSize", 200)

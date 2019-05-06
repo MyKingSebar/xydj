@@ -93,7 +93,7 @@ public class UserInfoDelegate extends LatteDelegate {
 //        String token = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getYjtk();
 //        long id = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getId();
         RxRestClient.builder()
-                .url("/user/query_user_info")
+                .url("user/query_user_info")
                 .params("yjtk", token)
                 .params("type", 1)
                 .params("keyword", id + "")
@@ -145,7 +145,7 @@ public class UserInfoDelegate extends LatteDelegate {
 //        String token = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getYjtk();
 //        long id = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getId();
         RxRestClient.builder()
-                .url("/ope/query_operation_record")
+                .url("ope/query_operation_record")
                 .params("yjtk", token)
                 .params("userId", id)
                 .params("pageNo", 1)
@@ -185,7 +185,7 @@ public class UserInfoDelegate extends LatteDelegate {
 
     @SuppressLint("CheckResult")
     private void addfriendreq(long targetUserId, String token) {
-        String url = "/friend/insert_friend_apply";
+        String url = "friend/insert_friend_apply";
         RxRestClient.builder()
                 .url(url)
                 .params("yjtk", token)

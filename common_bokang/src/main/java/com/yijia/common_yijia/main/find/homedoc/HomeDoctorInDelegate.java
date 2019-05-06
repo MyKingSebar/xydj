@@ -123,7 +123,7 @@ public class HomeDoctorInDelegate extends LatteDelegate {
     }
 
     public void getHomedoc(long doctTeamId) {
-        String url = "/doct/query_doct_team_member";
+        String url = "doct/query_doct_team_member";
         RxRestClient.builder()
                 .url(url)
                 .params("yjtk", token)

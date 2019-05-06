@@ -18,7 +18,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class UpDateUtils {
     public static void   updatePersonalData(Context context,String nickname, String userHead,UpDateSuccessAndError upDateSuccessAndError){
-        final String url = "/user/update_user_info";
+        final String url = "user/update_user_info";
         AccountManager.checkAccont(new IUserChecker() {
             @Override
             public void onSignIn() {

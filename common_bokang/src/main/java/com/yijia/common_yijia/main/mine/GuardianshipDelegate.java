@@ -163,7 +163,7 @@ public class GuardianshipDelegate extends LatteDelegate implements GuardianshipL
     }
 
     private void deleteGuardianshipInfo(String token, long guardianUserId) {
-        String url = "/guardianship/delete_guardian";
+        String url = "guardianship/delete_guardian";
         RxRestClient.builder()
                 .url(url)
                 .params("yjtk", token)
@@ -195,7 +195,7 @@ public class GuardianshipDelegate extends LatteDelegate implements GuardianshipL
                 });
     }
     private void saveGuardianshipInfo(String token, long guardianUserId) {
-        String url = "/guardianship/save_guardian";
+        String url = "guardianship/save_guardian";
         RxRestClient.builder()
                 .url(url)
                 .params("yjtk", token)

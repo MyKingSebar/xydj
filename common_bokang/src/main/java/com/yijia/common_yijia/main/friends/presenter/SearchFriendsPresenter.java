@@ -21,7 +21,7 @@ public class SearchFriendsPresenter extends BasePresenter<SearchFriendsView> {
 
     @SuppressLint("CheckResult")
     public void reqfriendsdetails(String friendsPhone, String token) {
-        String url = "/user/query_user_info";
+        String url = "user/query_user_info";
         RxRestClient.builder()
                 .url(url)
                 .params("yjtk", token)
@@ -55,7 +55,7 @@ public class SearchFriendsPresenter extends BasePresenter<SearchFriendsView> {
     }
     @SuppressLint("CheckResult")
     public void reqaddfriendsdetails(int targetUserId, String token) {
-        String url = "/friend/insert_friend_apply";
+        String url = "friend/insert_friend_apply";
         RxRestClient.builder()
                 .url(url)
                 .params("yjtk", token)

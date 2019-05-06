@@ -90,7 +90,7 @@ public class ExampleApp extends MultiDexApplication {
                 .withIcon(new FontYJModule())
                 .withIcon(new FontYJIndexTopModule())
                 .withLoaderDelayed(1000)
-                .withApiHost("http://47.104.86.251:8080/")
+                .withApiHost("http://47.104.86.251:8080/v1/")
                 .withInterceptor(new DebugInterceptor("test", R.raw.test))
 //                .withWeChatAppId("你的微信AppKey")
 //                .withWeChatAppSecret("你的微信AppSecret")

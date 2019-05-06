@@ -60,7 +60,6 @@ public class HomeDoctorInDelegate extends LatteDelegate {
     private long doctorId = 0;
 
     String token = null;
-    HomeDoctorAdapter mAdapter = null;
 
     AppCompatTextView tvTitle = null;
     AppCompatTextView tvSave = null;
@@ -68,7 +67,7 @@ public class HomeDoctorInDelegate extends LatteDelegate {
     RecyclerView mRecyelerView = null;
     ViewPager mViewPager = null;
     MagicIndicator magicIndicator=null;
-    HomeDoctorInTabPagerAdapter mHomeDoctorInTabPagerAdapter=null;
+    HomeDoctorInTabPagerAdapter3 mHomeDoctorInTabPagerAdapter=null;
 
 
     public static HomeDoctorInDelegate create(String id) {
@@ -120,6 +119,7 @@ public class HomeDoctorInDelegate extends LatteDelegate {
         tvTitle.setText("家庭医生");
         tvSave.setVisibility(View.INVISIBLE);
         tvBack.setOnClickListener(v -> getSupportDelegate().pop());
+
     }
 
     public void getHomedoc(long doctTeamId) {
@@ -144,10 +144,9 @@ public class HomeDoctorInDelegate extends LatteDelegate {
                             List<MultipleItemEntity> data = new HomeDoctorInDataConverter()
                                     .setJsonData(response)
                                     .convert();
-                            mHomeDoctorInTabPagerAdapter=new HomeDoctorInTabPagerAdapter(getFragmentManager(),data);
+                            mHomeDoctorInTabPagerAdapter=new HomeDoctorInTabPagerAdapter3(getChildFragmentManager(),data);
                             mViewPager.setAdapter(mHomeDoctorInTabPagerAdapter);
                             initMagicIndicator1(data);
-
 
 
 
@@ -191,7 +190,7 @@ public class HomeDoctorInDelegate extends LatteDelegate {
     private void initMagicIndicator1(List<MultipleItemEntity> data) {
         magicIndicator.setBackgroundColor(Color.WHITE);
         CommonNavigator commonNavigator = new CommonNavigator(getContext());
-        commonNavigator.setAdjustMode(true);
+//        commonNavigator.setAdjustMode(true);
         commonNavigator.setAdapter(new CommonNavigatorAdapter() {
 
             @Override

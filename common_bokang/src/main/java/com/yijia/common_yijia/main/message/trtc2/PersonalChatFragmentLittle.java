@@ -95,23 +95,22 @@ public class PersonalChatFragmentLittle extends LatteDelegate {
         return R.layout.chat_fragment_personal_little;
     }
 
+
+
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, @NonNull View rootView) {
-//        initView(rootView);
-//
-//        final View decorView = getActivity().getWindow().getDecorView();
-//        decorView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-//            @Override
-//            public void onGlobalLayout() {
-//                Rect r = new Rect();
-//                decorView.getWindowVisibleDisplayFrame(r);
-//                int screenHeight = decorView.getRootView().getHeight();
-//                int height = screenHeight - r.bottom;
-//                LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) chatPanel.getLayoutParams();
-//                lp.setMargins(0, 0, 0, height);
-//                chatPanel.requestLayout();
-//            }
-//        });
+        initView(rootView);
+
+        final View decorView = getActivity().getWindow().getDecorView();
+        decorView.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
+            Rect r = new Rect();
+            decorView.getWindowVisibleDisplayFrame(r);
+            int screenHeight = decorView.getRootView().getHeight();
+            int height = screenHeight - r.bottom;
+            LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) chatPanel.getLayoutParams();
+            lp.setMargins(0, 0, 0, height);
+            chatPanel.requestLayout();
+        });
 
     }
 
@@ -133,12 +132,16 @@ public class PersonalChatFragmentLittle extends LatteDelegate {
 
         //获取单聊面板的标题栏
         chatTitleBar = chatPanel.getTitleBar();
-        //单聊面板标记栏返回按钮点击事件，这里需要开发者自行控制
-        chatTitleBar.setLeftClick(view -> getSupportDelegate().pop());
-        cpTitle=chatTitleBar.getCenterTitle();
+        chatTitleBar.setVisibility(View.GONE);
         //单聊面板 标题下方功能栏
         mRecycleView=chatTitleBar.getmBottomRecycle();
-        initBottomRecycle();
+        mRecycleView.setVisibility(View.GONE);
+
+//        //单聊面板标记栏返回按钮点击事件，这里需要开发者自行控制
+//        chatTitleBar.setLeftClick(view -> getSupportDelegate().pop());
+//        cpTitle=chatTitleBar.getCenterTitle();
+//
+//        initBottomRecycle();
 
         this.mInputGroup=chatPanel.mInputGroup;
         mMsgHandler=mInputGroup.getMsgHandler();
@@ -163,66 +166,66 @@ public class PersonalChatFragmentLittle extends LatteDelegate {
         chatPanel.setOnVoiceClickListener(()->mTtsPopup.showPopupWindow());
 
     }
-    private void initBottomRecycle() {
-        mChatTitieBottomAdapter = new ChatTitieBottomAdapter(initTitleBottomData());
-        mChatTitieBottomAdapter.setCartItemListener(initTitleBottomItemListener());
-        final LinearLayoutManager manager = new LinearLayoutManager(getContext());
-        //调整RecyclerView的排列方向
-        manager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        mRecycleView.setLayoutManager(manager);
-        mRecycleView.setAdapter(mChatTitieBottomAdapter);
-    }
+//    private void initBottomRecycle() {
+//        mChatTitieBottomAdapter = new ChatTitieBottomAdapter(initTitleBottomData());
+//        mChatTitieBottomAdapter.setCartItemListener(initTitleBottomItemListener());
+//        final LinearLayoutManager manager = new LinearLayoutManager(getContext());
+//        //调整RecyclerView的排列方向
+//        manager.setOrientation(LinearLayoutManager.HORIZONTAL);
+//        mRecycleView.setLayoutManager(manager);
+//        mRecycleView.setAdapter(mChatTitieBottomAdapter);
+//    }
 
-        private TitleBottomItemListener initTitleBottomItemListener() {
-        mTitleBottomItemListener = (type, name) -> {
-            Log.d("jialei","type:"+type);
-            if (type == null) {
-                return;
-            }
-            if (TextUtils.equals(type, TitleBottomChildType.AUDIOCALL.name())) {
-                final Intent intent2 = new Intent(getContext(), CallWaitingActivity.class);
-                int userId = (YjDatabaseManager.getInstance().getDao().loadAll().get(0).getId()).intValue();
-                intent2.putExtra("roomid",userId);
-                intent2.putExtra("chatId",chatId);
-                intent2.putExtra(CallWaitingActivity.TYPE_KEY,CallWaitingActivity.TYPE_VIDEO);
-                getActivity().startActivity(intent2);
-//                BokangSendMessageUtil  bokangSendMessageUtil = new BokangSendMessageUtil(TIMManager.getInstance().getConversation(TIMConversationType.C2C, chatId), new BoKangSendMessageListener() {
-//                    @Override
-//                    public void messageSuccess(TIMMessage timMessage) {
-//
-//                    }
-//
-//                    @Override
-//                    public void messageError(int code, String desc) {
-//
-//                    }
-//                }, getContext());
-                bokangSendMessageUtil.sendOnLineMessage(bokangSendMessageUtil.buildBokangMessage(MessageInfoUtil.BOKANG_VIDEO_WAIT,userId+""));
-//                if (mMsgHandler != null) {
-//                    mMsgHandler.sendMessage(MessageInfoUtil.buildBokangMessage(MessageInfoUtil.BOKANG_VIDEO_WAIT, userId + ""));
-//                }
-//                String sig = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getTencentImUserSig();
-//                String userId = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getTencentImUserId();
-//                final Intent intent = new Intent(getContext(), TRTCMainActivity.class);
-//                intent.putExtra("roomId", 100);
-//                intent.putExtra("userId", userId);
-//                intent.putExtra("sdkAppId", TrtcConfig.SDKAPPID);
-//                intent.putExtra("userSig", sig);
-//                //TODO 需要指定会话ID（即聊天对象的identify，具体可参考IMSDK接入文档）
-//                intent.putExtra("chatId", chatId);
-//                getActivity().startActivity(intent);
-//                //TODO 自定义消息
-//                if (mMsgHandler != null)
-//                    mMsgHandler.sendMessage(MessageInfoUtil.buildBokangMessage("aaaa"));
-            }
-        };
-        return mTitleBottomItemListener;
-    }
+//        private TitleBottomItemListener initTitleBottomItemListener() {
+//        mTitleBottomItemListener = (type, name) -> {
+//            Log.d("jialei","type:"+type);
+//            if (type == null) {
+//                return;
+//            }
+//            if (TextUtils.equals(type, TitleBottomChildType.AUDIOCALL.name())) {
+//                final Intent intent2 = new Intent(getContext(), CallWaitingActivity.class);
+//                int userId = (YjDatabaseManager.getInstance().getDao().loadAll().get(0).getId()).intValue();
+//                intent2.putExtra("roomid",userId);
+//                intent2.putExtra("chatId",chatId);
+//                intent2.putExtra(CallWaitingActivity.TYPE_KEY,CallWaitingActivity.TYPE_VIDEO);
+//                getActivity().startActivity(intent2);
+////                BokangSendMessageUtil  bokangSendMessageUtil = new BokangSendMessageUtil(TIMManager.getInstance().getConversation(TIMConversationType.C2C, chatId), new BoKangSendMessageListener() {
+////                    @Override
+////                    public void messageSuccess(TIMMessage timMessage) {
+////
+////                    }
+////
+////                    @Override
+////                    public void messageError(int code, String desc) {
+////
+////                    }
+////                }, getContext());
+//                bokangSendMessageUtil.sendOnLineMessage(bokangSendMessageUtil.buildBokangMessage(MessageInfoUtil.BOKANG_VIDEO_WAIT,userId+""));
+////                if (mMsgHandler != null) {
+////                    mMsgHandler.sendMessage(MessageInfoUtil.buildBokangMessage(MessageInfoUtil.BOKANG_VIDEO_WAIT, userId + ""));
+////                }
+////                String sig = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getTencentImUserSig();
+////                String userId = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getTencentImUserId();
+////                final Intent intent = new Intent(getContext(), TRTCMainActivity.class);
+////                intent.putExtra("roomId", 100);
+////                intent.putExtra("userId", userId);
+////                intent.putExtra("sdkAppId", TrtcConfig.SDKAPPID);
+////                intent.putExtra("userSig", sig);
+////                //TODO 需要指定会话ID（即聊天对象的identify，具体可参考IMSDK接入文档）
+////                intent.putExtra("chatId", chatId);
+////                getActivity().startActivity(intent);
+////                //TODO 自定义消息
+////                if (mMsgHandler != null)
+////                    mMsgHandler.sendMessage(MessageInfoUtil.buildBokangMessage("aaaa"));
+//            }
+//        };
+//        return mTitleBottomItemListener;
+//    }
 
-    private ArrayList<MultipleItemEntity> initTitleBottomData(){
-        final ArrayList<MultipleItemEntity> data =
-                new TitleBottomPersonalChatDataConverter()
-                        .convert();
-        return data;
-    }
+//    private ArrayList<MultipleItemEntity> initTitleBottomData(){
+//        final ArrayList<MultipleItemEntity> data =
+//                new TitleBottomPersonalChatDataConverter()
+//                        .convert();
+//        return data;
+//    }
 }

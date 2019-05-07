@@ -1,6 +1,7 @@
 package com.example.yijia.net.rx;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.example.yijia.util.NetWorkUtils;
@@ -29,6 +30,7 @@ public abstract class BaseObserver<String> implements Observer<String> {
 
     @Override
     public void onNext(@NonNull String string) {
+        Log.d("onResponse","onResponse:"+string);
         onResponse(string);
     }
 

@@ -104,6 +104,7 @@ public class UserInfoDelegate extends LatteDelegate {
                 .subscribe(new BaseObserver<String>(getContext()) {
                     @Override
                     public void onResponse(String response) {
+                        Log.d("onResponse","user/query_user_info:"+response);
                         final JSONObject obj = JSON.parseObject(response);
                         final String status = obj.getString("status");
                         if (TextUtils.equals(status, "1001")) {

@@ -54,7 +54,7 @@ public class SearchFriendsDelegate extends LatteDelegate implements SearchFriend
     private String token;
     RequestOptions mRequestOptions;
 
-    int id =0;
+    long id =0;
     Bundle mArgs=null;
 
     @Override
@@ -136,7 +136,7 @@ public class SearchFriendsDelegate extends LatteDelegate implements SearchFriend
         thecontactLayout.setVisibility(View.VISIBLE);
         String nickname = user.getString("nickname");
         String imagePath = user.getString("imagePath");
-        id =user.getInteger("id");
+        id =user.getLong("id");
         userName.setText(nickname);
         Glide.with(_mActivity)
                 .load(imagePath)

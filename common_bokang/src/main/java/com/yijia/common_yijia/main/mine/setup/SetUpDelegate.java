@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import com.example.latte.ec.R;
 import com.example.latte.ec.R2;
 import com.example.latte.ui.widget.HeadLayout;
+import com.example.yijia.activities.ProxyActivity;
 import com.example.yijia.app.AccountManager;
 import com.example.yijia.delegates.LatteDelegate;
 import com.example.yijia.util.callback.CallbackManager;
@@ -131,11 +132,19 @@ public class SetUpDelegate extends LatteDelegate implements HeadLayout.OnClickHe
                 });
 
 //                getSupportDelegate().pop();
-                getSupportDelegate().popTo( YjBottomDelegate_with3.class, false);
-                final IGlobalCallback<String> callback= CallbackManager
-                        .getInstance()
-                        .getCallback(CallbackType.EXIT);
-                callback.executeCallback("");
+//                getSupportDelegate().popTo( YjBottomDelegate_with3.class, false);
+//                final IGlobalCallback<String> callback= CallbackManager
+//                        .getInstance()
+//                        .getCallback(CallbackType.EXIT);
+//                callback.executeCallback("");
+//                getSupportDelegate().pop();
+//                getSupportDelegate().startWithPopTo(new SignInNoteOnlyDelegate(), SignInNoteOnlyDelegate.class, true);
+                int c = getFragmentManager().getBackStackEntryCount();
+                for(int i=0; i<c; i++) {
+                    getFragmentManager().popBackStack();
+                }
+                getSupportDelegate().startWithPopTo(new SignInNoteOnlyDelegate(), YjBottomDelegate_with3.class, true);
+
 
             }
         });

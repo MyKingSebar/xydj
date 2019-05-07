@@ -34,7 +34,7 @@ public abstract class ProxyActivity extends AppCompatActivity implements ISuppor
         mDebugStackDelegate.onCreate(Fragmentation.getDefault().getMode());
     }
 
-    private void initContainer(@Nullable Bundle savedInstanceState) {
+    public void initContainer(@Nullable Bundle savedInstanceState) {
         @SuppressLint("RestrictedApi")
         final ContentFrameLayout container = new ContentFrameLayout(this);
         container.setId(R.id.delegate_container);

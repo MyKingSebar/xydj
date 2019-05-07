@@ -671,11 +671,14 @@ public class ChatBottomInputGroupCust extends LinearLayout implements View.OnCli
 
     public void setOnVoiceClickListener(VoiceClickListener voiceClickListener) {
         this.voiceClickListener = voiceClickListener;
+        UIKitAudioArmMachine.getInstance().startRecord(ChatBottomInputGroupCust.this);
     }
 
     public void sendChatMsg(String s) {
-        if (msgHandler != null)
+        if (msgHandler != null) {
+            UIKitAudioArmMachine.getInstance().stopRecord();
             msgHandler.sendMessage(MessageInfoUtil.buildTextMessage(s));
+        }
     }
 
 }

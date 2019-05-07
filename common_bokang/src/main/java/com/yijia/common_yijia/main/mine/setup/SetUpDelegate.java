@@ -16,6 +16,9 @@ import com.example.latte.ec.R2;
 import com.example.latte.ui.widget.HeadLayout;
 import com.example.yijia.app.AccountManager;
 import com.example.yijia.delegates.LatteDelegate;
+import com.example.yijia.util.callback.CallbackManager;
+import com.example.yijia.util.callback.CallbackType;
+import com.example.yijia.util.callback.IGlobalCallback;
 import com.tencent.imsdk.TIMCallBack;
 import com.tencent.imsdk.TIMManager;
 import com.yijia.common_yijia.database.YjDatabaseManager;
@@ -127,8 +130,13 @@ public class SetUpDelegate extends LatteDelegate implements HeadLayout.OnClickHe
                     }
                 });
 
-                getSupportDelegate().pop();
-                getSupportDelegate().startWithPopTo(new SignInNoteOnlyDelegate(), YjBottomDelegate_with3.class, true);
+//                getSupportDelegate().pop();
+                getSupportDelegate().popTo( YjBottomDelegate_with3.class, false);
+                final IGlobalCallback<String> callback= CallbackManager
+                        .getInstance()
+                        .getCallback(CallbackType.EXIT);
+                callback.executeCallback("");
+
             }
         });
         builder.setNegativeButton("取消", null);

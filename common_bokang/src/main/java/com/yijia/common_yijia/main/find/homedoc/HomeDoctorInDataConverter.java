@@ -27,6 +27,7 @@ public class HomeDoctorInDataConverter extends DataConverter {
             final String doctLevelName = data.getString("doctLevelName");
             final String doctHeadImage = data.getString("doctHeadImage");
             final String tencentImId = data.getString("tencentImId");
+            final String major = data.getString("major");
 
             final MultipleItemEntity entity = MultipleItemEntity.builder()
                     .setField(MultipleFields.ITEM_TYPE, YjIndexItemType.FIND_HOMEDOCTOR_IN_ITEM)
@@ -38,6 +39,7 @@ public class HomeDoctorInDataConverter extends DataConverter {
                     .setField(HomeDoctorInMultipleFields.DOCTLEVELNAME, doctLevelName)
                     .setField(HomeDoctorInMultipleFields.DOCTHEADIMAGE, doctHeadImage)
                     .setField(HomeDoctorInMultipleFields.TENCENTIMID, tencentImId)
+                    .setField(HomeDoctorInMultipleFields.MAJOR, major)
                     .build();
 
             ENTITIES.add(entity);

@@ -1,16 +1,23 @@
 package com.yijia.common_yijia.main;
 
 import android.graphics.Color;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.view.View;
 
 import com.example.latte.ec.R;
 import com.example.yijia.delegates.bottom.BaseBottomDelegate_with3;
 import com.example.yijia.delegates.bottom.BottomItemDelegate;
 import com.example.yijia.delegates.bottom.BottomTabBean;
 import com.example.yijia.delegates.bottom.ItemBuilder;
+import com.example.yijia.util.callback.CallbackManager;
+import com.example.yijia.util.callback.CallbackType;
+import com.example.yijia.util.callback.IGlobalCallback;
 import com.yijia.common_yijia.main.find.FindDelegate;
 import com.yijia.common_yijia.main.index.YjIndexDelegate;
 import com.yijia.common_yijia.main.index.friendcircle.smallvideo.SmallCameraLisener;
 import com.yijia.common_yijia.main.robot.robotmain.RobotMainDelegate;
+import com.yijia.common_yijia.sign.SignInNoteOnlyDelegate;
 
 import java.util.LinkedHashMap;
 
@@ -42,5 +49,11 @@ public class YjBottomDelegate_with3 extends BaseBottomDelegate_with3 {
     @Override
     public int setClickedColor() {
         return Color.parseColor("#FDBA63");
+    }
+
+    @Override
+    public void onBindView(@Nullable Bundle savedInstanceState, View rootView) {
+        super.onBindView(savedInstanceState, rootView);
+
     }
 }

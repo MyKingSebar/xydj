@@ -26,6 +26,9 @@ import com.example.yijia.app.Latte;
 import com.example.yijia.delegates.LatteDelegate;
 import com.example.yijia.net.rx.BaseObserver;
 import com.example.yijia.net.rx.RxRestClient;
+import com.example.yijia.util.callback.CallbackManager;
+import com.example.yijia.util.callback.CallbackType;
+import com.example.yijia.util.callback.IGlobalCallback;
 import com.example.yijia.util.log.LatteLogger;
 import com.tencent.imsdk.TIMCallBack;
 import com.tencent.imsdk.TIMConversation;
@@ -85,15 +88,19 @@ public class ExampleActivity extends ProxyActivity implements
             showFlout();
             isShowFlout = true;
         }
-
         initTencentTuiKit();
+        initExit();
+    }
 
+    private void initExit() {
+        CallbackManager.getInstance()
+                .addCallback(CallbackType.EXIT, (IGlobalCallback<String>) args -> getSupportDelegate().startWithPop(new SignInNoteOnlyDelegate()));
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if(checkAccont()){
+        if (checkAccont()) {
             //TODO 测试
             loginTencentIM();
         }
@@ -107,13 +114,13 @@ public class ExampleActivity extends ProxyActivity implements
 //        return new SignInDelegate();
 //        return new YjBottomDelegate();
         //检查用户是否登陆了APP
-        if(checkAccont()){
+        if (checkAccont()) {
             initJPush();
             loginTencentIM();
-            YjBottomDelegate_with3 delegate=new YjBottomDelegate_with3();
+            YjBottomDelegate_with3 delegate = new YjBottomDelegate_with3();
             delegate.setmSmallCameraLisener(this);
             return delegate;
-        }else {
+        } else {
             return new SignInNoteOnlyDelegate();
         }
 //        return new SignUpDelegate();
@@ -191,16 +198,18 @@ public class ExampleActivity extends ProxyActivity implements
                 break;
         }
     }
-private void initJPush(){
-    String jRegistrationID = JPushInterface.getRegistrationID(getApplicationContext());
-    Log.e("jialei", "jRegistrationID:" + jRegistrationID);
-    initJRegistrationID(jRegistrationID);
-}
+
+    private void initJPush() {
+        String jRegistrationID = JPushInterface.getRegistrationID(getApplicationContext());
+        Log.e("jialei", "jRegistrationID:" + jRegistrationID);
+        initJRegistrationID(jRegistrationID);
+    }
+
     private void goMain() {
         Log.e("qqqq", "goMain");
         initJPush();
         loginTencentIM();
-        YjBottomDelegate_with3 delegate=new YjBottomDelegate_with3();
+        YjBottomDelegate_with3 delegate = new YjBottomDelegate_with3();
         delegate.setmSmallCameraLisener(this);
         getSupportDelegate().startWithPop(delegate);
     }
@@ -217,7 +226,7 @@ private void initJPush(){
 
             @Override
             public void onError(String module, int errCode, String errMsg) {
-                Log.e("qqqq", "onerror:" + errMsg+",errCode:"+errCode+",moudle:"+module);
+                Log.e("qqqq", "onerror:" + errMsg + ",errCode:" + errCode + ",moudle:" + module);
             }
         });
     }
@@ -353,34 +362,35 @@ private void initJPush(){
     }
 
     @Override
-    public void newBokangMessage(TIMCustomElem ele,TIMConversation conversation) {
-        String ss=new String(ele.getExt());
-        Log.d("newBokangMessage","ss:"+ss);
-        if(ss==null){
+    public void newBokangMessage(TIMCustomElem ele, TIMConversation conversation) {
+        String ss = new String(ele.getExt());
+        Log.d("newBokangMessage", "ss:" + ss);
+        if (ss == null) {
             return;
         }
         Intent intent = new Intent(this, CalledWaitingActivity.class);
-        CallIntentData data=new CallIntentData();
+        CallIntentData data = new CallIntentData();
 //            data.setConversation(conversation);
         if (ss.equals(MessageInfoUtil.BOKANG_VIDEO_WAIT)) {
             data.setPeer(conversation.getPeer());
             data.setRoomid(Integer.parseInt(ele.getDesc()));
-            intent.putExtra("CallIntentData",data);
-            intent.putExtra(CalledWaitingActivity.TYPE_KEY,CalledWaitingActivity.TYPE_VIDEO);
-            Log.d("newBokangMessage","peer:"+conversation.getPeer()+",CallIntentData:"+data);
+            intent.putExtra("CallIntentData", data);
+            intent.putExtra(CalledWaitingActivity.TYPE_KEY, CalledWaitingActivity.TYPE_VIDEO);
+            Log.d("newBokangMessage", "peer:" + conversation.getPeer() + ",CallIntentData:" + data);
             startActivity(intent);
-        }else if(ss.equals(MessageInfoUtil.BOKANG_VOICE_WAIT)) {
+        } else if (ss.equals(MessageInfoUtil.BOKANG_VOICE_WAIT)) {
             data.setPeer(conversation.getPeer());
             data.setRoomid(Integer.parseInt(ele.getDesc()));
-            intent.putExtra("CallIntentData",data);
-            intent.putExtra(CalledWaitingActivity.TYPE_KEY,CalledWaitingActivity.TYPE_VOICE);
-            Log.d("newBokangMessage","peer:"+conversation.getPeer()+",CallIntentData:"+data);
+            intent.putExtra("CallIntentData", data);
+            intent.putExtra(CalledWaitingActivity.TYPE_KEY, CalledWaitingActivity.TYPE_VOICE);
+            Log.d("newBokangMessage", "peer:" + conversation.getPeer() + ",CallIntentData:" + data);
             startActivity(intent);
         }
     }
 
 
     private final int GET_PERMISSION_REQUEST = 100; //权限申请自定义码
+
     /**
      * 获取权限
      */

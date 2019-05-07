@@ -25,7 +25,7 @@ public class HomeDoctorInTabPagerAdapter3 extends FragmentStatePagerAdapter {
     }
     @Override
     public Fragment getItem(int position) {
-        return PersonalChatFragmentLittle.create(mDataList.get(position).getField(HomeDoctorInMultipleFields.TENCENTIMID),mDataList.get(position).getField(HomeDoctorInMultipleFields.DOCTNAME),mDataList.get(position).getField(HomeDoctorInMultipleFields.DOCTHEADIMAGE));
+        return PersonalChatFragmentLittle.create(mDataList.get(position).getField(HomeDoctorInMultipleFields.TENCENTIMID),mDataList.get(position).getField(HomeDoctorInMultipleFields.DOCTNAME),mDataList.get(position).getField(HomeDoctorInMultipleFields.DOCTHEADIMAGE),mDataList.get(position).getField(HomeDoctorInMultipleFields.MAJOR));
 //        return new SignInNoteOnlyDelegate();
     }
 

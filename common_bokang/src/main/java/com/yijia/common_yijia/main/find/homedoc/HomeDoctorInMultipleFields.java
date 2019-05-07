@@ -16,5 +16,7 @@ public enum HomeDoctorInMultipleFields {
     //头像
     DOCTHEADIMAGE,
     //腾讯imId
-    TENCENTIMID
+    TENCENTIMID,
+    //医生专长字段名
+    MAJOR
 }

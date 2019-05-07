@@ -5,6 +5,7 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -25,6 +26,7 @@ import com.example.common_tencent_tuikit.chat.title_bottom.TitleBottomPersonalCh
 import com.example.latte.ec.R;
 import com.example.latte.ui.recycler.MultipleItemEntity;
 import com.example.yijia.delegates.LatteDelegate;
+import com.example.yijia.ui.TextViewUtils;
 import com.tencent.imsdk.TIMConversationType;
 import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMMessage;
@@ -49,15 +51,18 @@ public class PersonalChatFragmentLittle extends LatteDelegate {
     private static final String PUTKEY_CHATID="chatId";
     private static final String PUTKEY_CHATNAME="chatName";
     private static final String PUTKEY_CHATHEADURL="chatHeadUrl";
+    private static final String PUTKEY_DISCRIBE="describe";
     private String chatId;
     private String chatName;
     private String chatHeadUrl;
+    private String topDescribe;
 
     private String TAG="PersonalChatFragmentLittle";
     private C2CChatPanel chatPanel;
     private PageTitleBar chatTitleBar;
 
     private TextView cpTitle,cpRingt,cpLeft;
+    private AppCompatTextView tvDescribe;
 
     private RecyclerView mRecycleView=null;
     private ChatTitieBottomAdapter mChatTitieBottomAdapter=null;
@@ -67,11 +72,12 @@ public class PersonalChatFragmentLittle extends LatteDelegate {
     BokangSendMessageUtil bokangSendMessageUtil=null;
     private TtsPopup mTtsPopup;
 
-    public static PersonalChatFragmentLittle create(String chatId,String chatName,String chatHeadUrl) {
+    public static PersonalChatFragmentLittle create(String chatId,String chatName,String chatHeadUrl,String describe) {
         final Bundle args = new Bundle();
         args.putString(PUTKEY_CHATID,chatId);
         args.putString(PUTKEY_CHATNAME,chatName);
         args.putString(PUTKEY_CHATHEADURL,chatHeadUrl);
+        args.putString(PUTKEY_DISCRIBE,describe);
         final PersonalChatFragmentLittle delegate = new PersonalChatFragmentLittle();
         delegate.setArguments(args);
         return delegate;
@@ -86,6 +92,7 @@ public class PersonalChatFragmentLittle extends LatteDelegate {
         chatId = datas.getString(PUTKEY_CHATID);
         chatName = datas.getString(PUTKEY_CHATNAME);
         chatHeadUrl = datas.getString(PUTKEY_CHATHEADURL);
+        topDescribe = datas.getString(PUTKEY_DISCRIBE);
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -100,7 +107,12 @@ public class PersonalChatFragmentLittle extends LatteDelegate {
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, @NonNull View rootView) {
         initView(rootView);
-
+        tvDescribe=rootView.findViewById(R.id.tv_describe);
+        if(TextUtils.isEmpty(topDescribe)){
+            tvDescribe.setVisibility(View.GONE);
+        }else {
+            TextViewUtils.AppCompatTextViewSetText(tvDescribe,chatName+"医生详情："+topDescribe);
+        }
         final View decorView = getActivity().getWindow().getDecorView();
         decorView.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
             Rect r = new Rect();

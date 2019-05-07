@@ -13,14 +13,47 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_top"
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/cl"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:layout_marginTop="1dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/include3" />
+        app:layout_constraintTop_toBottomOf="@+id/include3"
+        >
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/cl_close"
+            android:layout_width="41dp"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tv_close"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@mipmap/checkbox_docin_title_top"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="TextView" />
+        </android.support.constraint.ConstraintLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_top"
+            android:layout_width="0dp"
+            android:layout_height="70dp"
+            android:background="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/cl_close"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </android.support.constraint.ConstraintLayout>
 
     <net.lucode.hackware.magicindicator.MagicIndicator
         android:id="@+id/tablayout"
@@ -30,7 +63,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rv_top" />
+        app:layout_constraintTop_toBottomOf="@+id/cl" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/view_pager"
@@ -41,6 +74,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tablayout"
-        app:layout_constraintVertical_weight="1" />
+        app:layout_constraintVertical_weight="1"
+        />
 
 </android.support.constraint.ConstraintLayout>

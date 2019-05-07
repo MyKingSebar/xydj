@@ -23,4 +23,7 @@ public class CallbackManager {
     public IGlobalCallback getCallback(Object tag) {
         return CALLBACKS.get(tag);
     }
+    public IGlobalCallback getCallbackString(String tag) {
+        return CALLBACKS.get(tag);
+    }
 }

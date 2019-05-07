@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.text.PrecomputedTextCompat;
 import android.support.v7.widget.AppCompatTextView;
+import android.view.View;
 
 import com.example.latte.R;
 
@@ -28,5 +29,8 @@ public class TextViewUtils {
     }
     public static Drawable getDrawable(Context mCOntext, int mRid){
         return ContextCompat.getDrawable(Objects.requireNonNull(mCOntext), mRid);
+    }
+    public  static  void  setBackground(Context mCOntext,View view,int drawable){
+        view.setBackground(getDrawable(mCOntext,drawable));
     }
 }

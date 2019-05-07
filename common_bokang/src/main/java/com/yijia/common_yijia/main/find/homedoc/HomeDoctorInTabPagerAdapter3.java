@@ -5,15 +5,27 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.example.latte.ui.recycler.MultipleItemEntity;
+import com.example.yijia.util.callback.CallbackType;
+import com.example.yijia.util.callback.IGlobalCallback;
+import com.yijia.common_yijia.main.friends.CommonClickListener;
 import com.yijia.common_yijia.main.message.trtc2.PersonalChatFragmentLittle;
 import com.yijia.common_yijia.sign.SignInNoteOnlyDelegate;
 
 import java.util.List;
+import java.util.WeakHashMap;
 
 
 public class HomeDoctorInTabPagerAdapter3 extends FragmentStatePagerAdapter {
 
     private  List<MultipleItemEntity>  mDataList;
+
+    public static final WeakHashMap<Integer, Integer> CALLBACKS = new WeakHashMap<>();
+
+    private CommonClickListener mCommonClickListener=null;
+
+    public void setmCommonClickListener(CommonClickListener mCommonClickListener) {
+        this.mCommonClickListener = mCommonClickListener;
+    }
 
     public HomeDoctorInTabPagerAdapter3(FragmentManager fm, List<MultipleItemEntity> mDataList) {
         super(fm);
@@ -25,7 +37,8 @@ public class HomeDoctorInTabPagerAdapter3 extends FragmentStatePagerAdapter {
     }
     @Override
     public Fragment getItem(int position) {
-        return PersonalChatFragmentLittle.create(mDataList.get(position).getField(HomeDoctorInMultipleFields.TENCENTIMID),mDataList.get(position).getField(HomeDoctorInMultipleFields.DOCTNAME),mDataList.get(position).getField(HomeDoctorInMultipleFields.DOCTHEADIMAGE),mDataList.get(position).getField(HomeDoctorInMultipleFields.MAJOR));
+        CALLBACKS.put(position,position);
+        return PersonalChatFragmentLittle.create(mDataList.get(position).getField(HomeDoctorInMultipleFields.TENCENTIMID),mDataList.get(position).getField(HomeDoctorInMultipleFields.DOCTNAME),mDataList.get(position).getField(HomeDoctorInMultipleFields.DOCTHEADIMAGE),mDataList.get(position).getField(HomeDoctorInMultipleFields.MAJOR),position);
 //        return new SignInNoteOnlyDelegate();
     }
 

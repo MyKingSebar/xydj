@@ -9,35 +9,40 @@ import com.example.yijia.app.Latte;
 import com.example.yijia.ui.dialog.RxDialogShapeLoading;
 
 public abstract class LatteDelegate extends PermissionCheckerDelegate {
-    RxDialogShapeLoading rxDialogShapeLoading=null;
+    RxDialogShapeLoading rxDialogShapeLoading = null;
 
     @SuppressWarnings("unchecked")
-    public <T extends LatteDelegate> T getParentDelegate(){
-        return (T)getParentFragment();
+    public <T extends LatteDelegate> T getParentDelegate() {
+        return (T) getParentFragment();
     }
 
-    public void showToast(String s){
-        Toast.makeText(getContext(),s,Toast.LENGTH_LONG).show();
+    public void showToast(String s) {
+        Context mContext = getContext();
+        if (mContext == null) {
+            return;
+        }
+        Toast.makeText(mContext, s, Toast.LENGTH_LONG).show();
     }
 
-    public void showDialog(){
-        if(rxDialogShapeLoading==null){
+    public void showDialog() {
+        if (rxDialogShapeLoading == null) {
             rxDialogShapeLoading = new RxDialogShapeLoading(getContext());
         }
         rxDialogShapeLoading.show();
     }
 
-    public void closeDialog(){
-        if(rxDialogShapeLoading!=null&&rxDialogShapeLoading.isShowing()){
+    public void closeDialog() {
+        if (rxDialogShapeLoading != null && rxDialogShapeLoading.isShowing()) {
             rxDialogShapeLoading.cancel();
         }
     }
 
-    public void hideInput(){
-        InputMethodManager imm = (InputMethodManager)getActivity(). getSystemService(Context.INPUT_METHOD_SERVICE);
+    public void hideInput() {
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         //强制隐藏键盘
         imm.hideSoftInputFromWindow(this.getView().getWindowToken(), 0);
     }
+
     @Override
     public boolean onBackPressedSupport() {
         getSupportDelegate().pop();

@@ -1,16 +1,12 @@
 package com.yijia.common_yijia.main.find.homedoc;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.PagerAdapter;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,13 +16,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.example.latte.ec.R;
-import com.example.latte.ec.R2;
 import com.example.latte.ui.recycler.MultipleItemEntity;
 import com.example.yijia.app.Latte;
 import com.example.yijia.delegates.LatteDelegate;
@@ -34,11 +28,14 @@ import com.example.yijia.net.rx.BaseObserver;
 import com.example.yijia.net.rx.RxRestClient;
 import com.example.yijia.ui.TextViewUtils;
 import com.example.yijia.util.GlideUtils;
+import com.example.yijia.util.callback.CallbackIntegerManager;
+import com.example.yijia.util.callback.IGlobalCallback;
 import com.google.gson.Gson;
 import com.yijia.common_yijia.database.YjDatabaseManager;
-import com.yijia.common_yijia.main.friends.CommonClickListener;
-import com.yijia.common_yijia.main.message.trtc2.PersonalChatFragmentLittle;
-import com.yijia.common_yijia.main.robot.robotmain.RobotMainTabPagerAdapter;
+import com.yijia.common_yijia.main.find.homedoc.doctorin_top.DoctorInTitieAdapter;
+import com.yijia.common_yijia.main.find.homedoc.doctorin_top.DoctorInTitleDataConverter;
+import com.yijia.common_yijia.main.find.homedoc.doctorin_top.DoctorInTitleItemListener;
+import com.yijia.common_yijia.main.find.homedoc.doctorin_top.DoctorInTitleType;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
 import net.lucode.hackware.magicindicator.ViewPagerHelper;
@@ -48,10 +45,11 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerInd
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerTitleView;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.CommonPagerTitleView;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
-import butterknife.BindView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -64,15 +62,24 @@ public class HomeDoctorInDelegate extends LatteDelegate {
     AppCompatTextView tvTitle = null;
     AppCompatTextView tvSave = null;
     RelativeLayout tvBack = null;
-    RecyclerView mRecyelerView = null;
+    RecyclerView mTopRecyelerView = null;
     ViewPager mViewPager = null;
-    MagicIndicator magicIndicator=null;
-    HomeDoctorInTabPagerAdapter3 mHomeDoctorInTabPagerAdapter=null;
+    MagicIndicator magicIndicator = null;
+    HomeDoctorInTabPagerAdapter3 mHomeDoctorInTabPagerAdapter = null;
+
+    ConstraintLayout mClose = null;
+    AppCompatTextView mCloseIcon = null;
+    public static boolean closeStatue = false;
+
+    DoctorInTitieAdapter mDoctorInTitieAdapter = null;
+    DoctorInTitleItemListener mDoctorInTitleItemListener = null;
+
+
 
 
     public static HomeDoctorInDelegate create(String id) {
         final Bundle args = new Bundle();
-        args.putString(ID_KEY,id);
+        args.putString(ID_KEY, id);
         final HomeDoctorInDelegate delegate = new HomeDoctorInDelegate();
         delegate.setArguments(args);
         return delegate;
@@ -119,7 +126,61 @@ public class HomeDoctorInDelegate extends LatteDelegate {
         tvTitle.setText("家庭医生");
         tvSave.setVisibility(View.INVISIBLE);
         tvBack.setOnClickListener(v -> getSupportDelegate().pop());
+        mTopRecyelerView = rootView.findViewById(R.id.rv_top);
+        mDoctorInTitieAdapter = new DoctorInTitieAdapter(initTitleBottomData());
+        mDoctorInTitieAdapter.setCartItemListener(initDoctorInTitleItemListener());
+        final LinearLayoutManager manager = new LinearLayoutManager(getContext());
+        //调整RecyclerView的排列方向
+        manager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        mTopRecyelerView.setLayoutManager(manager);
+        mTopRecyelerView.setAdapter(mDoctorInTitieAdapter);
+        mClose = rootView.findViewById(R.id.cl_close);
+        mCloseIcon = rootView.findViewById(R.id.tv_close);
 
+        mClose.setOnClickListener(v -> {
+            if (closeStatue) {
+                closeStatue = false;
+                magicIndicator.setVisibility(View.VISIBLE);
+                TextViewUtils.setBackground(getContext(), mCloseIcon, R.mipmap.checkbox_docin_title_top);
+            } else {
+                closeStatue = true;
+                magicIndicator.setVisibility(View.GONE);
+                TextViewUtils.setBackground(getContext(), mCloseIcon, R.mipmap.checkbox_docin_title_bottom);
+            }
+            for (Map.Entry<Integer, Integer> entry : HomeDoctorInTabPagerAdapter3.CALLBACKS.entrySet()) {
+                final IGlobalCallback<String> callback;
+                callback= CallbackIntegerManager
+                        .getInstance()
+                        .getCallback(entry.getValue());
+                if (callback != null) {
+                    callback.executeCallback("");
+                }
+            }
+        });
+    }
+
+    private ArrayList<MultipleItemEntity> initTitleBottomData() {
+        final ArrayList<MultipleItemEntity> data =
+                new DoctorInTitleDataConverter()
+                        .convert();
+        return data;
+    }
+
+    private DoctorInTitleItemListener initDoctorInTitleItemListener() {
+        mDoctorInTitleItemListener = (type, name) -> {
+            Log.d("jialei", "type:" + type);
+            if (type == null) {
+                return;
+            }
+            if (TextUtils.equals(type, DoctorInTitleType.APPOINTMENTDOCTOR.name())) {
+                showToast("预约就诊");
+            } else if (TextUtils.equals(type, DoctorInTitleType.APPOINTMENTNURSE.name())) {
+                showToast("预约护理");
+            } else if (TextUtils.equals(type, DoctorInTitleType.APPOINTMENTPHYSIOTHERAPY.name())) {
+                showToast("预约理疗");
+            }
+        };
+        return mDoctorInTitleItemListener;
     }
 
     public void getHomedoc(long doctTeamId) {
@@ -144,12 +205,9 @@ public class HomeDoctorInDelegate extends LatteDelegate {
                             List<MultipleItemEntity> data = new HomeDoctorInDataConverter()
                                     .setJsonData(response)
                                     .convert();
-                            mHomeDoctorInTabPagerAdapter=new HomeDoctorInTabPagerAdapter3(getChildFragmentManager(),data);
+                            mHomeDoctorInTabPagerAdapter = new HomeDoctorInTabPagerAdapter3(getChildFragmentManager(), data);
                             mViewPager.setAdapter(mHomeDoctorInTabPagerAdapter);
                             initMagicIndicator1(data);
-
-
-
 
 
 //                            mAdapter = new HomeDoctorAdapter(data);
@@ -203,12 +261,12 @@ public class HomeDoctorInDelegate extends LatteDelegate {
                 CommonPagerTitleView commonPagerTitleView = new CommonPagerTitleView(context);
                 // load custom layout
                 View customLayout = LayoutInflater.from(context).inflate(R.layout.item_tab_homedoctorin, null);
-                final ImageView titleImg =customLayout.findViewById(R.id.title_img);
+                final ImageView titleImg = customLayout.findViewById(R.id.title_img);
                 final AppCompatTextView tv_title = customLayout.findViewById(R.id.tv_title);
-                final AppCompatTextView tv_text =customLayout.findViewById(R.id.tv_text);
+                final AppCompatTextView tv_text = customLayout.findViewById(R.id.tv_text);
                 TextViewUtils.AppCompatTextViewSetText(tv_title, data.get(index).getField(HomeDoctorInMultipleFields.DOCTNAME));
                 TextViewUtils.AppCompatTextViewSetText(tv_text, data.get(index).getField(HomeDoctorInMultipleFields.DOCTLEVELNAME));
-                GlideUtils.load(getContext(),data.get(index).getField(HomeDoctorInMultipleFields.DOCTHEADIMAGE),titleImg,GlideUtils.USERMODE);
+                GlideUtils.load(getContext(), data.get(index).getField(HomeDoctorInMultipleFields.DOCTHEADIMAGE), titleImg, GlideUtils.USERMODE);
 
                 commonPagerTitleView.setContentView(customLayout);
 
@@ -216,14 +274,14 @@ public class HomeDoctorInDelegate extends LatteDelegate {
 
                     @Override
                     public void onSelected(int index, int totalCount) {
-                        tv_title.setTextColor(TextViewUtils.getColor(getContext(),R.color.main_text_orange));
-                        tv_text.setTextColor(TextViewUtils.getColor(getContext(),R.color.main_text_orange));
+                        tv_title.setTextColor(TextViewUtils.getColor(getContext(), R.color.main_text_orange));
+                        tv_text.setTextColor(TextViewUtils.getColor(getContext(), R.color.main_text_orange));
                     }
 
                     @Override
                     public void onDeselected(int index, int totalCount) {
-                        tv_title.setTextColor(TextViewUtils.getColor(getContext(),R.color.main_text_black_dark));
-                        tv_text.setTextColor(TextViewUtils.getColor(getContext(),R.color.main_text_gary_99));
+                        tv_title.setTextColor(TextViewUtils.getColor(getContext(), R.color.main_text_black_dark));
+                        tv_text.setTextColor(TextViewUtils.getColor(getContext(), R.color.main_text_gary_99));
                     }
 
                     @Override

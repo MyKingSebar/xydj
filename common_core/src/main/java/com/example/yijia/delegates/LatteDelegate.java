@@ -45,7 +45,11 @@ public abstract class LatteDelegate extends PermissionCheckerDelegate {
 
     @Override
     public boolean onBackPressedSupport() {
-        getSupportDelegate().pop();
-        return true;
+        if(getFragmentManager().getBackStackEntryCount() <= 1) {
+            return false;
+        } else {
+            getSupportDelegate().pop();
+            return true;
+        }
     }
 }

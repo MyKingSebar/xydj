@@ -45,7 +45,7 @@ public abstract class LatteDelegate extends PermissionCheckerDelegate {
 
     @Override
     public boolean onBackPressedSupport() {
-        if(getFragmentManager().getBackStackEntryCount() <= 1) {
+        if(getFragmentManager().getBackStackEntryCount() == 0 || getFragmentManager().getBackStackEntryAt(0).getName().equals("com.yijia.common_yijia.sign.SignInNoteOnlyDelegate")) {
             return false;
         } else {
             getSupportDelegate().pop();

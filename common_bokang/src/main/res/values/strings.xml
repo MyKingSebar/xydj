@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">壹家</string>
     <string name="back_icon">&#060;</string>
+
+    <string name="health_seft_test">健康自测</string>
+
+    <string name="health_seft_main_warn">亲，点击下方按钮进行测量，小壹将通过你的指尖脉搏波来测量（心率、血氧）等结果</string>
+    <string name="health_self_begin_warn">闪光灯和摄像头属于非专业的采集设备，建议您多次测量和观察</string>
+    <string name="health_self_begin_button">开始测量</string>
 </resources>

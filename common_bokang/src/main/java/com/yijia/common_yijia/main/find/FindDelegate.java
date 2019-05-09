@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 import com.example.latte.ec.R;
 import com.example.latte.ec.R2;
 import com.example.yijia.delegates.bottom.BottomItemDelegate;
+import com.yijia.common_yijia.main.find.healthself.HealthMainDelegate;
 import com.yijia.common_yijia.main.find.homedoc.HomeDoctorDelegate;
 import com.yijia.common_yijia.main.message.trtc.session.SessionFragment;
 
@@ -53,6 +54,7 @@ public class FindDelegate extends BottomItemDelegate {
     }
     @OnClick(R2.id.ll_health)
     void ll_health() {
+        getParentDelegate().getSupportDelegate().start(new HealthMainDelegate());
     }
 
     @Override

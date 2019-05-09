@@ -41,7 +41,7 @@ import me.yokeyword.fragmentation.helper.ExceptionHandler;
 
 public class ExampleApp extends MultiDexApplication {
     public static final String PACKAGENAME = "com.bokang.yijia";
-    public static final String MODE = "DEBUG";
+    public static final String MODE = "RELEASE";
     public static final String MODE_DEBUG = "DEBUG";
     public static final String MODE_RELEASE = "RELEASE";
 
@@ -92,8 +92,8 @@ public class ExampleApp extends MultiDexApplication {
                 .withLoaderDelayed(1000)
                 .withApiHost("http://47.104.86.251:8080/v1/")
                 .withInterceptor(new DebugInterceptor("test", R.raw.test))
-//                .withWeChatAppId("你的微信AppKey")
-//                .withWeChatAppSecret("你的微信AppSecret")
+                .withWeChatAppId("wxc2a7bbfa8dd91ff4")
+                .withWeChatAppSecret("2b979696ed63a209b37d7a22ba52736e")
 //                .withJavascriptInterface("latte")
 //                .withWebEvent("test", new TestEvent())
 //                .withWebEvent("share", new ShareEvent())

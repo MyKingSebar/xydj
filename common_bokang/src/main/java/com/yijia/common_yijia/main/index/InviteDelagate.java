@@ -130,7 +130,7 @@ public class InviteDelagate extends LatteDelegate {
 
     private void getInvite() {
         JDialogUtil.INSTANCE.showRxDialogShapeLoading(getContext());
-        final String url = "/friend/query_invite_code";
+        final String url = "friend/query_invite_code";
         String token = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getYjtk();
         RxRestClient.builder()
                 .url(url)

@@ -41,6 +41,7 @@ import com.yijia.common_yijia.main.message.NoticesAdapter;
 import com.yijia.common_yijia.main.message.trtc.BoKangSendMessageListener;
 import com.yijia.common_yijia.main.message.trtc.BokangSendMessageUtil;
 import com.yijia.common_yijia.main.message.trtc.CallWaitingActivity;
+import com.yijia.common_yijia.main.robot.callsetting.RobotCallSettingDelegate;
 import com.yijia.common_yijia.main.robot.setting.remind.RobotRemindSettingDelegate;
 
 import java.util.Arrays;
@@ -87,6 +88,7 @@ public class RobotMyRobotDelegate extends BottomItemDelegate {
         tvCall.setOnClickListener(v -> {
             //TODO 呼叫设置
             checkRobotLogin();
+            getParentDelegate().getSupportDelegate().start(new RobotCallSettingDelegate());
         });
         tvRemind.setOnClickListener(v -> {
             //TODO 提醒设置
@@ -99,7 +101,7 @@ public class RobotMyRobotDelegate extends BottomItemDelegate {
                 }
                 bundle.putLong(RobotRemindSettingDelegate.USERID,userId);
                 mDelegate.setArguments(bundle);
-                getSupportDelegate().start(mDelegate);
+                getParentDelegate().getSupportDelegate().start(mDelegate);
             };
 
         });

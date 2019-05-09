@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -98,6 +99,10 @@ public class FastPay implements View.OnClickListener {
         LatteLogger.d("WX_PAY", weChatPrePayUrl);
 
         final IWXAPI iwxapi = LatteWeChat.getInstance().getWXAPI();
+        if(iwxapi==null){
+            Log.e("yijia","weChatPay==null");
+            return;
+        }
         final String appId = Latte.getConfiguration(ConfigKeys.WE_CHAT_APP_ID);
         iwxapi.registerApp(appId);
         RestClient.builder()

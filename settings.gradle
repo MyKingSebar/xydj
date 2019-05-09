@@ -9,4 +9,3 @@ include ':example', ':common_tencent_tuikit', ':mobshareplatform', ':baidutext',
         ':camera1.1.9',
         ':ocr_ui',
         ':ui_magicindicator1.6.0'
-

@@ -25,6 +25,13 @@ public class YjIndexItemType {
     public static final int FIND_HOMEDOCTOR_ITEM = 301;
     public static final int FIND_HOMEDOCTOR_IN_ITEM = 302;
 
+    public static final int ROBOT_CALLSETTING_FRIENDLIST = 303;
+    public static final int ROBOT_CALLSETTING_ADDRESSLIST = 304;
+    public static final int ROBOT_CALLSETTING_EXIGENCELIST = 305;
+    public static final int ROBOT_CALLSETTING_NICKLIST = 305;
+    public static final int ROBOT_CALLSETTING_NICKLIST_ADD = 306;
+    public static final int ROBOT_CALLSETTING_NICKLIST_DESCRIBE = 307;
+
 
     public static final int DOCTORIN_GROUP_CHAT_TITLE = 400;
 

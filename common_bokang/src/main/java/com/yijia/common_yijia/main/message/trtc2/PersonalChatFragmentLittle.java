@@ -29,7 +29,6 @@ import com.tencent.qcloud.uikit.business.chat.view.ChatBottomInputGroupCust;
 import com.tencent.qcloud.uikit.common.component.titlebar.PageTitleBar;
 import com.yijia.common_yijia.main.find.TtsPopup;
 import com.yijia.common_yijia.main.find.homedoc.HomeDoctorInDelegate;
-import com.yijia.common_yijia.main.friends.CommonListener;
 import com.yijia.common_yijia.main.message.trtc.BoKangSendMessageListener;
 import com.yijia.common_yijia.main.message.trtc.BokangSendMessageUtil;
 
@@ -64,14 +63,18 @@ public class PersonalChatFragmentLittle extends LatteDelegate {
     private ChatBottomInputGroupCust.MessageHandler mMsgHandler;
     BokangSendMessageUtil bokangSendMessageUtil = null;
     private TtsPopup mTtsPopup;
-    private CommonListener mCommonListener = null;
 
-    public void setmCommonListener(CommonListener mCommonListener) {
-        this.mCommonListener = mCommonListener;
-    }
+    //是否可见
+    public boolean isVisible = false;
+    //是否初始化完成
+    public boolean isInit = false;
+    //是否已经加载过
+    public boolean isLoadOver = false;
+    public View mRootView = null;
+
+
 
     public static PersonalChatFragmentLittle create(String chatId, String chatName, String chatHeadUrl, String describe,int position
-//            , CommonListener mCommonListener
     ) {
         final Bundle args = new Bundle();
         args.putString(PUTKEY_CHATID, chatId);
@@ -81,7 +84,6 @@ public class PersonalChatFragmentLittle extends LatteDelegate {
         args.putInt(POSITION, position);
         final PersonalChatFragmentLittle delegate = new PersonalChatFragmentLittle();
         delegate.setArguments(args);
-//        delegate.setmCommonListener(mCommonListener);
         return delegate;
     }
 
@@ -102,7 +104,14 @@ public class PersonalChatFragmentLittle extends LatteDelegate {
     @Override
     public void onSupportVisible() {
         super.onSupportVisible();
+//        isVisible=false;
+    }
 
+    @Override
+    public void onSupportInvisible() {
+        super.onSupportInvisible();
+//        isVisible=true;
+//        init();
     }
 
     @Override
@@ -113,7 +122,24 @@ public class PersonalChatFragmentLittle extends LatteDelegate {
 
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, @NonNull View rootView) {
+        if(mRootView==null){
+            mRootView=rootView;
+            isInit=true;
+        }
+//        init();
         initView(rootView);
+        initView2(rootView);
+    }
+
+    private void init(){
+        if(isInit&&!isLoadOver&&isVisible){
+            initView(mRootView);
+            initView2(mRootView);
+            isLoadOver=true;
+        }
+    }
+
+    private void initView2(View rootView) {
         tvDescribe = rootView.findViewById(R.id.tv_describe);
         if (TextUtils.isEmpty(topDescribe)) {
             tvDescribe.setVisibility(View.GONE);
@@ -148,6 +174,10 @@ public class PersonalChatFragmentLittle extends LatteDelegate {
                     } else {
                         tvDescribe.setVisibility(View.VISIBLE);
                     }
+                });
+        CallbackIntegerManager.getInstance()
+                .addCallback(position+100, (IGlobalCallback<String>) args -> {
+
                 });
     }
 

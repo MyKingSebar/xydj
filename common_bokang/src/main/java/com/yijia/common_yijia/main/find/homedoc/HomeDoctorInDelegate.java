@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -31,6 +30,7 @@ import com.example.yijia.util.GlideUtils;
 import com.example.yijia.util.callback.CallbackIntegerManager;
 import com.example.yijia.util.callback.IGlobalCallback;
 import com.google.gson.Gson;
+import com.lianghanzhen.LazyViewPager;
 import com.yijia.common_yijia.database.YjDatabaseManager;
 import com.yijia.common_yijia.main.find.homedoc.doctorin_top.DoctorInTitieAdapter;
 import com.yijia.common_yijia.main.find.homedoc.doctorin_top.DoctorInTitleDataConverter;
@@ -63,7 +63,7 @@ public class HomeDoctorInDelegate extends LatteDelegate {
     AppCompatTextView tvSave = null;
     RelativeLayout tvBack = null;
     RecyclerView mTopRecyelerView = null;
-    ViewPager mViewPager = null;
+    LazyViewPager mViewPager = null;
     MagicIndicator magicIndicator = null;
     HomeDoctorInTabPagerAdapter3 mHomeDoctorInTabPagerAdapter = null;
 

@@ -21,7 +21,7 @@ public class UserProfilesDataConverter extends DataConverter {
         for (int i = 0; i < size; i++) {
             final JSONObject data = guardianUserList.getJSONObject(i);
 
-            final long friendUserId = data.getInteger("id");
+            final long friendUserId = data.getLong("id");
             final String nickname = data.getString("name");
 
             final MultipleItemEntity entity = MultipleItemEntity.builder()

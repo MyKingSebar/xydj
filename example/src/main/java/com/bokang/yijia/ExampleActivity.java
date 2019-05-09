@@ -233,7 +233,7 @@ public class ExampleActivity extends ProxyActivity implements
 
 
     private void initJRegistrationID(String jRegistrationID) {
-        final String url = "/notification/add_alias";
+        final String url = "notification/add_alias";
         String token = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getYjtk();
         RxRestClient.builder()
                 .url(url)

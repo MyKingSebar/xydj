@@ -163,7 +163,7 @@ public class FriendsDelegate2 extends LatteDelegate implements  FriendsView ,Com
             @Override
             public void RxDialogSure() {
                 JDialogUtil.INSTANCE.dismiss();
-                deleteFriend(Integer.parseInt(info));
+                deleteFriend(Long.parseLong(info));
             }
 
             @Override
@@ -179,7 +179,7 @@ public class FriendsDelegate2 extends LatteDelegate implements  FriendsView ,Com
         friendsPresenter.reqFriendData(token);
     }
 
-    private void deleteFriend(int id){
+    private void deleteFriend(long id){
         JDialogUtil.INSTANCE.showRxDialogShapeLoading(getContext());
         String url = "friend/delete_friend";
         RxRestClient.builder()
@@ -224,12 +224,8 @@ public class FriendsDelegate2 extends LatteDelegate implements  FriendsView ,Com
                         .gravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL)
                         .blurBackground(true, option -> option.setBlurRadius(6)
                                 .setBlurPreScaleRatio(0.9f))
-                        .withClick(R.id.tv_invite, v1 -> {
-                            getSupportDelegate().start(new InviteDelagate());
-                        }, true)
-                        .withClick(R.id.tv_add, v1 -> {
-                            getSupportDelegate().start(new AddFriendsDelegate());
-                        }, true)
+                        .withClick(R.id.tv_invite, v1 -> getSupportDelegate().start(new InviteDelagate()), true)
+                        .withClick(R.id.tv_add, v1 -> getSupportDelegate().start(new AddFriendsDelegate()), true)
                 )
                 .show(v);
     }

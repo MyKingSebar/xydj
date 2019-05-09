@@ -20,9 +20,9 @@ public class HomeDoctorDataConverter extends DataConverter {
         for (int i = 0; i < size; i++) {
             final JSONObject data = doclist.getJSONObject(i);
 
-            final long doctTeamId = data.getInteger("doctTeamId");
-            final long hospitalId = data.getInteger("hospitalId");
-            final long idCardInfoId = data.getInteger("idCardInfoId");
+            final long doctTeamId = data.getLong("doctTeamId");
+            final long hospitalId = data.getLong("hospitalId");
+            final long idCardInfoId = data.getLong("idCardInfoId");
             final String doctTeamName = data.getString("doctTeamName");
             final String hospitalName = data.getString("hospitalName");
             final String idCardInfoName = data.getString("idCardInfoName");

@@ -122,19 +122,25 @@ public class HealthHRMesureDelegate extends LatteDelegate {
                     measureTime++;
                     totalHeartRate += heartrate;
                     progress.setText(measureTime * 100 / totalTime + "%");
-                    Log.e("!!!~~~~", "time: "+ measureTime+" rate: "+heartrate+" total: "+ totalHeartRate);
                     ((HealthMainDelegate) HealthHRMesureDelegate.this.getParentDelegate()).setTips(R.string.health_self_mesure_right);
                 } else {
                     ((HealthMainDelegate) HealthHRMesureDelegate.this.getParentDelegate()).setTips(R.string.health_self_mesure_error);
                 }
                 count = 0;
                 if (measureTime == totalTime) {
-                    progress.setText(totalHeartRate / totalTime + "");
-                    measureTime = 0;
-                    totalHeartRate = 0;
+
                     cameraPreviewView.closeCameraFlashMode();
                     cameraPreviewView.removeCallback();
                     cameraPreviewView.releaseCamera();
+
+                    HealthResultDelegate resultDelegate = new HealthResultDelegate();
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("result", totalHeartRate / totalTime);
+                    resultDelegate.setArguments(bundle);
+                    getSupportDelegate().start(resultDelegate);
+
+                    measureTime = 0;
+                    totalHeartRate = 0;
                 }
             }
         }

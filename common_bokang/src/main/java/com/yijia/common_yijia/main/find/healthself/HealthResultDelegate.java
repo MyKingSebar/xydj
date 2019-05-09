@@ -6,16 +6,21 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.example.latte.ec.R;
 import com.example.yijia.delegates.LatteDelegate;
+import com.yijia.common_yijia.main.find.healthself.CameraMesure.ProgressView;
 
-public class HealthBeginDelegate extends LatteDelegate {
+import java.util.ArrayList;
+import java.util.List;
+
+public class HealthResultDelegate extends LatteDelegate {
+
+    private ProgressView progressView;
 
     @Override
     public Object setLayout() {
-        return R.layout.delegate_health_begin;
+        return R.layout.delegate_health_result;
     }
 
     @Override
@@ -31,23 +36,33 @@ public class HealthBeginDelegate extends LatteDelegate {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         return rootView;
     }
 
     private void initView(View rootView) {
-        TextView button = rootView.findViewById(R.id.health_self_begin_button);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getSupportDelegate().pop();
-//                ((HealthMainDelegate)getParentDelegate()).loadFragment(new HealthWaitDelegate());
-                getSupportDelegate().start(new HealthWaitDelegate());
+        ((HealthMainDelegate) getParentDelegate()).setTips(R.string.health_self_result_warn);
 
-            }
-        });
-        ((HealthMainDelegate)getParentDelegate()).setTips(R.string.health_seft_main_warn);
+        int rate = getArguments().getInt("result");
+        progressView = rootView.findViewById(R.id.health_self_result_hr);
+        progressView.setTitle("心率", "（次/分）");
+        progressView.setData(addHRStand(), 150);
+        progressView.setValue(rate);
+
+    }
+
+    private List<ProgressView.Point> addHRStand() {
+        List<ProgressView.Point> points = new ArrayList<>();
+        ProgressView.Point low = progressView.new Point();
+        low.value = 60;
+        low.tag = "60";
+        points.add(low);
+
+        ProgressView.Point high = progressView.new Point();
+        high.value = 100;
+        high.tag = "100";
+        points.add(high);
+        return points;
     }
 
     @Override
@@ -59,4 +74,5 @@ public class HealthBeginDelegate extends LatteDelegate {
     public boolean onBackPressedSupport() {
         return false;
     }
+
 }

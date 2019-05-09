@@ -45,8 +45,10 @@ public class HealthWaitDelegate extends LatteDelegate {
             public void onChronometerTick(Chronometer chronometer) {
                 chronometer.setText(getString(R.string.health_self_wait_text, --time));
                 if(0 == time) {
-//                    HealthWaitDelegate.this.get
                     chronometer.stop();
+
+                    getSupportDelegate().pop();
+                    getSupportDelegate().start(new HealthHRMesureDelegate());
                 }
             }
         });

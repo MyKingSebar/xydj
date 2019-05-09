@@ -10,4 +10,7 @@
 
     <string name="health_self_wait_text">%1$ds后为您开始测量</string>
     <string name="health_self_wait_warn">请您轻轻的将食指放在摄像头上，注意不要遮挡闪光灯，并保持姿势</string>
+    <string name="health_self_mesure_error">手指未完全覆盖摄像头，请您调整手指位置</string>
+    <string name="health_self_mesure_right">数据采集中，请保持姿势直到数据采集结束</string>
+    <string name="health_self_mesuring">正在检测中...</string>
 </resources>

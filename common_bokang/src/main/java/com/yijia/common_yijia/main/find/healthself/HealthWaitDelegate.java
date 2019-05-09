@@ -6,18 +6,18 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.Chronometer;
 
 import com.example.latte.ec.R;
 import com.example.yijia.delegates.LatteDelegate;
 
-import me.yokeyword.fragmentation.anim.FragmentAnimator;
+public class HealthWaitDelegate extends LatteDelegate {
 
-public class HealthBeginDelegate extends LatteDelegate {
+    private int time = 4;
 
     @Override
     public Object setLayout() {
-        return R.layout.delegate_health_begin;
+        return R.layout.delegate_health_wait;
     }
 
     @Override
@@ -33,22 +33,24 @@ public class HealthBeginDelegate extends LatteDelegate {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         return rootView;
     }
 
     private void initView(View rootView) {
-        TextView button = rootView.findViewById(R.id.health_self_begin_button);
-        button.setOnClickListener(new View.OnClickListener() {
+        ((HealthMainDelegate)getParentDelegate()).setTips(R.string.health_self_wait_warn);
+        Chronometer chronometer = rootView.findViewById(R.id.health_self_wait_text);
+        chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
             @Override
-            public void onClick(View v) {
-                getSupportDelegate().pop();
-//                ((HealthMainDelegate)getParentDelegate()).loadFragment(new HealthWaitDelegate());
-                getSupportDelegate().start(new HealthWaitDelegate());
+            public void onChronometerTick(Chronometer chronometer) {
+                chronometer.setText(getString(R.string.health_self_wait_text, --time));
+                if(0 == time) {
+//                    HealthWaitDelegate.this.get
+                    chronometer.stop();
+                }
             }
         });
-        ((HealthMainDelegate)getParentDelegate()).setTips(R.string.health_seft_main_warn);
+        chronometer.start();
     }
 
     @Override
@@ -60,4 +62,5 @@ public class HealthBeginDelegate extends LatteDelegate {
     public boolean onBackPressedSupport() {
         return false;
     }
+
 }

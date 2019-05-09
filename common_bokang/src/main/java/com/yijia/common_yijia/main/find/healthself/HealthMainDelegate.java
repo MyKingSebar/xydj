@@ -62,9 +62,16 @@ public class HealthMainDelegate extends LatteDelegate {
     private void initView() {
         tvTitle.setText(R.string.health_seft_test);
         tvSave.setVisibility(View.GONE);
-        healthSelfWarnText.setText(R.string.health_seft_main_warn);
-
     }
+
+    public void setTips(int tip) {
+        healthSelfWarnText.setText(tip);
+    }
+
+    public void loadFragment(LatteDelegate latteDelegate) {
+        getSupportDelegate().loadRootFragment(R.id.health_self_view_cardview, latteDelegate);
+    }
+
 
     @Override
     public void onDestroyView() {
@@ -75,5 +82,10 @@ public class HealthMainDelegate extends LatteDelegate {
     @OnClick(R2.id.tv_back)
     public void onViewClicked() {
         getSupportDelegate().pop();
+    }
+
+    @Override
+    public boolean onBackPressedSupport() {
+        return super.onBackPressedSupport();
     }
 }

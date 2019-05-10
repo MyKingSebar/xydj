@@ -15,6 +15,7 @@ import com.example.yijia.delegates.LatteDelegate;
 import com.example.latte.ec.R;
 import com.example.latte.ec.R2;
 import com.example.latte.ui.widget.HeadLayout;
+import com.example.yijia.util.GlideUtils;
 import com.yijia.common_yijia.database.YjDatabaseManager;
 
 import butterknife.BindView;
@@ -46,17 +47,7 @@ public class PersonalDataDelegate extends LatteDelegate implements HeadLayout.On
         //从数据库里取头像和昵称
         String nickname = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getNickname();
         String imagePath = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getImagePath();
-        if (imagePath != null) {
-            Glide.with(_mActivity)
-                    .load(imagePath)
-                    .apply(options)
-                    .into(headPortrait);
-        } else {
-            Glide.with(_mActivity)
-                    .load(R.mipmap.ic_launcher)
-                    .apply(options)
-                    .into(headPortrait);
-        }
+            GlideUtils.load(_mActivity,imagePath,headPortrait,GlideUtils.USERMODE);
         if (nickname != null) {
             userName.setText(nickname);
         } else {

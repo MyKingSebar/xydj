@@ -58,6 +58,7 @@ public class HealthHRMesureDelegate extends LatteDelegate {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        releaseSource();
     }
 
     @Override
@@ -129,9 +130,7 @@ public class HealthHRMesureDelegate extends LatteDelegate {
                 count = 0;
                 if (measureTime == totalTime) {
 
-                    cameraPreviewView.closeCameraFlashMode();
-                    cameraPreviewView.removeCallback();
-                    cameraPreviewView.releaseCamera();
+                    releaseSource();
 
                     HealthResultDelegate resultDelegate = new HealthResultDelegate();
                     Bundle bundle = new Bundle();
@@ -144,6 +143,12 @@ public class HealthHRMesureDelegate extends LatteDelegate {
                 }
             }
         }
+    }
+
+    private void releaseSource() {
+        cameraPreviewView.closeCameraFlashMode();
+        cameraPreviewView.removeCallback();
+        cameraPreviewView.releaseCamera();
     }
 
 }

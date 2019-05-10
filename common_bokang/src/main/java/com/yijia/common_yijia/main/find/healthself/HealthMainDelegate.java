@@ -65,7 +65,8 @@ public class HealthMainDelegate extends LatteDelegate {
     }
 
     public void setTips(int tip) {
-        healthSelfWarnText.setText(tip);
+        if(null != healthSelfWarnText)
+            healthSelfWarnText.setText(tip);
     }
 
     public void loadFragment(LatteDelegate latteDelegate) {

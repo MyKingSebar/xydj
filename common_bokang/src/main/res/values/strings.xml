@@ -14,4 +14,6 @@
     <string name="health_self_mesure_right">数据采集中，请保持姿势直到数据采集结束</string>
     <string name="health_self_mesuring">正在检测中...</string>
     <string name="health_self_result_warn">测量完成！本次测量结果不代表医学测量数据</string>
+
+    <string name="health_self_result_close">返回</string>
 </resources>

@@ -8,7 +8,7 @@
     <com.yijia.common_yijia.main.find.healthself.CameraMesure.ProgressView
         android:id="@+id/health_self_result_hr"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="80dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_marginTop="10dp"
@@ -18,5 +18,19 @@
 
     </com.yijia.common_yijia.main.find.healthself.CameraMesure.ProgressView>
 
+
+    <TextView
+        android:id="@+id/health_self_result_button"
+        android:layout_width="225dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="80dp"
+        android:background="@drawable/round_white_button_bg"
+        android:gravity="center"
+        android:text="@string/health_self_result_close"
+        android:textColor="@color/text_FDBA63"
+        android:textSize="15sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/health_self_result_hr"/>
 
 </android.support.constraint.ConstraintLayout>

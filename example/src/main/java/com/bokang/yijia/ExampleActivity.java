@@ -267,7 +267,7 @@ public class ExampleActivity extends ProxyActivity implements
     private void showFlout() {
         if (TextUtils.equals(ExampleApp.MODE, ExampleApp.MODE_DEBUG)) {
             ImageView imageView = new ImageView(getApplicationContext());
-            imageView.setImageResource(R.mipmap.ic_launcher);
+            imageView.setImageResource(R.mipmap.icon_find_door);
 
             FloatWindow
                     .with(getApplicationContext())

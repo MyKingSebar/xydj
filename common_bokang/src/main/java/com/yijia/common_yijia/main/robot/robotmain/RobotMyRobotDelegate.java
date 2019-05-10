@@ -140,11 +140,12 @@ public class RobotMyRobotDelegate extends BottomItemDelegate {
 
     }
     private boolean checkRobotLogin(){
-        if(isOnline){
-            return true;
-        }else {
-            return false;
-        }
+        return true;
+//        if(isOnline){
+//            return true;
+//        }else {
+//            return false;
+//        }
     }
 
     private void getOnlineStatue(String token,long userId) {

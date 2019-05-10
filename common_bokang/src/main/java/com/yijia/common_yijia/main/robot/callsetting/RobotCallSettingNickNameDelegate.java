@@ -56,7 +56,7 @@ public class RobotCallSettingNickNameDelegate extends LatteDelegate implements C
 
     }
 
-    public static RobotCallSettingNickNameDelegate creat(long friendUserId,String name) {
+    public static RobotCallSettingNickNameDelegate creat(long friendUserId, String name) {
         final Bundle args = new Bundle();
         args.putLong(PUTKEY_FRIENDUSERID, friendUserId);
         args.putString(PUTKEY_NAME, name);
@@ -88,7 +88,7 @@ public class RobotCallSettingNickNameDelegate extends LatteDelegate implements C
         tvBack = rootView.findViewById(R.id.tv_back);
         tvTitle.setText(name);
         tvSave.setVisibility(View.INVISIBLE);
-        tvBack.setOnClickListener(v-> getSupportDelegate().pop());
+        tvBack.setOnClickListener(v -> getSupportDelegate().pop());
         mRecyelerView = rootView.findViewById(R.id.rv_guardianship);
         mRefreshLayout = rootView.findViewById(R.id.srl_index);
         mRefreshLayout.setOnRefreshListener(this);
@@ -99,7 +99,6 @@ public class RobotCallSettingNickNameDelegate extends LatteDelegate implements C
                 android.R.color.holo_blue_bright,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light
-
         );
         //第一个参数true：下拉的时候球由小变大，回弹时由大变小 第二个参数下降起始高度  第三个参数下降终止的高度
         mRefreshLayout.setProgressViewOffset(true, 120, 300);
@@ -172,7 +171,6 @@ public class RobotCallSettingNickNameDelegate extends LatteDelegate implements C
                             Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
                             mRefreshLayout.setRefreshing(false);
                         }
-
                     }
 
                     @Override

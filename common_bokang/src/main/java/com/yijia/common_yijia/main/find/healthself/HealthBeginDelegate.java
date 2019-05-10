@@ -1,8 +1,14 @@
 package com.yijia.common_yijia.main.find.healthself;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,13 +47,38 @@ public class HealthBeginDelegate extends LatteDelegate {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager
+                            .PERMISSION_GRANTED &&
+                            ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA) == PackageManager
+                                    .PERMISSION_GRANTED) {
+
+                    } else {
+                        //不具有获取权限，需要进行权限申请
+                        requestPermissions(new String[]{
+                                Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 11);
+                        return;
+                    }
+
+                }
+
                 getSupportDelegate().pop();
 //                ((HealthMainDelegate)getParentDelegate()).loadFragment(new HealthWaitDelegate());
                 getSupportDelegate().start(new HealthWaitDelegate());
 
             }
         });
-        ((HealthMainDelegate)getParentDelegate()).setTips(R.string.health_seft_main_warn);
+        ((HealthMainDelegate) getParentDelegate()).setTips(R.string.health_seft_main_warn);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 11) {
+            getSupportDelegate().pop();
+//                ((HealthMainDelegate)getParentDelegate()).loadFragment(new HealthWaitDelegate());
+            getSupportDelegate().start(new HealthWaitDelegate());
+        }
     }
 
     @Override

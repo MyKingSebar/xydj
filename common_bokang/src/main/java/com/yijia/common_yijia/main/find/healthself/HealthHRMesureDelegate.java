@@ -25,6 +25,7 @@ public class HealthHRMesureDelegate extends LatteDelegate {
     private CameraPreviewView cameraPreviewView;
     private TextView progress;
 
+    private boolean canReleased = false;
     @Override
     public Object setLayout() {
         return R.layout.delegate_health_hr_mesure;
@@ -37,6 +38,7 @@ public class HealthHRMesureDelegate extends LatteDelegate {
 
         cameraPreviewView.setPreviewCallback(new PCallback());
         cameraPreviewView.openCameraFlashMode();
+        canReleased = true;
     }
 
     @Override
@@ -136,7 +138,7 @@ public class HealthHRMesureDelegate extends LatteDelegate {
                     Bundle bundle = new Bundle();
                     bundle.putInt("result", totalHeartRate / totalTime);
                     resultDelegate.setArguments(bundle);
-                    getSupportDelegate().start(resultDelegate);
+                    getSupportDelegate().startWithPop(resultDelegate);
 
                     measureTime = 0;
                     totalHeartRate = 0;
@@ -146,9 +148,12 @@ public class HealthHRMesureDelegate extends LatteDelegate {
     }
 
     private void releaseSource() {
-        cameraPreviewView.closeCameraFlashMode();
-        cameraPreviewView.removeCallback();
-        cameraPreviewView.releaseCamera();
+        if(canReleased) {
+            cameraPreviewView.removeCallback();
+            cameraPreviewView.closeCameraFlashMode();
+            cameraPreviewView.releaseCamera();
+            canReleased = false;
+        }
     }
 
 }

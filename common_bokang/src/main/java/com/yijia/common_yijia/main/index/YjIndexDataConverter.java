@@ -25,7 +25,7 @@ public class YjIndexDataConverter extends DataConverter {
 //            final String userRealName = data.getString("userRealName");
             final String userHead = data.getString("userHead");
             final int isOwn = data.getInteger("isOwn");
-            final int circleId = data.getInteger("circleId");
+            final long circleId = data.getLong("circleId");
             final int circleType = data.getInteger("circleType");//动态类型：1-文本，2-照片，3-语音，4-视频，5-家书
             final int contentType = data.getInteger("contentType");//内容类型：1-文字，2-语音
             final String content = data.getString("content");

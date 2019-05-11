@@ -1,13 +1,16 @@
 package com.yijia.common_yijia.main.robot.setting.remind;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.SeekBar;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
@@ -18,6 +21,7 @@ import com.example.yijia.delegates.LatteDelegate;
 import com.example.yijia.net.rx.BaseObserver;
 import com.example.yijia.net.rx.RxRestClient;
 import com.example.yijia.ui.TextViewUtils;
+import com.example.yijia.ui.seekbar.RxSeekBar;
 import com.yijia.common_yijia.database.YjDatabaseManager;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -28,6 +32,7 @@ public class RobotRemindSettingDelegate extends LatteDelegate {
     AppCompatTextView tvTitle;
     RelativeLayout rl;
     RecyclerView rv;
+    RxSeekBar seekbar4;
     String token = null;
     long userId = 0;
 
@@ -52,6 +57,7 @@ public class RobotRemindSettingDelegate extends LatteDelegate {
     }
 
     private void initVIew(View rootView) {
+        seekbar4 = rootView.findViewById(R.id.seekbar4);
         rl = rootView.findViewById(R.id.tv_back);
         rl.setOnClickListener(v -> getSupportDelegate().pop());
         tvTitle = rootView.findViewById(R.id.tv_title);
@@ -60,8 +66,13 @@ public class RobotRemindSettingDelegate extends LatteDelegate {
         tvSave.setVisibility(View.INVISIBLE);
         rv=rootView.findViewById(R.id.rv);
         rv.addItemDecoration(new SpacesItemDecoration(1));
-
-
+        seekbar4.setOnRangeChangedListener(new RxSeekBar.OnRangeChangedListener() {
+            @SuppressLint("LongLogTag")
+            @Override
+            public void onRangeChanged(RxSeekBar view, float min, float max, boolean isFromUser) {
+                Log.d("RobotRemindSettingDelegate","seekbar4:"+",seekBar:"+view+",min"+min+",max:"+max+",isFromUser:"+isFromUser);
+            }
+        });
     }
 
 //    private void getInfo(String token, long userId) {

@@ -16,4 +16,13 @@
     <string name="health_self_result_warn">测量完成！本次测量结果不代表医学测量数据</string>
 
     <string name="health_self_result_close">返回</string>
+
+    <string-array name="robot_remind_voice_seek">
+        <item>0</item>
+        <item>20</item>
+        <item>40</item>
+        <item>60</item>
+        <item>80</item>
+        <item>100</item>
+    </string-array>
 </resources>

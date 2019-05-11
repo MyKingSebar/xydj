@@ -149,7 +149,7 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
         final String userNickname = entity.getField(YjIndexMultipleFields.USER_NICK_NAME);
         final String userRealName = entity.getField(YjIndexMultipleFields.USER_REAL_NAME);
         final int isOwn = entity.getField(YjIndexMultipleFields.ISOWN);
-        final int circleId = entity.getField(YjIndexMultipleFields.CIRCLEID);
+        final long circleId = entity.getField(YjIndexMultipleFields.CIRCLEID);
         final int contentType = entity.getField(YjIndexMultipleFields.CONTENTTYPE);
         final int visibleType = entity.getField(YjIndexMultipleFields.VISIBLETYPE);
         final String location = entity.getField(YjIndexMultipleFields.LOCATION);
@@ -226,8 +226,8 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
     private InputMethodManager mInputManager;
 
     @SuppressLint("WrongConstant")
-    private void showPopupcomment(int circleId, String content, MultipleViewHolder holder, long replyUserId, String name) {
-        final int CIRCLEID = circleId;
+    private void showPopupcomment(long circleId, String content, MultipleViewHolder holder, long replyUserId, String name) {
+        final long CIRCLEID = circleId;
         final String CONTENT = content;
         if (popupView == null) {
             //加载评论框的资源文件
@@ -312,7 +312,7 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
         });
     }
 
-    private void initViewText(MultipleViewHolder holder, final int circleId, String userNickname, String userHead,
+    private void initViewText(MultipleViewHolder holder, final long circleId, String userNickname, String userHead,
                               final String content, String createdTime, String likes, String commentList, int isOwn) {
         //取出所以控件
         final AppCompatTextView tvName = holder.getView(R.id.tv_name);
@@ -450,7 +450,7 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
         ngImgs.setAdapter(new NineGridViewClickAdapter(mContext, imageInfo));
     }
 
-    private void initLetter(MultipleViewHolder holder, int circleId, String title,String content) {
+    private void initLetter(MultipleViewHolder holder, long circleId, String title,String content) {
         final boolean[] canContinue = {false};
         final AppCompatTextView tvTitle = holder.getView(R.id.tv_title);
         final AppCompatTextView tvCansee = holder.getView(R.id.tv_cansee);
@@ -545,7 +545,7 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
 //        initializePlayer(playerView, medias);
     }
 
-    private void sendComment(int circleId, String nInputContentText, MultipleViewHolder holder, long replyUserId) {
+    private void sendComment(long circleId, String nInputContentText, MultipleViewHolder holder, long replyUserId) {
         JDialogUtil.INSTANCE.showRxDialogShapeLoading(latteDelegate.getContext());
         final String url = "circle/insert_comment";
         final String token = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getYjtk();

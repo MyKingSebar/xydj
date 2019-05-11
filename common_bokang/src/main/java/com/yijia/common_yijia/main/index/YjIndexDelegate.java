@@ -489,10 +489,10 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
     }
 
     @Override
-    public void goCanReadList(int circleId) {
+    public void goCanReadList(long circleId) {
         LetterPeopleDelagate lpDelegate = new LetterPeopleDelagate();
         mArgsLetterpeople = new Bundle();
-        mArgsLetterpeople.putInt("circleId", circleId);
+        mArgsLetterpeople.putLong("circleId", circleId);
         lpDelegate.setArguments(mArgsLetterpeople);
         getParentDelegate().getSupportDelegate().start(lpDelegate);
     }

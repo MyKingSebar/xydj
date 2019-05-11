@@ -62,7 +62,7 @@ public class HealthBeginDelegate extends LatteDelegate {
 
                 }
 
-                getSupportDelegate().pop();
+//                getSupportDelegate().pop();
 //                ((HealthMainDelegate)getParentDelegate()).loadFragment(new HealthWaitDelegate());
                 getSupportDelegate().start(new HealthWaitDelegate());
 

@@ -77,9 +77,8 @@ public class HealthBeginDelegate extends LatteDelegate {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == 11) {
-            getSupportDelegate().pop();
 //                ((HealthMainDelegate)getParentDelegate()).loadFragment(new HealthWaitDelegate());
-            getSupportDelegate().start(new HealthWaitDelegate());
+            getSupportDelegate().startWithPop(new HealthWaitDelegate());
         }
     }
 

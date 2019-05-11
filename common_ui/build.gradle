@@ -62,4 +62,6 @@ dependencies {
     api 'io.reactivex:rxandroid:1.2.1'
     //FloatWindow
     api 'com.github.yhaolpz:FloatWindow:1.0.9'
+    //引导层
+    api 'com.github.huburt-Hu:NewbieGuide:v2.4.0'
 }

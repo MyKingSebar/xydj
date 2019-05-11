@@ -78,6 +78,7 @@ public class ExampleActivity extends ProxyActivity implements
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ExampleApp.flag=0;
         final ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.hide();

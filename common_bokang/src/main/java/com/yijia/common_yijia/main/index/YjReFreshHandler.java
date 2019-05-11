@@ -120,7 +120,7 @@ public class YjReFreshHandler extends RefreshHandler {
         final int currentCount = BEAN.getCurrentCount();
         final int total = BEAN.getTotal();
         final int index = BEAN.getPageIndex();
-        final int BeginCircleId = BEAN.getBeginCircleId();
+        final long BeginCircleId = BEAN.getBeginCircleId();
         if(index<=1){
             return;
         }

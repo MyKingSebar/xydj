@@ -4,13 +4,13 @@ public final class PagingBean {
     //当前是第几页
     private int mPageIndex = 0;
 
-    private int beginCircleId = 0;
+    private long beginCircleId = 0;
 
-    public int getBeginCircleId() {
+    public long getBeginCircleId() {
         return beginCircleId;
     }
 
-    public void setBeginCircleId(int beginCircleId) {
+    public void setBeginCircleId(long beginCircleId) {
         this.beginCircleId = beginCircleId;
     }
 

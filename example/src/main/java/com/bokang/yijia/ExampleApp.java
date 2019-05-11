@@ -13,6 +13,7 @@ import com.example.common_tencent_tuikit.TuiKitConfig;
 import com.example.latte.ui.ninegridview.GlideImageLoader;
 import com.example.yijia.app.Latte;
 import com.example.yijia.net.Interceptors.DebugInterceptor;
+import com.example.yijia.tool.RxTool;
 import com.example.yijia.util.callback.CallbackManager;
 import com.example.yijia.util.callback.CallbackType;
 import com.example.yijia.util.callback.IGlobalCallback;
@@ -44,7 +45,7 @@ public class ExampleApp extends MultiDexApplication {
     public static final String MODE = "RELEASE";
     public static final String MODE_DEBUG = "DEBUG";
     public static final String MODE_RELEASE = "RELEASE";
-
+    public static int flag = -1;
 
     @Override
     public void onCreate() {
@@ -67,7 +68,11 @@ public class ExampleApp extends MultiDexApplication {
         }
         initBauDuText();
         initBokangChatManager();
+        initTools();
+    }
 
+    private void initTools() {
+        RxTool.init(getApplicationContext());
     }
 
     private void initBokangChatManager() {

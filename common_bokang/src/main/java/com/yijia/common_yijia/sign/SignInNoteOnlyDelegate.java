@@ -15,6 +15,7 @@ import android.text.TextWatcher;
 import android.util.Patterns;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.latte.ec.R;
@@ -42,7 +43,7 @@ public class SignInNoteOnlyDelegate extends LatteDelegate implements ITimeListen
     TextInputEditText mNote = null;
 
     @BindView(R2.id.tv_getnote)
-    AppCompatTextView mGetNote = null;
+    Button mGetNote = null;
 
     @BindView(R2.id.btn_sign_in)
     AppCompatButton mLogin = null;
@@ -190,7 +191,7 @@ public class SignInNoteOnlyDelegate extends LatteDelegate implements ITimeListen
                         mTimer.cancel();
                         mTimer = null;
                         mGetNote.setClickable(true);
-                        mGetNote.setBackgroundResource(R.mipmap.buttom_logup_getnote_orange);
+                        mGetNote.setBackgroundResource(R.drawable.round_white_button_bg_login);
                         mGetNote.setText("获取验证码");
                         mGetNote.setTextColor(ContextCompat.getColor(getContext(),R.color.app_text_orange));
                     }
@@ -210,7 +211,6 @@ public class SignInNoteOnlyDelegate extends LatteDelegate implements ITimeListen
             mCount = 60;
             mGetNote.setClickable(false);
             mGetNote.setTextColor(ContextCompat.getColor(getContext(),R.color.app_text_gray));
-            mGetNote.setBackgroundResource(R.mipmap.buttom_logup_getnote_gray);
             initTimer();
 
             final String url = "sms/auth_code_send";

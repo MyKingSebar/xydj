@@ -48,7 +48,7 @@ public class HealthWaitDelegate extends LatteDelegate {
                     chronometer.stop();
 
 //                    getSupportDelegate().pop();
-                    getSupportDelegate().start(new HealthHRMesureDelegate());
+                    getSupportDelegate().startWithPop(new HealthHRMesureDelegate());
                 }
             }
         });

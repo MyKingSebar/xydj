@@ -138,7 +138,7 @@ public class HealthHRMesureDelegate extends LatteDelegate {
                     Bundle bundle = new Bundle();
                     bundle.putInt("result", totalHeartRate / totalTime);
                     resultDelegate.setArguments(bundle);
-                    getSupportDelegate().start(resultDelegate);
+                    getSupportDelegate().startWithPop(resultDelegate);
 
                     measureTime = 0;
                     totalHeartRate = 0;

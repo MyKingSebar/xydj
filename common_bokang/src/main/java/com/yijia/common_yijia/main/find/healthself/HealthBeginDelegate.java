@@ -1,13 +1,11 @@
 package com.yijia.common_yijia.main.find.healthself;
 
 import android.Manifest;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +14,9 @@ import android.widget.TextView;
 
 import com.example.latte.ec.R;
 import com.example.yijia.delegates.LatteDelegate;
+
+import me.yokeyword.fragmentation.anim.DefaultHorizontalAnimator;
+import me.yokeyword.fragmentation.anim.FragmentAnimator;
 
 public class HealthBeginDelegate extends LatteDelegate {
 
@@ -64,11 +65,21 @@ public class HealthBeginDelegate extends LatteDelegate {
 
 //                getSupportDelegate().pop();
 //                ((HealthMainDelegate)getParentDelegate()).loadFragment(new HealthWaitDelegate());
-                getSupportDelegate().start(new HealthWaitDelegate());
-
+                HealthWaitDelegate waitDelegate = new HealthWaitDelegate();
+                getSupportDelegate().startWithPop(waitDelegate);
             }
         });
         ((HealthMainDelegate) getParentDelegate()).setTips(R.string.health_seft_main_warn);
+    }
+
+    @Override
+    public FragmentAnimator getFragmentAnimator() {
+        return new DefaultHorizontalAnimator();
+    }
+
+    @Override
+    public FragmentAnimator onCreateFragmentAnimator() {
+        return new DefaultHorizontalAnimator();
     }
 
     @Override

@@ -15,9 +15,6 @@ import android.widget.TextView;
 import com.example.latte.ec.R;
 import com.example.yijia.delegates.LatteDelegate;
 
-import me.yokeyword.fragmentation.anim.DefaultHorizontalAnimator;
-import me.yokeyword.fragmentation.anim.FragmentAnimator;
-
 public class HealthBeginDelegate extends LatteDelegate {
 
     @Override
@@ -66,21 +63,15 @@ public class HealthBeginDelegate extends LatteDelegate {
 //                getSupportDelegate().pop();
 //                ((HealthMainDelegate)getParentDelegate()).loadFragment(new HealthWaitDelegate());
                 HealthWaitDelegate waitDelegate = new HealthWaitDelegate();
+//                FragmentAnimator animator = new FragmentAnimator(R.anim.h_fragment_enter,R.anim.h_fragment_exit,R.anim.h_fragment_pop_enter,R.anim.h_fragment_pop_exit);
+//                setFragmentAnimator(animator);
+//                ((ProxyActivity)getActivity()).setFragmentAnimator(a);
                 getSupportDelegate().startWithPop(waitDelegate);
             }
         });
         ((HealthMainDelegate) getParentDelegate()).setTips(R.string.health_seft_main_warn);
     }
 
-    @Override
-    public FragmentAnimator getFragmentAnimator() {
-        return new DefaultHorizontalAnimator();
-    }
-
-    @Override
-    public FragmentAnimator onCreateFragmentAnimator() {
-        return new DefaultHorizontalAnimator();
-    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

@@ -11,9 +11,12 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.commcon_xfyun.Tts;
 import com.example.latte.ec.R;
 import com.example.latte.ec.R2;
 import com.example.yijia.delegates.LatteDelegate;
+import com.iflytek.cloud.SpeechError;
+import com.iflytek.cloud.SynthesizerListener;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,6 +36,8 @@ public class HealthMainDelegate extends LatteDelegate {
     @BindView(R2.id.health_self_view_cardview)
     CardView healthSelfViewCardview;
     Unbinder unbinder;
+
+    private Tts tts;
 
     @Override
     public Object setLayout() {
@@ -59,9 +64,80 @@ public class HealthMainDelegate extends LatteDelegate {
         return rootView;
     }
 
+    public void sayText(int text) {
+        if(null != tts && !tts.isSpeaking()) {
+            tts.start(getString(text), new SynthesizerListener() {
+                @Override
+                public void onSpeakBegin() {
+
+                }
+
+                @Override
+                public void onBufferProgress(int i, int i1, int i2, String s) {
+
+                }
+
+                @Override
+                public void onSpeakPaused() {
+
+                }
+
+                @Override
+                public void onSpeakResumed() {
+
+                }
+
+                @Override
+                public void onSpeakProgress(int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onCompleted(SpeechError speechError) {
+
+                }
+
+                @Override
+                public void onEvent(int i, int i1, int i2, Bundle bundle) {
+
+                }
+            });
+        }
+    }
+
+    public boolean isSpeak() {
+        if(null != tts)
+            return tts.isSpeaking();
+
+        return false;
+    }
+
+    public void pauseTts() {
+        if(null != tts) {
+            tts.stop();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        pauseTts();
+    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(null != tts) {
+            tts.onDestroy();
+        }
+    }
+
     private void initView() {
         tvTitle.setText(R.string.health_seft_test);
         tvSave.setVisibility(View.GONE);
+
+        tts = new Tts(getContext());
     }
 
     public void setTips(int tip) {

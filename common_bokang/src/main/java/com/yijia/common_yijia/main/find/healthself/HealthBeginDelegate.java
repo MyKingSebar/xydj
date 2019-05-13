@@ -70,8 +70,15 @@ public class HealthBeginDelegate extends LatteDelegate {
             }
         });
         ((HealthMainDelegate) getParentDelegate()).setTips(R.string.health_seft_main_warn);
+
+        ((HealthMainDelegate) getParentDelegate()).sayText(R.string.health_seft_main_warn);
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        ((HealthMainDelegate) getParentDelegate()).pauseTts();
+    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

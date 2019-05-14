@@ -150,6 +150,8 @@ public class RobotHisRobotDelegate extends LatteDelegate {
                         if (TextUtils.equals(status, "1001")) {
                             JSONObject data = obj.getJSONObject("data");
                             JSONObject user = data.getJSONObject("user");
+                            if(null == user)
+                                return;
                             String nickname = user.getString("nickname");
                             String imagePath = user.getString("imagePath");
                             long id = user.getLong("id");

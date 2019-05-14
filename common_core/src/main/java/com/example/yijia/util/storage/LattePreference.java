@@ -66,10 +66,22 @@ public final class LattePreference {
         return getAppPreference()
                 .getBoolean(key, false);
     }
+
     public static void setAppFlagForInt(String key, int flag) {
         getAppPreference()
                 .edit()
                 .putInt(key, flag)
+                .apply();
+    }
+
+    public static boolean isFirstLogin(String key) {
+        return getAppPreference().getBoolean(key, true);
+    }
+
+    public static void setFirstLogin(String key, boolean value) {
+        getAppPreference()
+                .edit()
+                .putBoolean(key, value)
                 .apply();
     }
 

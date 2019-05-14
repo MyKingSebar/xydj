@@ -30,6 +30,7 @@ import com.example.yijia.util.callback.CallbackManager;
 import com.example.yijia.util.callback.CallbackType;
 import com.example.yijia.util.callback.IGlobalCallback;
 import com.example.yijia.util.log.LatteLogger;
+import com.example.yijia.util.storage.LattePreference;
 import com.tencent.imsdk.TIMCallBack;
 import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMConversationType;
@@ -56,6 +57,7 @@ import com.yijia.common_yijia.main.message.trtc.CallWaitingActivity;
 import com.yijia.common_yijia.main.message.trtc.CalledWaitingActivity;
 import com.yijia.common_yijia.main.message.trtc2.TRTCMainActivity2;
 import com.yijia.common_yijia.main.message.trtc2.TRTCMainActivity3;
+import com.yijia.common_yijia.main.robot.robotmain.AddParentsDelegate;
 import com.yijia.common_yijia.sign.ISignListener;
 import com.yijia.common_yijia.sign.SignInNoteOnlyDelegate;
 import com.yijia.common_yijia.sign.SignUpSecondDelegate;
@@ -148,7 +150,16 @@ public class ExampleActivity extends ProxyActivity implements
 
     @Override
     public void onSignUpSecondSuccess() {
-        goMain();
+        if(LattePreference.isFirstLogin("first_login")) {
+            AddParentsDelegate addParentsDelegate = new AddParentsDelegate();
+            Bundle bundle = new Bundle();
+            bundle.putBoolean(AddParentsDelegate.EXTRA_ISFIRST_LOGIN, true);
+            addParentsDelegate.setArguments(bundle);
+            getSupportDelegate().startWithPop(addParentsDelegate);
+            LattePreference.setFirstLogin("first_login", false);
+        } else {
+            goMain();
+        }
     }
 
     @Override
@@ -164,6 +175,7 @@ public class ExampleActivity extends ProxyActivity implements
             @Override
             public void onSignIn() {
                 getSupportDelegate().startWithPop(new SignInNoteOnlyDelegate());
+
             }
 
             @Override
@@ -212,8 +224,10 @@ public class ExampleActivity extends ProxyActivity implements
         loginTencentIM();
         YjBottomDelegate_with3 delegate = new YjBottomDelegate_with3();
         delegate.setmSmallCameraLisener(this);
-        getSupportDelegate().startWithPop(delegate);
+        getSupportDelegate().start(delegate);
     }
+
+
 
     private static void loginTencentIM() {
         String tencentImUserId = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getTencentImUserId();

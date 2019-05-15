@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatTextView;
+import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -13,11 +14,19 @@ import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.example.latte.ec.R;
 import com.example.yijia.delegates.LatteDelegate;
+import com.example.yijia.net.rx.BaseObserver;
+import com.example.yijia.net.rx.RxRestClient;
+import com.luck.picture.lib.tools.ToastManage;
 import com.yijia.common_yijia.database.YjDatabaseManager;
 import com.yijia.common_yijia.sign.ISignListener;
 import com.yijia.common_yijia.sign.YjSignHandler;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 public class ParentInfoDelegate extends LatteDelegate {
 
@@ -87,14 +96,47 @@ public class ParentInfoDelegate extends LatteDelegate {
         done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getSupportDelegate().hideSoftInput();
-                getSupportDelegate().popTo(AddParentsDelegate.class, true);
-                if(isFirstLogin) {
-                    YjSignHandler.onSkipAddParents(signListener);
-                }
+                saveInfo();
             }
         });
 
+    }
+
+    private void saveInfo() {
+        RxRestClient.builder()
+                .url("family/insert_parent")
+                .params("yjtk", YjDatabaseManager.getInstance().getDao().loadAll().get(0).getYjtk())
+                .params("mainUserName", name.getText().toString())
+                .params("mainUserBirthday", birth.getText().toString())
+                .params("mainUserPhone", phone.getText().toString())
+                .params("relationUserToMain", isFather ? 1 : 2)
+                .params("relationMainToUser", sonRadio.isChecked() ? 3 : 4)
+                .build()
+                .post()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseObserver<String>(getContext()) {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.e("~~ save parents info", response);
+                        final JSONObject object = JSON.parseObject(response);
+                        final String status = object.getString("status");
+                        if ("1001".equals(status)) {
+                            getSupportDelegate().hideSoftInput();
+                            getSupportDelegate().popTo(AddParentsDelegate.class, true);
+                            if (isFirstLogin) {
+                                YjSignHandler.onSkipAddParents(signListener);
+                            }
+                        } else {
+                            String msg = object.getString("msg");
+                            ToastManage.s(getContext(), msg == null ? "服务器出错，请稍后再试" : msg);
+                        }
+                    }
+
+                    @Override
+                    public void onFail(Throwable e) {
+                    }
+                });
     }
 
     private ISignListener signListener;

@@ -15,35 +15,30 @@ public class RobotListConverter extends DataConverter {
 
     @Override
     public ArrayList<MultipleItemEntity> convert() {
-        final JSONObject dataObject = JSON.parseObject(getJsonData()).getJSONObject("data");
-        final JSONArray guardianUserList = dataObject.getJSONArray("userList");
+        final JSONArray guardianUserList = JSON.parseObject(getJsonData()).getJSONArray("data");
         final int size = guardianUserList.size();
         for (int i = 0; i < size; i++) {
             final JSONObject data = guardianUserList.getJSONObject(i);
 
-            final long friendUserId = data.getInteger("userId");
-            final String nickname = data.getString("nickname");
-            final String realName = data.getString("realName");
-
-            /**
-             * 主监护人：1是2否
-             */
-            final int isMain = data.getInteger("isMain");
+            final long familyId = data.getLong("familyId");
+            final String familyName = data.getString("familyName");
+            final long mainUserId = data.getLong("mainUserId");
+            final String mainUserName = data.getString("mainUserName");
+            final String relationMainToUser = data.getString("relationMainToUser");
+            final String relationUserToMain = data.getString("relationUserToMain");
+            final int robotIsOnline = data.getInteger("robotIsOnline");
             final String headImage = data.getString("headImage");
-            final String tencentImUserId = data.getString("tencentImUserId");
-            //是否有机器人：1-是，-2否
-            final int hasRobot = data.getInteger("hasRobot");
-            //活跃度
-            final int activeness = data.getInteger("activeness");
 
 
             final MultipleItemEntity entity = MultipleItemEntity.builder()
                     .setField(MultipleFields.ITEM_TYPE, YjIndexItemType.ROBOT_MAIN_LIST)
-                    .setField(MultipleFields.ID, friendUserId)
-                    .setField(MultipleFields.TENCENTIMUSERID, tencentImUserId)
-                    .setField(MultipleFields.TENCENTIMUSERIDONROBOT, tencentImUserId)
+                    .setField(MultipleFields.ID, familyId)
+                    .setField(MultipleFields.NAME, familyName)
+                    .setField(YjRobotListMultipleFields.MAINID, mainUserId)
+                    .setField(YjRobotListMultipleFields.MAINNAME, mainUserName)
+                    .setField(YjRobotListMultipleFields.RELATIONSHIP, relationUserToMain)
+                    .setField(YjRobotListMultipleFields.ONLINE, robotIsOnline)
                     .setField(MultipleFields.IMAGE_URL, headImage)
-                    .setField(YjRobotListMultipleFields.ONLINE, realName)
                     .build();
 
             ENTITIES.add(entity);

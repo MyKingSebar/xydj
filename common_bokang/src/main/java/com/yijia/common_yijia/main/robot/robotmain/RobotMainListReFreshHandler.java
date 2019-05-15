@@ -4,11 +4,13 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.example.latte.ui.recycler.DataConverter;
+import com.example.latte.ui.recycler.MultipleFields;
 import com.example.latte.ui.recycler.MultipleItemEntity;
 import com.example.latte.ui.refresh.PagingBean;
 import com.example.latte.ui.refresh.RefreshHandler;
@@ -18,64 +20,103 @@ import com.example.yijia.net.rx.BaseObserver;
 import com.example.yijia.net.rx.RxRestClient;
 import com.example.yijia.ui.dialog.JDialogUtil;
 import com.example.yijia.util.log.LatteLogger;
+import com.yijia.common_yijia.database.YjDatabaseManager;
 import com.yijia.common_yijia.main.friends.CommonStringClickListener;
+import com.yijia.common_yijia.main.index.YjIndexItemType;
+import com.yijia.common_yijia.main.index.YjRobotListMultipleFields;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.BiFunction;
 import io.reactivex.schedulers.Schedulers;
 
 public class RobotMainListReFreshHandler extends RefreshHandler {
 
-    public RobotMainListReFreshHandler(SwipeRefreshLayout swipeRefreshLayout, RecyclerView recyclerView, DataConverter converter, PagingBean bean, LatteDelegate delegate, CommonStringClickListener mCommonClickListener, String yjyk ) {
+    public RobotMainListReFreshHandler(SwipeRefreshLayout swipeRefreshLayout, RecyclerView recyclerView, DataConverter converter, PagingBean bean, LatteDelegate delegate, CommonStringClickListener mCommonClickListener, String yjyk) {
         super(swipeRefreshLayout, recyclerView, converter, bean);
-        DELEGATE=delegate;
-        this.mCommonClickListener=mCommonClickListener;
-        this.token=yjyk;
+        DELEGATE = delegate;
+        this.mCommonClickListener = mCommonClickListener;
+        this.token = yjyk;
     }
+
     private RobotListAdapter mAdapter = null;
-      private final LatteDelegate DELEGATE;
-      private final CommonStringClickListener mCommonClickListener;
-      private final String token;
-      private final int TYPE=2;
-      private final int PAGESIZE=20;
+    private final LatteDelegate DELEGATE;
+    private final CommonStringClickListener mCommonClickListener;
+    private final String token;
 
 
     public static RobotMainListReFreshHandler create(SwipeRefreshLayout swipeRefreshLayout,
                                                      RecyclerView recyclerView, DataConverter converter, LatteDelegate delegate, CommonStringClickListener mCommonClickListener, String yjyk) {
-        return new RobotMainListReFreshHandler(swipeRefreshLayout, recyclerView, converter, new PagingBean(),delegate,mCommonClickListener,yjyk);
+        return new RobotMainListReFreshHandler(swipeRefreshLayout, recyclerView, converter, new PagingBean(), delegate, mCommonClickListener, yjyk);
     }
 
     private void refresh() {
         REFRESH_LAYOUT.setRefreshing(true);
         firstPage();
     }
+
     public void firstPage() {
-        String url = "guardianship/query_guardianship/"+TYPE+"/"+1+"/"+PAGESIZE;
-        RxRestClient.builder()
-                .url(url)
+        Observable ob1 = RxRestClient.builder()
+                .url("robot/query_robot_is_online")
                 .params("yjtk", token)
-//                .params("queryType", 2)
-//                .params("pageNo", 1)
-//                .params("pageSize", 20)
+                .params("targetUserId", YjDatabaseManager.getInstance().getDao().loadAll().get(0).getId())
                 .build()
                 .get()
-                .subscribeOn(Schedulers.io())
+                .subscribeOn(Schedulers.io());
+
+        Observable ob2 = RxRestClient.builder()
+                .url("family/query_family")
+                .params("yjtk", token)
+                .build()
+                .get()
+                .subscribeOn(Schedulers.io());
+
+        Observable.zip(ob1, ob2, new BiFunction<String, String, Map>() {
+            @Override
+            public Map apply(String s, String s2) throws Exception {
+                Map map = new HashMap();
+                final JSONObject object = JSON.parseObject(s);
+                final String status = object.getString("status");
+                boolean isOnline = false;
+                if (TextUtils.equals(status, "1001")) {
+                    JSONObject jo = object.getJSONObject("data");
+                    isOnline = jo.getBoolean("isOnline");
+                }
+                map.put("isOnLine", isOnline);
+                map.put("json", s2);
+                Log.e("~~get families", s + "--" + s2);
+                return map;
+            }
+        })
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseObserver<String>(Latte.getApplicationContext()) {
+                .subscribe(new BaseObserver<Map>(Latte.getApplicationContext()) {
                     @Override
-                    public void onResponse(String response) {
+                    public void onResponse(Map r) {
+                        String response = (String)r.get("json");
+                        boolean isOnline = (Boolean) r.get("isOnLine");
                         final JSONObject object = JSON.parseObject(response);
                         final String status =object.getString("status");
                         if (TextUtils.equals(status, "1001")) {
-                            final JSONObject jsondata = object.getJSONObject("data");
-                            final int totalCount = jsondata.getInteger("totalCount");
-                            BEAN.setTotal(totalCount)
-                                    .setPageSize(20).setPageIndex(1);
                             List<MultipleItemEntity> data  = new RobotListConverter()
                                     .setJsonData(response)
                                     .convert();
+                            //增加自己
+                            final MultipleItemEntity entity = MultipleItemEntity.builder()
+                                    .setField(MultipleFields.ITEM_TYPE, YjIndexItemType.ROBOT_MAIN_LIST)
+                                    .setField(MultipleFields.ID, 0)
+                                    .setField(MultipleFields.NAME, "")
+                                    .setField(YjRobotListMultipleFields.MAINID,  YjDatabaseManager.getInstance().getDao().loadAll().get(0).getId())
+                                    .setField(YjRobotListMultipleFields.MAINNAME,  YjDatabaseManager.getInstance().getDao().loadAll().get(0).getNickname())
+                                    .setField(YjRobotListMultipleFields.RELATIONSHIP, "本人")
+                                    .setField(YjRobotListMultipleFields.ONLINE,  isOnline ? 1 :2)
+                                    .setField(MultipleFields.IMAGE_URL,  YjDatabaseManager.getInstance().getDao().loadAll().get(0).getImagePath())
+                                    .build();
+                            data.add(0, entity);
                             mAdapter = new RobotListAdapter(data);
                             mAdapter.setmRobotListClickListener(mCommonClickListener);
                             mAdapter.setOnLoadMoreListener(RobotMainListReFreshHandler.this, RECYCLERVIEW);
@@ -84,93 +125,30 @@ public class RobotMainListReFreshHandler extends RefreshHandler {
                             RECYCLERVIEW.setAdapter(mAdapter);
                             BEAN.addIndex();
                             REFRESH_LAYOUT.setRefreshing(false);
+                            mAdapter.loadMoreEnd(true);
+                            JDialogUtil.INSTANCE.dismiss();
+
                         } else {
                             final String msg = JSON.parseObject(response).getString("msg");
                             Toast.makeText(Latte.getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+                            REFRESH_LAYOUT.setRefreshing(false);
+                            mAdapter.loadMoreEnd(true);
                             JDialogUtil.INSTANCE.dismiss();
+
                         }
                     }
 
                     @Override
                     public void onFail(Throwable e) {
                         Toast.makeText(Latte.getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                        mAdapter.loadMoreEnd(true);
+                        REFRESH_LAYOUT.setRefreshing(false);
                         JDialogUtil.INSTANCE.dismiss();
+
                     }
                 });
-    }
 
 
-    private void paging() {
-        final int pageSize = BEAN.getPageSize();
-        final int currentCount = BEAN.getCurrentCount();
-        final int total = BEAN.getTotal();
-        final int index = BEAN.getPageIndex();
-        if(index<=1){
-            return;
-        }
-
-        if (mAdapter.getData().size() < pageSize || currentCount >= total) {
-            mAdapter.loadMoreEnd(true);
-        } else {
-            String url = "query_guardianship/"+TYPE+"/"+index+"/"+PAGESIZE;
-            RxRestClient.builder()
-                    .url(url)
-                    .params("yjtk", token)
-//                    .params("queryType", 2)
-//                    .params("pageNo", index)
-//                    .params("pageSize", 20)
-                    .build()
-                    .post()
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new BaseObserver<String>(Latte.getApplicationContext()) {
-                        @Override
-                        public void onResponse(String response) {
-
-                            LatteLogger.json("query_timeline", response);
-                            final JSONObject object = JSON.parseObject(response);
-                            final String status = object.getString("status");
-                            if (TextUtils.equals(status, "1001")) {
-                                final JSONObject jsondata = object.getJSONObject("data");
-
-                                if(null==jsondata.getInteger("totalCount")){
-                                    return;
-                                }
-                                final int totalCount = jsondata.getInteger("totalCount");
-                                BEAN.setTotal(totalCount)
-                                        .setPageSize(pageSize);
-                                final ArrayList<MultipleItemEntity> data =
-                                        new RobotGuardianshipDataConverter()
-                                                .setJsonData(response)
-                                                .convert();
-                                if(data.size()>0){
-
-                                }else {
-                                    mAdapter.loadMoreEnd(true);
-                                    REFRESH_LAYOUT.setRefreshing(false);
-                                    return;
-                                }
-                                mAdapter.addData(data);
-                                int size=mAdapter.getData().size();
-                                BEAN.setCurrentCount(mAdapter.getData().size());
-                                mAdapter.loadMoreComplete();
-                                BEAN.addIndex();
-                                REFRESH_LAYOUT.setRefreshing(false);
-                            } else {
-                                final String msg = JSON.parseObject(response).getString("msg");
-                                Toast.makeText(Latte.getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
-                                REFRESH_LAYOUT.setRefreshing(false);
-                            }
-
-                        }
-
-                        @Override
-                        public void onFail(Throwable e) {
-                            Toast.makeText(Latte.getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                            REFRESH_LAYOUT.setRefreshing(false);
-                        }
-                    });
-        }
     }
 
     @Override
@@ -181,6 +159,6 @@ public class RobotMainListReFreshHandler extends RefreshHandler {
 
     @Override
     public void onLoadMoreRequested() {
-        paging();
+
     }
 }

@@ -19,11 +19,12 @@ public class YjUserProfile {
     String tencentImUserId = null;
     String tencentImUserSig = null;
     String inviteCode = null;
-    @Generated(hash = 959388270)
+    int robotOnline = 2;
+    @Generated(hash = 119530554)
     public YjUserProfile(Long id, String yjtk, String username, String phone,
             String email, String nickname, String imagePath, int isComplete,
             int userStatus, String tencentImUserId, String tencentImUserSig,
-            String inviteCode) {
+            String inviteCode, int robotOnline) {
         this.id = id;
         this.yjtk = yjtk;
         this.username = username;
@@ -36,6 +37,7 @@ public class YjUserProfile {
         this.tencentImUserId = tencentImUserId;
         this.tencentImUserSig = tencentImUserSig;
         this.inviteCode = inviteCode;
+        this.robotOnline = robotOnline;
     }
     @Generated(hash = 900997910)
     public YjUserProfile() {
@@ -112,6 +114,11 @@ public class YjUserProfile {
     public void setInviteCode(String inviteCode) {
         this.inviteCode = inviteCode;
     }
-
-
+    public int getRobotOnline() {
+        return this.robotOnline;
+    }
+    public void setRobotOnline(int robotOnline) {
+        this.robotOnline = robotOnline;
+    }
+    
 }

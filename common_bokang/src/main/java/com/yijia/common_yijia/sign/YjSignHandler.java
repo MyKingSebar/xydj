@@ -58,10 +58,11 @@ public class YjSignHandler {
         final String tencentImUserId = user.getString("tencentImUserId");
         final String tencentImUserSig = user.getString("tencentImUserSig");
         final String inviteCode = user.getString("inviteCode");
+        final int robotOnline = 0;
 
 
         final YjUserProfile profile = new YjUserProfile( id, yjtk,username,phone,email,nickname, imagePath, isComplete,
-                userStatus, tencentImUserId,tencentImUserSig,inviteCode);
+                userStatus, tencentImUserId,tencentImUserSig,inviteCode, robotOnline);
 
         YjDatabaseManager.getInstance().getDao().deleteAll();
         YjDatabaseManager.getInstance().getDao().insert(profile);

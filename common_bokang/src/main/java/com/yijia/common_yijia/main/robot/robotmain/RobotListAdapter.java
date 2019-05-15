@@ -40,11 +40,11 @@ public final class RobotListAdapter extends MultipleRecyclerAdapter {
         switch (holder.getItemViewType()) {
             case YjIndexItemType.ROBOT_MAIN_LIST:
                 //先取出所有值
-                final Long friendUserId = entity.getField(MultipleFields.ID);
+                final long friendUserId = entity.getField(YjRobotListMultipleFields.MAINID);
                 final String headImage = entity.getField(MultipleFields.IMAGE_URL);
-                final String name = entity.getField(MultipleFields.NAME);
+                final String name = entity.getField(YjRobotListMultipleFields.MAINNAME);
                 final String age = entity.getField(YjRobotListMultipleFields.AGE);
-                final String online = entity.getField(YjRobotListMultipleFields.ONLINE);
+                final int online = entity.getField(YjRobotListMultipleFields.ONLINE);
                 final String relationship = entity.getField(YjRobotListMultipleFields.RELATIONSHIP);
                 final String record = entity.getField(YjRobotListMultipleFields.RECORD_NUM);
 
@@ -64,7 +64,7 @@ public final class RobotListAdapter extends MultipleRecyclerAdapter {
                 //赋值
                 TextViewUtils.AppCompatTextViewSetText(tvName, name);
                 TextViewUtils.AppCompatTextViewSetText(tvAge, age);
-                TextViewUtils.AppCompatTextViewSetText(tvStatus, online);
+                TextViewUtils.AppCompatTextViewSetText(tvStatus, online == 1 ? "小壹在家" : "小壹不在");
                 TextViewUtils.AppCompatTextViewSetText(tvRelativeship, relationship);
                 TextViewUtils.AppCompatTextViewSetText(tvRecord, record);
                 GlideUtils.load(Latte.getApplicationContext(), headImage, imageView, GlideUtils.DEFAULTMODE);

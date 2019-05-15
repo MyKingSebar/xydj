@@ -38,6 +38,7 @@ public class RxRestClient {
                         Context context,
                         LoaderStyle loaderStyle) {
         this.URL = url;
+        PARAMS.clear();
         PARAMS.putAll(params);
         this.BODY = body;
         this.FILE = file;

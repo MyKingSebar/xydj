@@ -54,7 +54,8 @@ public class RobotRemindSettingDataConverter extends DataConverter {
         for (int i = 0; i < size; i++) {
             final JSONObject data = datas.getJSONObject(i);
 
-            final long remindId = data.getLong("remindId");
+            final long remindId = data.getLong(
+                    "remindId");
             final String tag = data.getString("tag");
             //"1,2,3",         //星期几
             final String whatDay = data.getString("whatDay");

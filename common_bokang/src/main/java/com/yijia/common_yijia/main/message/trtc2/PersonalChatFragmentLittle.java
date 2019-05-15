@@ -28,7 +28,8 @@ import com.tencent.qcloud.uikit.business.chat.c2c.view.C2CChatPanel;
 import com.tencent.qcloud.uikit.business.chat.view.ChatBottomInputGroupCust;
 import com.tencent.qcloud.uikit.common.component.titlebar.PageTitleBar;
 import com.yijia.common_yijia.main.find.TtsPopup;
-import com.yijia.common_yijia.main.find.homedoc.HomeDoctorInDelegate;
+import com.yijia.common_yijia.main.find.homedoc.HomeDoctorInUseRecycDelegate;
+import com.yijia.common_yijia.main.find.homedoc.HomeDoctorInUseRecycDelegate;
 import com.yijia.common_yijia.main.message.trtc.BoKangSendMessageListener;
 import com.yijia.common_yijia.main.message.trtc.BokangSendMessageUtil;
 
@@ -107,6 +108,10 @@ public class PersonalChatFragmentLittle extends LatteDelegate {
 //        isVisible=false;
     }
 
+    public LatteDelegate change(LatteDelegate mdelegate){
+        getSupportDelegate().startWithPop(mdelegate);
+        return mdelegate;
+    }
     @Override
     public void onSupportInvisible() {
         super.onSupportInvisible();
@@ -144,7 +149,7 @@ public class PersonalChatFragmentLittle extends LatteDelegate {
         if (TextUtils.isEmpty(topDescribe)) {
             tvDescribe.setVisibility(View.GONE);
         } else {
-            if (HomeDoctorInDelegate.closeStatue) {
+            if (HomeDoctorInUseRecycDelegate.closeStatue) {
                 tvDescribe.setVisibility(View.GONE);
             } else {
                 tvDescribe.setVisibility(View.VISIBLE);
@@ -169,7 +174,7 @@ public class PersonalChatFragmentLittle extends LatteDelegate {
         CallbackIntegerManager.getInstance()
                 .addCallback(position, (IGlobalCallback<String>) args -> {
                     showToast(topDescribe);
-                    if (HomeDoctorInDelegate.closeStatue) {
+                    if (HomeDoctorInUseRecycDelegate.closeStatue) {
                         tvDescribe.setVisibility(View.GONE);
                     } else {
                         tvDescribe.setVisibility(View.VISIBLE);

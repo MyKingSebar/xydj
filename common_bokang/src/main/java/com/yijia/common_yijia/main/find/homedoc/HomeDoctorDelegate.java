@@ -105,7 +105,7 @@ public class HomeDoctorDelegate extends LatteDelegate implements  SwipeRefreshLa
                                 return;
                             }
                             mAdapter = new HomeDoctorAdapter(data);
-                            mAdapter.setCommonClickListener(info -> getSupportDelegate().start(HomeDoctorInDelegate.create(info)));
+                            mAdapter.setCommonClickListener(info -> getSupportDelegate().start(HomeDoctorInUseRecycDelegate.create(info)));
 //                            mAdapter.setOnLoadMoreListener(HomeDoctorDelegate.this, mRecyelerView);
                             final LinearLayoutManager manager = new LinearLayoutManager(Latte.getApplicationContext());
                             mRecyelerView.setLayoutManager(manager);

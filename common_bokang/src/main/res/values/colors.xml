@@ -5,6 +5,8 @@
     <color name="item_background">#F1F1F1</color>
     <color name="app_main">@android:color/holo_orange_dark</color>
 
+    <color name="page_bg">#fff5f5f5</color>
+
 
     <color name="app_text_dark">#333333</color>
     <color name="app_text_gray">#C2C2C2</color>
@@ -19,8 +21,10 @@
     <color name="text_3DC39A">#3DC39A</color>
     <color name="text_EC8B2F">#EC8B2F</color>
     <color name="text_FDBA63">#fdba63</color>
+    <color name="text_FDBF6F">#FDBF6F</color>
     <color name="COLOR_49A3E1">#49a3e1</color>
     <color name="COLOR_7AC2A7">#7ac2a7</color>
     <color name="COLOR_F3837E">#f3837e</color>
     <color name="COLOR_999999">#999999</color>
+    <color name="COLOR_efefef">#efefef</color>
 </resources>

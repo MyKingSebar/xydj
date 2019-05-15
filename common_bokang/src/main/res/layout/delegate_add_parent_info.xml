@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                             xmlns:app="http://schemas.android.com/apk/res-auto"
+                                             xmlns:tools="http://schemas.android.com/tools"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="match_parent"
+                                             android:background="@color/white">
+
+    <include
+        android:id="@+id/title"
+        layout="@layout/include_edit_top"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/parent_info_name_key"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="54dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/add_parents_name"
+        android:textColor="@color/app_text_dark"
+        android:textSize="@dimen/sp_14"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title"/>
+
+    <EditText
+        android:id="@+id/parent_info_name_value"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="54dp"
+        android:background="@null"
+        android:textColor="@color/app_text_dark"
+        android:textSize="@dimen/sp_14"
+        app:layout_constraintLeft_toRightOf="@id/parent_info_name_key"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/parent_info_name_key"/>
+
+    <View
+        android:id="@+id/parent_info_name_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="54dp"
+        android:layout_marginRight="54dp"
+        android:layout_marginTop="15dp"
+        android:background="@color/COLOR_efefef"
+        app:layout_constraintTop_toBottomOf="@id/parent_info_name_key"/>
+
+    <TextView
+        android:id="@+id/parent_info_birth_key"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="54dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/add_parents_birth"
+        android:textColor="@color/app_text_dark"
+        android:textSize="@dimen/sp_14"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/parent_info_name_divider"/>
+
+    <EditText
+        android:id="@+id/parent_info_birth_value"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="54dp"
+        android:background="@null"
+        android:focusable="false"
+        android:textColor="@color/app_text_dark"
+        android:textSize="@dimen/sp_14"
+        app:layout_constraintLeft_toRightOf="@id/parent_info_birth_key"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/parent_info_birth_key"/>
+
+    <View
+        android:id="@+id/parent_info_birth_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="54dp"
+        android:layout_marginRight="54dp"
+        android:layout_marginTop="15dp"
+        android:background="@color/COLOR_efefef"
+        app:layout_constraintTop_toBottomOf="@id/parent_info_birth_key"/>
+
+    <TextView
+        android:id="@+id/parent_info_phone_key"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="54dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/add_parents_phone"
+        android:textColor="@color/app_text_dark"
+        android:textSize="@dimen/sp_14"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/parent_info_birth_divider"/>
+
+    <EditText
+        android:id="@+id/parent_info_phone_value"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="54dp"
+        android:background="@null"
+        android:inputType="phone"
+        android:textColor="@color/app_text_dark"
+        android:textSize="@dimen/sp_14"
+        app:layout_constraintLeft_toRightOf="@id/parent_info_phone_key"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/parent_info_phone_key"/>
+
+    <View
+        android:id="@+id/parent_info_phone_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="54dp"
+        android:layout_marginRight="54dp"
+        android:layout_marginTop="15dp"
+        android:background="@color/COLOR_efefef"
+        app:layout_constraintTop_toBottomOf="@id/parent_info_phone_key"/>
+
+    <TextView
+        android:id="@+id/parent_info_relation_key"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="54dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/add_parents_relation"
+        android:textColor="@color/app_text_dark"
+        android:textSize="@dimen/sp_14"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/parent_info_phone_divider"/>
+
+    <RadioGroup
+        android:id="@+id/parent_info_relation_group"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="94dp"
+        android:layout_marginRight="94dp"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/parent_info_relation_key">
+
+        <RadioButton
+            android:id="@+id/parent_info_son"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="@drawable/checkbox_bg_selector"
+            android:checked="true"
+            android:text="@string/add_parents_son"
+            android:textColor="@drawable/checkbox_text_selector"
+            android:textSize="@dimen/sp_14"/>
+
+        <RadioButton
+            android:id="@+id/parent_info_dau"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:buttonTint="@drawable/checkbox_bg_selector"
+            android:text="@string/add_parents_dau"
+            android:textColor="@drawable/checkbox_text_selector"
+            android:textSize="@dimen/sp_14"/>
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/parent_info_done"
+        android:layout_width="225dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/round_white_button_bg"
+        android:gravity="center"
+        android:text="@string/add_parents_done"
+        android:textColor="@color/text_FDBA63"
+        android:textSize="15sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/parent_info_relation_group"/>
+
+
+</android.support.constraint.ConstraintLayout>

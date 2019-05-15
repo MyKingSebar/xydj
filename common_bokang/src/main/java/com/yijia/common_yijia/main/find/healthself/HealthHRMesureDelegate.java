@@ -26,6 +26,8 @@ public class HealthHRMesureDelegate extends LatteDelegate {
     private TextView progress;
 
     private boolean canReleased = false;
+
+    private HealthMainDelegate mainDelegate;
     @Override
     public Object setLayout() {
         return R.layout.delegate_health_hr_mesure;
@@ -53,6 +55,7 @@ public class HealthHRMesureDelegate extends LatteDelegate {
     }
 
     private void initView(View rootView) {
+        mainDelegate = getParentDelegate();
         cameraPreviewView = rootView.findViewById(R.id.health_self_mesure_preview);
         progress = rootView.findViewById(R.id.health_self_mesure_progress);
     }
@@ -126,8 +129,24 @@ public class HealthHRMesureDelegate extends LatteDelegate {
                     totalHeartRate += heartrate;
                     progress.setText(measureTime * 100 / totalTime + "%");
                     ((HealthMainDelegate) HealthHRMesureDelegate.this.getParentDelegate()).setTips(R.string.health_self_mesure_right);
+                    if(isFirst || !lastTestRight) {
+                        if(mainDelegate.isSpeak()) {
+                            mainDelegate.pauseTts();
+                        }
+                        mainDelegate.sayText(R.string.health_self_mesure_right);
+                        isFirst = false;
+                    }
+                    lastTestRight = true;
                 } else {
                     ((HealthMainDelegate) HealthHRMesureDelegate.this.getParentDelegate()).setTips(R.string.health_self_mesure_error);
+                    if(isFirst || lastTestRight) {
+                        if(mainDelegate.isSpeak()) {
+                            mainDelegate.pauseTts();
+                        }
+                        mainDelegate.sayText(R.string.health_self_mesure_error);
+                        isFirst = false;
+                    }
+                    lastTestRight = false;
                 }
                 count = 0;
                 if (measureTime == totalTime) {
@@ -146,6 +165,14 @@ public class HealthHRMesureDelegate extends LatteDelegate {
             }
         }
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mainDelegate.pauseTts();
+    }
+
+    private boolean lastTestRight = true, isFirst = true;
 
     private void releaseSource() {
         if(canReleased) {

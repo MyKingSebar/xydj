@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                             xmlns:app="http://schemas.android.com/apk/res-auto"
+                                             xmlns:tools="http://schemas.android.com/tools"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="match_parent"
+                                             android:background="@color/white">
+
+    <include
+        android:id="@+id/title"
+        layout="@layout/include_edit_top"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/add_parents_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="34dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/add_parents_title"
+        android:textColor="@color/app_text_dark"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title"/>
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5"/>
+
+    <TextView
+        android:id="@+id/add_parents_father"
+        android:layout_width="114dp"
+        android:layout_height="130dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="70dp"
+        android:background="@mipmap/add_parents_father_bg"
+        android:gravity="center"
+        android:text="@string/add_parents_father"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintRight_toLeftOf="@id/guideline"
+        app:layout_constraintTop_toBottomOf="@id/add_parents_title"/>
+
+    <TextView
+        android:id="@+id/add_parents_mather"
+        android:layout_width="114dp"
+        android:layout_height="130dp"
+        android:layout_marginLeft="20dp"
+        android:background="@mipmap/add_parents_mather_bg"
+        android:gravity="center"
+        android:text="@string/add_parents_mather"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintLeft_toRightOf="@id/guideline"
+        app:layout_constraintTop_toTopOf="@id/add_parents_father"/>
+
+
+</android.support.constraint.ConstraintLayout>

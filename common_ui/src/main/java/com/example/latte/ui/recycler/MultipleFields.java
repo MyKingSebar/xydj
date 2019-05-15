@@ -13,5 +13,6 @@ public enum MultipleFields {
     TAG,
     RONGID,
     TENCENTIMUSERID,
+    TENCENTIMUSERIDONROBOT,
     CHILD_ITEM_TYPE
 }

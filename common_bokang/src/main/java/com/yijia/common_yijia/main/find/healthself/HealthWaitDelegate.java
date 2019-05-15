@@ -53,6 +53,14 @@ public class HealthWaitDelegate extends LatteDelegate {
             }
         });
         chronometer.start();
+
+        ((HealthMainDelegate)getParentDelegate()).sayText(R.string.health_self_wait_warn);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        ((HealthMainDelegate)getParentDelegate()).pauseTts();
     }
 
     @Override

@@ -39,6 +39,10 @@ public class YjSignHandler {
             signListener.onSignUpFailure(object.getString("msg"));
         }
     }
+
+    public static void onSkipAddParents(ISignListener signListener) {
+        signinOrSignup(1,SIGNUP,signListener);
+    }
     private static int saveAndIsComplete(JSONObject object){
         final JSONObject profileJson = object.getJSONObject("data");
         final String yjtk= profileJson.getString("yjtk");

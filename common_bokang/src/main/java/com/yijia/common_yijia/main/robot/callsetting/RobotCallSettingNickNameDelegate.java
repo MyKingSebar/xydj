@@ -23,7 +23,7 @@ import com.example.yijia.net.rx.RxRestClient;
 import com.example.yijia.ui.dialog.JDialogUtil;
 import com.example.yijia.util.log.LatteLogger;
 import com.yijia.common_yijia.database.YjDatabaseManager;
-import com.yijia.common_yijia.main.friends.CommonClickListener;
+import com.yijia.common_yijia.main.friends.CommonStringClickListener;
 import com.yijia.common_yijia.main.robot.robotmain.RobotHisRobotDelegate;
 
 import java.util.List;
@@ -31,7 +31,7 @@ import java.util.List;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-public class RobotCallSettingNickNameDelegate extends LatteDelegate implements CommonClickListener, SwipeRefreshLayout.OnRefreshListener {
+public class RobotCallSettingNickNameDelegate extends LatteDelegate implements CommonStringClickListener, SwipeRefreshLayout.OnRefreshListener {
     private RecyclerView mRecyelerView = null;
     private String token = null;
     private SwipeRefreshLayout mRefreshLayout = null;

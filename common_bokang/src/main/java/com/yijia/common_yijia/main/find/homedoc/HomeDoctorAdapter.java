@@ -1,29 +1,26 @@
 package com.yijia.common_yijia.main.find.homedoc;
 
 import android.support.constraint.ConstraintLayout;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatTextView;
 import android.widget.ImageView;
 
 import com.example.latte.ec.R;
-import com.example.latte.ui.recycler.MultipleFields;
 import com.example.latte.ui.recycler.MultipleItemEntity;
 import com.example.latte.ui.recycler.MultipleRecyclerAdapter;
 import com.example.latte.ui.recycler.MultipleViewHolder;
 import com.example.yijia.app.Latte;
 import com.example.yijia.ui.TextViewUtils;
 import com.example.yijia.util.GlideUtils;
-import com.yijia.common_yijia.main.friends.CommonClickListener;
+import com.yijia.common_yijia.main.friends.CommonStringClickListener;
 import com.yijia.common_yijia.main.index.YjIndexItemType;
-import com.yijia.common_yijia.main.index.YjIndexMultipleFields;
 
 import java.util.List;
 
 
 public final class HomeDoctorAdapter extends MultipleRecyclerAdapter {
-    CommonClickListener commonClickListener = null;
+    CommonStringClickListener commonClickListener = null;
 
-    public void setCommonClickListener(CommonClickListener commonClickListener) {
+    public void setCommonClickListener(CommonStringClickListener commonClickListener) {
         this.commonClickListener = commonClickListener;
     }
 
@@ -51,7 +48,7 @@ public final class HomeDoctorAdapter extends MultipleRecyclerAdapter {
 
                 //取出所以控件
                 final AppCompatTextView tvName = holder.getView(R.id.tv_name);
-                final AppCompatTextView tvHname = holder.getView(R.id.tv_d_liveness);
+                final AppCompatTextView tvHname = holder.getView(R.id.tv_tag);
                 final ImageView ivImg = holder.getView(R.id.iv_img);
                 final ConstraintLayout cl = holder.getView(R.id.cl);
                 cl.setOnClickListener(v -> {

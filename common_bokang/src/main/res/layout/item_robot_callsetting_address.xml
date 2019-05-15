@@ -47,7 +47,7 @@
         tools:text="妈妈的小壹" />
 
     <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/tv_d_liveness"
+        android:id="@+id/tv_tag"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"

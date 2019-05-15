@@ -21,7 +21,7 @@ import com.example.yijia.net.rx.RxRestClient;
 import com.example.yijia.ui.dialog.JDialogUtil;
 import com.google.gson.Gson;
 import com.yijia.common_yijia.database.YjDatabaseManager;
-import com.yijia.common_yijia.main.friends.CommonClickListener;
+import com.yijia.common_yijia.main.friends.CommonStringClickListener;
 import com.yijia.common_yijia.main.mine.setup.IdentityAuthenticationDelegate;
 
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-public class UserProfilesDelegate extends LatteDelegate implements CommonClickListener {
+public class UserProfilesDelegate extends LatteDelegate implements CommonStringClickListener {
     @BindView(R2.id.tv_save)
     AppCompatTextView tvSave;
     @BindView(R2.id.tv_title)

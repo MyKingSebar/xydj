@@ -3,31 +3,28 @@ package com.yijia.common_yijia.main.robot.callsetting;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatTextView;
-import android.text.TextUtils;
 
 import com.example.latte.ec.R;
 import com.example.latte.ui.recycler.MultipleItemEntity;
 import com.example.latte.ui.recycler.MultipleRecyclerAdapter;
 import com.example.latte.ui.recycler.MultipleViewHolder;
-import com.example.yijia.app.Latte;
 import com.example.yijia.ui.TextViewUtils;
-import com.example.yijia.util.GlideUtils;
-import com.yijia.common_yijia.main.friends.CommonClickListener;
+import com.yijia.common_yijia.main.friends.CommonStringClickListener;
 import com.yijia.common_yijia.main.index.YjIndexItemType;
 
 import java.util.List;
 
 
 public final class RobotCallSettingNickListAdapter extends MultipleRecyclerAdapter {
-    CommonClickListener mDeleteListener = null;
+    CommonStringClickListener mDeleteListener = null;
 
-    public void setmDeleteListener(CommonClickListener mDeleteListener) {
+    public void setmDeleteListener(CommonStringClickListener mDeleteListener) {
         this.mDeleteListener = mDeleteListener;
     }
 
-    CommonClickListener mOkListener = null;
+    CommonStringClickListener mOkListener = null;
 
-    public void setmOkListener(CommonClickListener mOkListener) {
+    public void setmOkListener(CommonStringClickListener mOkListener) {
         this.mOkListener = mOkListener;
     }
 

@@ -9,7 +9,7 @@ import com.example.latte.ui.recycler.MultipleItemEntity;
 import com.example.latte.ui.recycler.MultipleRecyclerAdapter;
 import com.example.latte.ui.recycler.MultipleViewHolder;
 import com.example.yijia.delegates.LatteDelegate;
-import com.yijia.common_yijia.main.friends.CommonClickListener;
+import com.yijia.common_yijia.main.friends.CommonStringClickListener;
 import com.yijia.common_yijia.main.index.YjIndexItemType;
 import com.yijia.common_yijia.main.index.YjIndexMultipleFields;
 
@@ -18,9 +18,9 @@ import java.util.List;
 
 public final class UserProfilesAdapter extends MultipleRecyclerAdapter {
     private LatteDelegate mDelegate = null;
-    private CommonClickListener mCommonClickListener=null;
+    private CommonStringClickListener mCommonClickListener=null;
 
-    public void setmCommonClickListener(CommonClickListener mCommonClickListener) {
+    public void setmCommonClickListener(CommonStringClickListener mCommonClickListener) {
         this.mCommonClickListener = mCommonClickListener;
     }
 

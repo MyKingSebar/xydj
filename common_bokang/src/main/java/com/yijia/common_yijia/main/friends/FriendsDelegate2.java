@@ -1,6 +1,5 @@
 package com.yijia.common_yijia.main.friends;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -32,8 +31,6 @@ import com.yijia.common_yijia.main.friends.presenter.FriendsPresenter;
 import com.yijia.common_yijia.main.friends.view.fragment.AddFriendsDelegate;
 import com.yijia.common_yijia.main.friends.view.iview.FriendsView;
 import com.yijia.common_yijia.main.index.InviteDelagate;
-import com.yijia.common_yijia.main.index.friendcircle.LetterDelagate;
-import com.yijia.common_yijia.main.index.friendcircle.pictureselector.PhotoDelegate2;
 import com.yijia.common_yijia.main.message.trtc2.PersonalChatFragment2;
 
 import java.util.ArrayList;
@@ -51,7 +48,7 @@ import razerdp.basepopup.QuickPopupConfig;
  * 亲友团列表
  */
 
-public class FriendsDelegate2 extends LatteDelegate implements  FriendsView ,CommonClickListener{
+public class FriendsDelegate2 extends LatteDelegate implements  FriendsView , CommonStringClickListener {
     @BindView(R2.id.rv)
     RecyclerView friendsRecycler;
     @BindView(R2.id.tv_save)

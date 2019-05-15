@@ -3,8 +3,6 @@ package com.yijia.common_yijia.main.robot.robotmain;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatTextView;
-import android.support.v7.widget.LinearLayoutCompat;
-import android.view.View;
 import android.widget.ImageView;
 
 import com.example.latte.ec.R;
@@ -15,19 +13,51 @@ import com.example.latte.ui.recycler.MultipleViewHolder;
 import com.example.yijia.app.Latte;
 import com.example.yijia.ui.TextViewUtils;
 import com.example.yijia.util.GlideUtils;
-import com.yijia.common_yijia.main.friends.CommonClickListener;
-import com.yijia.common_yijia.main.index.YjIndexCommentListener;
-import com.yijia.common_yijia.main.index.YjIndexCommentMultipleFields;
+import com.yijia.common_yijia.main.friends.CommonStringClickListener;
 import com.yijia.common_yijia.main.index.YjIndexItemType;
 import com.yijia.common_yijia.main.index.YjIndexMultipleFields;
 
 import java.util.List;
 
-
+/**
+ * @author JiaLei, Email 15033111957@163.com, Date on 2019/5/13.
+ * 
+ *            .,,       .,:;;iiiiiiiii;;:,,.     .,,                   
+ *          rGB##HS,.;iirrrrriiiiiiiiiirrrrri;,s&##MAS,                
+ *         r5s;:r3AH5iiiii;;;;;;;;;;;;;;;;iiirXHGSsiih1,               
+ *            .;i;;s91;;;;;;::::::::::::;;;;iS5;;;ii:                  
+ *          :rsriii;;r::::::::::::::::::::::;;,;;iiirsi,               
+ *       .,iri;;::::;;;;;;::,,,,,,,,,,,,,..,,;;;;;;;;iiri,,.           
+ *    ,9BM&,            .,:;;:,,,,,,,,,,,hXA8:            ..,,,.       
+ *   ,;&@@#r:;;;;;::::,,.   ,r,,,,,,,,,,iA@@@s,,:::;;;::,,.   .;.      
+ *    :ih1iii;;;;;::::;;;;;;;:,,,,,,,,,,;i55r;;;;;;;;;iiirrrr,..       
+ *   .ir;;iiiiiiiiii;;;;::::::,,,,,,,:::::,,:;;;iiiiiiiiiiiiri         
+ *   iriiiiiiiiiiiiiiii;;;::::::::::::::::;;;iiiiiiiiiiiiiiiir;        
+ *  ,riii;;;;;;;;;;;;;:::::::::::::::::::::::;;;;;;;;;;;;;;iiir.       
+ *  iri;;;::::,,,,,,,,,,:::::::::::::::::::::::::,::,,::::;;iir:       
+ * .rii;;::::,,,,,,,,,,,,:::::::::::::::::,,,,,,,,,,,,,::::;;iri       
+ * ,rii;;;::,,,,,,,,,,,,,:::::::::::,:::::,,,,,,,,,,,,,:::;;;iir.      
+ * ,rii;;i::,,,,,,,,,,,,,:::::::::::::::::,,,,,,,,,,,,,,::i;;iir.      
+ * ,rii;;r::,,,,,,,,,,,,,:,:::::,:,:::::::,,,,,,,,,,,,,::;r;;iir.      
+ * .rii;;rr,:,,,,,,,,,,,,,,:::::::::::::::,,,,,,,,,,,,,:,si;;iri       
+ *  ;rii;:1i,,,,,,,,,,,,,,,,,,:::::::::,,,,,,,,,,,,,,,:,ss:;iir:       
+ *  .rii;;;5r,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,sh:;;iri        
+ *   ;rii;:;51,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,.:hh:;;iir,        
+ *    irii;::hSr,.,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,.,sSs:;;iir:         
+ *     irii;;:iSSs:.,,,,,,,,,,,,,,,,,,,,,,,,,,,..:135;:;;iir:          
+ *      ;rii;;:,r535r:...,,,,,,,,,,,,,,,,,,..,;sS35i,;;iirr:           
+ *       :rrii;;:,;1S3Shs;:,............,:is533Ss:,;;;iiri,            
+ *        .;rrii;;;:,;rhS393S55hh11hh5S3393Shr:,:;;;iirr:              
+ *          .;rriii;;;::,:;is1h555555h1si;:,::;;;iirri:.               
+ *            .:irrrii;;;;;:::,,,,,,,,:::;;;;iiirrr;,                  
+ *               .:irrrriiiiii;;;;;;;;iiiiiirrrr;,.                    
+ *                  .,:;iirrrrrrrrrrrrrrrrri;:.                        
+ *                        ..,:::;;;;:::,,.    
+ */
 public final class RobotGuardianshipAdapter extends MultipleRecyclerAdapter {
-    CommonClickListener mRobotGuardianshipListener = null;
+    CommonStringClickListener mRobotGuardianshipListener = null;
 
-    public void setmRobotGuardianshipListener(CommonClickListener mRobotGuardianshipListener) {
+    public void setmRobotGuardianshipListener(CommonStringClickListener mRobotGuardianshipListener) {
         this.mRobotGuardianshipListener = mRobotGuardianshipListener;
     }
 

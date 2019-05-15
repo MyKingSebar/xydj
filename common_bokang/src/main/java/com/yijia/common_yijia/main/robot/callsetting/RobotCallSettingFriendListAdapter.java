@@ -1,22 +1,18 @@
 package com.yijia.common_yijia.main.robot.callsetting;
 
 import android.support.constraint.ConstraintLayout;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatTextView;
 import android.widget.ImageView;
 
 import com.example.latte.ec.R;
-import com.example.latte.ui.recycler.MultipleFields;
 import com.example.latte.ui.recycler.MultipleItemEntity;
 import com.example.latte.ui.recycler.MultipleRecyclerAdapter;
 import com.example.latte.ui.recycler.MultipleViewHolder;
 import com.example.yijia.app.Latte;
 import com.example.yijia.ui.TextViewUtils;
 import com.example.yijia.util.GlideUtils;
-import com.yijia.common_yijia.main.friends.CommonClickListener;
 import com.yijia.common_yijia.main.friends.CommonClickLongStringListener;
 import com.yijia.common_yijia.main.index.YjIndexItemType;
-import com.yijia.common_yijia.main.index.YjIndexMultipleFields;
 
 import java.util.List;
 
@@ -54,7 +50,7 @@ public final class RobotCallSettingFriendListAdapter extends MultipleRecyclerAda
                 final AppCompatTextView tvName = holder.getView(R.id.tv_name);
                 final ImageView tvHasrobot = holder.getView(R.id.iv_hasrobot);
                 final ImageView iv_img = holder.getView(R.id.iv_img);
-                final AppCompatTextView nickness = holder.getView(R.id.tv_d_liveness);
+                final AppCompatTextView nickness = holder.getView(R.id.tv_tag);
                 final ConstraintLayout cl = holder.getView(R.id.cl);
                 cl.setOnClickListener(v -> {
                     if (mRobotGuardianshipListener != null) {

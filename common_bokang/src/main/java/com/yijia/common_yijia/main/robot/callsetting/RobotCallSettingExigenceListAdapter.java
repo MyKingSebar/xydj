@@ -46,7 +46,7 @@ public final class RobotCallSettingExigenceListAdapter extends MultipleRecyclerA
                 //取出所以控件
                 final AppCompatTextView tvName = holder.getView(R.id.tv_name);
                 final ImageView iv_img = holder.getView(R.id.iv_img);
-                final AppCompatTextView nickness = holder.getView(R.id.tv_d_liveness);
+                final AppCompatTextView nickness = holder.getView(R.id.tv_tag);
                 final ConstraintLayout cl = holder.getView(R.id.cl);
                 cl.setOnClickListener(v -> {
                     if (mRobotGuardianshipListener != null) {

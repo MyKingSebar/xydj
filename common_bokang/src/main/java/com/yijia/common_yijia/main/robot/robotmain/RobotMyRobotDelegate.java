@@ -93,15 +93,12 @@ public class RobotMyRobotDelegate extends BottomItemDelegate {
         tvRemind.setOnClickListener(v -> {
             //TODO 提醒设置
             if(checkRobotLogin()){
-                RobotRemindSettingDelegate mDelegate=new RobotRemindSettingDelegate();
-                Bundle bundle=new Bundle();
                 if(userId==0){
                     showToast("网络异常id=0");
                     return;
                 }
-                bundle.putLong(RobotRemindSettingDelegate.USERID,userId);
-                mDelegate.setArguments(bundle);
-                getParentDelegate().getSupportDelegate().start(mDelegate);
+                RobotRemindSettingDelegate delegate=RobotRemindSettingDelegate.create(userId);
+                getParentDelegate().getSupportDelegate().start(delegate);
             };
 
         });

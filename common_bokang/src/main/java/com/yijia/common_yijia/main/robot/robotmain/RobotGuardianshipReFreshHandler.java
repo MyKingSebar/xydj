@@ -20,8 +20,7 @@ import com.example.yijia.net.rx.RxRestClient;
 import com.example.yijia.ui.dialog.JDialogUtil;
 import com.example.yijia.util.log.LatteLogger;
 import com.google.gson.Gson;
-import com.yijia.common_yijia.main.friends.CommonClickListener;
-import com.yijia.common_yijia.main.index.YjIndexMultipleFields;
+import com.yijia.common_yijia.main.friends.CommonStringClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +30,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class RobotGuardianshipReFreshHandler extends RefreshHandler {
 
-    public RobotGuardianshipReFreshHandler(SwipeRefreshLayout swipeRefreshLayout, RecyclerView recyclerView, DataConverter converter, PagingBean bean, LatteDelegate delegate,CommonClickListener mCommonClickListener,String yjyk ) {
+    public RobotGuardianshipReFreshHandler(SwipeRefreshLayout swipeRefreshLayout, RecyclerView recyclerView, DataConverter converter, PagingBean bean, LatteDelegate delegate, CommonStringClickListener mCommonClickListener, String yjyk ) {
         super(swipeRefreshLayout, recyclerView, converter, bean);
         DELEGATE=delegate;
         this.mCommonClickListener=mCommonClickListener;
@@ -39,14 +38,14 @@ public class RobotGuardianshipReFreshHandler extends RefreshHandler {
     }
     private RobotGuardianshipAdapter mAdapter = null;
       private final LatteDelegate DELEGATE;
-      private final CommonClickListener mCommonClickListener;
+      private final CommonStringClickListener mCommonClickListener;
       private final String token;
       private final int TYPE=2;
       private final int PAGESIZE=20;
 
 
     public static RobotGuardianshipReFreshHandler create(SwipeRefreshLayout swipeRefreshLayout,
-                                                         RecyclerView recyclerView, DataConverter converter, LatteDelegate delegate,CommonClickListener mCommonClickListener,String yjyk) {
+                                                         RecyclerView recyclerView, DataConverter converter, LatteDelegate delegate, CommonStringClickListener mCommonClickListener, String yjyk) {
         return new RobotGuardianshipReFreshHandler(swipeRefreshLayout, recyclerView, converter, new PagingBean(),delegate,mCommonClickListener,yjyk);
     }
 

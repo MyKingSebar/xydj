@@ -5,7 +5,8 @@ include ':example', ':common_tencent_tuikit', ':mobshareplatform', ':baidutext',
         //腾讯im、实时音视频
         ':tuikit4.2.52', ':tencent_trtc_sdk',
         //代替pictureselect
-        ':picture_library',':ucrop',
+        ':picture_library', ':ucrop',
         ':camera1.1.9',
         ':ocr_ui',
-        ':ui_magicindicator1.6.0'
+        ':ui_magicindicator1.6.0',
+        ':ui-tickseekbar0.1.4'

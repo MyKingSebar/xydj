@@ -31,6 +31,9 @@ public class YjIndexItemType {
     public static final int ROBOT_CALLSETTING_NICKLIST = 305;
     public static final int ROBOT_CALLSETTING_NICKLIST_ADD = 306;
     public static final int ROBOT_CALLSETTING_NICKLIST_DESCRIBE = 307;
+    public static final int ROBOT_REMINDSETTING= 308;
+    public static final int ROBOT_REMINDSETTING_ADD_TYPE= 309;
+    public static final int ROBOT_REMINDSETTING_ADD_WEEK= 310;
 
 
     public static final int DOCTORIN_GROUP_CHAT_TITLE = 400;

@@ -37,5 +37,6 @@ public class YjIndexItemType {
     public static final int ROBOT_MAIN_LIST = 320;
 
     public static final int DOCTORIN_GROUP_CHAT_TITLE = 400;
+    public static final int DOCTORIN_GROUP_CHAT_USE_RECYC = 401;
 
 }

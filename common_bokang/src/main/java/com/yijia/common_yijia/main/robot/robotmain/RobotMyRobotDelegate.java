@@ -56,12 +56,12 @@ import io.reactivex.schedulers.Schedulers;
 public class RobotMyRobotDelegate extends BottomItemDelegate {
     AppCompatTextView tvCall, tvRemind, tvMessage, tvGuardianship, tvHealth, tvLiveness, tvRobotImg;
     String token = null;
-    long userId=0;
-    boolean isOnline=false;
+    long userId = 0;
+    boolean isOnline = false;
 
-    String testChatId="ee5ef61d9c2c4ed0905860c568501855";
+    String testChatId = "ee5ef61d9c2c4ed0905860c568501855";
 
-    BokangSendMessageUtil bokangSendMessageUtil=null;
+    BokangSendMessageUtil bokangSendMessageUtil = null;
 
     @Override
     public Object setLayout() {
@@ -70,11 +70,11 @@ public class RobotMyRobotDelegate extends BottomItemDelegate {
 
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, @NonNull View rootView) {
-        token=YjDatabaseManager.getInstance().getDao().loadAll().get(0).getYjtk();
-        userId=YjDatabaseManager.getInstance().getDao().loadAll().get(0).getId();
+        token = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getYjtk();
+        userId = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getId();
         initVIew(rootView);
-        getOnlineStatue(token,userId);
-        getActiveness(token,userId);
+        getOnlineStatue(token, userId);
+        getActiveness(token, userId);
     }
 
     private void initVIew(View rootView) {
@@ -92,14 +92,15 @@ public class RobotMyRobotDelegate extends BottomItemDelegate {
         });
         tvRemind.setOnClickListener(v -> {
             //TODO 提醒设置
-            if(checkRobotLogin()){
-                if(userId==0){
+            if (checkRobotLogin()) {
+                if (userId == 0) {
                     showToast("网络异常id=0");
                     return;
                 }
-                RobotRemindSettingDelegate delegate=RobotRemindSettingDelegate.create(userId);
+                RobotRemindSettingDelegate delegate = RobotRemindSettingDelegate.create(userId);
                 getParentDelegate().getSupportDelegate().start(delegate);
-            };
+            }
+            ;
 
         });
         tvMessage.setOnClickListener(v -> {
@@ -111,11 +112,11 @@ public class RobotMyRobotDelegate extends BottomItemDelegate {
             checkRobotLogin();
             final Intent intent2 = new Intent(getContext(), CallWaitingActivity.class);
             int userId = (YjDatabaseManager.getInstance().getDao().loadAll().get(0).getId()).intValue();
-            intent2.putExtra("roomid",userId);
-            intent2.putExtra("chatId",testChatId);
-            intent2.putExtra(CallWaitingActivity.TYPE_KEY,CallWaitingActivity.TYPE_VIDEO);
+            intent2.putExtra("roomid", userId);
+            intent2.putExtra("chatId", testChatId);
+            intent2.putExtra(CallWaitingActivity.TYPE_KEY, CallWaitingActivity.TYPE_VIDEO);
             getActivity().startActivity(intent2);
-            bokangSendMessageUtil.sendOnLineMessage(bokangSendMessageUtil.buildBokangMessage(MessageInfoUtil.BOKANG_VIDEO_WAIT,userId+""));
+            bokangSendMessageUtil.sendOnLineMessage(bokangSendMessageUtil.buildBokangMessage(MessageInfoUtil.BOKANG_VIDEO_WAIT, userId + ""));
         });
         tvHealth.setOnClickListener(v -> {
             //TODO 健康记录
@@ -136,7 +137,8 @@ public class RobotMyRobotDelegate extends BottomItemDelegate {
 
 
     }
-    private boolean checkRobotLogin(){
+
+    private boolean checkRobotLogin() {
         return true;
 //        if(isOnline){
 //            return true;
@@ -145,7 +147,7 @@ public class RobotMyRobotDelegate extends BottomItemDelegate {
 //        }
     }
 
-    private void getOnlineStatue(String token,long userId) {
+    private void getOnlineStatue(String token, long userId) {
         if (TextUtils.isEmpty(token)) {
             return;
         }
@@ -163,9 +165,9 @@ public class RobotMyRobotDelegate extends BottomItemDelegate {
                         final String status = JSON.parseObject(response).getString("status");
                         if (TextUtils.equals(status, "1001")) {
                             final JSONObject jsondata = JSON.parseObject(response).getJSONObject("data");
-                            boolean isOnline2=jsondata.getBoolean("isOnline");
-                            Log.d("RobotMyRobotDelegate","isOnline:"+isOnline2);
-                            isOnline=isOnline2;
+                            boolean isOnline2 = jsondata.getBoolean("isOnline");
+                            Log.d("RobotMyRobotDelegate", "isOnline:" + isOnline2);
+                            isOnline = isOnline2;
                         } else {
                             final String msg = JSON.parseObject(response).getString("msg");
                             Toast.makeText(Latte.getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
@@ -178,7 +180,8 @@ public class RobotMyRobotDelegate extends BottomItemDelegate {
                     }
                 });
     }
-    private void getActiveness(String token,long userId) {
+
+    private void getActiveness(String token, long userId) {
         if (TextUtils.isEmpty(token)) {
             return;
         }
@@ -196,9 +199,9 @@ public class RobotMyRobotDelegate extends BottomItemDelegate {
                         final String status = JSON.parseObject(response).getString("status");
                         if (TextUtils.equals(status, "1001")) {
                             final JSONObject jsondata = JSON.parseObject(response).getJSONObject("data");
-                            final int activeness=jsondata.getInteger("activeness");
-                            Log.d("RobotMyRobotDelegate","activeness:"+activeness);
-                            TextViewUtils.AppCompatTextViewSetText(tvLiveness,""+activeness);
+                            final int activeness = jsondata.getInteger("activeness");
+                            Log.d("RobotMyRobotDelegate", "activeness:" + activeness);
+                            TextViewUtils.AppCompatTextViewSetText(tvLiveness, "" + activeness);
                         } else {
                             final String msg = JSON.parseObject(response).getString("msg");
                             Toast.makeText(Latte.getApplicationContext(), msg, Toast.LENGTH_SHORT).show();

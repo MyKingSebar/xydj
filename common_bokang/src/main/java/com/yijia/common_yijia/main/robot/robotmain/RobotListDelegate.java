@@ -11,9 +11,9 @@ import android.widget.ImageView;
 import com.example.latte.ec.R;
 import com.example.yijia.delegates.bottom.BottomItemDelegate;
 import com.yijia.common_yijia.database.YjDatabaseManager;
-import com.yijia.common_yijia.main.friends.CommonClickListener;
+import com.yijia.common_yijia.main.friends.CommonStringClickListener;
 
-public class RobotListDelegate extends BottomItemDelegate implements CommonClickListener {
+public class RobotListDelegate extends BottomItemDelegate implements CommonStringClickListener {
 
     private ImageView imageButton;
 

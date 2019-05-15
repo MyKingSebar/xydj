@@ -11,8 +11,8 @@ import com.example.latte.ui.recycler.MultipleViewHolder;
 import com.example.yijia.app.Latte;
 import com.example.yijia.ui.TextViewUtils;
 import com.example.yijia.util.GlideUtils;
-import com.yijia.common_yijia.main.friends.CommonClickListener;
 import com.yijia.common_yijia.main.friends.CommonClickLongStringListener;
+import com.yijia.common_yijia.main.friends.CommonStringClickListener;
 import com.yijia.common_yijia.main.index.YjIndexItemType;
 
 import java.util.List;
@@ -20,9 +20,11 @@ import java.util.List;
 
 public final class RobotCallSettingAddressListAdapter extends MultipleRecyclerAdapter {
     CommonClickLongStringListener mRobotGuardianshipListener = null;
-    CommonClickListener mCommonClickListener=null;
 
-    public void setmCommonClickListener(CommonClickListener mCommonClickListener) {
+
+    CommonStringClickListener mCommonClickListener=null;
+
+    public void setmCommonClickListener(CommonStringClickListener mCommonClickListener) {
         this.mCommonClickListener = mCommonClickListener;
     }
 
@@ -53,7 +55,7 @@ public final class RobotCallSettingAddressListAdapter extends MultipleRecyclerAd
                 final AppCompatTextView tvName = holder.getView(R.id.tv_name);
                 final ImageView tvHasrobot = holder.getView(R.id.iv_hasrobot);
                 final ImageView iv_img = holder.getView(R.id.iv_img);
-                final AppCompatTextView nickness = holder.getView(R.id.tv_d_liveness);
+                final AppCompatTextView nickness = holder.getView(R.id.tv_tag);
                 final AppCompatTextView invite = holder.getView(R.id.tv_invite);
                 final ConstraintLayout cl = holder.getView(R.id.cl);
                 invite.setOnClickListener(v -> {

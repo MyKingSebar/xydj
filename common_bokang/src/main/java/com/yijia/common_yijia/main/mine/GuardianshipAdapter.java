@@ -10,7 +10,7 @@ import com.example.latte.ui.recycler.MultipleRecyclerAdapter;
 import com.example.latte.ui.recycler.MultipleViewHolder;
 import com.example.yijia.delegates.LatteDelegate;
 import com.example.yijia.util.GlideUtils;
-import com.yijia.common_yijia.main.friends.CommonClickListener;
+import com.yijia.common_yijia.main.friends.CommonStringClickListener;
 import com.yijia.common_yijia.main.index.YjIndexItemType;
 import com.yijia.common_yijia.main.index.YjIndexMultipleFields;
 
@@ -22,9 +22,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public final class GuardianshipAdapter extends MultipleRecyclerAdapter {
     private LatteDelegate mDelegate = null;
     private GuardianshipListener mGuardianshipListener = null;
-    private CommonClickListener mCommonClickListener=null;
+    private CommonStringClickListener mCommonClickListener=null;
 
-    public void setmCommonClickListener(CommonClickListener mCommonClickListener) {
+    public void setmCommonClickListener(CommonStringClickListener mCommonClickListener) {
         this.mCommonClickListener = mCommonClickListener;
     }
 

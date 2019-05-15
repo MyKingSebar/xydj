@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cl"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="1dp"
+    android:background="@color/white"
+    android:padding="12dp"
+    android:paddingStart="15dp"
+    android:paddingEnd="15dp">
+
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/main_text_black_46"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/iv_img"
+        app:layout_constraintTop_toTopOf="@+id/iv_img"
+        tools:text="妈妈的小壹" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tv_tag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="今日活跃度"
+        android:textColor="@color/main_text_black_46"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_name" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tv_describe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/main_text_gary_99"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_tag"
+        tools:text="在设置时间段，小壹会主动提示用户进行健康自" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tv_liveness"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/main_text_black_46"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@+id/tv_tag"
+        app:layout_constraintTop_toBottomOf="@+id/tv_name"
+        tools:text="每天 8:00～9:00" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tv_check"
+        android:layout_width="34dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="5dp"
+        android:background="@mipmap/button_robot_setting_remind_swtich"
+        android:textColor="@color/main_text_black_46"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_name" />
+</android.support.constraint.ConstraintLayout>

@@ -16,7 +16,7 @@
     <color name="main_text_blue_57">#576B95</color>
     <color name="main_text_black_46">#464646</color>
 
-    <color name="main_background_f5">#F5F5F5</color>
+    <color name="main_background_default_f5">#F5F5F5</color>
     <color name="main_background_f6">#F6F6F6</color>
     <color name="main_background_e4">#E4E4E4</color>
 

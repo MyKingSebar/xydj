@@ -5,12 +5,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.example.latte.ui.recycler.MultipleItemEntity;
-import com.example.yijia.util.callback.CallbackIntegerManager;
-import com.example.yijia.util.callback.CallbackType;
-import com.example.yijia.util.callback.IGlobalCallback;
-import com.yijia.common_yijia.main.friends.CommonClickListener;
+import com.yijia.common_yijia.main.friends.CommonStringClickListener;
 import com.yijia.common_yijia.main.message.trtc2.PersonalChatFragmentLittle;
-import com.yijia.common_yijia.sign.SignInNoteOnlyDelegate;
 
 import java.util.List;
 import java.util.WeakHashMap;
@@ -22,9 +18,9 @@ public class HomeDoctorInTabPagerAdapter3 extends FragmentStatePagerAdapter {
 
     public static final WeakHashMap<Integer, Integer> CALLBACKS = new WeakHashMap<>();
 
-    private CommonClickListener mCommonClickListener=null;
+    private CommonStringClickListener mCommonClickListener=null;
 
-    public void setmCommonClickListener(CommonClickListener mCommonClickListener) {
+    public void setmCommonClickListener(CommonStringClickListener mCommonClickListener) {
         this.mCommonClickListener = mCommonClickListener;
     }
 

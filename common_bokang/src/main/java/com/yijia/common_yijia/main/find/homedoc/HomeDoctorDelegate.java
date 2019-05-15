@@ -3,7 +3,6 @@ package com.yijia.common_yijia.main.find.homedoc;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,27 +10,19 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.AutoCompleteTextView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.latte.ec.R;
 import com.example.latte.ui.recycler.MultipleItemEntity;
 import com.example.yijia.app.Latte;
 import com.example.yijia.delegates.LatteDelegate;
 import com.example.yijia.net.rx.BaseObserver;
 import com.example.yijia.net.rx.RxRestClient;
-import com.example.yijia.ui.dialog.JDialogUtil;
 import com.google.gson.Gson;
 import com.yijia.common_yijia.database.YjDatabaseManager;
-import com.yijia.common_yijia.main.friends.CommonClickListener;
-import com.yijia.common_yijia.main.robot.robotmain.RobotGuardianshipAdapter;
-import com.yijia.common_yijia.main.robot.robotmain.RobotGuardianshipDataConverter;
-import com.yijia.common_yijia.main.robot.robotmain.RobotGuardianshipReFreshHandler;
-import com.yijia.common_yijia.main.robot.robotmain.RobotHisRobotDelegate;
 
 import java.util.List;
 

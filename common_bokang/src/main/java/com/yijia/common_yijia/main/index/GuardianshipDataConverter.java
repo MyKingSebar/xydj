@@ -19,7 +19,7 @@ public class GuardianshipDataConverter extends DataConverter {
         for (int i = 0; i < size; i++) {
             final JSONObject data = guardianUserList.getJSONObject(i);
 
-            final long friendUserId = data.getInteger("userId");
+            final long friendUserId = data.getLong("userId");
             final String nickname = data.getString("nickname");
             final String realName = data.getString("realName");
 

@@ -9,12 +9,11 @@ import android.util.Log;
 import android.view.View;
 
 import com.example.latte.ec.R;
-import com.example.yijia.delegates.LatteDelegate;
 import com.example.yijia.delegates.bottom.BottomItemDelegate;
 import com.yijia.common_yijia.database.YjDatabaseManager;
-import com.yijia.common_yijia.main.friends.CommonClickListener;
+import com.yijia.common_yijia.main.friends.CommonStringClickListener;
 
-public class RobotGuardianshipDelegate extends BottomItemDelegate implements CommonClickListener {
+public class RobotGuardianshipDelegate extends BottomItemDelegate implements CommonStringClickListener {
     RecyclerView mRecyelerView=null;
     String token = null;
     private RobotGuardianshipReFreshHandler mRobotGuardianshipReFreshHandler = null;

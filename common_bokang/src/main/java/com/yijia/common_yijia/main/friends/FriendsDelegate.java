@@ -45,7 +45,7 @@ import io.reactivex.schedulers.Schedulers;
  * 亲友团列表
  */
 
-public class FriendsDelegate extends LatteDelegate implements HeadLayout.OnClickHeadHeadImage, FriendsView ,CommonClickListener{
+public class FriendsDelegate extends LatteDelegate implements HeadLayout.OnClickHeadHeadImage, FriendsView , CommonStringClickListener {
     @BindView(R2.id.head_layout)
     HeadLayout headLayout;
     @BindView(R2.id.guardianship_recycler)

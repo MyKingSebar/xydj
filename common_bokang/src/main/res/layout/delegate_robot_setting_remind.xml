@@ -70,28 +70,23 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.example.yijia.ui.seekbar.RxSeekBar
+        <com.warkiz.tickseekbar.TickSeekBar
             android:id="@+id/seekbar4"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="33dp"
-            app:cellMode="other"
-            app:cells="5"
-            app:hideProgressHint="true"
-            app:hintBGHeight="28dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/textView4"
-            app:layout_constraintTop_toTopOf="parent"
-            app:lineColorEdge="@color/color_c3"
-            app:lineColorSelected="@color/main_text_orange"
-            app:markTextArray="@array/robot_remind_voice_seek"
-            app:seekBarHeight="8dp"
-            app:seekBarMode="single"
-            app:textPadding="17dp"
-            app:textSize="12sp"
-            app:thumbSize="26dp" />
+            app:tsb_progress="0"
+
+            app:tsb_show_tick_marks_type="divider"
+            app:tsb_thumb_color="@color/main_text_orange"
+            app:tsb_show_tick_texts="below"
+            app:tsb_tick_marks_color="@color/main_text_orange"
+            app:tsb_tick_texts_color="@color/selector_tick_texts_2_color"
+            app:tsb_ticks_count="6" />
 
         <TextView
             android:id="@+id/vioce1"
@@ -107,15 +102,25 @@
 
     </android.support.constraint.ConstraintLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/srl_index"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="1dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cl_robotvoice">
 
-    </android.support.v7.widget.RecyclerView>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </android.support.constraint.ConstraintLayout>

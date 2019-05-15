@@ -18,7 +18,7 @@ import com.example.yijia.net.rx.BaseObserver;
 import com.example.yijia.net.rx.RxRestClient;
 import com.example.yijia.ui.dialog.JDialogUtil;
 import com.example.yijia.util.log.LatteLogger;
-import com.yijia.common_yijia.main.friends.CommonClickListener;
+import com.yijia.common_yijia.main.friends.CommonStringClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +28,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class RobotMainListReFreshHandler extends RefreshHandler {
 
-    public RobotMainListReFreshHandler(SwipeRefreshLayout swipeRefreshLayout, RecyclerView recyclerView, DataConverter converter, PagingBean bean, LatteDelegate delegate, CommonClickListener mCommonClickListener, String yjyk ) {
+    public RobotMainListReFreshHandler(SwipeRefreshLayout swipeRefreshLayout, RecyclerView recyclerView, DataConverter converter, PagingBean bean, LatteDelegate delegate, CommonStringClickListener mCommonClickListener, String yjyk ) {
         super(swipeRefreshLayout, recyclerView, converter, bean);
         DELEGATE=delegate;
         this.mCommonClickListener=mCommonClickListener;
@@ -36,14 +36,14 @@ public class RobotMainListReFreshHandler extends RefreshHandler {
     }
     private RobotListAdapter mAdapter = null;
       private final LatteDelegate DELEGATE;
-      private final CommonClickListener mCommonClickListener;
+      private final CommonStringClickListener mCommonClickListener;
       private final String token;
       private final int TYPE=2;
       private final int PAGESIZE=20;
 
 
     public static RobotMainListReFreshHandler create(SwipeRefreshLayout swipeRefreshLayout,
-                                                     RecyclerView recyclerView, DataConverter converter, LatteDelegate delegate, CommonClickListener mCommonClickListener, String yjyk) {
+                                                     RecyclerView recyclerView, DataConverter converter, LatteDelegate delegate, CommonStringClickListener mCommonClickListener, String yjyk) {
         return new RobotMainListReFreshHandler(swipeRefreshLayout, recyclerView, converter, new PagingBean(),delegate,mCommonClickListener,yjyk);
     }
 

@@ -13,7 +13,7 @@ import com.example.latte.ui.recycler.MultipleViewHolder;
 import com.example.yijia.app.Latte;
 import com.example.yijia.ui.TextViewUtils;
 import com.example.yijia.util.GlideUtils;
-import com.yijia.common_yijia.main.friends.CommonClickListener;
+import com.yijia.common_yijia.main.friends.CommonStringClickListener;
 import com.yijia.common_yijia.main.index.YjIndexItemType;
 import com.yijia.common_yijia.main.index.YjRobotListMultipleFields;
 
@@ -21,9 +21,9 @@ import java.util.List;
 
 
 public final class RobotListAdapter extends MultipleRecyclerAdapter {
-    CommonClickListener mRobotGuardianshipListener = null;
+    CommonStringClickListener mRobotGuardianshipListener = null;
 
-    public void setmRobotListClickListener(CommonClickListener mRobotGuardianshipListener) {
+    public void setmRobotListClickListener(CommonStringClickListener mRobotGuardianshipListener) {
         this.mRobotGuardianshipListener = mRobotGuardianshipListener;
     }
 

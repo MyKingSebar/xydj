@@ -41,6 +41,7 @@
     <string name="add_parents_father_phone_hint">请输入父亲手机号</string>
     <string name="add_parents_mather_phone_hint">请输入母亲手机号</string>
     <string name="add_parents_done">完成</string>
+    <string name="add_parents_robot_name">小壹机器人</string>
 
     <string-array name="robot_remind_voice_seek">
         <item>0</item>

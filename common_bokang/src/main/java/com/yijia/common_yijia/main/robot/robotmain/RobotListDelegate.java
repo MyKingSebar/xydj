@@ -6,7 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import com.example.latte.ec.R;
 import com.example.yijia.delegates.bottom.BottomItemDelegate;
@@ -15,7 +15,7 @@ import com.yijia.common_yijia.main.friends.CommonClickListener;
 
 public class RobotListDelegate extends BottomItemDelegate implements CommonClickListener {
 
-    private ImageButton imageButton;
+    private ImageView imageButton;
 
     private SwipeRefreshLayout refreshLayout;
     private RecyclerView recyclerView;

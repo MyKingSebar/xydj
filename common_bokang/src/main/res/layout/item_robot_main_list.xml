@@ -18,8 +18,8 @@
 
     <ImageView
         android:id="@+id/iv_img"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginStart="15dp"
         android:background="@drawable/radius5_background_white"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -37,24 +37,13 @@
         app:layout_constraintTop_toTopOf="@id/iv_img"
         tools:text="妈妈"/>
 
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/tv_age"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:textColor="@color/main_text_black_46"
-        android:textSize="20sp"
-        app:layout_constraintStart_toEndOf="@id/tv_name"
-        app:layout_constraintTop_toTopOf="@id/tv_name"
-        tools:text="33"/>
-
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/tv_robot_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/main_text_black_46"
-        android:textSize="20sp"
+        android:textColor="@color/main_text_gary_99"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/iv_img"
         tools:text="小壹在家"/>
@@ -71,6 +60,17 @@
         app:layout_constraintStart_toStartOf="@id/tv_name"/>
 
     <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tv_age"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:textColor="@color/main_text_black_46"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@id/tv_relationship"
+        app:layout_constraintTop_toTopOf="@id/tv_relationship"
+        tools:text="33"/>
+
+    <android.support.v7.widget.AppCompatTextView
         android:id="@+id/tv_record"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -78,6 +78,7 @@
         android:textColor="@color/main_text_black_46"
         android:textSize="16sp"
         android:textStyle="bold"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@id/tv_relationship"
         app:layout_constraintStart_toStartOf="@id/tv_age"
         tools:text="20"/>

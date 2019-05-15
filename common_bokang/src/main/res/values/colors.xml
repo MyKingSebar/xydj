@@ -5,6 +5,8 @@
     <color name="item_background">#F1F1F1</color>
     <color name="app_main">@android:color/holo_orange_dark</color>
 
+    <color name="page_bg">#fff5f5f5</color>
+
 
     <color name="app_text_dark">#333333</color>
     <color name="app_text_gray">#C2C2C2</color>

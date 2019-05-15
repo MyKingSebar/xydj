@@ -6,13 +6,16 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatTextView;
+import android.text.TextUtils;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -20,6 +23,7 @@ import com.example.latte.ec.R;
 import com.example.yijia.delegates.LatteDelegate;
 import com.example.yijia.net.rx.BaseObserver;
 import com.example.yijia.net.rx.RxRestClient;
+import com.example.yijia.util.PatternsUtil;
 import com.luck.picture.lib.tools.ToastManage;
 import com.yijia.common_yijia.database.YjDatabaseManager;
 import com.yijia.common_yijia.sign.ISignListener;
@@ -96,6 +100,22 @@ public class ParentInfoDelegate extends LatteDelegate {
         done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if(TextUtils.isEmpty(name.getText().toString())) {
+                    Toast.makeText(getContext(), isFather ?R.string.add_parents_father_name_hint:R.string.add_parents_mather_name_hint, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if(TextUtils.isEmpty(birth.getText().toString())) {
+                    Toast.makeText(getContext(), isFather ?R.string.add_parents_father_birth_hint:R.string.add_parents_mather_birth_hint, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                String p = phone.getText().toString();
+                if (TextUtils.isEmpty(p) || !PatternsUtil.isPhone(p)) {
+                    Toast.makeText(getContext(), "错误的手机格式", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 saveInfo();
             }
         });

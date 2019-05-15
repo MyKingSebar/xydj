@@ -676,6 +676,7 @@ public class ChatAdapter extends IChatAdapter {
 
                 } else if (type == ChatListView.DATA_CHANGE_TYPE_DELETE) {
                     notifyItemRemoved(value + 1);
+                    notifyItemRangeChanged(value + 1, mDataSource.size() - value);
                 }
             }
         }, 100);

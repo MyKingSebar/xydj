@@ -219,17 +219,17 @@ public class HomeDoctorInUseRecycDelegate extends LatteDelegate {
                                     return;
                                 }
                                 PersonalChatFragmentLittle delegate = PersonalChatFragmentLittle.create(s[0], s[1], s[2], s[3], Integer.parseInt(s[4]));
-//                                mDelegate=(PersonalChatFragmentLittle) mDelegate.change(delegate);
-                                getSupportDelegate().loadRootFragment(R.id.view_pager,delegate);
+                                mDelegate=(PersonalChatFragmentLittle) mDelegate.change(delegate);
+//                                getSupportDelegate().loadRootFragment(R.id.view_pager,delegate);
                             });
                             if (data.size() > 0) {
                                 PersonalChatFragmentLittle mRoot = PersonalChatFragmentLittle.create(data.get(0).getField(HomeDoctorInMultipleFields.TENCENTIMID), data.get(0).getField(HomeDoctorInMultipleFields.DOCTNAME), data.get(0).getField(HomeDoctorInMultipleFields.DOCTHEADIMAGE), data.get(0).getField(HomeDoctorInMultipleFields.MAJOR), 0);
-//                                if (mDelegate == null) {
+                                if (mDelegate == null) {
                                     mDelegate = mRoot;
                                     getSupportDelegate().loadRootFragment(R.id.view_pager, mDelegate);
-//                                } else {
-//                                    mDelegate=(PersonalChatFragmentLittle) mDelegate.change(mRoot);
-//                                }
+                                } else {
+                                    mDelegate=(PersonalChatFragmentLittle) mDelegate.change(mRoot);
+                                }
                             }
                             final LinearLayoutManager manager = new LinearLayoutManager(getContext());
                             //调整RecyclerView的排列方向

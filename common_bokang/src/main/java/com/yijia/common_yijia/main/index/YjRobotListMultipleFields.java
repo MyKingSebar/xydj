@@ -6,5 +6,7 @@ public enum YjRobotListMultipleFields {
     ONLINE,
     RELATIONSHIP,
     RECORD_NUM,
-    AGE
+    AGE,
+    ISADMIN,
+    CREATEDUSERID
 }

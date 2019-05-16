@@ -11,9 +11,10 @@ import android.widget.ImageView;
 import com.example.latte.ec.R;
 import com.example.yijia.delegates.bottom.BottomItemDelegate;
 import com.yijia.common_yijia.database.YjDatabaseManager;
+import com.yijia.common_yijia.main.friends.CommonLongIntClickListener;
 import com.yijia.common_yijia.main.friends.CommonStringClickListener;
 
-public class RobotListDelegate extends BottomItemDelegate implements CommonStringClickListener {
+public class RobotListDelegate extends BottomItemDelegate implements CommonLongIntClickListener {
 
     private ImageView imageButton;
 
@@ -36,12 +37,7 @@ public class RobotListDelegate extends BottomItemDelegate implements CommonStrin
 
     private void initView(View rootView) {
         imageButton = rootView.findViewById(R.id.robot_list_add);
-        imageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getParentDelegate().getSupportDelegate().start(new AddParentsDelegate());
-            }
-        });
+        imageButton.setOnClickListener(v -> getParentDelegate().getSupportDelegate().start(new AddParentsDelegate()));
 
         refreshLayout = rootView.findViewById(R.id.robot_list_refresh_layout);
         recyclerView = rootView.findViewById(R.id.robot_list_recycleview);
@@ -65,16 +61,17 @@ public class RobotListDelegate extends BottomItemDelegate implements CommonStrin
         refreshLayout.setProgressViewOffset(true, 120, 300);
     }
 
+
     @Override
-    public void commonClick(String info) {
+    public void commonClick(long id, int tyoe) {
         RobotHisRobotDelegate mDelegate = new RobotHisRobotDelegate();
         Bundle bundle = new Bundle();
-        long id = Long.parseLong(info);
         if (id == 0) {
             showToast("网络异常id=0");
             return;
         }
         bundle.putLong(RobotHisRobotDelegate.USERID, id);
+        bundle.putInt(RobotHisRobotDelegate.ISADMIN, tyoe);
         mDelegate.setArguments(bundle);
         getParentDelegate().getSupportDelegate().start(mDelegate);
     }

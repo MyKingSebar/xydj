@@ -13,6 +13,7 @@ import com.example.latte.ui.recycler.MultipleViewHolder;
 import com.example.yijia.app.Latte;
 import com.example.yijia.ui.TextViewUtils;
 import com.example.yijia.util.GlideUtils;
+import com.yijia.common_yijia.main.friends.CommonLongIntClickListener;
 import com.yijia.common_yijia.main.friends.CommonStringClickListener;
 import com.yijia.common_yijia.main.index.YjIndexItemType;
 import com.yijia.common_yijia.main.index.YjRobotListMultipleFields;
@@ -21,9 +22,9 @@ import java.util.List;
 
 
 public final class RobotListAdapter extends MultipleRecyclerAdapter {
-    CommonStringClickListener mRobotGuardianshipListener = null;
+    CommonLongIntClickListener mRobotGuardianshipListener = null;
 
-    public void setmRobotListClickListener(CommonStringClickListener mRobotGuardianshipListener) {
+    public void setmRobotListClickListener(CommonLongIntClickListener mRobotGuardianshipListener) {
         this.mRobotGuardianshipListener = mRobotGuardianshipListener;
     }
 
@@ -40,6 +41,7 @@ public final class RobotListAdapter extends MultipleRecyclerAdapter {
         switch (holder.getItemViewType()) {
             case YjIndexItemType.ROBOT_MAIN_LIST:
                 //先取出所有值
+
                 final long friendUserId = entity.getField(YjRobotListMultipleFields.MAINID);
                 final String headImage = entity.getField(MultipleFields.IMAGE_URL);
                 final String name = entity.getField(YjRobotListMultipleFields.MAINNAME);
@@ -47,6 +49,9 @@ public final class RobotListAdapter extends MultipleRecyclerAdapter {
                 final int online = entity.getField(YjRobotListMultipleFields.ONLINE);
                 final String relationship = entity.getField(YjRobotListMultipleFields.RELATIONSHIP);
                 final String record = entity.getField(YjRobotListMultipleFields.RECORD_NUM);
+                //1-是，2否
+                final int isAdmin = entity.getField(YjRobotListMultipleFields.ISADMIN);
+                final long createdUserId = entity.getField(YjRobotListMultipleFields.CREATEDUSERID);
 
                 //取出所以控件
                 final ImageView imageView = holder.getView(R.id.iv_img);
@@ -58,7 +63,7 @@ public final class RobotListAdapter extends MultipleRecyclerAdapter {
                 final ConstraintLayout cl = holder.getView(R.id.cl);
                 cl.setOnClickListener(v -> {
                     if (mRobotGuardianshipListener != null) {
-                        mRobotGuardianshipListener.commonClick(friendUserId + "");
+                        mRobotGuardianshipListener.commonClick(friendUserId ,isAdmin);
                     }
                 });
                 //赋值

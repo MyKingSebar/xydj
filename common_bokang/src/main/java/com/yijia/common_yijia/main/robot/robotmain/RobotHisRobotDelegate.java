@@ -35,16 +35,18 @@ import io.reactivex.schedulers.Schedulers;
 
 public class RobotHisRobotDelegate extends LatteDelegate {
     public static final String USERID = "userid";
+    public static final String ISADMIN = "isadmin";
     public static final String CHATID = "chatId";
     AppCompatTextView tvCall, tvRemind, tvMessage, tvGuardianship, tvHealth, tvLiveness, tvRobotImg, tvTitle;
     RelativeLayout rl;
     String token = null;
     long userId = 0;
+    int isAdmin = 0;
 //    String chatId = null;
-
-    int hasRobot=0;
+long myId=0;
+    int hasRobot = 0;
     boolean isOnline = false;
-    String tencentImUserId=null;
+    String tencentImUserIdRobot = null;
     BokangSendMessageUtil bokangSendMessageUtil = null;
 
     @Override
@@ -58,13 +60,19 @@ public class RobotHisRobotDelegate extends LatteDelegate {
         final Bundle args = getArguments();
         assert args != null;
         userId = args.getLong(USERID);
+        isAdmin = args.getInt(ISADMIN);
 //        chatId = args.getString(CHATID);
     }
 
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, @NonNull View rootView) {
         token = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getYjtk();
+        myId=YjDatabaseManager.getInstance().getDao().loadAll().get(0).getId();
+        if(myId==userId){
+            isAdmin=1;
+        }
         initVIew(rootView);
+        getOnlineStatue(token,userId);
         getInfo(token, userId);
     }
 
@@ -86,9 +94,17 @@ public class RobotHisRobotDelegate extends LatteDelegate {
 
         tvCall.setOnClickListener(v -> {
             //TODO 呼叫设置
+            if (!checkAdmin()) {
+                showToast("您不是管理员，无法进行该操作");
+                return;
+            }
         });
         tvRemind.setOnClickListener(v -> {
             //TODO 提醒设置
+            if (!checkAdmin()) {
+                showToast("您不是管理员，无法进行该操作");
+                return;
+            }
             RobotHisRobotDelegate mDelegate = new RobotHisRobotDelegate();
             Bundle bundle = new Bundle();
             if (userId == 0) {
@@ -104,28 +120,78 @@ public class RobotHisRobotDelegate extends LatteDelegate {
         });
         tvGuardianship.setOnClickListener(v -> {
             //TODO 远程看护
-            if(!checkRobotLogin()){
+            if (!checkAdmin()) {
+                showToast("您不是管理员，无法进行该操作");
+                return;
+            }
+            if (!checkRobotLogin()) {
                 return;
             }
             final Intent intent2 = new Intent(getContext(), CallWaitingActivity.class);
-            int userId = (YjDatabaseManager.getInstance().getDao().loadAll().get(0).getId()).intValue();
-            intent2.putExtra("roomid", userId);
-            intent2.putExtra("chatId", tencentImUserId);
-            intent2.putExtra(CallWaitingActivity.TYPE_KEY,CallWaitingActivity.TYPE_KANHU);
+//            int userId = (YjDatabaseManager.getInstance().getDao().loadAll().get(0).getId()).intValue();
+            intent2.putExtra("roomid", (int)myId);
+            intent2.putExtra("chatId", tencentImUserIdRobot);
+            intent2.putExtra(CallWaitingActivity.TYPE_KEY, CallWaitingActivity.TYPE_KANHU);
             getActivity().startActivity(intent2);
             bokangSendMessageUtil.sendOnLineMessage(bokangSendMessageUtil.buildBokangMessage(MessageInfoUtil.BOKANG_MONITOR_WAIT, userId + ""));
         });
         tvHealth.setOnClickListener(v -> {
             //TODO 健康记录
+            if (!checkAdmin()) {
+                showToast("您不是管理员，无法进行该操作");
+                return;
+            }
         });
     }
 
-    private boolean checkRobotLogin() {
-        if(TextUtils.isEmpty(tencentImUserId)||TextUtils.isEmpty(tencentImUserId)){
+    private boolean checkAdmin() {
+        if (isAdmin != 1) {
             return false;
-        }else {
+        } else {
             return true;
         }
+    }
+
+    private boolean checkRobotLogin() {
+        return isOnline;
+//        if (TextUtils.isEmpty(tencentImUserIdRobot) || TextUtils.isEmpty(tencentImUserId)) {
+//            return false;
+//        } else {
+//            return true;
+//        }
+    }
+    private void getOnlineStatue(String token, long userId) {
+        if (TextUtils.isEmpty(token)) {
+            return;
+        }
+        RxRestClient.builder()
+                .url("robot/query_robot_is_online")
+                .params("yjtk", token)
+                .params("targetUserId", userId)
+                .build()
+                .get()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseObserver<String>(Latte.getApplicationContext()) {
+                    @Override
+                    public void onResponse(String response) {
+                        final String status = JSON.parseObject(response).getString("status");
+                        if (TextUtils.equals(status, "1001")) {
+                            final JSONObject jsondata = JSON.parseObject(response).getJSONObject("data");
+                            boolean isOnline2 = jsondata.getBoolean("isOnline");
+                            Log.d("RobotMyRobotDelegate", "isOnline:" + isOnline2);
+                            isOnline = isOnline2;
+                        } else {
+                            final String msg = JSON.parseObject(response).getString("msg");
+                            Toast.makeText(Latte.getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFail(Throwable e) {
+
+                    }
+                });
     }
 
     private void getInfo(String token, long userId) {
@@ -150,8 +216,9 @@ public class RobotHisRobotDelegate extends LatteDelegate {
                         if (TextUtils.equals(status, "1001")) {
                             JSONObject data = obj.getJSONObject("data");
                             JSONObject user = data.getJSONObject("user");
-                            if(null == user)
+                            if (null == user){
                                 return;
+                            }
                             String nickname = user.getString("nickname");
                             String imagePath = user.getString("imagePath");
                             long id = user.getLong("id");
@@ -159,7 +226,8 @@ public class RobotHisRobotDelegate extends LatteDelegate {
                             String email = user.getString("email");
                             //用户状态：1-正常，2-注销
                             int userStatus = user.getInteger("userStatus");
-                            tencentImUserId= user.getString("tencentImUserId");
+                            String tencentImUserId = user.getString("tencentImUserId");
+                             tencentImUserIdRobot = user.getString("tencentImUserIdRobot");
                             String tencentImUserSig = user.getString("tencentImUserSig");
                             String inviteCode = user.getString("inviteCode");
 
@@ -175,7 +243,7 @@ public class RobotHisRobotDelegate extends LatteDelegate {
 //                            }
 //                            TextViewUtils.AppCompatTextViewSetText(tvLiveness, activeness + "");
                             TextViewUtils.AppCompatTextViewSetText(tvTitle, nickname + "的小壹");
-                            bokangSendMessageUtil = new BokangSendMessageUtil(TIMManager.getInstance().getConversation(TIMConversationType.C2C, tencentImUserId), new BoKangSendMessageListener() {
+                            bokangSendMessageUtil = new BokangSendMessageUtil(TIMManager.getInstance().getConversation(TIMConversationType.C2C, tencentImUserIdRobot), new BoKangSendMessageListener() {
                                 @Override
                                 public void messageSuccess(TIMMessage timMessage) {
 

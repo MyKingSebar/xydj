@@ -21,6 +21,7 @@ import com.example.yijia.net.rx.RxRestClient;
 import com.example.yijia.ui.dialog.JDialogUtil;
 import com.example.yijia.util.log.LatteLogger;
 import com.yijia.common_yijia.database.YjDatabaseManager;
+import com.yijia.common_yijia.main.friends.CommonLongIntClickListener;
 import com.yijia.common_yijia.main.friends.CommonStringClickListener;
 import com.yijia.common_yijia.main.index.YjIndexItemType;
 import com.yijia.common_yijia.main.index.YjRobotListMultipleFields;
@@ -37,7 +38,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class RobotMainListReFreshHandler extends RefreshHandler {
 
-    public RobotMainListReFreshHandler(SwipeRefreshLayout swipeRefreshLayout, RecyclerView recyclerView, DataConverter converter, PagingBean bean, LatteDelegate delegate, CommonStringClickListener mCommonClickListener, String yjyk) {
+    public RobotMainListReFreshHandler(SwipeRefreshLayout swipeRefreshLayout, RecyclerView recyclerView, DataConverter converter, PagingBean bean, LatteDelegate delegate, CommonLongIntClickListener mCommonClickListener, String yjyk) {
         super(swipeRefreshLayout, recyclerView, converter, bean);
         DELEGATE = delegate;
         this.mCommonClickListener = mCommonClickListener;
@@ -46,12 +47,12 @@ public class RobotMainListReFreshHandler extends RefreshHandler {
 
     private RobotListAdapter mAdapter = null;
     private final LatteDelegate DELEGATE;
-    private final CommonStringClickListener mCommonClickListener;
+    private final CommonLongIntClickListener mCommonClickListener;
     private final String token;
 
 
     public static RobotMainListReFreshHandler create(SwipeRefreshLayout swipeRefreshLayout,
-                                                     RecyclerView recyclerView, DataConverter converter, LatteDelegate delegate, CommonStringClickListener mCommonClickListener, String yjyk) {
+                                                     RecyclerView recyclerView, DataConverter converter, LatteDelegate delegate, CommonLongIntClickListener mCommonClickListener, String yjyk) {
         return new RobotMainListReFreshHandler(swipeRefreshLayout, recyclerView, converter, new PagingBean(), delegate, mCommonClickListener, yjyk);
     }
 
@@ -114,6 +115,8 @@ public class RobotMainListReFreshHandler extends RefreshHandler {
                                     .setField(YjRobotListMultipleFields.MAINNAME,  YjDatabaseManager.getInstance().getDao().loadAll().get(0).getNickname())
                                     .setField(YjRobotListMultipleFields.RELATIONSHIP, "本人")
                                     .setField(YjRobotListMultipleFields.ONLINE,  isOnline ? 1 :2)
+                                    .setField(YjRobotListMultipleFields.ISADMIN, 2)
+                                    .setField(YjRobotListMultipleFields.CREATEDUSERID, 0)
                                     .setField(MultipleFields.IMAGE_URL,  YjDatabaseManager.getInstance().getDao().loadAll().get(0).getImagePath())
                                     .build();
                             data.add(0, entity);

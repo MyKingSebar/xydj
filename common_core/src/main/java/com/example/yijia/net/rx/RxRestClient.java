@@ -40,6 +40,8 @@ public class RxRestClient {
         this.URL = url;
         PARAMS.clear();
         PARAMS.putAll(params);
+
+
         this.BODY = body;
         this.FILE = file;
         this.FILES = files;

@@ -8,13 +8,12 @@
     android:layout_width="match_parent"
     android:layout_height="1dp"
     android:background="@color/main_line_default_f5"/>
-    <de.hdodenhof.circleimageview.CircleImageView
+    <com.example.latte.ui.widget.RobotImageView
         android:id="@+id/civ_img"
-        android:layout_width="27dp"
-        android:layout_height="27dp"
+        android:layout_width="35dp"
+        android:layout_height="30dp"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="13dp"
-        android:background="@mipmap/icon_index_time" />
+        android:layout_marginTop="13dp" />
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/tv_name"

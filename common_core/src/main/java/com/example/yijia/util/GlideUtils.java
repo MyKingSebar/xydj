@@ -10,7 +10,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.latte.R;
 
 public class GlideUtils {
-    public static final int USERMODE = 1;
+    public static final int USERMODE = 0;
     public static final int DEFAULTMODE = 0;
 
 

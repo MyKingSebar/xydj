@@ -52,7 +52,7 @@ public final class DoctorInUseRecycAdapter extends MultipleRecyclerAdapter {
                     if (mCommonStringClickListener != null) {
 //                        final Long id1 = entity.getField(MultipleFields.ID);
                         //TODO
-                        mCommonStringClickListener.commonClick(HomeDoctorInMultipleFields.TENCENTIMID+","+HomeDoctorInMultipleFields.DOCTNAME+","+HomeDoctorInMultipleFields.DOCTHEADIMAGE+","+HomeDoctorInMultipleFields.MAJOR+","+holder.getAdapterPosition());
+                        mCommonStringClickListener.commonClick(entity.getField(HomeDoctorInMultipleFields.TENCENTIMID)+","+entity.getField(HomeDoctorInMultipleFields.DOCTNAME)+","+entity.getField(HomeDoctorInMultipleFields.DOCTHEADIMAGE)+","+entity.getField(HomeDoctorInMultipleFields.MAJOR)+","+holder.getAdapterPosition());
                     }
                 });
 

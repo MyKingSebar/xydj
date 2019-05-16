@@ -36,16 +36,17 @@ import io.reactivex.schedulers.Schedulers;
 
 public class RobotHisRobotDelegate extends LatteDelegate {
     public static final String USERID = "userid";
-    public static final String ISADMIN = "isadmin";
+    public static final String PERMISSIONTYPE = "permissionType";
     public static final String CHATID = "chatId";
     AppCompatTextView tvCall, tvRemind, tvMessage, tvGuardianship, tvHealth, tvLiveness, tvRobotImg, tvTitle;
     RelativeLayout rl;
     String token = null;
     long userId = 0;
-    int isAdmin = 0;
-    boolean isMine=false;
-//    String chatId = null;
-long myId=0;
+    int permissionType = 0;
+    private final int MINE=1;
+    private final int CREATER=2;
+    private final int ORDERLY=3;
+    private final int VISITOR=4;
     int hasRobot = 0;
     boolean isOnline = false;
     String tencentImUserIdRobot = null;
@@ -62,20 +63,14 @@ long myId=0;
         final Bundle args = getArguments();
         assert args != null;
         userId = args.getLong(USERID);
-        isAdmin = args.getInt(ISADMIN);
-//        chatId = args.getString(CHATID);
+        permissionType = args.getInt(PERMISSIONTYPE);
     }
 
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, @NonNull View rootView) {
         token = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getYjtk();
-        myId=YjDatabaseManager.getInstance().getDao().loadAll().get(0).getId();
-        if(myId==userId){
-            isAdmin=1;
-            isMine=true;
-        }
         initVIew(rootView);
-        getOnlineStatue(token,userId);
+        getOnlineStatue(token, userId);
         getInfo(token, userId);
     }
 
@@ -101,9 +96,9 @@ long myId=0;
                 showToast("您不是管理员，无法进行该操作");
                 return;
             }
-            if(isMine){
+            if (permissionType==MINE) {
                 getSupportDelegate().start(new RobotCallSettingDelegate());
-            }else {
+            } else {
                 showToast("只有本人可以设置");
             }
         });
@@ -134,7 +129,7 @@ long myId=0;
             }
             final Intent intent2 = new Intent(getContext(), CallWaitingActivity.class);
 //            int userId = (YjDatabaseManager.getInstance().getDao().loadAll().get(0).getId()).intValue();
-            intent2.putExtra("roomid", (int)myId);
+            intent2.putExtra("roomid", (int) userId);
             intent2.putExtra("chatId", tencentImUserIdRobot);
             intent2.putExtra(CallWaitingActivity.TYPE_KEY, CallWaitingActivity.TYPE_KANHU);
             getActivity().startActivity(intent2);
@@ -150,21 +145,17 @@ long myId=0;
     }
 
     private boolean checkAdmin() {
-        if (isAdmin != 1) {
-            return false;
-        } else {
+        if (permissionType ==MINE||permissionType==CREATER||permissionType==ORDERLY) {
             return true;
+        } else {
+            return false;
         }
     }
 
     private boolean checkRobotLogin() {
         return isOnline;
-//        if (TextUtils.isEmpty(tencentImUserIdRobot) || TextUtils.isEmpty(tencentImUserId)) {
-//            return false;
-//        } else {
-//            return true;
-//        }
     }
+
     private void getOnlineStatue(String token, long userId) {
         if (TextUtils.isEmpty(token)) {
             return;
@@ -221,7 +212,7 @@ long myId=0;
                         if (TextUtils.equals(status, "1001")) {
                             JSONObject data = obj.getJSONObject("data");
                             JSONObject user = data.getJSONObject("user");
-                            if (null == user){
+                            if (null == user) {
                                 return;
                             }
                             String nickname = user.getString("nickname");
@@ -232,7 +223,7 @@ long myId=0;
                             //用户状态：1-正常，2-注销
                             int userStatus = user.getInteger("userStatus");
                             String tencentImUserId = user.getString("tencentImUserId");
-                             tencentImUserIdRobot = user.getString("tencentImUserIdRobot");
+                            tencentImUserIdRobot = user.getString("tencentImUserIdRobot");
                             String tencentImUserSig = user.getString("tencentImUserSig");
                             String inviteCode = user.getString("inviteCode");
 

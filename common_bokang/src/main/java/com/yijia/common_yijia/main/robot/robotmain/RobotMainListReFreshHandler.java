@@ -115,7 +115,7 @@ public class RobotMainListReFreshHandler extends RefreshHandler {
                                     .setField(YjRobotListMultipleFields.MAINNAME,  YjDatabaseManager.getInstance().getDao().loadAll().get(0).getNickname())
                                     .setField(YjRobotListMultipleFields.RELATIONSHIP, "本人")
                                     .setField(YjRobotListMultipleFields.ONLINE,  isOnline ? 1 :2)
-                                    .setField(YjRobotListMultipleFields.ISADMIN, 2)
+                                    .setField(YjRobotListMultipleFields.PERMISSIONTYPE, 1)
                                     .setField(MultipleFields.IMAGE_URL,  YjDatabaseManager.getInstance().getDao().loadAll().get(0).getImagePath())
                                     .build();
                             data.add(0, entity);
@@ -141,7 +141,7 @@ public class RobotMainListReFreshHandler extends RefreshHandler {
                     @Override
                     public void onFail(Throwable e) {
                         Toast.makeText(Latte.getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-//                        mAdapter.loadMoreEnd(true);
+                        mAdapter.loadMoreEnd(true);
                         REFRESH_LAYOUT.setRefreshing(false);
 
                     }

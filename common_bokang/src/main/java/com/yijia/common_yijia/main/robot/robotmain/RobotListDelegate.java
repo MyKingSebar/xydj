@@ -71,7 +71,7 @@ public class RobotListDelegate extends BottomItemDelegate implements CommonLongI
             return;
         }
         bundle.putLong(RobotHisRobotDelegate.USERID, id);
-        bundle.putInt(RobotHisRobotDelegate.ISADMIN, tyoe);
+        bundle.putInt(RobotHisRobotDelegate.PERMISSIONTYPE, tyoe);
         mDelegate.setArguments(bundle);
         getParentDelegate().getSupportDelegate().start(mDelegate);
     }

@@ -22,7 +22,7 @@ import okhttp3.ResponseBody;
 public class RxRestClient {
 
     private final String URL;
-    private final WeakHashMap<String, Object> PARAMS = RestCreator.getParams();
+    private final WeakHashMap<String, Object> PARAMS = new WeakHashMap<>();
     private final RequestBody BODY;
     private final LoaderStyle LOADER_STYLE;
     private final File FILE;
@@ -38,6 +38,7 @@ public class RxRestClient {
                         Context context,
                         LoaderStyle loaderStyle) {
         this.URL = url;
+        PARAMS.clear();
         PARAMS.putAll(params);
         this.BODY = body;
         this.FILE = file;
@@ -101,7 +102,6 @@ public class RxRestClient {
                 break;
 
         }
-//        PARAMS.clear();
         return observable;
     }
 

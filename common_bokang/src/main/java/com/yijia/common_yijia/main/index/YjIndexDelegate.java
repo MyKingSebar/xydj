@@ -81,6 +81,7 @@ import razerdp.basepopup.QuickPopupConfig;
 
 public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemListener, IIndexItemListener, IndexCameraCheckInstener, IIndexCanReadItemListener, IPlayVideoListener, IDeleteListener {
 
+    private MainFamily mCurrentFamily;
     private final int ALLMODE = 0;
     private final int IMAGEMODE = 1;
     private final int VIDEOMODE = 2;
@@ -189,6 +190,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
                 .into(cimg_img.userImageView());
         cimg_img.setRobotOnline(true);
         setOnlineStatue(0);
+        getFamilyData();
     }
 
     public void setOnlineStatue(long id) {
@@ -225,7 +227,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
                 });
     }
 
-    public void getFamilyData() {
+    private void getFamilyData() {
         Observable ob1 = RxRestClient.builder()
                 .url("robot/query_robot_is_online")
                 .params("yjtk", YjDatabaseManager.getInstance().getDao().loadAll().get(0).getYjtk())
@@ -280,6 +282,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
                         family.robotIsOnline = isOnline ? 1 :2;
                         family.headImage = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getImagePath();
                         family.permissionType  = 1;
+                        mCurrentFamily = family;
                         families.add(family);
 
 
@@ -298,7 +301,9 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
                                 family.robotIsOnline = data.getInteger("robotIsOnline");
                                 family.headImage = data.getString("headImage");
                                 family.permissionType  = data.getInteger("permissionType");
-
+                                if(2 == family.permissionType) {
+                                    mCurrentFamily = family;
+                                }
                                 families.add(family);
                             }
 
@@ -311,7 +316,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
                         PopupWindow popupWindow = new SpinnerPopuwindow(getActivity(), families.get(0), families, new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                                mCurrentFamily = families.get(position);
                             }
                         });
                         ((SpinnerPopuwindow) popupWindow).showPopupWindow(null);

@@ -28,6 +28,7 @@ import com.yijia.common_yijia.database.YjDatabaseManager;
 import com.yijia.common_yijia.main.message.trtc.BoKangSendMessageListener;
 import com.yijia.common_yijia.main.message.trtc.BokangSendMessageUtil;
 import com.yijia.common_yijia.main.message.trtc.CallWaitingActivity;
+import com.yijia.common_yijia.main.robot.callsetting.RobotCallSettingDelegate;
 import com.yijia.common_yijia.main.robot.setting.remind.RobotRemindSettingDelegate;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -42,6 +43,7 @@ public class RobotHisRobotDelegate extends LatteDelegate {
     String token = null;
     long userId = 0;
     int isAdmin = 0;
+    boolean isMine=false;
 //    String chatId = null;
 long myId=0;
     int hasRobot = 0;
@@ -70,6 +72,7 @@ long myId=0;
         myId=YjDatabaseManager.getInstance().getDao().loadAll().get(0).getId();
         if(myId==userId){
             isAdmin=1;
+            isMine=true;
         }
         initVIew(rootView);
         getOnlineStatue(token,userId);
@@ -98,6 +101,11 @@ long myId=0;
                 showToast("您不是管理员，无法进行该操作");
                 return;
             }
+            if(isMine){
+                getSupportDelegate().start(new RobotCallSettingDelegate());
+            }else {
+                showToast("只有本人可以设置");
+            }
         });
         tvRemind.setOnClickListener(v -> {
             //TODO 提醒设置
@@ -105,15 +113,12 @@ long myId=0;
                 showToast("您不是管理员，无法进行该操作");
                 return;
             }
-            RobotHisRobotDelegate mDelegate = new RobotHisRobotDelegate();
-            Bundle bundle = new Bundle();
             if (userId == 0) {
                 showToast("网络异常id=0");
                 return;
             }
-            bundle.putLong(RobotRemindSettingDelegate.USERID, userId);
-            mDelegate.setArguments(bundle);
-            getSupportDelegate().start(mDelegate);
+            RobotRemindSettingDelegate delegate = RobotRemindSettingDelegate.create(userId);
+            getSupportDelegate().start(delegate);
         });
         tvMessage.setOnClickListener(v -> {
             //TODO 语音留言

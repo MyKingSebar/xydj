@@ -29,8 +29,6 @@ public class RobotListConverter extends DataConverter {
             final int robotIsOnline = data.getInteger("robotIsOnline");
             final String headImage = data.getString("headImage");
             final int isAdmin  = data.getInteger("isAdmin");
-            final long createdUserId  = data.getLong("createdUserId");
-
 
             final MultipleItemEntity entity = MultipleItemEntity.builder()
                     .setField(MultipleFields.ITEM_TYPE, YjIndexItemType.ROBOT_MAIN_LIST)
@@ -41,7 +39,6 @@ public class RobotListConverter extends DataConverter {
                     .setField(YjRobotListMultipleFields.RELATIONSHIP, relationUserToMain)
                     .setField(YjRobotListMultipleFields.ONLINE, robotIsOnline)
                     .setField(YjRobotListMultipleFields.ISADMIN, isAdmin)
-                    .setField(YjRobotListMultipleFields.CREATEDUSERID, createdUserId)
                     .setField(MultipleFields.IMAGE_URL, headImage)
                     .build();
 

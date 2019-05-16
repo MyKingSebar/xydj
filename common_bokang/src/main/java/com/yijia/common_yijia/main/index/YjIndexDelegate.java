@@ -1,5 +1,7 @@
 package com.yijia.common_yijia.main.index;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,16 +18,19 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.TranslateAnimation;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.bumptech.glide.Glide;
 import com.example.latte.ec.R;
 import com.example.latte.ec.R2;
+import com.example.latte.ui.recycler.MultipleFields;
 import com.example.latte.ui.recycler.MultipleItemEntity;
 import com.example.latte.ui.widget.RobotImageView;
 import com.example.yijia.app.Latte;
@@ -50,15 +55,23 @@ import com.yijia.common_yijia.main.index.friends.IFriendsItemListener;
 import com.yijia.common_yijia.main.index.friends.IndexFriendsAdapter;
 import com.yijia.common_yijia.main.index.friends.YjIndexFriendsDataConverter;
 import com.yijia.common_yijia.main.mine.MineDelegate;
+import com.yijia.common_yijia.main.robot.robotmain.RobotListAdapter;
+import com.yijia.common_yijia.main.robot.robotmain.RobotListConverter;
+import com.yijia.common_yijia.main.robot.robotmain.RobotMainListReFreshHandler;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.BiFunction;
 import io.reactivex.schedulers.Schedulers;
 import razerdp.basepopup.QuickPopupBuilder;
 import razerdp.basepopup.QuickPopupConfig;
@@ -100,6 +113,8 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
     RobotImageView cimg_img = null;
     @BindView(R2.id.tv_name)
     AppCompatTextView tv_name = null;
+
+    private List<MainFamily> families = new ArrayList<>();
 
 
     private SmallCameraLisener mSmallCameraLisener = null;
@@ -160,51 +175,162 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
         if (!TextUtils.isEmpty(name)) {
             tv_name.setText(name);
         }
+        tv_name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getFamilyData();
+            }
+        });
         String img = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getImagePath();
         Glide.with(Objects.requireNonNull(getContext()))
                 .load(img)
                 .into(cimg_img.userImageView());
         cimg_img.setRobotOnline(true);
-
-        setOnLine();
-
+        setOnlineStatue(0);
     }
 
-    private void setOnLine() {
+    public void setOnlineStatue(long id) {
         RxRestClient.builder()
                 .url("robot/query_robot_is_online")
                 .params("yjtk", YjDatabaseManager.getInstance().getDao().loadAll().get(0).getYjtk())
-                .params("targetUserId", YjDatabaseManager.getInstance().getDao().loadAll().get(0).getId())
+                .params("targetUserId", id)
                 .build()
                 .get()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseObserver<String>(Latte.getApplicationContext()) {
-
                     @Override
-                    public void onResponse(String s) {
-                        boolean isOnline = false;
-                        final JSONObject object = JSON.parseObject(s);
+                    public void onResponse(String r) {
+                        final JSONObject object = JSON.parseObject(r);
                         final String status = object.getString("status");
+                        boolean isOnline = false;
                         if (TextUtils.equals(status, "1001")) {
                             JSONObject jo = object.getJSONObject("data");
                             isOnline = jo.getBoolean("isOnline");
                         }
-
                         if (isOnline) {
                             tv_online.setText(R.string.xy_online);
                         } else {
                             tv_online.setText(R.string.xy_unonline);
                         }
-
                     }
 
                     @Override
                     public void onFail(Throwable e) {
+                        Toast.makeText(Latte.getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
 
                     }
                 });
     }
+
+    public void getFamilyData() {
+        Observable ob1 = RxRestClient.builder()
+                .url("robot/query_robot_is_online")
+                .params("yjtk", YjDatabaseManager.getInstance().getDao().loadAll().get(0).getYjtk())
+                .params("targetUserId", YjDatabaseManager.getInstance().getDao().loadAll().get(0).getId())
+                .build()
+                .get()
+                .subscribeOn(Schedulers.io());
+
+        Observable ob2 = RxRestClient.builder()
+                .url("family/query_family")
+                .params("yjtk", YjDatabaseManager.getInstance().getDao().loadAll().get(0).getYjtk())
+                .build()
+                .get()
+                .subscribeOn(Schedulers.io());
+
+        Observable.zip(ob1, ob2, new BiFunction<String, String, Map>() {
+            @Override
+            public Map apply(String s, String s2) throws Exception {
+                Map map = new HashMap();
+                final JSONObject object = JSON.parseObject(s);
+                final String status = object.getString("status");
+                boolean isOnline = false;
+                if (TextUtils.equals(status, "1001")) {
+                    JSONObject jo = object.getJSONObject("data");
+                    isOnline = jo.getBoolean("isOnline");
+                }
+                map.put("isOnLine", isOnline);
+                map.put("json", s2);
+                Log.e("~~get families", s + "--" + s2);
+                return map;
+            }
+        })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseObserver<Map>(Latte.getApplicationContext()) {
+                    @Override
+                    public void onResponse(Map r) {
+                        String response = (String) r.get("json");
+                        boolean isOnline = (Boolean) r.get("isOnLine");
+                        final JSONObject object = JSON.parseObject(response);
+                        final String status = object.getString("status");
+
+                        families.clear();
+                        MainFamily family = null;
+
+                        family = new MainFamily();
+                        family.familyId = -1;
+                        family.familyName = "";
+                        family.mainUserId = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getId();
+                        family.mainUserName = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getNickname();
+                        family.relationMainToUser = "本人";
+                        family.relationUserToMain = "本人";
+                        family.robotIsOnline = isOnline ? 1 :2;
+                        family.headImage = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getImagePath();
+                        family.isAdmin  = 2;
+                        family.createdUserId  = 0;
+                        families.add(family);
+
+
+                        if (TextUtils.equals(status, "1001")) {
+                            final JSONArray guardianUserList = object.getJSONArray("data");
+                            final int size = guardianUserList.size();
+                            for (int i = 0; i < size; i++) {
+                                final JSONObject data = guardianUserList.getJSONObject(i);
+                                family = new MainFamily();
+                                family.familyId = data.getLong("familyId");
+                                family.familyName = data.getString("familyName");
+                                family.mainUserId = data.getLong("mainUserId");
+                                family.mainUserName = data.getString("mainUserName");
+                                family.relationMainToUser = data.getString("relationMainToUser");
+                                family.relationUserToMain = data.getString("relationUserToMain");
+                                family.robotIsOnline = data.getInteger("robotIsOnline");
+                                family.headImage = data.getString("headImage");
+                                family.isAdmin  = data.getInteger("isAdmin");
+                                family.createdUserId  = data.getLong("createdUserId");
+
+                                families.add(family);
+                            }
+
+                        } else {
+                            final String msg = JSON.parseObject(response).getString("msg");
+                            Toast.makeText(Latte.getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+
+                        }
+
+                        MainFamilyAdapter adapter = new MainFamilyAdapter(getContext(), families);
+                        AlertDialog alertDialog = new AlertDialog
+                                .Builder(getContext())
+                                .setAdapter(adapter, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        MainFamily temp = families.get(which);
+                                        dialog.dismiss();
+                                    }
+                                }).create();
+                        alertDialog.show();
+                    }
+
+                    @Override
+                    public void onFail(Throwable e) {
+                        Toast.makeText(Latte.getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+
+
+    }
+
 
     private void initTopBar() {
         abl.addOnOffsetChangedListener(new AppBarStateChangeListener() {

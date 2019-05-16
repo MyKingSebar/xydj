@@ -37,24 +37,27 @@ public abstract class BaseObserver<String> implements Observer<String> {
     @Override
     public void onNext(@NonNull String string) {
         if (string instanceof HashMap) {
-            return;
-        }
-        java.lang.String mstring = string.toString();
-        if (TextUtils.isEmpty(mstring) || TextUtils.isEmpty(mstring.trim())) {
-            return;
-        }
-        final java.lang.String status = JSON.parseObject(mstring).getString("status");
-        final IGlobalCallback<java.lang.String> callback;
-        if (TextUtils.equals(status, "1002")) {
-            callback = CallbackManager
-                    .getInstance()
-                    .getCallback(CallbackType.NEED_LOGIN_IN);
-        } else {
-            callback = null;
-        }
 
-        if (callback != null) {
-            callback.executeCallback("");
+
+        }else{
+
+            java.lang.String mstring = string.toString();
+            if (TextUtils.isEmpty(mstring) || TextUtils.isEmpty(mstring.trim())) {
+                return;
+            }
+            final java.lang.String status = JSON.parseObject(mstring).getString("status");
+            final IGlobalCallback<java.lang.String> callback;
+            if (TextUtils.equals(status, "1002")) {
+                callback = CallbackManager
+                        .getInstance()
+                        .getCallback(CallbackType.NEED_LOGIN_IN);
+            } else {
+                callback = null;
+            }
+
+            if (callback != null) {
+                callback.executeCallback("");
+            }
         }
 
 

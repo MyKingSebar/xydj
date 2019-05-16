@@ -116,7 +116,6 @@ public class RobotMainListReFreshHandler extends RefreshHandler {
                                     .setField(YjRobotListMultipleFields.RELATIONSHIP, "本人")
                                     .setField(YjRobotListMultipleFields.ONLINE,  isOnline ? 1 :2)
                                     .setField(YjRobotListMultipleFields.ISADMIN, 2)
-                                    .setField(YjRobotListMultipleFields.CREATEDUSERID, 0)
                                     .setField(MultipleFields.IMAGE_URL,  YjDatabaseManager.getInstance().getDao().loadAll().get(0).getImagePath())
                                     .build();
                             data.add(0, entity);
@@ -127,16 +126,14 @@ public class RobotMainListReFreshHandler extends RefreshHandler {
                             RECYCLERVIEW.setLayoutManager(manager);
                             RECYCLERVIEW.setAdapter(mAdapter);
                             BEAN.addIndex();
-                            REFRESH_LAYOUT.setRefreshing(false);
                             mAdapter.loadMoreEnd(true);
-                            JDialogUtil.INSTANCE.dismiss();
+                            REFRESH_LAYOUT.setRefreshing(false);
 
                         } else {
                             final String msg = JSON.parseObject(response).getString("msg");
                             Toast.makeText(Latte.getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
-                            REFRESH_LAYOUT.setRefreshing(false);
                             mAdapter.loadMoreEnd(true);
-                            JDialogUtil.INSTANCE.dismiss();
+                            REFRESH_LAYOUT.setRefreshing(false);
 
                         }
                     }
@@ -144,9 +141,8 @@ public class RobotMainListReFreshHandler extends RefreshHandler {
                     @Override
                     public void onFail(Throwable e) {
                         Toast.makeText(Latte.getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                        mAdapter.loadMoreEnd(true);
+//                        mAdapter.loadMoreEnd(true);
                         REFRESH_LAYOUT.setRefreshing(false);
-                        JDialogUtil.INSTANCE.dismiss();
 
                     }
                 });

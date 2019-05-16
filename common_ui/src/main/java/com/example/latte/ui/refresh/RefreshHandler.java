@@ -39,78 +39,15 @@ public class RefreshHandler implements
         return new RefreshHandler(swipeRefreshLayout, recyclerView, converter, new PagingBean());
     }
 
-    private void refresh() {
-        REFRESH_LAYOUT.setRefreshing(true);
-        Latte.getHandler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                //进行一些网络请求
-                REFRESH_LAYOUT.setRefreshing(false);
-            }
-        }, 2000);
-    }
 
-    public void firstPage(String url) {
-        RestClient.builder()
-                .url(url)
-                .success(new ISuccess() {
-                    @Override
-                    public void onSuccess(String response) {
-                        final JSONObject object = JSON.parseObject(response);
-                        BEAN.setTotal(object.getInteger("total"))
-                                .setPageSize(object.getInteger("page_size"));
-                        //设置Adapter
-                        mAdapter = MultipleRecyclerAdapter.create(CONVERTER.setJsonData(response));
-                        mAdapter.setOnLoadMoreListener(RefreshHandler.this, RECYCLERVIEW);
-                        RECYCLERVIEW.setAdapter(mAdapter);
-                        BEAN.addIndex();
-                    }
-                })
-                .build()
-                .get();
-    }
-
-    private void paging(final String url) {
-        final int pageSize = BEAN.getPageSize();
-        final int currentCount = BEAN.getCurrentCount();
-        final int total = BEAN.getTotal();
-        final int index = BEAN.getPageIndex();
-
-        if (mAdapter.getData().size() < pageSize || currentCount >= total) {
-            mAdapter.loadMoreEnd(true);
-        } else {
-            Latte.getHandler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    RestClient.builder()
-                            .url(url + index)
-                            .success(new ISuccess() {
-                                @Override
-                                public void onSuccess(String response) {
-                                    LatteLogger.json("paging", response);
-                                    CONVERTER.clearData();
-                                    mAdapter.addData(CONVERTER.setJsonData(response).convert());
-                                    //累加数量
-                                    BEAN.setCurrentCount(mAdapter.getData().size());
-                                    mAdapter.loadMoreComplete();
-                                    BEAN.addIndex();
-                                }
-                            })
-                            .build()
-                            .get();
-                }
-            }, 1000);
-        }
-    }
 
     @Override
     public void onRefresh() {
-        refresh();
     }
 
 
     @Override
     public void onLoadMoreRequested() {
-        paging("refresh.php?index=");
+
     }
 }

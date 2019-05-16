@@ -51,7 +51,6 @@ public final class RobotListAdapter extends MultipleRecyclerAdapter {
                 final String record = entity.getField(YjRobotListMultipleFields.RECORD_NUM);
                 //1-是，2否
                 final int isAdmin = entity.getField(YjRobotListMultipleFields.ISADMIN);
-                final long createdUserId = entity.getField(YjRobotListMultipleFields.CREATEDUSERID);
 
                 //取出所以控件
                 final ImageView imageView = holder.getView(R.id.iv_img);

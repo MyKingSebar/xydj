@@ -22,6 +22,8 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.TranslateAnimation;
+import android.widget.AdapterView;
+import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
@@ -277,8 +279,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
                         family.relationUserToMain = "本人";
                         family.robotIsOnline = isOnline ? 1 :2;
                         family.headImage = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getImagePath();
-                        family.isAdmin  = 2;
-                        family.createdUserId  = 0;
+                        family.permissionType  = 1;
                         families.add(family);
 
 
@@ -296,8 +297,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
                                 family.relationUserToMain = data.getString("relationUserToMain");
                                 family.robotIsOnline = data.getInteger("robotIsOnline");
                                 family.headImage = data.getString("headImage");
-                                family.isAdmin  = data.getInteger("isAdmin");
-                                family.createdUserId  = data.getLong("createdUserId");
+                                family.permissionType  = data.getInteger("permissionType");
 
                                 families.add(family);
                             }
@@ -308,17 +308,14 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
 
                         }
 
-                        MainFamilyAdapter adapter = new MainFamilyAdapter(getContext(), families);
-                        AlertDialog alertDialog = new AlertDialog
-                                .Builder(getContext())
-                                .setAdapter(adapter, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        MainFamily temp = families.get(which);
-                                        dialog.dismiss();
-                                    }
-                                }).create();
-                        alertDialog.show();
+                        PopupWindow popupWindow = new SpinnerPopuwindow(getActivity(), families.get(0), families, new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                            }
+                        });
+                        ((SpinnerPopuwindow) popupWindow).showPopupWindow(null);
+                        popupWindow.showAsDropDown(tv_name);
                     }
 
                     @Override
@@ -327,7 +324,6 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
 
                     }
                 });
-
 
     }
 

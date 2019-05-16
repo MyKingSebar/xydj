@@ -15,6 +15,6 @@ public class MainFamily implements Serializable {
     public String relationUserToMain;
     public int robotIsOnline;
     public String headImage;
-    public int isAdmin;
+    public int permissionType;
     public long createdUserId;
 }

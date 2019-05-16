@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.example.latte.ec.R;
@@ -49,16 +50,23 @@ public class MainFamilyAdapter extends BaseAdapter {
             holder = new ViewHolder();
             convertView = inflater.inflate(R.layout.item_family, null);
             holder.name = convertView.findViewById(R.id.item_name);
+            holder.checkBox = convertView.findViewById(R.id.item_check);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
         MainFamily family = getItem(position);
         holder.name.setText(family.mainUserName);
+        if(true) {
+            holder.checkBox.setChecked(true);
+        } else {
+            holder.checkBox.setChecked(false);
+        }
         return convertView;
     }
 
     class ViewHolder {
         TextView name;
+        CheckBox checkBox;
     }
 }

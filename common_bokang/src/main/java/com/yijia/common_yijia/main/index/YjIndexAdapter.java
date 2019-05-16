@@ -49,6 +49,7 @@ import com.example.latte.ui.recycler.MultipleFields;
 import com.example.latte.ui.recycler.MultipleItemEntity;
 import com.example.latte.ui.recycler.MultipleRecyclerAdapter;
 import com.example.latte.ui.recycler.MultipleViewHolder;
+import com.example.latte.ui.widget.RobotImageView;
 import com.example.yijia.delegates.LatteDelegate;
 import com.example.yijia.net.rx.BaseObserver;
 import com.example.yijia.net.rx.RxRestClient;
@@ -82,7 +83,6 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -326,7 +326,7 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
         final AppCompatTextView tvDelete = holder.getView(R.id.tv_delete);
         final RecyclerView rvComment = holder.getView(R.id.rv_comment);
         final AppCompatTextView tvComment = holder.getView(R.id.tv_comment);
-        final CircleImageView civ_img = holder.getView(R.id.civ_img);
+        final RobotImageView civ_img = holder.getView(R.id.civ_img);
         // 设置TextView可展示的宽度 ( 父控件宽度 - 左右margin - 左右padding）
 //        int whidth = ScreenUtils.getScreenWidth(latteDelegate.getContext()) - ScreenUtils.dip2px(latteDelegate.getContext(), 16 * 2);
 //        tvContent.initWidth(313+180);
@@ -371,7 +371,8 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
                 tvDelete.setVisibility(View.GONE);
                 break;
         }
-        GlideUtils.load(latteDelegate.getContext(), userHead, civ_img, GlideUtils.USERMODE);
+        GlideUtils.load(latteDelegate.getContext(), userHead, civ_img.userImageView(), GlideUtils.USERMODE);
+        civ_img.setRobotOnline(true);
         getLastIndexForLimit(tvContent, maxLine, content);
         if (TextUtils.isEmpty(content)) {
             tvContent.setVisibility(View.GONE);

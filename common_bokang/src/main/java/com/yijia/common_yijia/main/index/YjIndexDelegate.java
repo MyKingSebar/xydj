@@ -13,24 +13,28 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.TranslateAnimation;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.bumptech.glide.Glide;
 import com.example.latte.ec.R;
 import com.example.latte.ec.R2;
 import com.example.latte.ui.recycler.MultipleItemEntity;
+import com.example.latte.ui.widget.RobotImageView;
+import com.example.yijia.app.Latte;
 import com.example.yijia.delegates.bottom.BottomItemDelegate;
 import com.example.yijia.lisener.AppBarStateChangeListener;
 import com.example.yijia.net.rx.BaseObserver;
 import com.example.yijia.net.rx.RxRestClient;
 import com.example.yijia.ui.dialog.JDialogUtil;
 import com.example.yijia.ui.dialog.RxDialogSureCancelListener;
-import com.example.yijia.util.GlideUtils;
 import com.example.yijia.util.callback.CallbackManager;
 import com.example.yijia.util.callback.CallbackType;
 import com.example.yijia.util.callback.IGlobalCallback;
@@ -51,8 +55,9 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
-import de.hdodenhof.circleimageview.CircleImageView;
+import butterknife.Unbinder;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import razerdp.basepopup.QuickPopupBuilder;
@@ -66,6 +71,9 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
     private final int VIDEOMODE = 2;
     private final int AUDIOMODE = 3;
     private final int TEXTMODE = 4;
+    @BindView(R2.id.tv_online)
+    AppCompatTextView tv_online;
+    Unbinder unbinder;
     private Bundle mArgs = null;
     public static final String PICKTYPE = "PICKTYPE";
     boolean isFirst = true;
@@ -89,9 +97,10 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
     IconTextView mSend = null;
 
     @BindView(R2.id.cimg_img)
-    CircleImageView cimg_img = null;
+    RobotImageView cimg_img = null;
     @BindView(R2.id.tv_name)
     AppCompatTextView tv_name = null;
+
 
     private SmallCameraLisener mSmallCameraLisener = null;
 
@@ -154,8 +163,47 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
         String img = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getImagePath();
         Glide.with(Objects.requireNonNull(getContext()))
                 .load(img)
-                .apply(GlideUtils.USEROPTIONS)
-                .into(cimg_img);
+                .into(cimg_img.userImageView());
+        cimg_img.setRobotOnline(true);
+
+        setOnLine();
+
+    }
+
+    private void setOnLine() {
+        RxRestClient.builder()
+                .url("robot/query_robot_is_online")
+                .params("yjtk", YjDatabaseManager.getInstance().getDao().loadAll().get(0).getYjtk())
+                .params("targetUserId", YjDatabaseManager.getInstance().getDao().loadAll().get(0).getId())
+                .build()
+                .get()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseObserver<String>(Latte.getApplicationContext()) {
+
+                    @Override
+                    public void onResponse(String s) {
+                        boolean isOnline = false;
+                        final JSONObject object = JSON.parseObject(s);
+                        final String status = object.getString("status");
+                        if (TextUtils.equals(status, "1001")) {
+                            JSONObject jo = object.getJSONObject("data");
+                            isOnline = jo.getBoolean("isOnline");
+                        }
+
+                        if (isOnline) {
+                            tv_online.setText(R.string.xy_online);
+                        } else {
+                            tv_online.setText(R.string.xy_unonline);
+                        }
+
+                    }
+
+                    @Override
+                    public void onFail(Throwable e) {
+
+                    }
+                });
     }
 
     private void initTopBar() {
@@ -561,5 +609,19 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
                         JDialogUtil.INSTANCE.dismiss();
                     }
                 });
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        unbinder = ButterKnife.bind(this, rootView);
+        return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 }

@@ -235,7 +235,12 @@ public class PersonalChatFragmentLittle extends LatteDelegate {
         chatPanel.setOnVoiceClickListener(() -> mTtsPopup.showPopupWindow());
 
     }
-//    private void initBottomRecycle() {
+
+    @Override
+    public boolean onBackPressedSupport() {
+        return false;
+    }
+    //    private void initBottomRecycle() {
 //        mChatTitieBottomAdapter = new ChatTitieBottomAdapter(initTitleBottomData());
 //        mChatTitieBottomAdapter.setCartItemListener(initTitleBottomItemListener());
 //        final LinearLayoutManager manager = new LinearLayoutManager(getContext());

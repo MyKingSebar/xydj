@@ -237,7 +237,6 @@ public class HomeDoctorInUseRecycDelegate extends LatteDelegate {
                             mRecyelerView.setLayoutManager(manager);
                             mRecyelerView.setAdapter(mHomeDoctorInTabPagerAdapter);
 
-
                         } else {
                             final String msg = JSON.parseObject(response).getString("msg");
                             Toast.makeText(Latte.getApplicationContext(), msg, Toast.LENGTH_SHORT).show();

@@ -21,6 +21,7 @@ import com.example.common_tencent_tuikit.TuiKitConfig;
 import com.example.latte.ui.launcher.ILauncherListener;
 import com.example.latte.ui.launcher.OnLauncherFinishTag;
 import com.example.yijia.activities.ProxyActivity;
+import com.example.yijia.app.AccountManager;
 import com.example.yijia.app.IUserChecker;
 import com.example.yijia.app.Latte;
 import com.example.yijia.delegates.LatteDelegate;
@@ -80,7 +81,7 @@ public class ExampleActivity extends ProxyActivity implements
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ExampleApp.flag=0;
+        ExampleApp.flag = 0;
         final ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.hide();
@@ -93,6 +94,7 @@ public class ExampleActivity extends ProxyActivity implements
         }
         initTencentTuiKit();
         initExit();
+        addLogOutCallBack();
     }
 
     private void initExit() {
@@ -150,7 +152,7 @@ public class ExampleActivity extends ProxyActivity implements
 
     @Override
     public void onSignUpSecondSuccess() {
-        if(LattePreference.isFirstLogin("first_login")) {
+        if (LattePreference.isFirstLogin("first_login")) {
             AddParentsDelegate addParentsDelegate = new AddParentsDelegate();
             Bundle bundle = new Bundle();
             bundle.putBoolean(AddParentsDelegate.EXTRA_ISFIRST_LOGIN, true);
@@ -227,7 +229,43 @@ public class ExampleActivity extends ProxyActivity implements
         getSupportDelegate().start(delegate);
     }
 
+    private void addLogOutCallBack() {
+        CallbackManager.getInstance()
+                .addCallback(CallbackType.NEED_LOGIN_IN, new IGlobalCallback<String>() {
+                    @Override
+                    public void executeCallback(@Nullable String args) {
+                        assert args != null;
+                        loginOut();
+                        Intent i = getBaseContext().getPackageManager()
+                                .getLaunchIntentForPackage(getBaseContext().getPackageName());
+                        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(i);
+                        finish();
+                    }
+                });
+    }
 
+    private void loginOut() {
+        AccountManager.setIsComplete(false);
+        AccountManager.setSignState(false);
+        YjDatabaseManager.getInstance().getDao().deleteAll();
+        // TODO: 腾讯登出操作
+        //腾讯IM登出
+        TIMManager.getInstance().logout(new TIMCallBack() {
+            @Override
+            public void onError(int code, String desc) {
+                //错误码 code 和错误描述 desc，可用于定位请求失败原因
+                //错误码 code 列表请参见错误码表
+                Log.d("tengxun", "logout failed. code: " + code + " errmsg: " + desc);
+            }
+
+            @Override
+            public void onSuccess() {
+                //登出成功
+                Log.d("tengxun", "登出成功");
+            }
+        });
+    }
 
     private static void loginTencentIM() {
         String tencentImUserId = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getTencentImUserId();

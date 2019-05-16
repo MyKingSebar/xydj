@@ -49,8 +49,8 @@ public final class RobotListAdapter extends MultipleRecyclerAdapter {
                 final int online = entity.getField(YjRobotListMultipleFields.ONLINE);
                 final String relationship = entity.getField(YjRobotListMultipleFields.RELATIONSHIP);
                 final String record = entity.getField(YjRobotListMultipleFields.RECORD_NUM);
-                //1-是，2否
-                final int isAdmin = entity.getField(YjRobotListMultipleFields.ISADMIN);
+                //1-自己，2-创建人，3-看护人，4-无权限
+                final int permissionType = entity.getField(YjRobotListMultipleFields.PERMISSIONTYPE);
 
                 //取出所以控件
                 final ImageView imageView = holder.getView(R.id.iv_img);
@@ -62,7 +62,7 @@ public final class RobotListAdapter extends MultipleRecyclerAdapter {
                 final ConstraintLayout cl = holder.getView(R.id.cl);
                 cl.setOnClickListener(v -> {
                     if (mRobotGuardianshipListener != null) {
-                        mRobotGuardianshipListener.commonClick(friendUserId ,isAdmin);
+                        mRobotGuardianshipListener.commonClick(friendUserId ,permissionType);
                     }
                 });
                 //赋值

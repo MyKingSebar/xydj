@@ -28,7 +28,8 @@ public class RobotListConverter extends DataConverter {
             final String relationUserToMain = data.getString("relationUserToMain");
             final int robotIsOnline = data.getInteger("robotIsOnline");
             final String headImage = data.getString("headImage");
-            final int isAdmin  = data.getInteger("isAdmin");
+            //1-自己，2-创建人，3-看护人，4-无权限
+            final int permissionType  = data.getInteger("permissionType");
 
             final MultipleItemEntity entity = MultipleItemEntity.builder()
                     .setField(MultipleFields.ITEM_TYPE, YjIndexItemType.ROBOT_MAIN_LIST)
@@ -38,7 +39,7 @@ public class RobotListConverter extends DataConverter {
                     .setField(YjRobotListMultipleFields.MAINNAME, mainUserName)
                     .setField(YjRobotListMultipleFields.RELATIONSHIP, relationUserToMain)
                     .setField(YjRobotListMultipleFields.ONLINE, robotIsOnline)
-                    .setField(YjRobotListMultipleFields.ISADMIN, isAdmin)
+                    .setField(YjRobotListMultipleFields.PERMISSIONTYPE, permissionType)
                     .setField(MultipleFields.IMAGE_URL, headImage)
                     .build();
 

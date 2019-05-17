@@ -77,14 +77,11 @@ public final class NoticesAdapter extends MultipleRecyclerAdapter {
 
                     tvTime.setVisibility(View.GONE);
                     add.setVisibility(View.VISIBLE);
-                    add.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (mOkAddLisener != null) {
-                                mOkAddLisener.ok(friendApplyId);
-                                add.setBackgroundResource(R.mipmap.button_has_add_friend);
-                                add.setClickable(false);
-                            }
+                    add.setOnClickListener(v -> {
+                        if (mOkAddLisener != null) {
+                            mOkAddLisener.ok(friendApplyId);
+                            add.setBackgroundResource(R.mipmap.button_has_add_friend);
+                            add.setClickable(false);
                         }
                     });
                     switch (isAgree) {

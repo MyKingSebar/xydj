@@ -25,38 +25,41 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 public class YjReFreshHandler extends RefreshHandler {
+    long mfamilyId = 0;
 
-    public YjReFreshHandler(SwipeRefreshLayout swipeRefreshLayout, RecyclerView recyclerView, DataConverter converter, PagingBean bean,LatteDelegate delegate,IIndexItemListener listener,IIndexCanReadItemListener readlistener,IPlayVideoListener playVideoListener,IDeleteListener deleteListener) {
+    public YjReFreshHandler(SwipeRefreshLayout swipeRefreshLayout, RecyclerView recyclerView, DataConverter converter, PagingBean bean, LatteDelegate delegate, IIndexItemListener listener, IIndexCanReadItemListener readlistener, IPlayVideoListener playVideoListener, IDeleteListener deleteListener) {
         super(swipeRefreshLayout, recyclerView, converter, bean);
-        DELEGATE=delegate;
-        LISTENER=listener;
-        READLISTENER=readlistener;
-        PLAYLISTENER=playVideoListener;
-        DELETELISTENER=deleteListener;
+        DELEGATE = delegate;
+        LISTENER = listener;
+        READLISTENER = readlistener;
+        PLAYLISTENER = playVideoListener;
+        DELETELISTENER = deleteListener;
     }
-//    private final SwipeRefreshLayout REFRESH_LAYOUT;
+
+    //    private final SwipeRefreshLayout REFRESH_LAYOUT;
 //    private final PagingBean BEAN;
 //    private final RecyclerView RECYCLERVIEW;
     private YjIndexAdapter mAdapter = null;
-//    private final DataConverter CONVERTER;
-      private final LatteDelegate DELEGATE;
-      private final IIndexItemListener LISTENER;
-      private final IIndexCanReadItemListener READLISTENER;
-      private final IPlayVideoListener PLAYLISTENER;
-      private final IDeleteListener DELETELISTENER;
+    //    private final DataConverter CONVERTER;
+    private final LatteDelegate DELEGATE;
+    private final IIndexItemListener LISTENER;
+    private final IIndexCanReadItemListener READLISTENER;
+    private final IPlayVideoListener PLAYLISTENER;
+    private final IDeleteListener DELETELISTENER;
 
     public static YjReFreshHandler create(SwipeRefreshLayout swipeRefreshLayout,
-                                        RecyclerView recyclerView, DataConverter converter,LatteDelegate delegate,IIndexItemListener listener,IIndexCanReadItemListener readlistener,IPlayVideoListener playVideoListener,IDeleteListener deleteListener) {
+                                          RecyclerView recyclerView, DataConverter converter, LatteDelegate delegate, IIndexItemListener listener, IIndexCanReadItemListener readlistener, IPlayVideoListener playVideoListener, IDeleteListener deleteListener) {
 
-        return new YjReFreshHandler(swipeRefreshLayout, recyclerView, converter, new PagingBean(),delegate,listener,readlistener,playVideoListener,deleteListener);
+        return new YjReFreshHandler(swipeRefreshLayout, recyclerView, converter, new PagingBean(), delegate, listener, readlistener, playVideoListener, deleteListener);
     }
 
     private void refresh() {
         REFRESH_LAYOUT.setRefreshing(true);
-        firstPage();
+        firstPage(mfamilyId);
     }
 
-    public void firstPage() {
+    public void firstPage(long familyId) {
+        mfamilyId = familyId;
         String token = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getYjtk();
         RxRestClient.builder()
                 .url("circle/query_timeline")
@@ -66,6 +69,7 @@ public class YjReFreshHandler extends RefreshHandler {
                 .params("pageSize", 20)
                 .params("beginCircleId", 0)
                 .params("circleType", 0)
+                .params("familyId", mfamilyId)
                 .build()
                 .post()
                 .subscribeOn(Schedulers.io())
@@ -85,7 +89,7 @@ public class YjReFreshHandler extends RefreshHandler {
                                     new YjIndexDataConverter()
                                             .setJsonData(response)
                                             .convert();
-                            mAdapter = new YjIndexAdapter(data,DELEGATE);
+                            mAdapter = new YjIndexAdapter(data, DELEGATE);
                             mAdapter.setIndexItemListener(LISTENER);
                             mAdapter.setIndexCanReadItemListener(READLISTENER);
                             mAdapter.setmIPlayVideoListener(PLAYLISTENER);
@@ -94,8 +98,8 @@ public class YjReFreshHandler extends RefreshHandler {
                             final LinearLayoutManager manager = new LinearLayoutManager(Latte.getApplicationContext());
                             RECYCLERVIEW.setLayoutManager(manager);
                             RECYCLERVIEW.setAdapter(mAdapter);
-                            if(data.size()>0){
-                                BEAN.setBeginCircleId(data.get(data.size()-1).getField(YjIndexMultipleFields.CIRCLEID));
+                            if (data.size() > 0) {
+                                BEAN.setBeginCircleId(data.get(data.size() - 1).getField(YjIndexMultipleFields.CIRCLEID));
                             }
                             BEAN.addIndex();
                             REFRESH_LAYOUT.setRefreshing(false);
@@ -121,7 +125,7 @@ public class YjReFreshHandler extends RefreshHandler {
         final int total = BEAN.getTotal();
         final int index = BEAN.getPageIndex();
         final long BeginCircleId = BEAN.getBeginCircleId();
-        if(index<=1){
+        if (index <= 1) {
             return;
         }
 
@@ -137,6 +141,7 @@ public class YjReFreshHandler extends RefreshHandler {
                     .params("pageSize", 20)
                     .params("beginCircleId", BeginCircleId)
                     .params("circleType", 0)
+                    .params("familyId", mfamilyId)
                     .build()
                     .post()
                     .subscribeOn(Schedulers.io())
@@ -151,7 +156,7 @@ public class YjReFreshHandler extends RefreshHandler {
                             if (TextUtils.equals(status, "1001")) {
                                 final JSONObject jsondata = object.getJSONObject("data");
 
-                                if(null==jsondata.getInteger("totalCount")){
+                                if (null == jsondata.getInteger("totalCount")) {
                                     return;
                                 }
                                 final int totalCount = jsondata.getInteger("totalCount");
@@ -168,15 +173,15 @@ public class YjReFreshHandler extends RefreshHandler {
 //                                final LinearLayoutManager manager = new LinearLayoutManager(Latte.getApplicationContext());
 //                                RECYCLERVIEW.setLayoutManager(manager);
 //                                RECYCLERVIEW.setAdapter(mAdapter);
-                                if(data.size()>0){
-                                    BEAN.setBeginCircleId(data.get(data.size()-1).getField(YjIndexMultipleFields.CIRCLEID));
-                                }else {
+                                if (data.size() > 0) {
+                                    BEAN.setBeginCircleId(data.get(data.size() - 1).getField(YjIndexMultipleFields.CIRCLEID));
+                                } else {
                                     mAdapter.loadMoreEnd(true);
                                     REFRESH_LAYOUT.setRefreshing(false);
                                     return;
                                 }
                                 mAdapter.addData(data);
-                                int size=mAdapter.getData().size();
+                                int size = mAdapter.getData().size();
                                 BEAN.setCurrentCount(mAdapter.getData().size());
                                 mAdapter.loadMoreComplete();
                                 BEAN.addIndex();

@@ -23,6 +23,7 @@ import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
@@ -40,6 +41,7 @@ import com.example.yijia.delegates.bottom.BottomItemDelegate;
 import com.example.yijia.lisener.AppBarStateChangeListener;
 import com.example.yijia.net.rx.BaseObserver;
 import com.example.yijia.net.rx.RxRestClient;
+import com.example.yijia.ui.TextViewUtils;
 import com.example.yijia.ui.dialog.JDialogUtil;
 import com.example.yijia.ui.dialog.RxDialogSureCancelListener;
 import com.example.yijia.util.callback.CallbackManager;
@@ -80,6 +82,10 @@ import razerdp.basepopup.QuickPopupConfig;
 
 
 public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemListener, IIndexItemListener, IndexCameraCheckInstener, IIndexCanReadItemListener, IPlayVideoListener, IDeleteListener {
+    private final int SHOWTOPITEMTYPE_MINE = 1;
+    private final int SHOWTOPITEMTYPE_CREATER = 2;
+    private final int SHOWTOPITEMTYPE_ORDERLY = 3;
+    private final int SHOWTOPITEMTYPE_VISITOR = 4;
 
     private MainFamily mCurrentFamily;
     private final int ALLMODE = 0;
@@ -117,6 +123,11 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
     RobotImageView cimg_img = null;
     @BindView(R2.id.tv_name)
     AppCompatTextView tv_name = null;
+
+    //IndexWebFragment
+    AppCompatTextView tvZcjl, tvCtqm, tvKhjl, tvTxjl, tvQin;
+    LinearLayout ll_top_item_layout;
+
 
     private List<MainFamily> families = new ArrayList<>();
 
@@ -169,8 +180,51 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
         this.registerForContextMenu(mSend);
 //        mSend.setOnCreateContextMenuListener(this);
         initPopup();
+        initTopItem(rootView);
         initView();
 
+    }
+
+    private void initTopItem(View rootView) {
+        ll_top_item_layout = rootView.findViewById(R.id.ll_top_item_layout);
+        tvZcjl = rootView.findViewById(R.id.zcjl);
+        tvCtqm = rootView.findViewById(R.id.ctqm);
+        tvKhjl = rootView.findViewById(R.id.khjl);
+        tvTxjl = rootView.findViewById(R.id.txjl);
+        tvQin = rootView.findViewById(R.id.qin);
+        hideTopItem();
+        tvZcjl.setOnClickListener(v -> getParentDelegate().getSupportDelegate().start(IndexWebFragment.create(mCurrentFamily.mainUserId, IndexWebFragment.ZCJL_TYPE)));
+        tvCtqm.setOnClickListener(v -> getParentDelegate().getSupportDelegate().start(IndexWebFragment.create(mCurrentFamily.mainUserId, IndexWebFragment.CTQM_TYPE)));
+        tvKhjl.setOnClickListener(v -> getParentDelegate().getSupportDelegate().start(IndexWebFragment.create(mCurrentFamily.mainUserId, IndexWebFragment.KHJL_TYPE)));
+        tvTxjl.setOnClickListener(v -> getParentDelegate().getSupportDelegate().start(IndexWebFragment.create(mCurrentFamily.mainUserId, IndexWebFragment.TXJL_TYPE)));
+        tvQin.setOnClickListener(v -> {
+
+        });
+    }
+
+    private void hideTopItem() {
+        tvZcjl.setVisibility(View.GONE);
+        tvCtqm.setVisibility(View.GONE);
+        tvKhjl.setVisibility(View.GONE);
+        tvTxjl.setVisibility(View.GONE);
+    }
+
+    private void showTopItem(int type) {
+        switch (type) {
+            case SHOWTOPITEMTYPE_MINE:
+            case SHOWTOPITEMTYPE_CREATER:
+            case SHOWTOPITEMTYPE_ORDERLY:
+                tvZcjl.setVisibility(View.VISIBLE);
+                tvCtqm.setVisibility(View.VISIBLE);
+                tvKhjl.setVisibility(View.VISIBLE);
+                tvTxjl.setVisibility(View.VISIBLE);
+                break;
+            case SHOWTOPITEMTYPE_VISITOR:
+                hideTopItem();
+                break;
+            default:
+
+        }
     }
 
     private void initView() {
@@ -179,22 +233,20 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
         if (!TextUtils.isEmpty(name)) {
             tv_name.setText(name);
         }
-        tv_name.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(null == popupWindow) {
-                    MainFamilyAdapter adapter = new MainFamilyAdapter(getContext(),families,mCurrentFamily);
-                    popupWindow = new SpinnerPopuwindow(getActivity(), adapter, new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            mCurrentFamily = families.get(position);
-                            adapter.updateChecked(mCurrentFamily);
-                        }
-                    });
-                    ((SpinnerPopuwindow) popupWindow).showPopupWindow(null);
-                }
-                if(!popupWindow.isShowing())
-                    popupWindow.showAsDropDown(tv_name);
+        tv_name.setOnClickListener(v -> {
+            if (null == popupWindow) {
+                MainFamilyAdapter adapter = new MainFamilyAdapter(getContext(), families, mCurrentFamily);
+                popupWindow = new SpinnerPopuwindow(getActivity(), adapter, (parent, view, position, id) -> {
+                    mCurrentFamily = families.get(position);
+                    showTopItem(families.get(position).permissionType);
+                    adapter.updateChecked(mCurrentFamily);
+                    mRefreshHandler.firstPage(mCurrentFamily.familyId);
+                    popupWindow.dismiss();
+                });
+                ((SpinnerPopuwindow) popupWindow).showPopupWindow(null);
+            }
+            if (!popupWindow.isShowing()) {
+                popupWindow.showAsDropDown(tv_name);
             }
         });
         String img = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getImagePath();
@@ -241,6 +293,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
     }
 
     private void getFamilyData() {
+        hideTopItem();
         Observable ob1 = RxRestClient.builder()
                 .url("robot/query_robot_is_online")
                 .params("yjtk", YjDatabaseManager.getInstance().getDao().loadAll().get(0).getYjtk())
@@ -256,22 +309,19 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
                 .get()
                 .subscribeOn(Schedulers.io());
 
-        Observable.zip(ob1, ob2, new BiFunction<String, String, Map>() {
-            @Override
-            public Map apply(String s, String s2) throws Exception {
-                Map map = new HashMap();
-                final JSONObject object = JSON.parseObject(s);
-                final String status = object.getString("status");
-                boolean isOnline = false;
-                if (TextUtils.equals(status, "1001")) {
-                    JSONObject jo = object.getJSONObject("data");
-                    isOnline = jo.getBoolean("isOnline");
-                }
-                map.put("isOnLine", isOnline);
-                map.put("json", s2);
-                Log.e("~~get families", s + "--" + s2);
-                return map;
+        Observable.zip(ob1, ob2, (BiFunction<String, String, Map>) (s, s2) -> {
+            Map map = new HashMap();
+            final JSONObject object = JSON.parseObject(s);
+            final String status = object.getString("status");
+            boolean isOnline = false;
+            if (TextUtils.equals(status, "1001")) {
+                JSONObject jo = object.getJSONObject("data");
+                isOnline = jo.getBoolean("isOnline");
             }
+            map.put("isOnLine", isOnline);
+            map.put("json", s2);
+            Log.e("~~get families", s + "--" + s2);
+            return map;
         })
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseObserver<Map>(Latte.getApplicationContext()) {
@@ -292,11 +342,12 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
                         family.mainUserName = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getNickname();
                         family.relationMainToUser = "本人";
                         family.relationUserToMain = "本人";
-                        family.robotIsOnline = isOnline ? 1 :2;
+                        family.robotIsOnline = isOnline ? 1 : 2;
                         family.headImage = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getImagePath();
-                        family.permissionType  = 1;
+                        family.permissionType = 1;
                         mCurrentFamily = family;
                         families.add(family);
+                        showTopItem(SHOWTOPITEMTYPE_MINE);
 
 
                         if (TextUtils.equals(status, "1001")) {
@@ -313,9 +364,11 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
                                 family.relationUserToMain = data.getString("relationUserToMain");
                                 family.robotIsOnline = data.getInteger("robotIsOnline");
                                 family.headImage = data.getString("headImage");
-                                family.permissionType  = data.getInteger("permissionType");
-                                if(2 == family.permissionType) {
+                                family.permissionType = data.getInteger("permissionType");
+                                if (2 == family.permissionType) {
                                     mCurrentFamily = family;
+                                    TextViewUtils.AppCompatTextViewSetText(tv_name,family.familyName);
+                                    showTopItem(SHOWTOPITEMTYPE_CREATER);
                                 }
                                 families.add(family);
                             }
@@ -325,6 +378,9 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
                             Toast.makeText(Latte.getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
 
                         }
+                        //第一次加载
+                        mRefreshHandler.firstPage(mCurrentFamily.familyId);
+                        isFirst = false;
 
                     }
 
@@ -540,8 +596,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
 //        initFriendsRecyclerView();
 //        initIndexRecyclerView();
         Log.d("refresh", "onLazyInitView");
-        mRefreshHandler.firstPage();
-        isFirst = false;
+
     }
 
     @Override
@@ -576,7 +631,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
     public void onIndexItemClick(double itemTotalPrice) {
         if (!isFirst) {
             Log.d("refresh", "onIndexItemClick");
-            mRefreshHandler.firstPage();
+            mRefreshHandler.firstPage(mCurrentFamily.familyId);
         }
     }
 
@@ -725,7 +780,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
                             showToast("删除成功");
                             if (!isFirst) {
                                 Log.d("refresh", "onIndexItemClick");
-                                mRefreshHandler.firstPage();
+                                mRefreshHandler.firstPage(mCurrentFamily.familyId);
                             }
                         } else {
                             final String msg = JSON.parseObject(response).getString("msg");

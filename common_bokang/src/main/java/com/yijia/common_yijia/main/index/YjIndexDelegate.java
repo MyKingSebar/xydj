@@ -258,6 +258,8 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
         getFamilyData();
     }
 
+
+
     public void setOnlineStatue(long id) {
         RxRestClient.builder()
                 .url("robot/query_robot_is_online")

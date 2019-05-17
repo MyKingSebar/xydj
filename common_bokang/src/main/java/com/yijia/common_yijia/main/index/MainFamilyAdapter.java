@@ -20,11 +20,18 @@ public class MainFamilyAdapter extends BaseAdapter {
     private List<MainFamily> data;
     LayoutInflater inflater;
     private Context context;
+    private MainFamily mainFamily;
 
-    public MainFamilyAdapter(Context context, List<MainFamily> data) {
+    public MainFamilyAdapter(Context context, List<MainFamily> data, MainFamily mainFamily) {
         this.context = context;
         this.data = data;
+        this.mainFamily = mainFamily;
         inflater = LayoutInflater.from(context);
+    }
+
+    public void updateChecked(MainFamily mainFamily) {
+        this.mainFamily = mainFamily;
+        notifyDataSetChanged();
     }
 
 
@@ -57,7 +64,7 @@ public class MainFamilyAdapter extends BaseAdapter {
         }
         MainFamily family = getItem(position);
         holder.name.setText(family.mainUserName);
-        if(true) {
+        if(mainFamily.familyId == family.familyId) {
             holder.checkBox.setChecked(true);
         } else {
             holder.checkBox.setChecked(false);

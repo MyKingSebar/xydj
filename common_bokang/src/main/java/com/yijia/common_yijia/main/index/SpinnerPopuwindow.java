@@ -3,23 +3,18 @@ package com.yijia.common_yijia.main.index;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
-import android.support.design.widget.DrawableUtils;
-import android.support.v4.graphics.drawable.DrawableCompat;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 
 import com.baidu.ocr.ui.util.DimensionUtil;
 import com.example.latte.ec.R;
-
-import java.util.List;
 
 /**
  * Created by wangpanfeng@bokangzhixin.com on 2019/5/16.
@@ -27,18 +22,18 @@ import java.util.List;
 public class SpinnerPopuwindow extends PopupWindow {
     private View conentView;
     private ListView listView;
-    private MainFamilyAdapter adapter;
     private Activity context;
+    private ListAdapter adapter;
     /**
      * @param context 上下文
-     * @param list 需要显示的列表的集合
      * @param itemsOnClick listview在activity中的点击监听事件
      */
     @SuppressLint({"InflateParams", "WrongConstant"})
-    public SpinnerPopuwindow(final Activity context, final MainFamily family, final List<MainFamily> list, AdapterView.OnItemClickListener itemsOnClick) {
+    public SpinnerPopuwindow(final Activity context, ListAdapter adapter,  AdapterView.OnItemClickListener itemsOnClick) {
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.context =context;
+        this.adapter = adapter;
         conentView = inflater.inflate(R.layout.popup_listview, null);
         // 设置SelectPicPopupWindow的View
         this.setContentView(conentView);
@@ -70,7 +65,6 @@ public class SpinnerPopuwindow extends PopupWindow {
         // 设置SelectPicPopupWindow弹出窗体动画效果
         //  this.setAnimationStyle(R.style.AnimationPreview);
 
-        adapter = new MainFamilyAdapter(context,list);
         listView = (ListView) conentView.findViewById(R.id.listView);
         listView.setOnItemClickListener(itemsOnClick);
         listView.setAdapter(adapter);

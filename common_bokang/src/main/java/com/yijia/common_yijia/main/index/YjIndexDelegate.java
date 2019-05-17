@@ -94,6 +94,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
     public static final String PICKTYPE = "PICKTYPE";
     boolean isFirst = true;
     private Bundle mArgsLetterpeople = null;
+    PopupWindow popupWindow;
 
     @BindView(R2.id.rv_index)
     RecyclerView mRecyclerView = null;
@@ -181,7 +182,19 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
         tv_name.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getFamilyData();
+                if(null == popupWindow) {
+                    MainFamilyAdapter adapter = new MainFamilyAdapter(getContext(),families,mCurrentFamily);
+                    popupWindow = new SpinnerPopuwindow(getActivity(), adapter, new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            mCurrentFamily = families.get(position);
+                            adapter.updateChecked(mCurrentFamily);
+                        }
+                    });
+                    ((SpinnerPopuwindow) popupWindow).showPopupWindow(null);
+                }
+                if(!popupWindow.isShowing())
+                    popupWindow.showAsDropDown(tv_name);
             }
         });
         String img = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getImagePath();
@@ -313,14 +326,6 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
 
                         }
 
-                        PopupWindow popupWindow = new SpinnerPopuwindow(getActivity(), families.get(0), families, new AdapterView.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                mCurrentFamily = families.get(position);
-                            }
-                        });
-                        ((SpinnerPopuwindow) popupWindow).showPopupWindow(null);
-                        popupWindow.showAsDropDown(tv_name);
                     }
 
                     @Override

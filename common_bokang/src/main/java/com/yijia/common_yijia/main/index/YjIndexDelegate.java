@@ -241,6 +241,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
                     showTopItem(families.get(position).permissionType);
                     adapter.updateChecked(mCurrentFamily);
                     mRefreshHandler.firstPage(mCurrentFamily.familyId);
+                    TextViewUtils.AppCompatTextViewSetText(tv_name,mCurrentFamily.familyName);
                     popupWindow.dismiss();
                 });
                 ((SpinnerPopuwindow) popupWindow).showPopupWindow(null);

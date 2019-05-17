@@ -16,7 +16,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
-    <ImageView
+    <com.example.latte.ui.widget.RobotImageView
         android:id="@+id/iv_img"
         android:layout_width="50dp"
         android:layout_height="50dp"

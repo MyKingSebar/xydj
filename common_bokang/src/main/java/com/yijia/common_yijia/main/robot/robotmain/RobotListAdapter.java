@@ -10,6 +10,7 @@ import com.example.latte.ui.recycler.MultipleFields;
 import com.example.latte.ui.recycler.MultipleItemEntity;
 import com.example.latte.ui.recycler.MultipleRecyclerAdapter;
 import com.example.latte.ui.recycler.MultipleViewHolder;
+import com.example.latte.ui.widget.RobotImageView;
 import com.example.yijia.app.Latte;
 import com.example.yijia.ui.TextViewUtils;
 import com.example.yijia.util.GlideUtils;
@@ -53,7 +54,7 @@ public final class RobotListAdapter extends MultipleRecyclerAdapter {
                 final int permissionType = entity.getField(YjRobotListMultipleFields.PERMISSIONTYPE);
 
                 //取出所以控件
-                final ImageView imageView = holder.getView(R.id.iv_img);
+                final RobotImageView imageView = holder.getView(R.id.iv_img);
                 final AppCompatTextView tvName = holder.getView(R.id.tv_name);
                 final AppCompatTextView tvAge = holder.getView(R.id.tv_age);
                 final AppCompatTextView tvStatus = holder.getView(R.id.tv_robot_status);
@@ -69,9 +70,10 @@ public final class RobotListAdapter extends MultipleRecyclerAdapter {
                 TextViewUtils.AppCompatTextViewSetText(tvName, name);
                 TextViewUtils.AppCompatTextViewSetText(tvAge, age);
                 TextViewUtils.AppCompatTextViewSetText(tvStatus, online == 1 ? "小壹在家" : "小壹不在");
+                imageView.setRobotOnline(online == 1);
                 TextViewUtils.AppCompatTextViewSetText(tvRelativeship, relationship);
                 TextViewUtils.AppCompatTextViewSetText(tvRecord, record);
-                GlideUtils.load(Latte.getApplicationContext(), headImage, imageView, GlideUtils.DEFAULTMODE);
+                GlideUtils.load(Latte.getApplicationContext(), headImage, imageView.userImageView(), GlideUtils.DEFAULTMODE);
                 break;
 
             default:

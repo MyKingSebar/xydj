@@ -13,6 +13,7 @@ import com.example.common_tencent_tuikit.TuiKitConfig;
 import com.example.latte.ui.ninegridview.GlideImageLoader;
 import com.example.yijia.app.Latte;
 import com.example.yijia.net.Interceptors.DebugInterceptor;
+import com.example.yijia.net.rx.AddCookieInterceptor;
 import com.example.yijia.tool.RxTool;
 import com.example.yijia.util.callback.CallbackManager;
 import com.example.yijia.util.callback.CallbackType;
@@ -99,12 +100,12 @@ public class ExampleApp extends MultiDexApplication {
                 .withInterceptor(new DebugInterceptor("test", R.raw.test))
                 .withWeChatAppId("wxc2a7bbfa8dd91ff4")
                 .withWeChatAppSecret("2b979696ed63a209b37d7a22ba52736e")
-//                .withJavascriptInterface("latte")
+                .withJavascriptInterface("bokang")
 //                .withWebEvent("test", new TestEvent())
 //                .withWebEvent("share", new ShareEvent())
                 //添加Cookie同步拦截器
-//                .withWebHost("www.baidu.com/")
-//                .withInterceptor(new AddCookieInterceptor())
+                .withWebHost("http://192.168.1.123:8880/")
+                .withInterceptor(new AddCookieInterceptor())
                 .configure();
     }
 

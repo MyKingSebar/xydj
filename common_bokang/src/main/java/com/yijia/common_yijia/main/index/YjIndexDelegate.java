@@ -191,10 +191,9 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
                             adapter.updateChecked(mCurrentFamily);
                         }
                     });
-                    ((SpinnerPopuwindow) popupWindow).showPopupWindow(null);
                 }
                 if(!popupWindow.isShowing())
-                    popupWindow.showAsDropDown(tv_name);
+                    ((SpinnerPopuwindow) popupWindow).showPopupWindow(tv_name);
             }
         });
         String img = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getImagePath();

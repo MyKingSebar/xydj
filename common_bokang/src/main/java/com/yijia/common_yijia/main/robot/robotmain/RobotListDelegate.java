@@ -9,12 +9,10 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.example.latte.ec.R;
-import com.example.latte.ui.recycler.MultipleFields;
 import com.example.latte.ui.recycler.MultipleItemEntity;
 import com.example.yijia.app.Latte;
 import com.example.yijia.delegates.bottom.BottomItemDelegate;
@@ -22,7 +20,6 @@ import com.example.yijia.net.rx.BaseObserver;
 import com.example.yijia.net.rx.RxRestClient;
 import com.yijia.common_yijia.database.YjDatabaseManager;
 import com.yijia.common_yijia.main.friends.CommonLongIntClickListener;
-import com.yijia.common_yijia.main.index.YjIndexItemType;
 import com.yijia.common_yijia.main.index.YjRobotListMultipleFields;
 
 import java.util.ArrayList;
@@ -62,7 +59,6 @@ public class RobotListDelegate extends BottomItemDelegate implements CommonLongI
         recyclerView = rootView.findViewById(R.id.robot_list_recycleview);
         LinearLayoutManager manager = new LinearLayoutManager(Latte.getApplicationContext());
         recyclerView.setLayoutManager(manager);
-        //增加自己
         mAdapter = new RobotListAdapter(data);
         mAdapter.setmRobotListClickListener(this);
         recyclerView.setAdapter(mAdapter);

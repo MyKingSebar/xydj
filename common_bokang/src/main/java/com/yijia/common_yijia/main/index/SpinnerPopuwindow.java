@@ -79,15 +79,15 @@ public class SpinnerPopuwindow extends PopupWindow {
     /**
      * 显示popupWindow
      *
-     * @param parent
      */
-    public void showPopupWindow(View parent) {
+    public void showPopupWindow(View view) {
         if (!this.isShowing()) {
             // 以下拉方式显示popupwindow
             //  this.showAsDropDown(parent);
             // this.showAsDropDown(parent,0,10);
 //            this.showAtLocation(parent, Gravity.BOTTOM|Gravity.CENTER, 0, 0);
-            darkenBackground(0.9f);//弹出时让页面背景回复给原来的颜色降低透明度，让背景看起来变成灰色
+            darkenBackground(0.8f);//弹出时让页面背景回复给原来的颜色降低透明度，让背景看起来变成灰色
+            this.showAsDropDown(view);
         }
     }
     /**

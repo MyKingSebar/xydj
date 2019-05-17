@@ -45,10 +45,11 @@ public class RobotMainListReFreshHandler extends RefreshHandler {
         this.token = yjyk;
     }
 
-    private RobotListAdapter mAdapter = null;
     private final LatteDelegate DELEGATE;
     private final CommonLongIntClickListener mCommonClickListener;
     private final String token;
+    private RobotListAdapter mAdapter;
+    private List<MultipleItemEntity> data;
 
 
     public static RobotMainListReFreshHandler create(SwipeRefreshLayout swipeRefreshLayout,
@@ -58,10 +59,13 @@ public class RobotMainListReFreshHandler extends RefreshHandler {
 
     private void refresh() {
         REFRESH_LAYOUT.setRefreshing(true);
-        firstPage();
+        firstPage(mAdapter, data);
     }
 
-    public void firstPage() {
+    public void firstPage(final RobotListAdapter mAdapter ,List<MultipleItemEntity> data) {
+        this.mAdapter = mAdapter;
+        this.data = data;
+
         Observable ob1 = RxRestClient.builder()
                 .url("robot/query_robot_is_online")
                 .params("yjtk", token)
@@ -98,41 +102,24 @@ public class RobotMainListReFreshHandler extends RefreshHandler {
                 .subscribe(new BaseObserver<Map>(Latte.getApplicationContext()) {
                     @Override
                     public void onResponse(Map r) {
+                        data.clear();
                         String response = (String)r.get("json");
                         boolean isOnline = (Boolean) r.get("isOnLine");
                         final JSONObject object = JSON.parseObject(response);
                         final String status =object.getString("status");
                         if (TextUtils.equals(status, "1001")) {
-                            List<MultipleItemEntity> data  = new RobotListConverter()
+                            data.clear();
+                            addOwn(mAdapter, data, isOnline);
+                            List<MultipleItemEntity> ds  = new RobotListConverter()
                                     .setJsonData(response)
                                     .convert();
-                            //增加自己
-                            final MultipleItemEntity entity = MultipleItemEntity.builder()
-                                    .setField(MultipleFields.ITEM_TYPE, YjIndexItemType.ROBOT_MAIN_LIST)
-                                    .setField(MultipleFields.ID, 0)
-                                    .setField(MultipleFields.NAME, "")
-                                    .setField(YjRobotListMultipleFields.MAINID,  YjDatabaseManager.getInstance().getDao().loadAll().get(0).getId())
-                                    .setField(YjRobotListMultipleFields.MAINNAME,  YjDatabaseManager.getInstance().getDao().loadAll().get(0).getNickname())
-                                    .setField(YjRobotListMultipleFields.RELATIONSHIP, "本人")
-                                    .setField(YjRobotListMultipleFields.ONLINE,  isOnline ? 1 :2)
-                                    .setField(YjRobotListMultipleFields.PERMISSIONTYPE, 1)
-                                    .setField(MultipleFields.IMAGE_URL,  YjDatabaseManager.getInstance().getDao().loadAll().get(0).getImagePath())
-                                    .build();
-                            data.add(0, entity);
-                            mAdapter = new RobotListAdapter(data);
-                            mAdapter.setmRobotListClickListener(mCommonClickListener);
-                            mAdapter.setOnLoadMoreListener(RobotMainListReFreshHandler.this, RECYCLERVIEW);
-                            final LinearLayoutManager manager = new LinearLayoutManager(Latte.getApplicationContext());
-                            RECYCLERVIEW.setLayoutManager(manager);
-                            RECYCLERVIEW.setAdapter(mAdapter);
-                            BEAN.addIndex();
-                            mAdapter.loadMoreEnd(true);
+                            data.addAll(ds);
+                            mAdapter.notifyDataSetChanged();
                             REFRESH_LAYOUT.setRefreshing(false);
 
                         } else {
                             final String msg = JSON.parseObject(response).getString("msg");
                             Toast.makeText(Latte.getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
-                            mAdapter.loadMoreEnd(true);
                             REFRESH_LAYOUT.setRefreshing(false);
 
                         }
@@ -141,13 +128,27 @@ public class RobotMainListReFreshHandler extends RefreshHandler {
                     @Override
                     public void onFail(Throwable e) {
                         Toast.makeText(Latte.getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                        mAdapter.loadMoreEnd(true);
                         REFRESH_LAYOUT.setRefreshing(false);
 
                     }
                 });
 
+    }
 
+    public void addOwn(final RobotListAdapter mAdapter, List<MultipleItemEntity> data, boolean isOnline) {
+        final MultipleItemEntity entity = MultipleItemEntity.builder()
+                .setField(MultipleFields.ITEM_TYPE, YjIndexItemType.ROBOT_MAIN_LIST)
+                .setField(MultipleFields.ID, 0)
+                .setField(MultipleFields.NAME, "")
+                .setField(YjRobotListMultipleFields.MAINID, YjDatabaseManager.getInstance().getDao().loadAll().get(0).getId())
+                .setField(YjRobotListMultipleFields.MAINNAME, YjDatabaseManager.getInstance().getDao().loadAll().get(0).getNickname())
+                .setField(YjRobotListMultipleFields.RELATIONSHIP, "本人")
+                .setField(YjRobotListMultipleFields.ONLINE, isOnline ? 1 : 2)
+                .setField(YjRobotListMultipleFields.PERMISSIONTYPE, 1)
+                .setField(MultipleFields.IMAGE_URL, YjDatabaseManager.getInstance().getDao().loadAll().get(0).getImagePath())
+                .build();
+        data.add(0, entity);
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override

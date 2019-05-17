@@ -4,15 +4,32 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.example.latte.ec.R;
+import com.example.latte.ui.recycler.MultipleFields;
+import com.example.latte.ui.recycler.MultipleItemEntity;
+import com.example.yijia.app.Latte;
 import com.example.yijia.delegates.bottom.BottomItemDelegate;
+import com.example.yijia.net.rx.BaseObserver;
+import com.example.yijia.net.rx.RxRestClient;
 import com.yijia.common_yijia.database.YjDatabaseManager;
 import com.yijia.common_yijia.main.friends.CommonLongIntClickListener;
-import com.yijia.common_yijia.main.friends.CommonStringClickListener;
+import com.yijia.common_yijia.main.index.YjIndexItemType;
+import com.yijia.common_yijia.main.index.YjRobotListMultipleFields;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 public class RobotListDelegate extends BottomItemDelegate implements CommonLongIntClickListener {
 
@@ -22,6 +39,8 @@ public class RobotListDelegate extends BottomItemDelegate implements CommonLongI
     private RecyclerView recyclerView;
     private RobotMainListReFreshHandler robotMainListReFreshHandler = null;
     private String token = null;
+    private List<MultipleItemEntity> data = new ArrayList<>();
+    private RobotListAdapter mAdapter;
 
     @Override
     public Object setLayout() {
@@ -41,13 +60,51 @@ public class RobotListDelegate extends BottomItemDelegate implements CommonLongI
 
         refreshLayout = rootView.findViewById(R.id.robot_list_refresh_layout);
         recyclerView = rootView.findViewById(R.id.robot_list_recycleview);
+        LinearLayoutManager manager = new LinearLayoutManager(Latte.getApplicationContext());
+        recyclerView.setLayoutManager(manager);
+        //增加自己
+        mAdapter = new RobotListAdapter(data);
+        mAdapter.setmRobotListClickListener(this);
+        recyclerView.setAdapter(mAdapter);
     }
 
     @Override
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         super.onLazyInitView(savedInstanceState);
         initRefreshLayout();
-        robotMainListReFreshHandler.firstPage();
+        getOnLineStatus();
+        robotMainListReFreshHandler.addOwn(mAdapter, data, false);
+        robotMainListReFreshHandler.firstPage(mAdapter, data);
+    }
+
+    private void getOnLineStatus() {
+        RxRestClient.builder()
+                .url("robot/query_robot_is_online")
+                .params("yjtk", token)
+                .params("targetUserId", YjDatabaseManager.getInstance().getDao().loadAll().get(0).getId())
+                .build()
+                .get()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseObserver<String>(Latte.getApplicationContext()) {
+                    @Override
+                    public void onResponse(String r) {
+                        final JSONObject object = JSON.parseObject(r);
+                        final String status = object.getString("status");
+                        boolean isOnline = false;
+                        if (TextUtils.equals(status, "1001")) {
+                            JSONObject jo = object.getJSONObject("data");
+                            isOnline = jo.getBoolean("isOnline");
+                        }
+                        data.get(0).setField(YjRobotListMultipleFields.ONLINE, isOnline ? 1 : 2);
+                        mAdapter.notifyItemChanged(1);
+
+                    }
+
+                    @Override
+                    public void onFail(Throwable e) {
+                    }
+                });
     }
 
     private void initRefreshLayout() {

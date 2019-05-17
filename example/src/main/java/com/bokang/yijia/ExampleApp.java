@@ -43,7 +43,7 @@ import me.yokeyword.fragmentation.helper.ExceptionHandler;
 
 public class ExampleApp extends MultiDexApplication {
     public static final String PACKAGENAME = "com.bokang.yijia";
-    public static final String MODE = "DEBUG";
+    public static final String MODE = "RELEASE";
     public static final String MODE_DEBUG = "DEBUG";
     public static final String MODE_RELEASE = "RELEASE";
     public static int flag = -1;

@@ -1,7 +1,9 @@
 package com.example.latte.ui.widget;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.util.AttributeSet;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -13,7 +15,7 @@ import com.example.latte.ui.R;
 public class RobotImageView extends RelativeLayout {
     private Context context;
     private ImageView userImageView, robotImageView;
-
+    private int width, height;
 
     public RobotImageView(Context context) {
         super(context);
@@ -37,6 +39,25 @@ public class RobotImageView extends RelativeLayout {
         inflate(context, R.layout.robot_image_view, this);
         userImageView = findViewById(R.id.user_image);
         robotImageView = findViewById(R.id.robot_image);
+    }
+
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+
+        width = w;
+        height = h;
+
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+//        ViewGroup.LayoutParams params = getLayoutParams();
+//        params.width += 12;
+//
+//        params.height += 4;
+
     }
 
     public ImageView userImageView() {

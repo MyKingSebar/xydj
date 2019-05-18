@@ -338,8 +338,8 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
                         MainFamily family = null;
 
                         family = new MainFamily();
-                        family.familyId = -1;
-                        family.familyName = "";
+                        family.familyId = 0;
+                        family.familyName =YjDatabaseManager.getInstance().getDao().loadAll().get(0).getNickname();
                         family.mainUserId = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getId();
                         family.mainUserName = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getNickname();
                         family.relationMainToUser = "本人";

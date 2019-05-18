@@ -66,6 +66,7 @@ dependencies {
     api 'com.github.huburt-Hu:NewbieGuide:v2.4.0'
     //选择器
     api  'com.contrarywind:Android-PickerView:4.1.8'
-    //seekbar
-    api 'com.github.warkiz.tickseekbar:tickseekbar:0.1.4'
+    //seekbar moudle
+//    api 'com.github.warkiz.tickseekbar:tickseekbar:0.1.4'
+    api project(':ui-tickseekbar0.1.4')
 }

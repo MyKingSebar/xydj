@@ -85,5 +85,5 @@ dependencies {
     api project(':mobshareplatform')
     api project(':baidutext')
     implementation project(':ui_magicindicator1.6.0')
-    implementation project(':ui-tickseekbar0.1.4')
+
 }

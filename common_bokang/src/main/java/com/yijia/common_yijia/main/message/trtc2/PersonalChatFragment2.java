@@ -1,10 +1,14 @@
 package com.yijia.common_yijia.main.message.trtc2;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Rect;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -191,11 +195,31 @@ public class PersonalChatFragment2 extends LatteDelegate {
             @Override
             public void onClick() {
 
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.RECORD_AUDIO) != PackageManager
+                            .PERMISSION_GRANTED) {
+                        //不具有获取权限，需要进行权限申请
+                        requestPermissions(new String[]{
+                                Manifest.permission.RECORD_AUDIO}, 1);
+                        return;
+                    }
+
+                }
+
                 mTtsPopup.showPopupWindow();
             }
         });
 
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            mTtsPopup.showPopupWindow();
+        }
+    }
+
     private void initBottomRecycle() {
         mChatTitieBottomAdapter = new ChatTitieBottomAdapter(initTitleBottomData());
         mChatTitieBottomAdapter.setCartItemListener(initTitleBottomItemListener());

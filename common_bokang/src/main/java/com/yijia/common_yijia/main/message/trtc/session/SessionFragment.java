@@ -1,9 +1,13 @@
 package com.yijia.common_yijia.main.message.trtc.session;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -25,13 +29,14 @@ import razerdp.basepopup.QuickPopupBuilder;
 import razerdp.basepopup.QuickPopupConfig;
 
 
-public class SessionFragment extends LatteDelegate implements SessionClickListener , BokangSessionListener {
+public class SessionFragment extends LatteDelegate implements SessionClickListener, BokangSessionListener {
     private BokangSessionPanel sessionPanel;
-    private  TtsPopup mTtsPopup=null;
+    private TtsPopup mTtsPopup = null;
 
     LatteDelegate mCurrentFragment = null;
+
     @OnClick(R2.id.tv_back)
-    void back(){
+    void back() {
         getSupportDelegate().pop();
     }
 
@@ -66,7 +71,7 @@ public class SessionFragment extends LatteDelegate implements SessionClickListen
         initTtsPopu();
     }
 
-    private void initTtsPopu(){
+    private void initTtsPopu() {
         mTtsPopup = new TtsPopup(getActivity());
 
     }
@@ -95,16 +100,33 @@ public class SessionFragment extends LatteDelegate implements SessionClickListen
     }
 
     @Override
-    public void sperkClick(String id,View view) {
+    public void sperkClick(String id, View view) {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.RECORD_AUDIO) != PackageManager
+                    .PERMISSION_GRANTED) {
+                //不具有获取权限，需要进行权限申请
+                requestPermissions(new String[]{
+                        Manifest.permission.RECORD_AUDIO}, 1);
+                return;
+            }
+
+        }
+
         //TODO TTS
-        Log.e("jialei","view==null"+(view==null));
+        Log.e("jialei", "view==null" + (view == null));
         mTtsPopup.setId(id);
         mTtsPopup.setPopupGravity(Gravity.CENTER);
         mTtsPopup.setAllowDismissWhenTouchOutside(false);
         mTtsPopup.showPopupWindow();
     }
 
-//    void showTtsPopup(String id,View view) {
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    //    void showTtsPopup(String id,View view) {
 //        QuickPopupBuilder.with(getContext())
 //                .contentView(R.layout.basepopu_tts)
 //                .config(new QuickPopupConfig()

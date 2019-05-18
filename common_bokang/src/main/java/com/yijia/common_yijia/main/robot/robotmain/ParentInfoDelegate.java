@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatTextView;
 import android.text.TextUtils;
 import android.util.Log;
-import android.util.Patterns;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -24,6 +23,7 @@ import com.example.yijia.delegates.LatteDelegate;
 import com.example.yijia.net.rx.BaseObserver;
 import com.example.yijia.net.rx.RxRestClient;
 import com.example.yijia.util.PatternsUtil;
+import com.example.yijia.util.listener.OnSingleClickListener;
 import com.luck.picture.lib.tools.ToastManage;
 import com.yijia.common_yijia.database.YjDatabaseManager;
 import com.yijia.common_yijia.sign.ISignListener;
@@ -97,9 +97,9 @@ public class ParentInfoDelegate extends LatteDelegate {
         sonRadio = rootView.findViewById(R.id.parent_info_son);
 
         done = rootView.findViewById(R.id.parent_info_done);
-        done.setOnClickListener(new View.OnClickListener() {
+        done.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onSingleClick(View v) {
 
                 if(TextUtils.isEmpty(name.getText().toString())) {
                     Toast.makeText(getContext(), isFather ?R.string.add_parents_father_name_hint:R.string.add_parents_mather_name_hint, Toast.LENGTH_SHORT).show();

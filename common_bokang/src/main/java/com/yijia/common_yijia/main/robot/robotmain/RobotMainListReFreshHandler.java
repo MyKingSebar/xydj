@@ -102,7 +102,6 @@ public class RobotMainListReFreshHandler extends RefreshHandler {
                 .subscribe(new BaseObserver<Map>(Latte.getApplicationContext()) {
                     @Override
                     public void onResponse(Map r) {
-                        data.clear();
                         String response = (String)r.get("json");
                         boolean isOnline = (Boolean) r.get("isOnLine");
                         final JSONObject object = JSON.parseObject(response);

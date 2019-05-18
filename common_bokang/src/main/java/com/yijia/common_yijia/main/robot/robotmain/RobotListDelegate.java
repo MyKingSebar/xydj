@@ -68,8 +68,8 @@ public class RobotListDelegate extends BottomItemDelegate implements CommonLongI
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         super.onLazyInitView(savedInstanceState);
         initRefreshLayout();
-        getOnLineStatus();
         robotMainListReFreshHandler.addOwn(mAdapter, data, false);
+        getOnLineStatus();
         robotMainListReFreshHandler.firstPage(mAdapter, data);
     }
 

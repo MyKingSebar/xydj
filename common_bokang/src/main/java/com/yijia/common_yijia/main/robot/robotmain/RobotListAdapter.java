@@ -73,7 +73,7 @@ public final class RobotListAdapter extends MultipleRecyclerAdapter {
                 imageView.setRobotOnline(online == 1);
                 TextViewUtils.AppCompatTextViewSetText(tvRelativeship, relationship);
                 TextViewUtils.AppCompatTextViewSetText(tvRecord, record);
-                GlideUtils.load(Latte.getApplicationContext(), headImage, imageView.userImageView(), GlideUtils.DEFAULTMODE);
+                GlideUtils.load(Latte.getApplicationContext(), headImage, imageView.userImageView(), GlideUtils.USERMODE);
                 break;
   
             default:

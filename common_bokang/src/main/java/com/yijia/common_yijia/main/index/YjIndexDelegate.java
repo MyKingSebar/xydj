@@ -44,6 +44,7 @@ import com.example.yijia.net.rx.RxRestClient;
 import com.example.yijia.ui.TextViewUtils;
 import com.example.yijia.ui.dialog.JDialogUtil;
 import com.example.yijia.ui.dialog.RxDialogSureCancelListener;
+import com.example.yijia.util.GlideUtils;
 import com.example.yijia.util.callback.CallbackManager;
 import com.example.yijia.util.callback.CallbackType;
 import com.example.yijia.util.callback.IGlobalCallback;
@@ -250,9 +251,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
             }
         });
         String img = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getImagePath();
-        Glide.with(Objects.requireNonNull(getContext()))
-                .load(img)
-                .into(cimg_img.userImageView());
+        GlideUtils.load(getContext(),img, cimg_img.userImageView(), GlideUtils.USERMODE);
         cimg_img.setRobotOnline(true);
         setOnlineStatue(0);
         getFamilyData();

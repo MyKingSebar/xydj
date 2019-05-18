@@ -155,4 +155,6 @@ public class IndexWebFragment extends LatteDelegate {
             getSupportDelegate().loadRootFragment(R.id.web_index_container, fragment);
         }
     }
+
+
 }

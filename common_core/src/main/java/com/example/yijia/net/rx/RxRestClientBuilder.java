@@ -22,7 +22,7 @@ public class RxRestClientBuilder {
     private File[] mFiles=null;
 
     RxRestClientBuilder() {
-
+        PARAMS.clear();
     }
 
     public final RxRestClientBuilder url(String url) {

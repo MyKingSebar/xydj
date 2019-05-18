@@ -190,7 +190,7 @@ public class SetUserHeadDelegate extends LatteDelegate implements HeadLayout.OnC
     }
 
     private void uploadYourHead(List<LocalMedia> imgPath) {
-        final String url = "/picture/upload";
+        final String url = "picture/upload";
 
         if (imgPath != null) {
             AccountManager.checkAccont(new IUserChecker() {

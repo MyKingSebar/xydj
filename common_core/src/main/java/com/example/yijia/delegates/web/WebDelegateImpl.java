@@ -64,4 +64,9 @@ public class WebDelegateImpl extends WebDelegate{
     public WebChromeClient initWebChromeClient() {
         return new WebChromeClientImpl();
     }
+
+    @Override
+    public boolean onBackPressedSupport() {
+        return false;
+    }
 }

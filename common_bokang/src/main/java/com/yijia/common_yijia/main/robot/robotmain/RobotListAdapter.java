@@ -75,7 +75,7 @@ public final class RobotListAdapter extends MultipleRecyclerAdapter {
                 TextViewUtils.AppCompatTextViewSetText(tvRecord, record);
                 GlideUtils.load(Latte.getApplicationContext(), headImage, imageView.userImageView(), GlideUtils.DEFAULTMODE);
                 break;
-
+  
             default:
                 break;
         }

@@ -367,7 +367,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
                                 family.robotIsOnline = data.getInteger("robotIsOnline");
                                 family.headImage = data.getString("headImage");
                                 family.permissionType = data.getInteger("permissionType");
-                                if (2 == family.permissionType) {
+                                if ((2 == family.permissionType || 3 == family.permissionType) && mCurrentFamily.permissionType != 2) {
                                     mCurrentFamily = family;
                                     TextViewUtils.AppCompatTextViewSetText(tv_name,family.familyName);
                                     showTopItem(SHOWTOPITEMTYPE_CREATER);

@@ -10,8 +10,7 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/abl"
         android:layout_width="match_parent"
-        android:layout_height="222dp"
-        >
+        android:layout_height="222dp">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/ctl"
@@ -81,13 +80,13 @@
                         android:id="@+id/tv_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_toRightOf="@id/cimg_img"
                         android:layout_alignTop="@id/cimg_img"
                         android:layout_marginStart="14dp"
-                        android:text="孟宪良"
-                        android:textColor="@color/white"
+                        android:layout_toRightOf="@id/cimg_img"
                         android:drawableRight="@mipmap/main_arrow_down"
                         android:drawablePadding="4dp"
+                        android:text="孟宪良"
+                        android:textColor="@color/white"
                         android:textSize="20sp"
                         android:textStyle="bold"
                         tools:text="孟宪良" />
@@ -96,82 +95,89 @@
                         android:id="@+id/tv_online"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignBottom="@id/cimg_img"
                         android:layout_alignLeft="@id/tv_name"
+                        android:layout_alignBottom="@id/cimg_img"
+                        android:layout_marginBottom="5dp"
                         android:textColor="@color/COLOR_8d8d8d"
                         android:textSize="15sp"
-                        tools:text="@string/xy_online"
-                        android:layout_marginBottom="5dp"/>
+                        tools:text="@string/xy_online" />
                 </RelativeLayout>
+
                 <HorizontalScrollView
-                    android:scrollbars="none"
-                    android:layout_alignParentBottom="true"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp">
+                    android:layout_height="40dp"
+                    android:layout_alignParentBottom="true"
+                    android:scrollbars="none">
+
                     <LinearLayout
                         android:id="@+id/ll_top_item_layout"
                         android:layout_width="match_parent"
                         android:layout_height="40dp">
+
                         <android.support.v7.widget.AppCompatTextView
                             android:id="@+id/zcjl"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
                             android:gravity="center"
                             android:paddingStart="15dp"
+                            android:paddingTop="6dp"
                             android:paddingEnd="15dp"
                             android:paddingBottom="6dp"
-                            android:paddingTop="6dp"
-                            android:textSize="16sp"
                             android:text="自测记录"
                             android:textColor="@color/white"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent" />
+                            android:textSize="16sp" />
+
                         <android.support.v7.widget.AppCompatTextView
                             android:id="@+id/ctqm"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
                             android:gravity="center"
                             android:paddingStart="15dp"
+                            android:paddingTop="6dp"
                             android:paddingEnd="15dp"
                             android:paddingBottom="6dp"
-                            android:paddingTop="6dp"
-                            android:textSize="16sp"
                             android:text="常听曲目"
                             android:textColor="@color/white"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent" />
+                            android:textSize="16sp" />
+
                         <android.support.v7.widget.AppCompatTextView
                             android:id="@+id/khjl"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
                             android:gravity="center"
                             android:paddingStart="15dp"
+                            android:paddingTop="6dp"
                             android:paddingEnd="15dp"
                             android:paddingBottom="6dp"
-                            android:paddingTop="6dp"
-                            android:textSize="16sp"
                             android:text="看护记录"
                             android:textColor="@color/white"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent" />
+                            android:textSize="16sp" />
+
                         <android.support.v7.widget.AppCompatTextView
                             android:id="@+id/txjl"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
                             android:gravity="center"
                             android:paddingStart="15dp"
+                            android:paddingTop="6dp"
                             android:paddingEnd="15dp"
                             android:paddingBottom="6dp"
-                            android:paddingTop="6dp"
-                            android:textSize="16sp"
                             android:text="提醒记录"
                             android:textColor="@color/white"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent" />
+                            android:textSize="16sp" />
+
                         <android.support.v7.widget.AppCompatTextView
                             android:id="@+id/qin"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
                             android:gravity="center"
                             android:paddingStart="15dp"
+                            android:paddingTop="6dp"
                             android:paddingEnd="15dp"
                             android:paddingBottom="6dp"
-                            android:paddingTop="6dp"
-                            android:textSize="16sp"
                             android:text="0位亲"
                             android:textColor="@color/white"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent" />
+                            android:textSize="16sp" />
                     </LinearLayout>
                 </HorizontalScrollView>
             </RelativeLayout>
@@ -179,9 +185,9 @@
             <android.support.v7.widget.Toolbar
                 android:id="@+id/tb_index"
                 style="@style/NoLeftToolbar"
-                app:contentInsetStartWithNavigation="0dp"
                 android:layout_width="match_parent"
                 android:layout_height="64dp"
+                app:contentInsetStartWithNavigation="0dp"
                 app:contentScrim="@color/white"
                 app:layout_collapseMode="pin">
 
@@ -214,8 +220,8 @@
                         android:id="@+id/icon_index_message2"
                         android:layout_width="52dp"
                         android:layout_height="match_parent"
-                        android:gravity="center_horizontal|bottom"
                         android:layout_alignParentRight="true"
+                        android:gravity="center_horizontal|bottom"
                         android:paddingBottom="13dp"
                         android:text="{icon-yj-index-top-camera}"
                         android:textColor="@color/main_text_black_dark"
@@ -261,6 +267,7 @@
                 </android.support.v7.widget.RecyclerView>
 
                 <android.support.v7.widget.LinearLayoutCompat
+                    android:id="@+id/ll_invite"
                     android:layout_width="match_parent"
                     android:layout_height="52dp"
                     android:layout_marginStart="15dp"
@@ -297,6 +304,48 @@
                         android:layout_gravity="center_vertical"
                         android:background="@mipmap/icon_index_invite" />
 
+                </android.support.v7.widget.LinearLayoutCompat>
+
+                <android.support.v7.widget.LinearLayoutCompat
+                    android:id="@+id/ll_unread"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="15dp"
+                    android:gravity="center_vertical">
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:background="@mipmap/icon_index_invite"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp" />
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="10dp"
+                        android:gravity="center_vertical"
+                        android:text="亲友的消息"
+                        android:textColor="@color/app_text_dark"
+                        android:textSize="18sp"
+                        />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <ImageView
+                        android:id="@+id/tv_unreadicon"
+                        android:scaleType="fitXY"
+                        android:layout_width="26dp"
+                        android:layout_height="26dp"
+                        android:layout_gravity="center_vertical" />
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:text=">" />
                 </android.support.v7.widget.LinearLayoutCompat>
 
 

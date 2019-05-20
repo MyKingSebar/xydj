@@ -67,7 +67,6 @@ public class SetUpDelegate extends LatteDelegate implements HeadLayout.OnClickHe
         headLayout.setHeadName("设置", "#333333", 18);
         headLayout.setHeadlayoutBagColor("#ffffff");
         headLayout.setOnClickHeadReturn(this);
-
     }
 
     @Override

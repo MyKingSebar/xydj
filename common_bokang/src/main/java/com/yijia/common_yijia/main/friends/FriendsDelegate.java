@@ -82,7 +82,7 @@ public class FriendsDelegate extends LatteDelegate implements HeadLayout.OnClick
         guardianBeans = new ArrayList<>();
         friendsPresenter = new FriendsPresenter(this);
         token= YjDatabaseManager.getInstance().getDao().loadAll().get(0).getYjtk();
-        friendsPresenter.reqFriendData(token);
+//        friendsPresenter.reqFriendData(token);
 //        friendsPresenter.reqGuardianData(token);
     }
 
@@ -222,7 +222,7 @@ public class FriendsDelegate extends LatteDelegate implements HeadLayout.OnClick
     @Override
     public void onSupportVisible() {
         super.onSupportVisible();
-        friendsPresenter.reqFriendData(token);
+//        friendsPresenter.reqFriendData(token);
     }
 
     private void deleteFriend(int id){
@@ -242,7 +242,7 @@ public class FriendsDelegate extends LatteDelegate implements HeadLayout.OnClick
                         final String status = JSON.parseObject(response).getString("status");
                         if (TextUtils.equals(status, "1001")) {
                             Toast.makeText(getContext(), "删除成功", Toast.LENGTH_SHORT).show();
-                            friendsPresenter.reqFriendData(token);
+//                            friendsPresenter.reqFriendData(token);
                             JDialogUtil.INSTANCE.dismiss();
                         } else {
                             final String msg = JSON.parseObject(response).getString("msg");

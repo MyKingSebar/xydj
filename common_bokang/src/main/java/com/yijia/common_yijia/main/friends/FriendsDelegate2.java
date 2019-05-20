@@ -32,6 +32,7 @@ import com.yijia.common_yijia.main.friends.view.fragment.AddFriendsDelegate;
 import com.yijia.common_yijia.main.friends.view.iview.FriendsView;
 import com.yijia.common_yijia.main.index.InviteDelagate;
 import com.yijia.common_yijia.main.message.trtc2.PersonalChatFragment2;
+import com.yijia.common_yijia.main.mine.UserDetailDelegate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,6 +71,7 @@ public class FriendsDelegate2 extends LatteDelegate implements  FriendsView , Co
 
     PersonalChatFragment2 mCurrentFragment=null;
     String token=null;
+    long familyId;
     @Override
     public Object setLayout() {
         return R.layout.delegate_friends2;
@@ -77,11 +79,12 @@ public class FriendsDelegate2 extends LatteDelegate implements  FriendsView , Co
 
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, @NonNull View rootView) {
+        familyId = getArguments().getLong("familyId");
         initView();
         friendsBeans = new ArrayList<>();
         friendsPresenter = new FriendsPresenter(this);
         token= YjDatabaseManager.getInstance().getDao().loadAll().get(0).getYjtk();
-        friendsPresenter.reqFriendData(token);
+        friendsPresenter.reqFriendData(token, familyId);
 //        friendsPresenter.reqGuardianData(token);
     }
 
@@ -126,16 +129,23 @@ public class FriendsDelegate2 extends LatteDelegate implements  FriendsView , Co
         adapter.setmCommonClickListener(this);
         friendsRecycler.setAdapter(adapter);
         adapter.setOnItemClickListener((adapter1, view, position) -> {
-            String identifier = friendsBeans.get(position).getIdentifier();
-            String nickname = friendsBeans.get(position).getNickname();
-            String headUrl = friendsBeans.get(position).getUserHead();
-            Bundle mArgs = new Bundle();
-            mArgs.putString(Constants.INTENT_DATA, identifier);
-            mArgs.putString(Constants.INTENT_NAME, nickname);
-            mArgs.putString(Constants.INTENT_URL, headUrl);
-            mCurrentFragment = new PersonalChatFragment2();
-            mCurrentFragment.setArguments(mArgs);
-            getSupportDelegate().start(mCurrentFragment);
+
+            FriendsBean bean = friendsBeans.get(position);
+            UserDetailDelegate detailDelegate = new UserDetailDelegate();
+            Bundle bundle = getArguments();
+            bundle.putLong("id", bean.getFriendUserId());
+            detailDelegate.setArguments(bundle);
+            getSupportDelegate().start(detailDelegate);
+//            String identifier = friendsBeans.get(position).getIdentifier();
+//            String nickname = friendsBeans.get(position).getNickname();
+//            String headUrl = friendsBeans.get(position).getUserHead();
+//            Bundle mArgs = new Bundle();
+//            mArgs.putString(Constants.INTENT_DATA, identifier);
+//            mArgs.putString(Constants.INTENT_NAME, nickname);
+//            mArgs.putString(Constants.INTENT_URL, headUrl);
+//            mCurrentFragment = new PersonalChatFragment2();
+//            mCurrentFragment.setArguments(mArgs);
+//            getSupportDelegate().start(mCurrentFragment);
 
 //                ConversationTencentDelegate delegate=new ConversationTencentDelegate();
 //                 Bundle mArgs = new Bundle();
@@ -173,7 +183,7 @@ public class FriendsDelegate2 extends LatteDelegate implements  FriendsView , Co
     @Override
     public void onSupportVisible() {
         super.onSupportVisible();
-        friendsPresenter.reqFriendData(token);
+        friendsPresenter.reqFriendData(token, familyId);
     }
 
     private void deleteFriend(long id){
@@ -193,7 +203,7 @@ public class FriendsDelegate2 extends LatteDelegate implements  FriendsView , Co
                         final String status = JSON.parseObject(response).getString("status");
                         if (TextUtils.equals(status, "1001")) {
                             Toast.makeText(getContext(), "删除成功", Toast.LENGTH_SHORT).show();
-                            friendsPresenter.reqFriendData(token);
+                            friendsPresenter.reqFriendData(token, familyId);
                             JDialogUtil.INSTANCE.dismiss();
                         } else {
                             final String msg = JSON.parseObject(response).getString("msg");

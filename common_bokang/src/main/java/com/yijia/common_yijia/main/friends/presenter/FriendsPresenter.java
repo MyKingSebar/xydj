@@ -24,7 +24,7 @@ public class FriendsPresenter extends BasePresenter<FriendsView> {
         super(view);
     }
 
-    public void reqFriendData(String token) {
+    public void reqFriendData(String token, long id) {
         AccountManager.checkAccont(new IUserChecker() {
             @SuppressLint("CheckResult")
             @Override
@@ -36,6 +36,7 @@ public class FriendsPresenter extends BasePresenter<FriendsView> {
                         .params("yjtk", token)
                         .params("pageNo", "1")
                         .params("pageSize", "200")
+                        .params("familyId", id)
                         .build()
                         .post()
                         .subscribeOn(Schedulers.io())

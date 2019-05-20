@@ -58,7 +58,7 @@ public class PersonalChatFragment2 extends LatteDelegate {
     private String TAG="PersonalChatFragment2";
     private C2CChatPanel chatPanel;
     private PageTitleBar chatTitleBar;
-    private String chatId, chatName, chatHeadUrl;
+    private String chatId, chatName;
 
     private TextView cpTitle,cpRingt,cpLeft;
 
@@ -137,7 +137,6 @@ public class PersonalChatFragment2 extends LatteDelegate {
         //由会话列表传入的会话ID
         chatId = datas.getString(Constants.INTENT_DATA);
         chatName = datas.getString(Constants.INTENT_NAME);
-        chatHeadUrl = datas.getString(Constants.INTENT_URL);
         return super.onCreateView(inflater, container, savedInstanceState);
 
 //        return mBaseView;
@@ -154,7 +153,7 @@ public class PersonalChatFragment2 extends LatteDelegate {
          * 需要指定会话ID（即聊天对象的identify，具体可参考IMSDK接入文档）来加载聊天消息。在上一章节SessionClickListener中回调函数的参数SessionInfo对象中持有每一会话的会话ID，所以在会话列表点击时都可传入会话ID。
          * 特殊的如果用户应用不具备类似会话列表相关的组件，则需自行实现逻辑获取会话ID传入。
          */
-        chatPanel.setBaseChatId(chatId, chatName, chatHeadUrl);
+        chatPanel.setBaseChatId(chatId, chatName);
 
         //获取单聊面板的标题栏
         chatTitleBar = chatPanel.getTitleBar();

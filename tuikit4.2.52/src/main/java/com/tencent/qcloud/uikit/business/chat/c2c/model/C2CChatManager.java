@@ -80,7 +80,7 @@ public class C2CChatManager implements TIMMessageListener, UIKitMessageRevokedMa
         return mC2CChats.put(chatInfo.getPeer(), chatInfo) == null;
     }
 
-    public C2CChatInfo getC2CChatInfo(String peer, String name, String url) {
+    public C2CChatInfo getC2CChatInfo(String peer, String name) {
         C2CChatInfo chatInfo = mC2CChats.get(peer);
         if (chatInfo == null) {
             chatInfo = new C2CChatInfo();

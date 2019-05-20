@@ -46,6 +46,12 @@
     <string name="add_parents_mather_phone_hint">请输入母亲手机号</string>
     <string name="add_parents_done">完成</string>
 
+    <string name="permission">权限</string>
+    <string name="send_msg">发消息</string>
+    <string name="send_call">打电话</string>
+    <string name="user_detail_title">详情资料</string>
+    <string name="user_detail_relation">与%1$s的关系</string>
+
     <string-array name="robot_remind_voice_seek">
         <item>0</item>
         <item>20</item>

@@ -24,7 +24,7 @@ public class C2CChatPresenter2 {
 
 
     public C2CChatInfo getC2CChatInfo(String peer) {
-        C2CChatInfo chatInfo = mChatManager.getC2CChatInfo(peer, "", "");
+        C2CChatInfo chatInfo = mChatManager.getC2CChatInfo(peer, "");
         mChatManager.setCurrentChatInfo(chatInfo);
         return chatInfo;
     }

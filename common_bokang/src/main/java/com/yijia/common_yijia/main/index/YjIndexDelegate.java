@@ -51,6 +51,7 @@ import com.example.yijia.util.callback.IGlobalCallback;
 import com.example.yijia.util.log.LatteLogger;
 import com.joanzapata.iconify.widget.IconTextView;
 import com.yijia.common_yijia.database.YjDatabaseManager;
+import com.yijia.common_yijia.main.friends.FriendsDelegate2;
 import com.yijia.common_yijia.main.index.friendcircle.IndexCameraCheckInstener;
 import com.yijia.common_yijia.main.index.friendcircle.LetterDelagate;
 import com.yijia.common_yijia.main.index.friendcircle.LetterPeopleDelagate;
@@ -199,7 +200,12 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
         tvKhjl.setOnClickListener(v -> getParentDelegate().getSupportDelegate().start(IndexWebFragment.create(mCurrentFamily.mainUserId, IndexWebFragment.KHJL_TYPE)));
         tvTxjl.setOnClickListener(v -> getParentDelegate().getSupportDelegate().start(IndexWebFragment.create(mCurrentFamily.mainUserId, IndexWebFragment.TXJL_TYPE)));
         tvQin.setOnClickListener(v -> {
-
+            Bundle bundle = new Bundle();
+            bundle.putString("familyName", mCurrentFamily.mainUserName);
+            bundle.putLong("familyId", mCurrentFamily.familyId);
+            FriendsDelegate2 friendsDelegate2 = new FriendsDelegate2();
+            friendsDelegate2.setArguments(bundle);
+            getParentDelegate().getSupportDelegate().start(friendsDelegate2);
         });
     }
 

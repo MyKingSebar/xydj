@@ -41,7 +41,6 @@ public class PersonalChatFragmentLittle extends LatteDelegate {
 
     private static final String PUTKEY_CHATID = "chatId";
     private static final String PUTKEY_CHATNAME = "chatName";
-    private static final String PUTKEY_CHATHEADURL = "chatHeadUrl";
     private static final String PUTKEY_DISCRIBE = "describe";
     private static final String POSITION = "position";
     private String chatId;
@@ -80,7 +79,6 @@ public class PersonalChatFragmentLittle extends LatteDelegate {
         final Bundle args = new Bundle();
         args.putString(PUTKEY_CHATID, chatId);
         args.putString(PUTKEY_CHATNAME, chatName);
-        args.putString(PUTKEY_CHATHEADURL, chatHeadUrl);
         args.putString(PUTKEY_DISCRIBE, describe);
         args.putInt(POSITION, position);
         final PersonalChatFragmentLittle delegate = new PersonalChatFragmentLittle();
@@ -96,7 +94,6 @@ public class PersonalChatFragmentLittle extends LatteDelegate {
         assert datas != null;
         chatId = datas.getString(PUTKEY_CHATID);
         chatName = datas.getString(PUTKEY_CHATNAME);
-        chatHeadUrl = datas.getString(PUTKEY_CHATHEADURL);
         topDescribe = datas.getString(PUTKEY_DISCRIBE);
         position = datas.getInt(POSITION);
         return super.onCreateView(inflater, container, savedInstanceState);
@@ -197,7 +194,7 @@ public class PersonalChatFragmentLittle extends LatteDelegate {
          * 需要指定会话ID（即聊天对象的identify，具体可参考IMSDK接入文档）来加载聊天消息。在上一章节SessionClickListener中回调函数的参数SessionInfo对象中持有每一会话的会话ID，所以在会话列表点击时都可传入会话ID。
          * 特殊的如果用户应用不具备类似会话列表相关的组件，则需自行实现逻辑获取会话ID传入。
          */
-        chatPanel.setBaseChatId(chatId, chatName, chatHeadUrl);
+        chatPanel.setBaseChatId(chatId, chatName);
 
         //获取单聊面板的标题栏
         chatTitleBar = chatPanel.getTitleBar();

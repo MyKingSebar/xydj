@@ -27,9 +27,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="90dp">
 
-                <ImageView
+                <com.example.latte.ui.widget.RobotImageView
                     android:id="@+id/user_imagePath"
-                    android:layout_width="56dp"
+                    android:layout_width="64dp"
                     android:layout_height="56dp"
                     android:layout_marginLeft="15dp"
                     android:layout_marginTop="20dp" />

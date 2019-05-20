@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatTextView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -11,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestBuilder;
@@ -18,11 +20,15 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.latte.ec.R;
 import com.example.latte.ec.R2;
+import com.example.latte.ui.widget.RobotImageView;
 import com.example.latte.ui.widget.UserTextLineView;
 import com.example.yijia.app.AccountManager;
 import com.example.yijia.app.IUserChecker;
+import com.example.yijia.app.Latte;
 import com.example.yijia.delegates.LatteDelegate;
 import com.example.yijia.delegates.bottom.BottomItemDelegate;
+import com.example.yijia.net.rx.BaseObserver;
+import com.example.yijia.net.rx.RxRestClient;
 import com.example.yijia.util.GlideUtils;
 import com.yijia.common_yijia.database.YjDatabaseManager;
 import com.yijia.common_yijia.main.friends.FriendsDelegate2;
@@ -32,6 +38,8 @@ import com.yijia.common_yijia.main.mine.setup.SetUpDelegate;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * 我的页面
@@ -64,7 +72,7 @@ public class MineDelegate extends LatteDelegate {
     @BindView(R2.id.set_up)
     UserTextLineView setUp;
     @BindView(R2.id.user_imagePath)
-    ImageView userImagePath;
+    RobotImageView userImagePath;
     @BindView(R2.id.user_nickname)
     TextView userNickname;
     RequestOptions mRequestOptions;
@@ -92,7 +100,8 @@ public class MineDelegate extends LatteDelegate {
             public void onSignIn() {
                 String nickname = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getNickname();
                 String imagePath = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getImagePath();
-                GlideUtils.load(_mActivity, imagePath, userImagePath, GlideUtils.USERMODE);
+                GlideUtils.load(_mActivity, imagePath, userImagePath.userImageView(), GlideUtils.USERMODE);
+                setOnlineStatue(0);
                 if (nickname != null) {
                     userNickname.setText(nickname);
                 } else {
@@ -104,6 +113,36 @@ public class MineDelegate extends LatteDelegate {
             public void onNoSignIn() {
             }
         });
+    }
+
+    public void setOnlineStatue(long id) {
+        RxRestClient.builder()
+                .url("robot/query_robot_is_online")
+                .params("yjtk", YjDatabaseManager.getInstance().getDao().loadAll().get(0).getYjtk())
+                .params("targetUserId", id)
+                .build()
+                .get()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseObserver<String>(Latte.getApplicationContext()) {
+                    @Override
+                    public void onResponse(String r) {
+                        final JSONObject object = JSON.parseObject(r);
+                        final String status = object.getString("status");
+                        boolean isOnline = false;
+                        if (TextUtils.equals(status, "1001")) {
+                            JSONObject jo = object.getJSONObject("data");
+                            isOnline = jo.getBoolean("isOnline");
+                        }
+                        userImagePath.setRobotOnline(isOnline);
+                    }
+
+                    @Override
+                    public void onFail(Throwable e) {
+                        Toast.makeText(Latte.getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                    }
+                });
     }
 
     private void initMineHead() {
@@ -165,7 +204,7 @@ public class MineDelegate extends LatteDelegate {
         Glide.with(_mActivity)
                 .load(imagePath)
                 .apply(mRequestOptions)
-                .into(userImagePath);
+                .into(userImagePath.userImageView());
     }
 
     @Override

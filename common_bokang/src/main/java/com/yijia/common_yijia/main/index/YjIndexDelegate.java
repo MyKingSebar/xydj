@@ -252,7 +252,6 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
         });
         String img = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getImagePath();
         GlideUtils.load(getContext(),img, cimg_img.userImageView(), GlideUtils.USERMODE);
-        cimg_img.setRobotOnline(true);
         setOnlineStatue(0);
         getFamilyData();
     }
@@ -283,6 +282,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
                         } else {
                             tv_online.setText(R.string.xy_unonline);
                         }
+                        cimg_img.setRobotOnline(isOnline);
                     }
 
                     @Override

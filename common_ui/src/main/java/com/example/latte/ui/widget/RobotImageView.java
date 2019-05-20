@@ -39,6 +39,7 @@ public class RobotImageView extends RelativeLayout {
         inflate(context, R.layout.robot_image_view, this);
         userImageView = findViewById(R.id.user_image);
         robotImageView = findViewById(R.id.robot_image);
+        robotImageView.setImageResource(R.mipmap.robot_moment_list);
     }
 
     @Override

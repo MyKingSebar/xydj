@@ -24,9 +24,11 @@ import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
@@ -124,6 +126,10 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
     @BindView(R2.id.icon_index_message)
     IconTextView mSend = null;
 
+
+    @BindView(R2.id.hsv_top_item)
+    HorizontalScrollView hsv_top_item = null;
+
     @BindView(R2.id.cimg_img)
     RobotImageView cimg_img = null;
     @BindView(R2.id.tv_name)
@@ -209,6 +215,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
         tvQin.setOnClickListener(v -> {
 
         });
+        hsv_top_item.fullScroll(ScrollView.FOCUS_DOWN);
     }
 
     private void hideTopItem() {
@@ -656,10 +663,10 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
     public void onSupportVisible() {
         super.onSupportVisible();
         checkUnread();
-//        if (!isFirst) {
-//            Log.d("refresh", "onSupportVisible!isFirs");
-//            mRefreshHandler.firstPage();
-//        }
+        if (!isFirst) {
+            Log.d("refresh", "onSupportVisible!isFirs");
+            mRefreshHandler.firstPage(mCurrentFamily.familyId);
+        }
     }
 
     @Override

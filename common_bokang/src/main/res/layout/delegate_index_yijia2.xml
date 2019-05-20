@@ -104,6 +104,7 @@
                 </RelativeLayout>
 
                 <HorizontalScrollView
+                    android:id="@+id/hsv_top_item"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_alignParentBottom="true"
@@ -315,7 +316,7 @@
                     android:gravity="center_vertical">
 
                     <android.support.v7.widget.AppCompatTextView
-                        android:background="@mipmap/icon_index_invite"
+                        android:background="@mipmap/icon_index_unread"
                         android:layout_width="20dp"
                         android:layout_height="20dp" />
 

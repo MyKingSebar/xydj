@@ -51,6 +51,7 @@ public class FindDelegate extends BottomItemDelegate {
     @OnClick(R2.id.ll_door)
     void ll_door() {
 
+
     }
     @OnClick(R2.id.ll_health)
     void ll_health() {

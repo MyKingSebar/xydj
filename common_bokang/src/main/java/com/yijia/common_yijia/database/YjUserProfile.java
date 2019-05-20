@@ -20,11 +20,15 @@ public class YjUserProfile {
     String tencentImUserSig = null;
     String inviteCode = null;
     int robotOnline = 2;
-    @Generated(hash = 119530554)
+    String tencentImUserIdRobot = null;
+    String shihuaId = null;
+    String shPassword = null;
+    @Generated(hash = 912323613)
     public YjUserProfile(Long id, String yjtk, String username, String phone,
             String email, String nickname, String imagePath, int isComplete,
             int userStatus, String tencentImUserId, String tencentImUserSig,
-            String inviteCode, int robotOnline) {
+            String inviteCode, int robotOnline, String tencentImUserIdRobot,
+            String shihuaId, String shPassword) {
         this.id = id;
         this.yjtk = yjtk;
         this.username = username;
@@ -38,6 +42,9 @@ public class YjUserProfile {
         this.tencentImUserSig = tencentImUserSig;
         this.inviteCode = inviteCode;
         this.robotOnline = robotOnline;
+        this.tencentImUserIdRobot = tencentImUserIdRobot;
+        this.shihuaId = shihuaId;
+        this.shPassword = shPassword;
     }
     @Generated(hash = 900997910)
     public YjUserProfile() {
@@ -119,6 +126,24 @@ public class YjUserProfile {
     }
     public void setRobotOnline(int robotOnline) {
         this.robotOnline = robotOnline;
+    }
+    public String getTencentImUserIdRobot() {
+        return this.tencentImUserIdRobot;
+    }
+    public void setTencentImUserIdRobot(String tencentImUserIdRobot) {
+        this.tencentImUserIdRobot = tencentImUserIdRobot;
+    }
+    public String getShihuaId() {
+        return this.shihuaId;
+    }
+    public void setShihuaId(String shihuaId) {
+        this.shihuaId = shihuaId;
+    }
+    public String getShPassword() {
+        return this.shPassword;
+    }
+    public void setShPassword(String shPassword) {
+        this.shPassword = shPassword;
     }
     
 }

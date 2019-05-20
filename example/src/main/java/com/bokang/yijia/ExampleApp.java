@@ -2,10 +2,14 @@ package com.bokang.yijia;
 
 import android.app.ActivityManager;
 import android.content.Context;
+import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.multidex.MultiDexApplication;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.example.baidutext.BaiDuTextConfig;
 import com.example.commcon_xfyun.XunFei;
@@ -26,17 +30,20 @@ import com.lzy.ninegrid.NineGridView;
 import com.mabeijianxi.smallvideorecord2.DeviceUtils;
 import com.mabeijianxi.smallvideorecord2.JianXiCamera;
 import com.mob.MobSDK;
+import com.shshcom.SHConfig;
+import com.shshcom.SHVoIPSDK;
 import com.simple.spiderman.SpiderMan;
 import com.tencent.qcloud.bokang.BokangChatManager;
 import com.yijia.common_yijia.database.YjDatabaseManager;
 import com.yijia.common_yijia.icon.FontEcModule;
 import com.yijia.common_yijia.icon.FontYJIndexTopModule;
 import com.yijia.common_yijia.icon.FontYJModule;
+import com.yijia.common_yijia.main.friends.CalledRegistService;
+import com.yijia.common_yijia.main.friends.SHImpl;
 
 import java.io.File;
 
 import cn.jpush.android.api.JPushInterface;
-import me.yokeyword.fragmentation.BuildConfig;
 import me.yokeyword.fragmentation.Fragmentation;
 import me.yokeyword.fragmentation.helper.ExceptionHandler;
 
@@ -47,6 +54,7 @@ public class ExampleApp extends MultiDexApplication {
     public static final String MODE_DEBUG = "DEBUG";
     public static final String MODE_RELEASE = "RELEASE";
     public static int flag = -1;
+
 
     @Override
     public void onCreate() {
@@ -63,6 +71,8 @@ public class ExampleApp extends MultiDexApplication {
         initMob();
 //        DatabaseManager.getInstance().init(this);
         YjDatabaseManager.getInstance().init(this);
+
+        initSH();
 
         if (TextUtils.equals(MODE, MODE_DEBUG)) {
             initFragmentDeBug();
@@ -87,6 +97,10 @@ public class ExampleApp extends MultiDexApplication {
     private void initSpiderMan() {
         //放在其他库初始化前
         SpiderMan.init(this);
+    }
+
+    private void initSH() {
+        startService(new Intent(this, CalledRegistService.class));
     }
 
     private void initLatte() {

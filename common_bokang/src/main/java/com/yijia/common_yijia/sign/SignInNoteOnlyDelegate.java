@@ -26,6 +26,7 @@ import com.example.yijia.net.rx.RxRestClient;
 import com.example.yijia.util.log.LatteLogger;
 import com.example.yijia.util.timer.BaseTimerTask;
 import com.example.yijia.util.timer.ITimeListener;
+import com.yijia.common_yijia.main.friends.SHImpl;
 
 import java.text.MessageFormat;
 import java.util.Timer;
@@ -108,6 +109,8 @@ public class SignInNoteOnlyDelegate extends LatteDelegate implements ITimeListen
                             LatteLogger.json("USER_PROFILE", response);
                             YjSignHandler.onSignIn(response, mISignListener);
 
+                            //登录实话
+                            SHImpl.getInstance(getContext()).login();
                         }
 
                         @Override

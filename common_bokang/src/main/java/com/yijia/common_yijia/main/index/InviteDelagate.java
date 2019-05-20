@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.AppCompatTextView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -21,8 +20,8 @@ import com.example.yijia.net.rx.RxRestClient;
 import com.example.yijia.ui.dialog.JDialogUtil;
 import com.example.yijia.ui.sms.JSmsUtil;
 import com.example.yijia.util.log.LatteLogger;
-import com.google.gson.JsonObject;
 import com.yijia.common_yijia.database.YjDatabaseManager;
+import com.yijia.common_yijia.main.YjBottomDelegate_with3;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -39,7 +38,10 @@ public class InviteDelagate extends LatteDelegate {
     AppCompatTextView tvInvitecode;
     @BindView(R2.id.cb_guardian)
     AppCompatCheckBox cbGuardian;
+
     String inviteCode = null;
+    long familyId=-1;
+    long relationTypeId =-1;
     //是否指定为监护人：
     //int isGuardian
     //1-是，2-否
@@ -51,9 +53,14 @@ public class InviteDelagate extends LatteDelegate {
     private String smsMsg=null;
     private String weChattitle=null;
 
+    public static final String INVITECODE = "InviteCode";
+    public static final String FAMILYID = "familyId";
+    public static final String RELATIONID = "relationTypeId";
+
     @OnClick(R2.id.tv_back)
     void back() {
         getSupportDelegate().pop();
+//        getSupportDelegate().popTo(YjBottomDelegate_with3.class,false);
     }
 
     @OnClick(R2.id.tv_wechat)
@@ -75,6 +82,25 @@ public class InviteDelagate extends LatteDelegate {
 
     private final static String TAG = InviteDelagate.class.getSimpleName();
 
+    public static InviteDelagate create(long familyId,long relationId) {
+        final Bundle args = new Bundle();
+        args.putLong(FAMILYID, familyId);
+        args.putLong(RELATIONID, relationId);
+//        args.putString(INVITECODE, inviteCode);
+        final InviteDelagate delegate = new InviteDelagate();
+        delegate.setArguments(args);
+        return delegate;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        final Bundle args = getArguments();
+        assert args != null;
+        familyId = args.getLong(FAMILYID);
+        relationTypeId = args.getLong(RELATIONID);
+//        inviteCode = args.getString(INVITECODE);
+    }
 
     @Override
     public Object setLayout() {
@@ -94,12 +120,6 @@ public class InviteDelagate extends LatteDelegate {
         tvTitle.setText("邀请");
         String content = tvInvitecode.getText().toString();
 //        tvInvitecode.setText(content.replace("XXXXXX", inviteCode));
-    }
-
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
     }
 
     private void showShare() {
@@ -135,8 +155,10 @@ public class InviteDelagate extends LatteDelegate {
         RxRestClient.builder()
                 .url(url)
                 .params("yjtk", token)
+                .params("familyId", familyId)
+                .params("relationTypeId", relationTypeId)
                 .build()
-                .post()
+                .get()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseObserver<String>(getContext()) {

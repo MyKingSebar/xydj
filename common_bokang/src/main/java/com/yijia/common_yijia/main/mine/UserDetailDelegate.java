@@ -1,8 +1,13 @@
 package com.yijia.common_yijia.main.mine;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -12,6 +17,8 @@ import com.example.latte.ec.R;
 import com.example.latte.ui.widget.RobotImageView;
 import com.example.yijia.delegates.LatteDelegate;
 import com.example.yijia.util.listener.OnSingleClickListener;
+import com.yijia.common_yijia.main.find.healthself.HealthWaitDelegate;
+import com.yijia.common_yijia.main.friends.SHImpl;
 import com.yijia.common_yijia.main.message.trtc2.PersonalChatFragment2;
 
 public class UserDetailDelegate extends LatteDelegate {
@@ -80,62 +87,36 @@ public class UserDetailDelegate extends LatteDelegate {
         mSendCall.setOnClickListener(new OnSingleClickListener() {
             @Override
             protected void onSingleClick(View v) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
 
+                        requestPermissions(new String[]{
+                                Manifest.permission.RECORD_AUDIO}, 11);
+                        return;
+                    }
+                }
+                startCall("18911768630", "test", "");
             }
         });
     }
 
-//    private void getInfo() {
-////        String token = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getYjtk();
-////        long id = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getId();
-//        RxRestClient.builder()
-//                .url("user/query_user_info")
-//                .params("yjtk", token)
-//                .params("type", 1)
-//                .params("keyword", id + "")
-//                .build()
-//                .get()
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new BaseObserver<String>(getContext()) {
-//                    @Override
-//                    public void onResponse(String response) {
-//                        Log.d("onResponse","user/query_user_info:"+response);
-//                        final JSONObject obj = JSON.parseObject(response);
-//                        final String status = obj.getString("status");
-//                        if (TextUtils.equals(status, "1001")) {
-//                            JSONObject data = obj.getJSONObject("data");
-//                            JSONObject user = data.getJSONObject("user");
-//                            String nickname = user.getString("nickname");
-//                            String imagePath = user.getString("imagePath");
-//                            long id = user.getLong("id");
-//                            String phone = user.getString("phone");
-//                            String email = user.getString("email");
-//
-//                            //用户状态：1-正常，2-注销
-//                            int userStatus = user.getInteger("userStatus");
-//                            String tencentImUserId = user.getString("tencentImUserId");
-//                            String tencentImUserSig = user.getString("tencentImUserSig");
-//                            String inviteCode = user.getString("inviteCode");
-//
-//                            if (nickname != null) {
-//                                tv_name.setText(nickname);
-//                            }
-//                            if (imagePath != null) {
-//                                GlideUtils.load(getContext(), imagePath, civ, GlideUtils.USERMODE);
-//                            }
-//
-//                        } else {
-//                            final String msg = JSON.parseObject(response).getString("msg");
-//                            Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onFail(Throwable e) {
-//                        Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-//    }
+    private void startCall(String phone, String name, String url) {
+        Intent intent = new Intent(getContext(), SHCallingActivity.class);
+        intent.putExtra(ExtraString.ISINCOME, false);
+        intent.putExtra(ExtraString.PHONE_NUM, phone);
+        intent.putExtra(ExtraString.PHONE_NAME, name);
+        intent.putExtra(ExtraString.PHONE_URL, url);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 11 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                ((HealthMainDelegate)getParentDelegate()).loadFragment(new HealthWaitDelegate());
+        }
+    }
+
 
 }

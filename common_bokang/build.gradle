@@ -25,13 +25,13 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    repositories{
+    repositories {
 
-        flatDir{
-            dirs 'libs', '../tencent_trtc_sdk/libs','../tuikit4.2.52/libs'
+        flatDir {
+            dirs 'libs', '../tencent_trtc_sdk/libs', '../tuikit4.2.52/libs'
         }
     }
-    lintOptions{
+    lintOptions {
         checkReleaseBuilds false
         abortOnError false
     }
@@ -68,6 +68,7 @@ android {
 dependencies {
     //    implementation fileTree(include: ['*.jar'], dir: 'libs')
     api project(':common_ui')
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     annotationProcessor 'com.jakewharton:butterknife-compiler:9.0.0-rc2'
     implementation files('libs/alipaySdk-20180601.jar')
     //音视频exoplayer
@@ -84,6 +85,7 @@ dependencies {
     api project(':camera1.1.9')
     api project(':mobshareplatform')
     api project(':baidutext')
+    api(name: 'SH_VOIP_SDK_V1.0.2.1_20190423', ext: 'aar')
     implementation project(':ui_magicindicator1.6.0')
 
 }

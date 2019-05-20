@@ -52,6 +52,8 @@
     <string name="user_detail_title">详情资料</string>
     <string name="user_detail_relation">与%1$s的关系</string>
 
+    <string name="phone_calling">正在呼叫...</string>
+
     <string-array name="robot_remind_voice_seek">
         <item>0</item>
         <item>20</item>
@@ -60,4 +62,5 @@
         <item>80</item>
         <item>100</item>
     </string-array>
+    <string name="title_activity_shcalling">SHCallingActivity</string>
 </resources>

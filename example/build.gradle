@@ -83,7 +83,7 @@ android {
 
     repositories {
         flatDir {
-            dirs 'libs', '../tencent_trtc_sdk/libs','../tuikit4.2.52/libs'
+            dirs 'libs', '../tencent_trtc_sdk/libs','../tuikit4.2.52/libs','../common_bokang/libs'
         }
     }
 }

@@ -59,13 +59,18 @@ public class YjSignHandler {
         final String tencentImUserSig = user.getString("tencentImUserSig");
         final String inviteCode = user.getString("inviteCode");
         final int robotOnline = 0;
+        final String tencentImIdRobot = user.getString("tencentImUserIdRobot");
+//        final String shId = user.getString("2");
+        final String shPassword = user.getString("shPassword");
+
 
 
         final YjUserProfile profile = new YjUserProfile( id, yjtk,username,phone,email,nickname, imagePath, isComplete,
-                userStatus, tencentImUserId,tencentImUserSig,inviteCode, robotOnline);
+                userStatus, tencentImUserId,tencentImUserSig,inviteCode, robotOnline, tencentImIdRobot , "", shPassword);
 
         YjDatabaseManager.getInstance().getDao().deleteAll();
         YjDatabaseManager.getInstance().getDao().insert(profile);
+
         return isComplete;
     }
 

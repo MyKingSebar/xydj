@@ -71,6 +71,7 @@ public class InviteRelationshipDelegate extends LatteDelegate {
     long familyId = 0;
     InviteRelationshipAdapter mAdapter = null;
     RelativeLayout rl;
+    boolean isFirst=true;
 
     @Override
     public Object setLayout() {
@@ -91,6 +92,20 @@ public class InviteRelationshipDelegate extends LatteDelegate {
         final Bundle args = getArguments();
         assert args != null;
         familyId = args.getLong(FAMILYID);
+    }
+
+    @Override
+    public void onSupportVisible() {
+        super.onSupportVisible();
+        if(!isFirst){
+            getSupportDelegate().pop();
+        }
+    }
+
+    @Override
+    public void onSupportInvisible() {
+        super.onSupportInvisible();
+        isFirst=false;
     }
 
     @Override
@@ -171,5 +186,4 @@ public class InviteRelationshipDelegate extends LatteDelegate {
         rv.setLayoutManager(manager);
         rv.setAdapter(mAdapter);
     }
-
 }

@@ -149,7 +149,7 @@ public class SHImpl implements SHVoIPListener {
                             e.printStackTrace();
                         } finally {
                             Intent intent = new Intent(context, SHCallingActivity.class);
-                            intent.putExtra(ExtraString.ISINCOME, false);
+                            intent.putExtra(ExtraString.ISINCOME, true);
                             intent.putExtra(ExtraString.PHONE_NUM, s);
                             intent.putExtra(ExtraString.PHONE_NAME, name);
                             intent.putExtra(ExtraString.PHONE_URL, headUrl);

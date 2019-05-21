@@ -9,8 +9,8 @@
 
     <ImageView
         android:id="@+id/phone_head"
-        android:layout_width="108dp"
-        android:layout_height="108dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_marginTop="60dp"
         android:scaleType="fitXY"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:textColor="@color/white"
-        android:textSize="40sp"
+        android:textSize="20sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/phone_head"/>
@@ -35,7 +35,7 @@
         android:layout_marginTop="10dp"
         android:text="@string/phone_calling"
         android:textColor="@color/white"
-        android:textSize="30sp"
+        android:textSize="18sp"
         android:visibility="gone"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -55,8 +55,8 @@
 
     <ImageButton
         android:id="@+id/phone_hangup"
-        android:layout_width="74dp"
-        android:layout_height="74dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginBottom="40dp"
         android:background="@null"
         android:scaleType="fitXY"
@@ -69,8 +69,8 @@
 
     <ImageButton
         android:id="@+id/phone_answer"
-        android:layout_width="74dp"
-        android:layout_height="74dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginBottom="40dp"
         android:background="@null"
         android:scaleType="fitXY"
@@ -79,7 +79,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintHorizontal_weight="1"
-        android:layout_marginLeft="176dp"
+        android:layout_marginLeft="80dp"
         app:layout_constraintLeft_toRightOf="@id/phone_hangup"
         app:layout_constraintRight_toRightOf="parent"/>
 

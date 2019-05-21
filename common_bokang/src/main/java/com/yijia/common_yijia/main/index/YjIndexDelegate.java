@@ -862,7 +862,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
 
     private void deletego(long id) {
         JDialogUtil.INSTANCE.showRxDialogShapeLoading(getContext());
-        final String url = "/circle/delete_circle";
+        final String url = "circle/delete_circle";
         String token = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getYjtk();
         RxRestClient.builder()
                 .url(url)

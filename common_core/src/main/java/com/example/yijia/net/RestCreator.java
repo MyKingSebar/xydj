@@ -23,6 +23,7 @@ public class RestCreator {
         public static final WeakHashMap<String,Object> PARAMS=new WeakHashMap<>();
     }
     public static WeakHashMap<String,Object> getParams(){
+        ParamsHolder.PARAMS.clear();
         return ParamsHolder.PARAMS;
     }
 

@@ -134,7 +134,14 @@ public class FriendsDelegate extends LatteDelegate implements HeadLayout.OnClick
             final String userStatus = jsonObject.getString("userStatus");
             final String userHead = jsonObject.getString("userHead");
             final String identifier = jsonObject.getString("tencentImUserId");
-            FriendsBean friendsBean = new FriendsBean(friendUserId, nickname, realName, userStatus, userHead, identifier);
+            int isOnline = 2;
+            if(jsonObject.containsKey("robotIsOnline"))
+                isOnline = jsonObject.getInteger("robotIsOnline");
+
+            String relation = "";
+            if(jsonObject.containsKey("relationTypeName"))
+                relation = jsonObject.getString("relationTypeName");
+            FriendsBean friendsBean = new FriendsBean(friendUserId, nickname, realName, userStatus, userHead, identifier, isOnline, relation);
             friendsBeans.add(friendsBean);
         }
         LinearLayoutManager layoutManager = new LinearLayoutManager(_mActivity) {

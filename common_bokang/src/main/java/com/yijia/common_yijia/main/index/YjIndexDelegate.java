@@ -202,6 +202,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
     }
 
     private void initTopItem(View rootView) {
+
         ll_top_item_layout = rootView.findViewById(R.id.ll_top_item_layout);
         tvZcjl = rootView.findViewById(R.id.zcjl);
         tvCtqm = rootView.findViewById(R.id.ctqm);
@@ -224,6 +225,40 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
         hsv_top_item.fullScroll(ScrollView.FOCUS_DOWN);
     }
 
+    private void getFriendsCount() {
+        RxRestClient.builder()
+                .url("friend/query_friend_count")
+                .params("yjtk", YjDatabaseManager.getInstance().getDao().loadAll().get(0).getYjtk())
+                .params("familyId", mCurrentFamily.familyId)
+                .build()
+                .get()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseObserver<String>(Latte.getApplicationContext()) {
+                    @Override
+                    public void onResponse(String r) {
+                        final JSONObject object = JSON.parseObject(r);
+                        final String status = object.getString("status");
+                        if (TextUtils.equals(status, "1001")) {
+                            JSONObject jo = object.getJSONObject("data");
+                            if(null != jo) {
+                                if(jo.containsKey("friendCount")){
+                                    int count = jo.getInteger("friendCount");
+                                    tvQin.setText(getString(R.string.num_of_relation, count));
+                                }
+
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFail(Throwable e) {
+                        Toast.makeText(Latte.getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+    }
+
     private void hideTopItem() {
         tvZcjl.setVisibility(View.GONE);
         tvCtqm.setVisibility(View.GONE);
@@ -232,6 +267,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
     }
 
     private void showTopItem(int type) {
+        getFriendsCount();
         switch (type) {
             case SHOWTOPITEMTYPE_MINE:
             case SHOWTOPITEMTYPE_CREATER:

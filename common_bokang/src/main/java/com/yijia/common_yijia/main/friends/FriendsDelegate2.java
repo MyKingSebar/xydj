@@ -134,6 +134,7 @@ public class FriendsDelegate2 extends LatteDelegate implements  FriendsView , Co
             UserDetailDelegate detailDelegate = new UserDetailDelegate();
             Bundle bundle = getArguments();
             bundle.putLong("id", bean.getFriendUserId());
+            bundle.putString("name", bean.getNickname());
             detailDelegate.setArguments(bundle);
             getSupportDelegate().start(detailDelegate);
 //            String identifier = friendsBeans.get(position).getIdentifier();

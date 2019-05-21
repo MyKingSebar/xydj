@@ -1,9 +1,7 @@
 package com.yijia.common_yijia.main.robot.robotmain;
 
 import android.support.constraint.ConstraintLayout;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatTextView;
-import android.widget.ImageView;
 
 import com.example.latte.ec.R;
 import com.example.latte.ui.recycler.MultipleFields;
@@ -14,8 +12,7 @@ import com.example.latte.ui.widget.RobotImageView;
 import com.example.yijia.app.Latte;
 import com.example.yijia.ui.TextViewUtils;
 import com.example.yijia.util.GlideUtils;
-import com.yijia.common_yijia.main.friends.CommonLongIntClickListener;
-import com.yijia.common_yijia.main.friends.CommonStringClickListener;
+import com.yijia.common_yijia.main.friends.CommonEntityClickListener;
 import com.yijia.common_yijia.main.index.YjIndexItemType;
 import com.yijia.common_yijia.main.index.YjRobotListMultipleFields;
 
@@ -23,9 +20,9 @@ import java.util.List;
 
 
 public final class RobotListAdapter extends MultipleRecyclerAdapter {
-    CommonLongIntClickListener mRobotGuardianshipListener = null;
+    CommonEntityClickListener mRobotGuardianshipListener = null;
 
-    public void setmRobotListClickListener(CommonLongIntClickListener mRobotGuardianshipListener) {
+    public void setmRobotListClickListener(CommonEntityClickListener mRobotGuardianshipListener) {
         this.mRobotGuardianshipListener = mRobotGuardianshipListener;
     }
 
@@ -43,7 +40,6 @@ public final class RobotListAdapter extends MultipleRecyclerAdapter {
             case YjIndexItemType.ROBOT_MAIN_LIST:
                 //先取出所有值
 
-                final long friendUserId = entity.getField(YjRobotListMultipleFields.MAINID);
                 final String headImage = entity.getField(MultipleFields.IMAGE_URL);
                 final String name = entity.getField(YjRobotListMultipleFields.MAINNAME);
                 final String age = entity.getField(YjRobotListMultipleFields.AGE);
@@ -51,7 +47,6 @@ public final class RobotListAdapter extends MultipleRecyclerAdapter {
                 final String relationship = entity.getField(YjRobotListMultipleFields.RELATIONSHIP);
                 final String record = entity.getField(YjRobotListMultipleFields.RECORD_NUM);
                 //1-自己，2-创建人，3-看护人，4-无权限
-                final int permissionType = entity.getField(YjRobotListMultipleFields.PERMISSIONTYPE);
 
                 //取出所以控件
                 final RobotImageView imageView = holder.getView(R.id.iv_img);
@@ -63,7 +58,7 @@ public final class RobotListAdapter extends MultipleRecyclerAdapter {
                 final ConstraintLayout cl = holder.getView(R.id.cl);
                 cl.setOnClickListener(v -> {
                     if (mRobotGuardianshipListener != null) {
-                        mRobotGuardianshipListener.commonClick(friendUserId ,permissionType);
+                        mRobotGuardianshipListener.commonClick(entity);
                     }
                 });
                 //赋值

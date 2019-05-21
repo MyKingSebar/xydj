@@ -39,9 +39,9 @@
         android:layout_marginBottom="11dp"
         android:background="@drawable/rectangle_main_orange"
         android:paddingStart="15dp"
-        android:paddingTop="2dp"
+        android:paddingTop="6dp"
         android:paddingEnd="15dp"
-        android:paddingBottom="2dp"
+        android:paddingBottom="6dp"
         android:text="发送"
         android:textColor="@color/white"
         android:textSize="15sp" />

@@ -19,7 +19,10 @@ import com.example.yijia.delegates.LatteDelegate;
 import com.example.yijia.net.rx.BaseObserver;
 import com.example.yijia.net.rx.RxRestClient;
 import com.example.yijia.ui.TextViewUtils;
+import com.example.yijia.ui.dialog.JDialogUtil;
+import com.example.yijia.ui.dialog.RxDialogSureCancelListener;
 import com.example.yijia.util.GlideUtils;
+import com.example.yijia.util.listener.OnSingleClickListener;
 import com.tencent.imsdk.TIMConversationType;
 import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMMessage;
@@ -37,8 +40,9 @@ import io.reactivex.schedulers.Schedulers;
 public class RobotHisRobotDelegate extends LatteDelegate {
     public static final String USERID = "userid";
     public static final String PERMISSIONTYPE = "permissionType";
+    public static final String FAMILYID = "familyId";
     public static final String CHATID = "chatId";
-    AppCompatTextView tvCall, tvRemind, tvMessage, tvGuardianship, tvHealth, tvLiveness, tvRobotImg, tvTitle;
+    AppCompatTextView tvCall, tvRemind, tvMessage, tvGuardianship, tvHealth, tvLiveness, tvRobotImg, tvTitle, tvSave;
     RelativeLayout rl;
     String token = null;
     long userId = 0;
@@ -51,6 +55,7 @@ public class RobotHisRobotDelegate extends LatteDelegate {
     boolean isOnline = false;
     String tencentImUserIdRobot = null;
     BokangSendMessageUtil bokangSendMessageUtil = null;
+    AppCompatTextView deleteText;
 
     @Override
     public Object setLayout() {
@@ -72,13 +77,15 @@ public class RobotHisRobotDelegate extends LatteDelegate {
         initVIew(rootView);
         getOnlineStatue(token, userId);
         getInfo(token, userId);
+
+        getIsParentsConfirm();
     }
 
     private void initVIew(View rootView) {
         rl = rootView.findViewById(R.id.tv_back);
         rl.setOnClickListener(v -> getSupportDelegate().pop());
         tvTitle = rootView.findViewById(R.id.tv_title);
-        AppCompatTextView tvSave = rootView.findViewById(R.id.tv_save);
+        tvSave = rootView.findViewById(R.id.tv_save);
         tvSave.setVisibility(View.INVISIBLE);
 
         tvCall = rootView.findViewById(R.id.tv_call);
@@ -125,6 +132,7 @@ public class RobotHisRobotDelegate extends LatteDelegate {
                 return;
             }
             if (!checkRobotLogin()) {
+                showToast("用户未在小壹上登录");
                 return;
             }
             final Intent intent2 = new Intent(getContext(), CallWaitingActivity.class);
@@ -154,6 +162,89 @@ public class RobotHisRobotDelegate extends LatteDelegate {
 
     private boolean checkRobotLogin() {
         return isOnline;
+    }
+
+    private void getIsParentsConfirm() {
+        RxRestClient.builder()
+                .url("family/query_parent_confirm")
+                .params("yjtk", token)
+                .params("familyId", getArguments().getLong(FAMILYID))
+                .build()
+                .get()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseObserver<String>(Latte.getApplicationContext()) {
+                    @Override
+                    public void onResponse(String response) {
+                        final String status = JSON.parseObject(response).getString("status");
+                        if (TextUtils.equals(status, "1001")) {
+                            final JSONObject jsondata = JSON.parseObject(response).getJSONObject("data");
+                            boolean isConfirm = false;
+                            if(null != jsondata && jsondata.containsKey("isConfirm"))
+                                isConfirm = jsondata.getLong("isConfirm") == 1 ? true : false;
+
+                            if(!isConfirm) {
+                                tvSave.setText("删除");
+                                tvSave.setVisibility(View.VISIBLE);
+                                tvSave.setOnClickListener(new OnSingleClickListener() {
+                                    @Override
+                                    protected void onSingleClick(View v) {
+                                        JDialogUtil.INSTANCE.showRxDialogSureCancel(getContext(), "", 0, "确定删除该条记录？", new RxDialogSureCancelListener() {
+                                            @Override
+                                            public void RxDialogSure() {
+                                                deleteXY();
+                                            }
+
+                                            @Override
+                                            public void RxDialogCancel() {
+                                                JDialogUtil.INSTANCE.dismiss();
+                                            }
+                                        });
+                                    }
+                                });
+                            } else {
+                                tvSave.setVisibility(View.GONE);
+                                tvSave.setOnClickListener(null);
+                            }
+                        } else {
+                            final String msg = JSON.parseObject(response).getString("msg");
+                            Toast.makeText(Latte.getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFail(Throwable e) {
+
+                    }
+                });
+    }
+
+    private void deleteXY() {
+        RxRestClient.builder()
+                .url("family/delete_family")
+                .params("yjtk", token)
+                .params("familyId", getArguments().getLong(FAMILYID))
+                .build()
+                .post()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseObserver<String>(Latte.getApplicationContext()) {
+                    @Override
+                    public void onResponse(String response) {
+                        final String status = JSON.parseObject(response).getString("status");
+                        if (TextUtils.equals(status, "1001")) {
+                            JDialogUtil.INSTANCE.dismiss();
+                            getSupportDelegate().pop();
+                        } else {
+                            Toast.makeText(getContext(), R.string.delete_family_error, Toast.LENGTH_LONG).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFail(Throwable e) {
+
+                    }
+                });
     }
 
     private void getOnlineStatue(String token, long userId) {

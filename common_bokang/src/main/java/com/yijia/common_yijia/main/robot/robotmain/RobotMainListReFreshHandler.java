@@ -21,6 +21,7 @@ import com.example.yijia.net.rx.RxRestClient;
 import com.example.yijia.ui.dialog.JDialogUtil;
 import com.example.yijia.util.log.LatteLogger;
 import com.yijia.common_yijia.database.YjDatabaseManager;
+import com.yijia.common_yijia.main.friends.CommonEntityClickListener;
 import com.yijia.common_yijia.main.friends.CommonLongIntClickListener;
 import com.yijia.common_yijia.main.friends.CommonStringClickListener;
 import com.yijia.common_yijia.main.index.YjIndexItemType;
@@ -38,7 +39,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class RobotMainListReFreshHandler extends RefreshHandler {
 
-    public RobotMainListReFreshHandler(SwipeRefreshLayout swipeRefreshLayout, RecyclerView recyclerView, DataConverter converter, PagingBean bean, LatteDelegate delegate, CommonLongIntClickListener mCommonClickListener, String yjyk) {
+    public RobotMainListReFreshHandler(SwipeRefreshLayout swipeRefreshLayout, RecyclerView recyclerView, DataConverter converter, PagingBean bean, LatteDelegate delegate, CommonEntityClickListener mCommonClickListener, String yjyk) {
         super(swipeRefreshLayout, recyclerView, converter, bean);
         DELEGATE = delegate;
         this.mCommonClickListener = mCommonClickListener;
@@ -46,14 +47,14 @@ public class RobotMainListReFreshHandler extends RefreshHandler {
     }
 
     private final LatteDelegate DELEGATE;
-    private final CommonLongIntClickListener mCommonClickListener;
+    private final CommonEntityClickListener mCommonClickListener;
     private final String token;
     private RobotListAdapter mAdapter;
     private List<MultipleItemEntity> data;
 
 
     public static RobotMainListReFreshHandler create(SwipeRefreshLayout swipeRefreshLayout,
-                                                     RecyclerView recyclerView, DataConverter converter, LatteDelegate delegate, CommonLongIntClickListener mCommonClickListener, String yjyk) {
+                                                     RecyclerView recyclerView, DataConverter converter, LatteDelegate delegate, CommonEntityClickListener mCommonClickListener, String yjyk) {
         return new RobotMainListReFreshHandler(swipeRefreshLayout, recyclerView, converter, new PagingBean(), delegate, mCommonClickListener, yjyk);
     }
 

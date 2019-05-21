@@ -19,7 +19,7 @@
         <ImageView
             android:id="@+id/robot_list_add"
             android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_height="60dp"
             android:layout_marginEnd="10dp"
             android:layout_marginTop="10dp"
             android:scaleType="center"

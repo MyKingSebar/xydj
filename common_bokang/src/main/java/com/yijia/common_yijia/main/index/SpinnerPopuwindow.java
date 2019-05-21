@@ -38,7 +38,7 @@ public class SpinnerPopuwindow extends PopupWindow {
         // 设置SelectPicPopupWindow的View
         this.setContentView(conentView);
         // 设置SelectPicPopupWindow弹出窗体的宽
-        this.setWidth(DimensionUtil.dpToPx(130));
+        this.setWidth(DimensionUtil.dpToPx(200));
         //    this.setWidth(view.getWidth());
         // 设置SelectPicPopupWindow弹出窗体的高
         this.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);

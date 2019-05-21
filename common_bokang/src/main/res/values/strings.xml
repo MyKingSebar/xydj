@@ -51,8 +51,14 @@
     <string name="send_call">打电话</string>
     <string name="user_detail_title">详情资料</string>
     <string name="user_detail_relation">与%1$s的关系</string>
+    <string name="user_detail_own">本人</string>
+    <string name="user_detail_creator">创建人</string>
+    <string name="user_detail_protector">看护人</string>
+    <string name="user_detail_no_permission">无权限</string>
 
     <string name="phone_calling">正在呼叫...</string>
+
+    <string name="get_data_error">用户信息获取失败，请稍后再试</string>
 
     <string-array name="robot_remind_voice_seek">
         <item>0</item>

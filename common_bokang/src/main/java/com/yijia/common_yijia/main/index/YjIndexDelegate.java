@@ -427,6 +427,8 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
                     adapter.updateChecked(mCurrentFamily);
                     mRefreshHandler.firstPage(mCurrentFamily.familyId);
                     TextViewUtils.AppCompatTextViewSetText(tv_name, mCurrentFamily.familyName);
+                    GlideUtils.load(getContext(), mCurrentFamily.headImage, cimg_img.userImageView(), GlideUtils.USERMODE);
+                    cimg_img.setRobotOnline(mCurrentFamily.robotIsOnline);
                     popupWindow.dismiss();
                 });
             }
@@ -588,6 +590,8 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
                                 if ((2 == family.permissionType || 3 == family.permissionType) && mCurrentFamily.permissionType != 2) {
                                     mCurrentFamily = family;
                                     TextViewUtils.AppCompatTextViewSetText(tv_name, family.familyName);
+                                    GlideUtils.load(getContext(), mCurrentFamily.headImage, cimg_img.userImageView(), GlideUtils.USERMODE);
+                                    cimg_img.setRobotOnline(mCurrentFamily.robotIsOnline);
                                     showTopItem(SHOWTOPITEMTYPE_CREATER);
                                 }
                                 families.add(family);

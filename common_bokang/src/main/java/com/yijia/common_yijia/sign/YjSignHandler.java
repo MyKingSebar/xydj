@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.example.yijia.app.AccountManager;
+import com.example.yijia.util.storage.LattePreference;
 import com.yijia.common_yijia.database.YjDatabaseManager;
 import com.yijia.common_yijia.database.YjUserProfile;
 
@@ -63,6 +64,10 @@ public class YjSignHandler {
 //        final String shId = user.getString("2");
         final String shPassword = user.getString("shPassword");
 
+        int needAddParents = 1;
+        if(user.containsKey("requireAddParent"))
+            needAddParents = user.getInteger("requireAddParent");
+        LattePreference.setNeedAddParents(1== needAddParents ? true : false);
 
 
         final YjUserProfile profile = new YjUserProfile( id, yjtk,username,phone,email,nickname, imagePath, isComplete,

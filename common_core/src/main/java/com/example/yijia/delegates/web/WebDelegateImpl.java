@@ -8,12 +8,15 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.example.yijia.delegates.IPageLoadListener;
+import com.example.yijia.delegates.web.IWebViewInitializer;
+import com.example.yijia.delegates.web.WebDelegate;
+import com.example.yijia.delegates.web.WebViewInitializer;
 import com.example.yijia.delegates.web.chromeclient.WebChromeClientImpl;
 import com.example.yijia.delegates.web.client.WebViewClientImpl;
 import com.example.yijia.delegates.web.route.RouteKeys;
 import com.example.yijia.delegates.web.route.Router;
 
-public class WebDelegateImpl extends WebDelegate{
+public class WebDelegateImpl extends WebDelegate {
 
     private IPageLoadListener mIPageLoadListener = null;
 
@@ -23,6 +26,7 @@ public class WebDelegateImpl extends WebDelegate{
         final WebDelegateImpl delegate = new WebDelegateImpl();
         delegate.setArguments(args);
         return delegate;
+
     }
 
 

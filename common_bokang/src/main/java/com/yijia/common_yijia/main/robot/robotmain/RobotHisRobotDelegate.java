@@ -7,12 +7,19 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatTextView;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.baidu.ocr.ui.util.DimensionUtil;
 import com.example.latte.ec.R;
 import com.example.yijia.app.Latte;
 import com.example.yijia.delegates.LatteDelegate;
@@ -22,6 +29,9 @@ import com.example.yijia.ui.TextViewUtils;
 import com.example.yijia.ui.dialog.JDialogUtil;
 import com.example.yijia.ui.dialog.RxDialogSureCancelListener;
 import com.example.yijia.util.GlideUtils;
+import com.example.yijia.util.callback.CallbackManager;
+import com.example.yijia.util.callback.CallbackType;
+import com.example.yijia.util.callback.IGlobalCallback;
 import com.example.yijia.util.listener.OnSingleClickListener;
 import com.tencent.imsdk.TIMConversationType;
 import com.tencent.imsdk.TIMManager;
@@ -43,20 +53,22 @@ public class RobotHisRobotDelegate extends LatteDelegate {
     public static final String FAMILYID = "familyId";
     public static final String CHATID = "chatId";
     AppCompatTextView tvCall, tvRemind, tvMessage, tvGuardianship, tvHealth, tvLiveness, tvRobotImg, tvTitle, tvSave;
+    ImageView ivIcon;
     RelativeLayout rl;
     String token = null;
     long userId = 0;
     int permissionType = 0;
-    private final int MINE=1;
-    private final int CREATER=2;
-    private final int ORDERLY=3;
-    private final int VISITOR=4;
+    private final int MINE = 1;
+    private final int CREATER = 2;
+    private final int ORDERLY = 3;
+    private final int VISITOR = 4;
     int hasRobot = 0;
     boolean isOnline = false;
     String tencentImUserIdRobot = null;
     BokangSendMessageUtil bokangSendMessageUtil = null;
     AppCompatTextView deleteText;
     long familyId = 0;
+    private PopupWindow popupWindow;
 
     @Override
     public Object setLayout() {
@@ -80,7 +92,7 @@ public class RobotHisRobotDelegate extends LatteDelegate {
         getOnlineStatue(token, userId);
         getInfo(token, userId);
 
-        if(0l != familyId)
+        if (0l != familyId)
             getIsParentsConfirm();
     }
 
@@ -90,6 +102,8 @@ public class RobotHisRobotDelegate extends LatteDelegate {
         tvTitle = rootView.findViewById(R.id.tv_title);
         tvSave = rootView.findViewById(R.id.tv_save);
         tvSave.setVisibility(View.INVISIBLE);
+        ivIcon = rootView.findViewById(R.id.iv_icon);
+        ivIcon.setImageResource(R.mipmap.icon_more);
 
         tvCall = rootView.findViewById(R.id.tv_call);
         tvRemind = rootView.findViewById(R.id.tv_remind);
@@ -106,7 +120,7 @@ public class RobotHisRobotDelegate extends LatteDelegate {
                 showToast("您不是管理员，无法进行该操作");
                 return;
             }
-            if (permissionType==MINE) {
+            if (permissionType == MINE) {
                 getSupportDelegate().start(new RobotCallSettingDelegate());
             } else {
                 showToast("只有本人可以设置");
@@ -156,7 +170,7 @@ public class RobotHisRobotDelegate extends LatteDelegate {
     }
 
     private boolean checkAdmin() {
-        if (permissionType ==MINE||permissionType==CREATER||permissionType==ORDERLY) {
+        if (permissionType == MINE || permissionType == CREATER || permissionType == ORDERLY) {
             return true;
         } else {
             return false;
@@ -183,31 +197,20 @@ public class RobotHisRobotDelegate extends LatteDelegate {
                         if (TextUtils.equals(status, "1001")) {
                             final JSONObject jsondata = JSON.parseObject(response).getJSONObject("data");
                             boolean isConfirm = false;
-                            if(null != jsondata && jsondata.containsKey("isConfirm"))
+                            if (null != jsondata && jsondata.containsKey("isConfirm"))
                                 isConfirm = jsondata.getLong("isConfirm") == 1 ? true : false;
 
-                            if(!isConfirm) {
-                                tvSave.setText("删除");
-                                tvSave.setVisibility(View.VISIBLE);
-                                tvSave.setOnClickListener(new OnSingleClickListener() {
+                            if (!isConfirm) {
+                                ivIcon.setVisibility(View.VISIBLE);
+                                ivIcon.setOnClickListener(new OnSingleClickListener() {
                                     @Override
                                     protected void onSingleClick(View v) {
-                                        JDialogUtil.INSTANCE.showRxDialogSureCancel(getContext(), "", 0, "确定删除该条记录？", new RxDialogSureCancelListener() {
-                                            @Override
-                                            public void RxDialogSure() {
-                                                deleteXY();
-                                            }
-
-                                            @Override
-                                            public void RxDialogCancel() {
-                                                JDialogUtil.INSTANCE.dismiss();
-                                            }
-                                        });
+                                        showPopup(v);
                                     }
                                 });
                             } else {
-                                tvSave.setVisibility(View.GONE);
-                                tvSave.setOnClickListener(null);
+                                ivIcon.setVisibility(View.GONE);
+                                ivIcon.setOnClickListener(null);
                             }
                         } else {
                             final String msg = JSON.parseObject(response).getString("msg");
@@ -221,6 +224,57 @@ public class RobotHisRobotDelegate extends LatteDelegate {
                     }
                 });
     }
+
+    private void showPopup(View view) {
+        if (null == popupWindow) {
+            View contentView = LayoutInflater.from(getContext()).inflate(
+                    R.layout.popup_robot_detail, null);
+            TextView deleteTv = contentView.findViewById(R.id.popup_robot_delete);
+            deleteTv.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    popupWindow.dismiss();
+                    JDialogUtil.INSTANCE.showRxDialogSureCancel(getContext(), "", 0, "确定删除该条记录？", new RxDialogSureCancelListener() {
+                        @Override
+                        public void RxDialogSure() {
+                            deleteXY();
+                        }
+
+                        @Override
+                        public void RxDialogCancel() {
+                            JDialogUtil.INSTANCE.dismiss();
+                        }
+                    });
+                }
+            });
+
+            popupWindow = new PopupWindow(contentView);
+            popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                @Override
+                public void onDismiss() {
+                    darkenBackground(1f);
+                }
+            });
+
+            popupWindow.setWidth(DimensionUtil.dpToPx(150));
+            popupWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+            popupWindow.setFocusable(true);
+            popupWindow.setBackgroundDrawable(getResources().getDrawable(R.drawable.radius5_background_white));
+            
+        }
+
+        darkenBackground(0.7f);
+        popupWindow.showAsDropDown(view);
+    }
+
+    private void darkenBackground(Float bgcolor){
+        WindowManager.LayoutParams lp = getActivity().getWindow().getAttributes();
+        lp.alpha = bgcolor;
+        getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        getActivity().getWindow().setAttributes(lp);
+    }
+
 
     private void deleteXY() {
         RxRestClient.builder()
@@ -238,6 +292,10 @@ public class RobotHisRobotDelegate extends LatteDelegate {
                         if (TextUtils.equals(status, "1001")) {
                             JDialogUtil.INSTANCE.dismiss();
                             getSupportDelegate().pop();
+                            IGlobalCallback callback = CallbackManager.getInstance().getCallback(CallbackType.ROBOT_REMIND_TAG);
+                            if(null != callback) {
+                                callback.executeCallback(new Object());
+                            }
                         } else {
                             Toast.makeText(getContext(), R.string.delete_family_error, Toast.LENGTH_LONG).show();
                         }

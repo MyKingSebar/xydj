@@ -49,9 +49,9 @@ public class SpinnerPopuwindow extends PopupWindow {
         this.setOutsideTouchable(false);
         // 实例化一个ColorDrawable颜色为半透明
         // 点back键和其他地方使其消失,设置了这个才能触发OnDismisslistener ，设置其他控件变化等操作
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            this.setBackgroundDrawable(context.getDrawable(R.drawable.radius5_background_white));
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            this.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.radius5_background_white));
+//        }
         this.setOnDismissListener(new OnDismissListener() {
             @Override
             public void onDismiss() {

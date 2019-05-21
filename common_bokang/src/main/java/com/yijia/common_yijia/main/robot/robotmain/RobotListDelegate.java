@@ -60,12 +60,6 @@ public class RobotListDelegate extends BottomItemDelegate implements CommonEntit
         imageButton = rootView.findViewById(R.id.robot_list_add);
         imageButton.setOnClickListener(v -> {
             getParentDelegate().getSupportDelegate().start(new AddParentsDelegate());
-            CallbackManager.getInstance().addCallback(CallbackType.ROBOT_REMIND_TAG, new IGlobalCallback() {
-                @Override
-                public void executeCallback(@Nullable Object args) {
-                    robotMainListReFreshHandler.firstPage(mAdapter, data);
-                }
-            });
         });
 
         refreshLayout = rootView.findViewById(R.id.robot_list_refresh_layout);
@@ -75,6 +69,13 @@ public class RobotListDelegate extends BottomItemDelegate implements CommonEntit
         mAdapter = new RobotListAdapter(data);
         mAdapter.setmRobotListClickListener(this);
         recyclerView.setAdapter(mAdapter);
+
+        CallbackManager.getInstance().addCallback(CallbackType.ROBOT_REMIND_TAG, new IGlobalCallback() {
+            @Override
+            public void executeCallback(@Nullable Object args) {
+                robotMainListReFreshHandler.firstPage(mAdapter, data);
+            }
+        });
     }
 
     @Override

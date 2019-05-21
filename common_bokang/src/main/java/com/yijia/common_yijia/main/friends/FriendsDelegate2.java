@@ -89,10 +89,13 @@ public class FriendsDelegate2 extends LatteDelegate implements  FriendsView , Co
     }
 
     private void initView() {
-        tvTitle.setText("我的通讯录");
+        tvTitle.setText("成员列表");
         tvSave.setVisibility(View.INVISIBLE);
         tvIcon.setVisibility(View.VISIBLE);
-        tvIcon.setOnClickListener(v -> showIndexPopup(v));
+        tvIcon.setOnClickListener(v -> {
+//            showIndexPopup(v);
+            getSupportDelegate().start(new AddFriendsDelegate());
+        });
         tvIcon.setBackground(ContextCompat.getDrawable(getContext(),R.mipmap.icon_addfriend));
     }
 

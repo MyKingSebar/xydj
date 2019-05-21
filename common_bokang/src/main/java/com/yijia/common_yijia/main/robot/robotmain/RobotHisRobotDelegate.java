@@ -56,6 +56,7 @@ public class RobotHisRobotDelegate extends LatteDelegate {
     String tencentImUserIdRobot = null;
     BokangSendMessageUtil bokangSendMessageUtil = null;
     AppCompatTextView deleteText;
+    long familyId = 0;
 
     @Override
     public Object setLayout() {
@@ -74,11 +75,13 @@ public class RobotHisRobotDelegate extends LatteDelegate {
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, @NonNull View rootView) {
         token = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getYjtk();
+        familyId = getArguments().getLong(FAMILYID);
         initVIew(rootView);
         getOnlineStatue(token, userId);
         getInfo(token, userId);
 
-        getIsParentsConfirm();
+        if(0l != familyId)
+            getIsParentsConfirm();
     }
 
     private void initVIew(View rootView) {
@@ -168,7 +171,7 @@ public class RobotHisRobotDelegate extends LatteDelegate {
         RxRestClient.builder()
                 .url("family/query_parent_confirm")
                 .params("yjtk", token)
-                .params("familyId", getArguments().getLong(FAMILYID))
+                .params("familyId", familyId)
                 .build()
                 .get()
                 .subscribeOn(Schedulers.io())
@@ -223,7 +226,7 @@ public class RobotHisRobotDelegate extends LatteDelegate {
         RxRestClient.builder()
                 .url("family/delete_family")
                 .params("yjtk", token)
-                .params("familyId", getArguments().getLong(FAMILYID))
+                .params("familyId", familyId)
                 .build()
                 .post()
                 .subscribeOn(Schedulers.io())

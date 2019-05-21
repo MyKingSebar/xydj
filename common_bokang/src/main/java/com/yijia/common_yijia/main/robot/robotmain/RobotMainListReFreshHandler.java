@@ -138,7 +138,7 @@ public class RobotMainListReFreshHandler extends RefreshHandler {
     public void addOwn(final RobotListAdapter mAdapter, List<MultipleItemEntity> data, boolean isOnline) {
         final MultipleItemEntity entity = MultipleItemEntity.builder()
                 .setField(MultipleFields.ITEM_TYPE, YjIndexItemType.ROBOT_MAIN_LIST)
-                .setField(MultipleFields.ID, 0)
+                .setField(MultipleFields.ID, 0l)
                 .setField(MultipleFields.NAME, "")
                 .setField(YjRobotListMultipleFields.MAINID, YjDatabaseManager.getInstance().getDao().loadAll().get(0).getId())
                 .setField(YjRobotListMultipleFields.MAINNAME, YjDatabaseManager.getInstance().getDao().loadAll().get(0).getNickname())

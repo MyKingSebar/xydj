@@ -19,6 +19,9 @@ import com.example.yijia.app.Latte;
 import com.example.yijia.delegates.bottom.BottomItemDelegate;
 import com.example.yijia.net.rx.BaseObserver;
 import com.example.yijia.net.rx.RxRestClient;
+import com.example.yijia.util.callback.CallbackManager;
+import com.example.yijia.util.callback.CallbackType;
+import com.example.yijia.util.callback.IGlobalCallback;
 import com.yijia.common_yijia.database.YjDatabaseManager;
 import com.yijia.common_yijia.main.friends.CommonEntityClickListener;
 import com.yijia.common_yijia.main.friends.CommonLongIntClickListener;
@@ -55,7 +58,15 @@ public class RobotListDelegate extends BottomItemDelegate implements CommonEntit
 
     private void initView(View rootView) {
         imageButton = rootView.findViewById(R.id.robot_list_add);
-        imageButton.setOnClickListener(v -> getParentDelegate().getSupportDelegate().start(new AddParentsDelegate()));
+        imageButton.setOnClickListener(v -> {
+            getParentDelegate().getSupportDelegate().start(new AddParentsDelegate());
+            CallbackManager.getInstance().addCallback(CallbackType.ROBOT_REMIND_TAG, new IGlobalCallback() {
+                @Override
+                public void executeCallback(@Nullable Object args) {
+                    robotMainListReFreshHandler.firstPage(mAdapter, data);
+                }
+            });
+        });
 
         refreshLayout = rootView.findViewById(R.id.robot_list_refresh_layout);
         recyclerView = rootView.findViewById(R.id.robot_list_recycleview);
@@ -73,6 +84,11 @@ public class RobotListDelegate extends BottomItemDelegate implements CommonEntit
         robotMainListReFreshHandler.addOwn(mAdapter, data, false);
         getOnLineStatus();
         robotMainListReFreshHandler.firstPage(mAdapter, data);
+    }
+
+    @Override
+    public void onSupportVisible() {
+        super.onSupportVisible();
     }
 
     private void getOnLineStatus() {

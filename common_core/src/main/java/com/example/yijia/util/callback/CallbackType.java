@@ -15,5 +15,6 @@ public enum CallbackType {
     ROBOT_REMIND_WEEK,
     ROBOT_REMIND_TAG,
     ROBOT_REMIND_ADD,
-    NEED_LOGIN_IN
+    NEED_LOGIN_IN,
+    REFRESH_ROBOT_LIST
 }

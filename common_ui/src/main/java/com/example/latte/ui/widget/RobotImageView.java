@@ -66,10 +66,22 @@ public class RobotImageView extends RelativeLayout {
     }
 
     public void setRobotOnline(boolean online) {
-        if(online) {
+        if (online) {
             robotImageView.setImageResource(R.mipmap.robot_moment_list);
         } else {
             robotImageView.setImageResource(R.mipmap.robot_moment_list);
+        }
+    }
+
+    public void setRobotOnline(int online) {
+        switch (online) {
+            case 1:
+                robotImageView.setImageResource(R.mipmap.robot_moment_list);
+                break;
+            case 2:
+                robotImageView.setImageResource(R.mipmap.robot_moment_list);
+                break;
+            default:
         }
     }
 

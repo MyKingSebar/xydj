@@ -143,6 +143,7 @@ public class InviteRelationshipDelegate extends LatteDelegate {
         RxRestClient.builder()
                 .url("family/query_relation_type")
                 .params("yjtk", token)
+                .params("category", 2)
                 .build()
                 .get()
                 .subscribeOn(Schedulers.io())

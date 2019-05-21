@@ -3,6 +3,7 @@ package com.yijia.common_yijia.main.index;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.graphics.RectF;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -29,11 +30,20 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.app.hubert.guide.NewbieGuide;
+import com.app.hubert.guide.core.Controller;
+import com.app.hubert.guide.listener.OnGuideChangedListener;
+import com.app.hubert.guide.listener.OnLayoutInflatedListener;
+import com.app.hubert.guide.listener.OnPageChangedListener;
+import com.app.hubert.guide.model.GuidePage;
+import com.app.hubert.guide.model.HighLight;
+import com.app.hubert.guide.model.RelativeGuide;
 import com.bumptech.glide.Glide;
 import com.example.latte.ec.R;
 import com.example.latte.ec.R2;
@@ -45,6 +55,7 @@ import com.example.yijia.delegates.bottom.BottomItemDelegate;
 import com.example.yijia.lisener.AppBarStateChangeListener;
 import com.example.yijia.net.rx.BaseObserver;
 import com.example.yijia.net.rx.RxRestClient;
+import com.example.yijia.tool.RxImageTool;
 import com.example.yijia.ui.TextViewUtils;
 import com.example.yijia.ui.dialog.JDialogUtil;
 import com.example.yijia.ui.dialog.RxDialogSureCancelListener;
@@ -52,6 +63,7 @@ import com.example.yijia.util.GlideUtils;
 import com.example.yijia.util.callback.CallbackManager;
 import com.example.yijia.util.callback.CallbackType;
 import com.example.yijia.util.callback.IGlobalCallback;
+import com.example.yijia.util.dimen.DimenUtil;
 import com.example.yijia.util.log.LatteLogger;
 import com.joanzapata.iconify.widget.IconTextView;
 import com.yijia.common_yijia.database.YjDatabaseManager;
@@ -90,6 +102,7 @@ import razerdp.basepopup.QuickPopupConfig;
 
 
 public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemListener, IIndexItemListener, IndexCameraCheckInstener, IIndexCanReadItemListener, IPlayVideoListener, IDeleteListener {
+    public final String TAG=getClass().getName();
     private final int SHOWTOPITEMTYPE_MINE = 1;
     private final int SHOWTOPITEMTYPE_CREATER = 2;
     private final int SHOWTOPITEMTYPE_ORDERLY = 3;
@@ -136,11 +149,15 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
     @BindView(R2.id.tv_name)
     AppCompatTextView tv_name = null;
 
+
+    @BindView(R2.id.tv_invite)
+    AppCompatTextView tv_invite = null;
+
     //IndexWebFragment
     AppCompatTextView tvZcjl, tvCtqm, tvKhjl, tvTxjl, tvQin;
     LinearLayout ll_top_item_layout;
 
-    LinearLayoutCompat ll_unread,ll_invite;
+    LinearLayoutCompat ll_unread, ll_invite;
     ImageView tv_unreadicon;
 
 
@@ -181,7 +198,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
 
     @OnClick(R2.id.tv_invite)
     void mInvite() {
-        InviteRelationshipDelegate mDelegate=InviteRelationshipDelegate.create(mCurrentFamily.familyId);
+        InviteRelationshipDelegate mDelegate = InviteRelationshipDelegate.create(mCurrentFamily.familyId);
         getParentDelegate().getSupportDelegate().start(mDelegate);
 
 //        showToast("暂未开通");
@@ -198,7 +215,110 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
         initPopup();
         initTopItem(rootView);
         initView(rootView);
+        initGuide();
+    }
 
+    private void initGuide() {
+        int hightint=DimenUtil.getScreenHeight();
+        int weithint=DimenUtil.getScreenWidth();
+        NewbieGuide.with(getActivity())
+                .setLabel("切换父母")
+                .setOnGuideChangedListener(new OnGuideChangedListener() {
+            @Override
+            public void onShowed(Controller controller) {
+                Log.e(TAG, "NewbieGuide onShowed: ");
+                //引导层显示
+            }
+
+            @Override
+            public void onRemoved(Controller controller) {
+                Log.e(TAG, "NewbieGuide  onRemoved: ");
+                //引导层消失（多页切换不会触发）
+            }
+        })
+                .setOnPageChangedListener(new OnPageChangedListener() {
+
+                    @Override
+                    public void onPageChanged(int page) {
+                        //引导页切换，page为当前页位置，从0开始
+                        Log.e(TAG, "引导页切换：" + page);
+                    }
+                })
+                .alwaysShow(true)//是否每次都显示引导层，默认false，只显示一次
+                .addGuidePage(//添加一页引导页
+                        GuidePage.newInstance()//创建一个实例
+                                .addHighLight(tv_name)//添加高亮的view
+//                                .addHighLight(tv_name,
+//                                        new RelativeGuide(R.layout.view_relative_guide, Gravity.TOP, 100) {
+//                                            @Override
+//                                            protected void offsetMargin(MarginInfo marginInfo, ViewGroup viewGroup, View view) {
+//                                                marginInfo.leftMargin += 100;
+//                                            }
+//                                        })
+                                .setLayoutRes(R.layout.guide_choose_father)//设置引导页布局
+//                                .setOnLayoutInflatedListener(new OnLayoutInflatedListener() {
+//
+//                                    @Override
+//                                    public void onLayoutInflated(View view, Controller controller) {
+//                                        //引导页布局填充后回调，用于初始化
+//                                        TextView tv = view.findViewById(R.id.textView2);
+//                                        tv.setText("我是动态设置的文本");
+//                                    }
+//                                })
+//                                .setEnterAnimation(enterAnimation)//进入动画
+//                                .setExitAnimation(exitAnimation)//退出动画
+                )
+                .addGuidePage(GuidePage.newInstance()
+                        .addHighLight(tv_invite)
+                        .setLayoutRes(R.layout.guide_invite)//设置引导页布局
+//                        .setLayoutRes(R.layout.view_guide_custom, R.id.iv)//引导页布局，点击跳转下一页或者消失引导层的控件id
+//                        .setOnLayoutInflatedListener(new OnLayoutInflatedListener() {
+//                            @Override
+//                            public void onLayoutInflated(View view, final Controller controller) {
+//                                view.findViewById(R.id.textView).setOnClickListener(new View.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(View v) {
+//                                        controller.showPreviewPage();
+//                                    }
+//                                });
+//                            }
+//                        })
+//                        .setEverywhereCancelable(false)//是否点击任意地方跳转下一页或者消失引导层，默认true
+//                        .setBackgroundColor(getResources().getColor(R.color.testColor))//设置背景色，建议使用有透明度的颜色
+//                        .setEnterAnimation(enterAnimation)//进入动画
+//                        .setExitAnimation(exitAnimation)//退出动画
+                )
+                .addGuidePage(GuidePage.newInstance()
+                        .addHighLight(mSend)
+                        .setLayoutRes(R.layout.guide_album)//设置引导页布局
+//                        .setEverywhereCancelable(false)//是否点击任意地方跳转下一页或者消失引导层，默认true
+                )
+                .addGuidePage(GuidePage.newInstance()
+                        .addHighLight(new RectF(weithint*2/3, hightint- RxImageTool.dp2px(58), weithint, hightint))
+                        .setLayoutRes(R.layout.guide_find)//设置引导页布局
+//                        .setEverywhereCancelable(false)//是否点击任意地方跳转下一页或者消失引导层，默认true
+                )
+                .addGuidePage(GuidePage.newInstance()
+                        .addHighLight(new RectF(weithint/3, hightint- RxImageTool.dp2px(65), weithint*2/3, hightint))
+                        .setLayoutRes(R.layout.guide_robot)//设置引导页布局
+//                        .setEverywhereCancelable(false)//是否点击任意地方跳转下一页或者消失引导层，默认true
+                )
+//                .addGuidePage(GuidePage.newInstance()
+//                        .addHighLight(tvBottom)
+//                        .setLayoutRes(R.layout.view_guide_dialog)
+//                        .setOnLayoutInflatedListener(new OnLayoutInflatedListener() {
+//                            @Override
+//                            public void onLayoutInflated(View view, final Controller controller) {
+//                                view.findViewById(R.id.btn_ok).setOnClickListener(new View.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(View v) {
+//                                        controller.showPage(0);
+//                                    }
+//                                });
+//                            }
+//                        })
+//                )
+                .show();//显示引导层(至少需要一页引导页才能显示)
     }
 
     private void initTopItem(View rootView) {
@@ -286,11 +406,11 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
     }
 
     private void initView(View rootview) {
-        tv_unreadicon=rootview.findViewById(R.id.tv_unreadicon);
-        ll_unread=rootview.findViewById(R.id.ll_unread);
-        ll_invite=rootview.findViewById(R.id.ll_invite);
+        tv_unreadicon = rootview.findViewById(R.id.tv_unreadicon);
+        ll_unread = rootview.findViewById(R.id.ll_unread);
+        ll_invite = rootview.findViewById(R.id.ll_invite);
         ll_unread.setVisibility(View.GONE);
-        ll_unread.setOnClickListener(v->{
+        ll_unread.setOnClickListener(v -> {
             getParentDelegate().getSupportDelegate().start(new NoticeDelegate());
         });
         initTopBar();
@@ -306,7 +426,9 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
                     showTopItem(families.get(position).permissionType);
                     adapter.updateChecked(mCurrentFamily);
                     mRefreshHandler.firstPage(mCurrentFamily.familyId);
-                    TextViewUtils.AppCompatTextViewSetText(tv_name,mCurrentFamily.familyName);
+                    TextViewUtils.AppCompatTextViewSetText(tv_name, mCurrentFamily.familyName);
+                    GlideUtils.load(getContext(), mCurrentFamily.headImage, cimg_img.userImageView(), GlideUtils.USERMODE);
+                    cimg_img.setRobotOnline(mCurrentFamily.robotIsOnline);
                     popupWindow.dismiss();
                 });
             }
@@ -315,11 +437,10 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
             }
         });
         String img = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getImagePath();
-        GlideUtils.load(getContext(),img, cimg_img.userImageView(), GlideUtils.USERMODE);
+        GlideUtils.load(getContext(), img, cimg_img.userImageView(), GlideUtils.USERMODE);
         setOnlineStatue(0);
         getFamilyData();
     }
-
 
 
     public void checkUnread() {
@@ -337,13 +458,13 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
                         final String status = object.getString("status");
                         if (TextUtils.equals(status, "1001")) {
                             JSONObject jo = object.getJSONObject("data");
-                            int haveUnread=jo.getInteger("haveUnread");
-                            String imagePath=jo.getString("imagePath");
-                            if(haveUnread==1){
+                            int haveUnread = jo.getInteger("haveUnread");
+                            String imagePath = jo.getString("imagePath");
+                            if (haveUnread == 1) {
                                 ll_invite.setVisibility(View.GONE);
-                                GlideUtils.load(getContext(),imagePath,tv_unreadicon,GlideUtils.DEFAULTMODE);
+                                GlideUtils.load(getContext(), imagePath, tv_unreadicon, GlideUtils.DEFAULTMODE);
                                 ll_unread.setVisibility(View.VISIBLE);
-                            }else {
+                            } else {
                                 ll_unread.setVisibility(View.GONE);
                                 ll_invite.setVisibility(View.VISIBLE);
                             }
@@ -357,6 +478,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
                     }
                 });
     }
+
     public void setOnlineStatue(long id) {
         RxRestClient.builder()
                 .url("robot/query_robot_is_online")
@@ -437,7 +559,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
 
                         family = new MainFamily();
                         family.familyId = 0;
-                        family.familyName =YjDatabaseManager.getInstance().getDao().loadAll().get(0).getNickname();
+                        family.familyName = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getNickname();
                         family.mainUserId = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getId();
                         family.mainUserName = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getNickname();
                         family.relationMainToUser = "本人";
@@ -467,7 +589,9 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
                                 family.permissionType = data.getInteger("permissionType");
                                 if ((2 == family.permissionType || 3 == family.permissionType) && mCurrentFamily.permissionType != 2) {
                                     mCurrentFamily = family;
-                                    TextViewUtils.AppCompatTextViewSetText(tv_name,family.familyName);
+                                    TextViewUtils.AppCompatTextViewSetText(tv_name, family.familyName);
+                                    GlideUtils.load(getContext(), mCurrentFamily.headImage, cimg_img.userImageView(), GlideUtils.USERMODE);
+                                    cimg_img.setRobotOnline(mCurrentFamily.robotIsOnline);
                                     showTopItem(SHOWTOPITEMTYPE_CREATER);
                                 }
                                 families.add(family);

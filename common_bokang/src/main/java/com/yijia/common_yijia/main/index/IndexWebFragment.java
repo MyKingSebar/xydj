@@ -152,12 +152,9 @@ public class IndexWebFragment extends LatteDelegate {
 //            final WebDelegateImpl fragment = WebDelegateImpl.create("http://www.baidu.com");
             final WebDelegateImpl fragment = WebDelegateImpl.create(Latte.getConfiguration(ConfigKeys.WEB_HOST)+url+"?userId="+userId+"&yjtk="+token);
             fragment.setTopDelegate(this.getParentDelegate());
-            getSupportDelegate().loadRootFragment(R.id.web_index_container, fragment);
-        }
-    }
+            getSupportDelegate(
 
-    @Override
-    public boolean onBackPressedSupport() {
-        return false;
+            ).loadRootFragment(R.id.web_index_container, fragment);
+        }
     }
 }

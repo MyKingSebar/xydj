@@ -85,6 +85,17 @@ public final class LattePreference {
                 .apply();
     }
 
+    public static void setNeedAddParents(boolean need) {
+        getAppPreference()
+                .edit()
+                .putBoolean("needAddParents", need)
+                .apply();
+    }
+
+    public static boolean getNeedAddParents() {
+        return getAppPreference().getBoolean("needAddParents", true);
+    }
+
     public static int getAppFlagForInt(String key) {
         return getAppPreference()
                 .getInt(key,2);

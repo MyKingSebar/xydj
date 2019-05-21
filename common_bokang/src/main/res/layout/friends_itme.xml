@@ -1,25 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/ll_friend"
-    android:layout_width="match_parent"
-    android:orientation="horizontal"
-    android:gravity="center_vertical"
-    android:layout_height="64dp">
+<RelativeLayout android:id="@+id/ll_friend"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:background="@color/white">
 
-    <ImageView
-        android:layout_marginStart="15dp"
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/main_line_default_f5"/>
+
+    <com.example.latte.ui.widget.RobotImageView
         android:id="@+id/userHead"
-        android:layout_width="40dp"
-        android:layout_height="40dp" />
+        android:layout_width="50dp"
+        android:layout_height="44dp"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="15dp"/>
 
     <TextView
+        android:id="@+id/nickname"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/userHead"
+        android:gravity="center_vertical"
+        android:text="1111"
+        android:textColor="@color/main_text_black_46"
+        android:textSize="20sp"/>
+
+    <TextView
+        android:id="@+id/relation"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/nickname"
         android:gravity="center_vertical"
         android:textColor="@color/main_text_black_46"
-        android:textSize="20sp"
-        android:layout_marginLeft="10dp"
-        android:id="@+id/nickname"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:text="1111" />
+        android:textSize="20sp"/>
 
-</LinearLayout>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="15dp"
+        android:src="@mipmap/icon_right_back"/>
+
+</RelativeLayout>

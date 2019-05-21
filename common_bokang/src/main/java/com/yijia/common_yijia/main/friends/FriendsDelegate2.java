@@ -84,7 +84,7 @@ public class FriendsDelegate2 extends LatteDelegate implements  FriendsView , Co
         friendsBeans = new ArrayList<>();
         friendsPresenter = new FriendsPresenter(this);
         token= YjDatabaseManager.getInstance().getDao().loadAll().get(0).getYjtk();
-        friendsPresenter.reqFriendData(token, familyId);
+//        friendsPresenter.reqFriendData(token, familyId);
 //        friendsPresenter.reqGuardianData(token);
     }
 
@@ -120,7 +120,13 @@ public class FriendsDelegate2 extends LatteDelegate implements  FriendsView , Co
             final String userStatus = jsonObject.getString("userStatus");
             final String userHead = jsonObject.getString("userHead");
             final String identifier = jsonObject.getString("tencentImUserId");
-            FriendsBean friendsBean = new FriendsBean(friendUserId, nickname, realName, userStatus, userHead, identifier);
+            int isOnline = 2;
+            if(jsonObject.containsKey("robotIsOnline"))
+                isOnline = jsonObject.getInteger("robotIsOnline");
+            String relation = "";
+            if(jsonObject.containsKey("relationTypeName"))
+                relation = jsonObject.getString("relationTypeName");
+            FriendsBean friendsBean = new FriendsBean(friendUserId, nickname, realName, userStatus, userHead, identifier, isOnline, relation);
             friendsBeans.add(friendsBean);
         }
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext()) ;

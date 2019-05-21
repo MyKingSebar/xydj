@@ -152,7 +152,7 @@ public class ExampleActivity extends ProxyActivity implements
 
     @Override
     public void onSignUpSecondSuccess() {
-        if (LattePreference.isFirstLogin("first_login")) {
+        if (LattePreference.isFirstLogin("first_login") && LattePreference.getNeedAddParents()) {
             AddParentsDelegate addParentsDelegate = new AddParentsDelegate();
             Bundle bundle = new Bundle();
             bundle.putBoolean(AddParentsDelegate.EXTRA_ISFIRST_LOGIN, true);

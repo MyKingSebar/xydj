@@ -7,14 +7,18 @@ public class FriendsBean {
     private String userStatus;
     private String userHead;
     private String identifier;
+    private int isOnline;
+    private String relation;
 
-    public FriendsBean(long friendUserId, String nickname, String realName, String userStatus, String userHead, String identifier) {
+    public FriendsBean(long friendUserId, String nickname, String realName, String userStatus, String userHead, String identifier, int isOnline, String relation) {
         this.friendUserId = friendUserId;
         this.nickname = nickname;
         this.realName = realName;
         this.userStatus = userStatus;
         this.userHead = userHead;
         this.identifier = identifier;
+        this.isOnline = isOnline;
+        this.relation = relation;
     }
 
     public FriendsBean() {
@@ -66,5 +70,25 @@ public class FriendsBean {
 
     public void setIdentifier(String identifier) {
         this.identifier = identifier;
+    }
+
+    public int getIsOnline() {
+        return isOnline;
+    }
+
+    public void setIsOnline(int isOnline) {
+        this.isOnline = isOnline;
+    }
+
+    public boolean isOnline() {
+        return isOnline == 1 ? true : false;
+    }
+
+    public String getRelation() {
+        return relation;
+    }
+
+    public void setRelation(String relation) {
+        this.relation = relation;
     }
 }

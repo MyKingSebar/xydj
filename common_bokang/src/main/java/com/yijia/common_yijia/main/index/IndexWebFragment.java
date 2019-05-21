@@ -156,5 +156,8 @@ public class IndexWebFragment extends LatteDelegate {
         }
     }
 
-
+    @Override
+    public boolean onBackPressedSupport() {
+        return false;
+    }
 }

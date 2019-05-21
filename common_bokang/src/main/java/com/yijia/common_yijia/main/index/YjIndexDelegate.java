@@ -9,6 +9,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.AppCompatTextView;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -23,8 +24,11 @@ import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
+import android.widget.HorizontalScrollView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
@@ -60,6 +64,8 @@ import com.yijia.common_yijia.main.index.friendcircle.smallvideo.SmallCameraLise
 import com.yijia.common_yijia.main.index.friends.IFriendsItemListener;
 import com.yijia.common_yijia.main.index.friends.IndexFriendsAdapter;
 import com.yijia.common_yijia.main.index.friends.YjIndexFriendsDataConverter;
+import com.yijia.common_yijia.main.index.invite.InviteRelationshipDelegate;
+import com.yijia.common_yijia.main.message.view.fragment.NoticeDelegate;
 import com.yijia.common_yijia.main.mine.MineDelegate;
 import com.yijia.common_yijia.main.robot.robotmain.RobotListAdapter;
 import com.yijia.common_yijia.main.robot.robotmain.RobotListConverter;
@@ -121,6 +127,10 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
     @BindView(R2.id.icon_index_message)
     IconTextView mSend = null;
 
+
+    @BindView(R2.id.hsv_top_item)
+    HorizontalScrollView hsv_top_item = null;
+
     @BindView(R2.id.cimg_img)
     RobotImageView cimg_img = null;
     @BindView(R2.id.tv_name)
@@ -129,6 +139,9 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
     //IndexWebFragment
     AppCompatTextView tvZcjl, tvCtqm, tvKhjl, tvTxjl, tvQin;
     LinearLayout ll_top_item_layout;
+
+    LinearLayoutCompat ll_unread,ll_invite;
+    ImageView tv_unreadicon;
 
 
     private List<MainFamily> families = new ArrayList<>();
@@ -168,7 +181,8 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
 
     @OnClick(R2.id.tv_invite)
     void mInvite() {
-        getParentDelegate().getSupportDelegate().start(new InviteDelagate());
+        InviteRelationshipDelegate mDelegate=InviteRelationshipDelegate.create(mCurrentFamily.familyId);
+        getParentDelegate().getSupportDelegate().start(mDelegate);
 
 //        showToast("暂未开通");
     }
@@ -183,7 +197,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
 //        mSend.setOnCreateContextMenuListener(this);
         initPopup();
         initTopItem(rootView);
-        initView();
+        initView(rootView);
 
     }
 
@@ -207,6 +221,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
             friendsDelegate2.setArguments(bundle);
             getParentDelegate().getSupportDelegate().start(friendsDelegate2);
         });
+        hsv_top_item.fullScroll(ScrollView.FOCUS_DOWN);
     }
 
     private void hideTopItem() {
@@ -234,7 +249,14 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
         }
     }
 
-    private void initView() {
+    private void initView(View rootview) {
+        tv_unreadicon=rootview.findViewById(R.id.tv_unreadicon);
+        ll_unread=rootview.findViewById(R.id.ll_unread);
+        ll_invite=rootview.findViewById(R.id.ll_invite);
+        ll_unread.setVisibility(View.GONE);
+        ll_unread.setOnClickListener(v->{
+            getParentDelegate().getSupportDelegate().start(new NoticeDelegate());
+        });
         initTopBar();
         String name = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getNickname();
         if (!TextUtils.isEmpty(name)) {
@@ -264,6 +286,41 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
 
 
 
+    public void checkUnread() {
+        RxRestClient.builder()
+                .url("notification/query_newest_unread")
+                .params("yjtk", YjDatabaseManager.getInstance().getDao().loadAll().get(0).getYjtk())
+                .build()
+                .get()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseObserver<String>(Latte.getApplicationContext()) {
+                    @Override
+                    public void onResponse(String r) {
+                        final JSONObject object = JSON.parseObject(r);
+                        final String status = object.getString("status");
+                        if (TextUtils.equals(status, "1001")) {
+                            JSONObject jo = object.getJSONObject("data");
+                            int haveUnread=jo.getInteger("haveUnread");
+                            String imagePath=jo.getString("imagePath");
+                            if(haveUnread==1){
+                                ll_invite.setVisibility(View.GONE);
+                                GlideUtils.load(getContext(),imagePath,tv_unreadicon,GlideUtils.DEFAULTMODE);
+                                ll_unread.setVisibility(View.VISIBLE);
+                            }else {
+                                ll_unread.setVisibility(View.GONE);
+                                ll_invite.setVisibility(View.VISIBLE);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFail(Throwable e) {
+                        Toast.makeText(Latte.getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+    }
     public void setOnlineStatue(long id) {
         RxRestClient.builder()
                 .url("robot/query_robot_is_online")
@@ -609,10 +666,11 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
     @Override
     public void onSupportVisible() {
         super.onSupportVisible();
-//        if (!isFirst) {
-//            Log.d("refresh", "onSupportVisible!isFirs");
-//            mRefreshHandler.firstPage();
-//        }
+        checkUnread();
+        if (!isFirst) {
+            Log.d("refresh", "onSupportVisible!isFirs");
+            mRefreshHandler.firstPage(mCurrentFamily.familyId);
+        }
     }
 
     @Override

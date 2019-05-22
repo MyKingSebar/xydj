@@ -102,7 +102,7 @@ import razerdp.basepopup.QuickPopupConfig;
 
 
 public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemListener, IIndexItemListener, IndexCameraCheckInstener, IIndexCanReadItemListener, IPlayVideoListener, IDeleteListener {
-    public final String TAG=getClass().getName();
+    public final String TAG = getClass().getName();
     private final int SHOWTOPITEMTYPE_MINE = 1;
     private final int SHOWTOPITEMTYPE_CREATER = 2;
     private final int SHOWTOPITEMTYPE_ORDERLY = 3;
@@ -221,32 +221,28 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
     }
 
     private void initGuide() {
-        int hightint=DimenUtil.getScreenHeight();
-        int weithint=DimenUtil.getScreenWidth();
+        int hightint = DimenUtil.getScreenHeight();
+        int weithint = DimenUtil.getScreenWidth();
         NewbieGuide.with(getActivity())
                 .setLabel("切换父母")
                 .setOnGuideChangedListener(new OnGuideChangedListener() {
-            @Override
-            public void onShowed(Controller controller) {
-                Log.e(TAG, "NewbieGuide onShowed: ");
-                //引导层显示
-            }
-
-            @Override
-            public void onRemoved(Controller controller) {
-                Log.e(TAG, "NewbieGuide  onRemoved: ");
-                //引导层消失（多页切换不会触发）
-            }
-        })
-                .setOnPageChangedListener(new OnPageChangedListener() {
+                    @Override
+                    public void onShowed(Controller controller) {
+                        Log.e(TAG, "NewbieGuide onShowed: ");
+                        //引导层显示
+                    }
 
                     @Override
-                    public void onPageChanged(int page) {
-                        //引导页切换，page为当前页位置，从0开始
-                        Log.e(TAG, "引导页切换：" + page);
+                    public void onRemoved(Controller controller) {
+                        Log.e(TAG, "NewbieGuide  onRemoved: ");
+                        //引导层消失（多页切换不会触发）
                     }
                 })
-                .alwaysShow(true)//是否每次都显示引导层，默认false，只显示一次
+                .setOnPageChangedListener(page -> {
+                    //引导页切换，page为当前页位置，从0开始
+                    Log.e(TAG, "引导页切换：" + page);
+                })
+                .alwaysShow(false)//是否每次都显示引导层，默认false，只显示一次
                 .addGuidePage(//添加一页引导页
                         GuidePage.newInstance()//创建一个实例
                                 .addHighLight(tv_name)//添加高亮的view
@@ -271,8 +267,8 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
 //                                .setExitAnimation(exitAnimation)//退出动画
                 )
                 .addGuidePage(GuidePage.newInstance()
-                        .addHighLight(tv_invite)
-                        .setLayoutRes(R.layout.guide_invite)//设置引导页布局
+                                .addHighLight(tv_invite)
+                                .setLayoutRes(R.layout.guide_invite)//设置引导页布局
 //                        .setLayoutRes(R.layout.view_guide_custom, R.id.iv)//引导页布局，点击跳转下一页或者消失引导层的控件id
 //                        .setOnLayoutInflatedListener(new OnLayoutInflatedListener() {
 //                            @Override
@@ -291,18 +287,18 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
 //                        .setExitAnimation(exitAnimation)//退出动画
                 )
                 .addGuidePage(GuidePage.newInstance()
-                        .addHighLight(mSend)
-                        .setLayoutRes(R.layout.guide_album)//设置引导页布局
+                                .addHighLight(mSend)
+                                .setLayoutRes(R.layout.guide_album)//设置引导页布局
 //                        .setEverywhereCancelable(false)//是否点击任意地方跳转下一页或者消失引导层，默认true
                 )
                 .addGuidePage(GuidePage.newInstance()
-                        .addHighLight(new RectF(weithint*2/3, hightint- RxImageTool.dp2px(58), weithint, hightint))
-                        .setLayoutRes(R.layout.guide_find)//设置引导页布局
+                                .addHighLight(new RectF(weithint * 2 / 3, hightint - RxImageTool.dp2px(58), weithint, hightint))
+                                .setLayoutRes(R.layout.guide_find)//设置引导页布局
 //                        .setEverywhereCancelable(false)//是否点击任意地方跳转下一页或者消失引导层，默认true
                 )
                 .addGuidePage(GuidePage.newInstance()
-                        .addHighLight(new RectF(weithint/3, hightint- RxImageTool.dp2px(65), weithint*2/3, hightint))
-                        .setLayoutRes(R.layout.guide_robot)//设置引导页布局
+                                .addHighLight(new RectF(weithint / 3, hightint - RxImageTool.dp2px(65), weithint * 2 / 3, hightint))
+                                .setLayoutRes(R.layout.guide_robot)//设置引导页布局
 //                        .setEverywhereCancelable(false)//是否点击任意地方跳转下一页或者消失引导层，默认true
                 )
 //                .addGuidePage(GuidePage.newInstance()
@@ -333,35 +329,35 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
         tvQin = rootView.findViewById(R.id.qin);
         hideTopItem();
         tvZcjl.setOnClickListener(v -> {
-            if(isConfirm) {
+            if (isConfirm) {
                 getParentDelegate().getSupportDelegate().start(IndexWebFragment.create(mCurrentFamily.mainUserId, IndexWebFragment.ZCJL_TYPE));
             } else {
                 Toast.makeText(getContext(), R.string.parent_has_not_confirm, Toast.LENGTH_LONG).show();
             }
         });
         tvCtqm.setOnClickListener(v -> {
-            if(isConfirm) {
+            if (isConfirm) {
                 getParentDelegate().getSupportDelegate().start(IndexWebFragment.create(mCurrentFamily.mainUserId, IndexWebFragment.CTQM_TYPE));
             } else {
                 Toast.makeText(getContext(), R.string.parent_has_not_confirm, Toast.LENGTH_LONG).show();
             }
         });
         tvKhjl.setOnClickListener(v -> {
-            if(isConfirm) {
+            if (isConfirm) {
                 getParentDelegate().getSupportDelegate().start(IndexWebFragment.create(mCurrentFamily.mainUserId, IndexWebFragment.KHJL_TYPE));
             } else {
                 Toast.makeText(getContext(), R.string.parent_has_not_confirm, Toast.LENGTH_LONG).show();
             }
         });
         tvTxjl.setOnClickListener(v -> {
-            if(isConfirm) {
+            if (isConfirm) {
                 getParentDelegate().getSupportDelegate().start(IndexWebFragment.create(mCurrentFamily.mainUserId, IndexWebFragment.TXJL_TYPE));
             } else {
                 Toast.makeText(getContext(), R.string.parent_has_not_confirm, Toast.LENGTH_LONG).show();
             }
         });
         tvQin.setOnClickListener(v -> {
-            if(isConfirm) {
+            if (isConfirm) {
                 Bundle bundle = new Bundle();
                 bundle.putString("familyName", mCurrentFamily.mainUserName);
                 bundle.putLong("familyId", mCurrentFamily.familyId);
@@ -390,8 +386,8 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
                         final String status = object.getString("status");
                         if (TextUtils.equals(status, "1001")) {
                             JSONObject jo = object.getJSONObject("data");
-                            if(null != jo) {
-                                if(jo.containsKey("friendCount")){
+                            if (null != jo) {
+                                if (jo.containsKey("friendCount")) {
                                     int count = jo.getInteger("friendCount");
                                     tvQin.setText(getString(R.string.num_of_relation, count));
                                 }
@@ -440,9 +436,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
         ll_unread = rootview.findViewById(R.id.ll_unread);
         ll_invite = rootview.findViewById(R.id.ll_invite);
         ll_unread.setVisibility(View.GONE);
-        ll_unread.setOnClickListener(v -> {
-            getParentDelegate().getSupportDelegate().start(new NoticeDelegate());
-        });
+        ll_unread.setOnClickListener(v -> getParentDelegate().getSupportDelegate().start(new NoticeDelegate()));
         initTopBar();
         String name = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getNickname();
         if (!TextUtils.isEmpty(name)) {
@@ -476,7 +470,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
         CallbackManager.getInstance().addCallback(CallbackType.ROBOT_REMIND_DELETE, new IGlobalCallback() {
             @Override
             public void executeCallback(@Nullable Object args) {
-                if(((long)args) == mCurrentFamily.familyId) {
+                if (((long) args) == mCurrentFamily.familyId) {
                     isFirst = true;
                     getFamilyData();
                 }
@@ -485,7 +479,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
     }
 
     private void setIsConfirm() {
-        if(0l == mCurrentFamily.familyId){
+        if (0L == mCurrentFamily.familyId) {
             isConfirm = true;
         } else {
             getCurrentFamilyMainerIsConfirm();
@@ -507,9 +501,9 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
                         final String status = JSON.parseObject(response).getString("status");
                         if (TextUtils.equals(status, "1001")) {
                             final JSONObject jsondata = JSON.parseObject(response).getJSONObject("data");
-                            if (null != jsondata && jsondata.containsKey("isConfirm"))
+                            if (null != jsondata && jsondata.containsKey("isConfirm")) {
                                 isConfirm = jsondata.getLong("isConfirm") == 1 ? true : false;
-
+                            }
                         } else {
                             isConfirm = false;
                         }
@@ -649,9 +643,9 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
                         family.permissionType = 1;
                         families.add(family);
 
-                        if(isFirst)
+                        if (isFirst) {
                             mCurrentFamily = family;
-
+                        }
 
                         if (TextUtils.equals(status, "1001")) {
                             final JSONArray guardianUserList = object.getJSONArray("data");
@@ -669,7 +663,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
                                 family.headImage = data.getString("headImage");
                                 family.permissionType = data.getInteger("permissionType");
                                 if ((2 == family.permissionType || 3 == family.permissionType) && mCurrentFamily.permissionType != 2) {
-                                    if(isFirst) {
+                                    if (isFirst) {
                                         mCurrentFamily = family;
                                     }
                                 }
@@ -681,10 +675,10 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
                             Toast.makeText(Latte.getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
 
                         }
-                        if(null != adapter && popupWindow.isShowing()) {
+                        if (null != adapter && popupWindow.isShowing()) {
                             adapter.notifyDataSetChanged();
                         }
-                        if(isFirst) {
+                        if (isFirst) {
                             TextViewUtils.AppCompatTextViewSetText(tv_name, family.familyName);
                             GlideUtils.load(getContext(), mCurrentFamily.headImage, cimg_img.userImageView(), GlideUtils.USERMODE);
                             cimg_img.setRobotOnline(mCurrentFamily.robotIsOnline);
@@ -1022,9 +1016,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
 //                            delegate.setArguments(mArgs);
 //                            getParentDelegate().getSupportDelegate().start(delegate);
                         }, true)
-                        .withClick(R.id.ll_letter, v1 -> {
-                            getParentDelegate().getSupportDelegate().start(new LetterDelagate());
-                        }, true))
+                        .withClick(R.id.ll_letter, v1 -> getParentDelegate().getSupportDelegate().start(new LetterDelagate()), true))
 //                .show(v);
                 .show();
     }
@@ -1069,7 +1061,6 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
                 JDialogUtil.INSTANCE.dismiss();
             }
         });
-
     }
 
     private void deletego(long id) {

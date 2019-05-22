@@ -65,9 +65,8 @@ public class RobotCallSettingDelegate extends LatteDelegate {
         tvSave.setVisibility(View.GONE);
         tvIcon.setVisibility(View.VISIBLE);
         TextViewUtils.setBackground(getContext(),tvIcon,R.mipmap.icon_robot_addfriend);
-        tvIcon.setOnClickListener(v->{
-            getSupportDelegate().start(new RobotCallSettingAddFriendDelegate());
-        });
+        tvIcon.setOnClickListener(v->getSupportDelegate().start(new RobotCallSettingAddFriendDelegate()));
+        tvIcon.setVisibility(View.GONE);
     }
 
     private void initTabLayout() {

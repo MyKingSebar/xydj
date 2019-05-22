@@ -11,7 +11,8 @@ import android.support.v4.app.FragmentStatePagerAdapter;
  */
 public class RobotCallSettingTabPagerAdapter extends FragmentStatePagerAdapter{
 
-        private final String[] TAB_TITLES = {"亲友", "通讯录","紧急呼叫"};
+        private final String[] TAB_TITLES = {"亲友","专号"};
+//        private final String[] TAB_TITLES = {"亲友", "通讯录","紧急呼叫"};
 
         public RobotCallSettingTabPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -21,9 +22,12 @@ public class RobotCallSettingTabPagerAdapter extends FragmentStatePagerAdapter{
         public Fragment getItem(int position) {
             if (position == 0) {
                 return new RobotCallSettingFriendListDelegate();
+//            } else if (position == 1) {
+//                return new RobotCallSettingAddressListDelegate();
+//            }else if (position == 2) {
+//                return new RobotCallSettingExigenceListDelegate();
+//            }
             } else if (position == 1) {
-                return new RobotCallSettingAddressListDelegate();
-            }else if (position == 2) {
                 return new RobotCallSettingExigenceListDelegate();
             }
             return null;
@@ -31,7 +35,7 @@ public class RobotCallSettingTabPagerAdapter extends FragmentStatePagerAdapter{
 
         @Override
         public int getCount() {
-            return 3;
+            return 2;
         }
         @Override
         public CharSequence getPageTitle(int position) {

@@ -23,6 +23,9 @@ import com.example.yijia.delegates.LatteDelegate;
 import com.example.yijia.net.rx.BaseObserver;
 import com.example.yijia.net.rx.RxRestClient;
 import com.example.yijia.util.PatternsUtil;
+import com.example.yijia.util.callback.CallbackManager;
+import com.example.yijia.util.callback.CallbackType;
+import com.example.yijia.util.callback.IGlobalCallback;
 import com.example.yijia.util.listener.OnSingleClickListener;
 import com.luck.picture.lib.tools.ToastManage;
 import com.yijia.common_yijia.database.YjDatabaseManager;
@@ -143,6 +146,10 @@ public class ParentInfoDelegate extends LatteDelegate {
                         final String status = object.getString("status");
                         if ("1001".equals(status)) {
                             getSupportDelegate().hideSoftInput();
+                            IGlobalCallback callback = CallbackManager.getInstance().getCallback(CallbackType.ROBOT_REMIND_TAG);
+                            if(null != callback) {
+                                callback.executeCallback(new Object());
+                            }
                             getSupportDelegate().popTo(AddParentsDelegate.class, true);
                             if (isFirstLogin) {
                                 YjSignHandler.onSkipAddParents(signListener);

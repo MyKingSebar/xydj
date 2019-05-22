@@ -64,7 +64,7 @@ public final class RobotListAdapter extends MultipleRecyclerAdapter {
                 //赋值
                 TextViewUtils.AppCompatTextViewSetText(tvName, name);
                 TextViewUtils.AppCompatTextViewSetText(tvAge, age);
-                TextViewUtils.AppCompatTextViewSetText(tvStatus, online == 1 ? "小壹在家" : "小壹不在");
+                TextViewUtils.AppCompatTextViewSetText(tvStatus, online == 1 ? "小壹在家" : "小壹离线");
                 imageView.setRobotOnline(online == 1);
                 TextViewUtils.AppCompatTextViewSetText(tvRelativeship, relationship);
                 TextViewUtils.AppCompatTextViewSetText(tvRecord, record);

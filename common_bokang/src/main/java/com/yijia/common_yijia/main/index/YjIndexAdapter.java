@@ -174,10 +174,11 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
 
                 initViewText(holder, circleId, userNickname, userHead, content, createdTime, likes, commentList.toJSONString(),isOwn);
                 final AppCompatImageView tvImage = holder.getView(R.id.iv_photo);
-                Glide.with(mContext)
-                        .load(imgs[0])
-                        .apply(OPTIONS)
-                        .into(tvImage);
+//                Glide.with(mContext)
+//                        .load(imgs[0])
+//                        .apply(OPTIONS)
+//                        .into(tvImage);
+                GlideUtils.load(mContext, imgs[0], tvImage, GlideUtils.DEFAULTMODE);
 
                 break;
             case YjIndexItemType.INDEX_IMAGES_ITEM:
@@ -326,7 +327,7 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
         final AppCompatTextView tvDelete = holder.getView(R.id.tv_delete);
         final RecyclerView rvComment = holder.getView(R.id.rv_comment);
         final AppCompatTextView tvComment = holder.getView(R.id.tv_comment);
-        final RobotImageView civ_img = holder.getView(R.id.civ_img);
+        final ImageView civ_img = holder.getView(R.id.civ_img);
         // 设置TextView可展示的宽度 ( 父控件宽度 - 左右margin - 左右padding）
 //        int whidth = ScreenUtils.getScreenWidth(latteDelegate.getContext()) - ScreenUtils.dip2px(latteDelegate.getContext(), 16 * 2);
 //        tvContent.initWidth(313+180);
@@ -371,8 +372,7 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
                 tvDelete.setVisibility(View.GONE);
                 break;
         }
-        GlideUtils.load(latteDelegate.getContext(), userHead, civ_img.userImageView(), GlideUtils.USERMODE);
-        civ_img.setRobotOnline(true);
+        GlideUtils.load(latteDelegate.getContext(), userHead, civ_img, GlideUtils.DEFAULTMODE);
         getLastIndexForLimit(tvContent, maxLine, content);
         if (TextUtils.isEmpty(content)) {
             tvContent.setVisibility(View.GONE);
@@ -531,10 +531,7 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
         final RelativeLayout rlVideo = holder.getView(R.id.rl_video);
         final ImageView imVideo = holder.getView(R.id.iv_video);
         final String videoCoverUrl = entity.getField(YjIndexMultipleFields.VIDEOCOVERURL);
-        Glide.with(mContext)
-                .load(videoCoverUrl)
-                .apply(OPTIONS)
-                .into(imVideo);
+        GlideUtils.load(mContext, videoCoverUrl, imVideo, GlideUtils.USERMODE);
         rlVideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

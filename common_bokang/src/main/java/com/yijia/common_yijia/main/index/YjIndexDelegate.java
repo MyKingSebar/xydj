@@ -163,6 +163,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
 
     private List<MainFamily> families = new ArrayList<>();
 
+    private MainFamilyAdapter adapter;
 
     private SmallCameraLisener mSmallCameraLisener = null;
 
@@ -420,12 +421,12 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
         }
         tv_name.setOnClickListener(v -> {
             if (null == popupWindow) {
-                MainFamilyAdapter adapter = new MainFamilyAdapter(getContext(), families, mCurrentFamily);
+                adapter = new MainFamilyAdapter(getContext(), families, mCurrentFamily);
                 popupWindow = new SpinnerPopuwindow(getActivity(), adapter, (parent, view, position, id) -> {
                     mCurrentFamily = families.get(position);
                     showTopItem(families.get(position).permissionType);
-                    adapter.updateChecked(mCurrentFamily);
                     mRefreshHandler.firstPage(mCurrentFamily.familyId);
+                    adapter.updateChecked(mCurrentFamily);
                     TextViewUtils.AppCompatTextViewSetText(tv_name, mCurrentFamily.familyName);
                     GlideUtils.load(getContext(), mCurrentFamily.headImage, cimg_img.userImageView(), GlideUtils.USERMODE);
                     cimg_img.setRobotOnline(mCurrentFamily.robotIsOnline);
@@ -433,6 +434,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
                 });
             }
             if (!popupWindow.isShowing()) {
+                getFamilyData();
                 ((SpinnerPopuwindow) popupWindow).showPopupWindow(tv_name);
             }
         });
@@ -602,9 +604,12 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
                             Toast.makeText(Latte.getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
 
                         }
-                        //第一次加载
-                        mRefreshHandler.firstPage(mCurrentFamily.familyId);
-                        isFirst = false;
+                        if(null != adapter)
+                            adapter.notifyDataSetChanged();
+                        if(isFirst) {
+                            mRefreshHandler.firstPage(mCurrentFamily.familyId);
+                            isFirst = false;
+                        }
 
                     }
 

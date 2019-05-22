@@ -447,7 +447,6 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
         String name = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getNickname();
         if (!TextUtils.isEmpty(name)) {
             tv_name.setText(name);
-            showTopItem(SHOWTOPITEMTYPE_MINE);
         }
         tv_name.setOnClickListener(v -> {
             if (null == popupWindow) {

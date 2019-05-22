@@ -18,8 +18,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:text="0"
-        android:textColor="@color/main_text_orange"
-        android:textSize="20sp"
+        android:textColor="@color/robot_detail_color"
+        android:textSize="22sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -29,7 +29,7 @@
         android:id="@+id/appCompatTextView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
+        android:layout_marginTop="10dp"
         android:text="今日活跃度"
         android:textColor="@color/main_text_black_46"
         android:textSize="16sp"
@@ -39,8 +39,8 @@
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/tv_robotimg"
-        android:layout_width="181dp"
-        android:layout_height="181dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="149dp"
         android:background="@mipmap/button_robot_main_img"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -49,49 +49,40 @@
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/tv_call"
-        android:layout_width="79dp"
-        android:layout_height="79dp"
-        android:layout_marginBottom="155dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="157dp"
         android:background="@mipmap/button_robot_main_hujiao"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/tv_robotimg" />
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/tv_remind"
-        android:layout_width="79dp"
-        android:layout_height="79dp"
-        android:layout_marginEnd="4dp"
-        android:layout_marginBottom="294dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginBottom="301dp"
         android:background="@mipmap/button_robot_main_tixing"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/tv_robotimg" />
+        app:layout_constraintLeft_toLeftOf="@id/tv_call"/>
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/tv_message"
-        android:layout_width="79dp"
-        android:layout_height="79dp"
-        android:layout_marginBottom="155dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="157dp"
         android:background="@mipmap/button_robot_main_liuyan"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tv_robotimg" />
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/tv_guardianship"
-        android:layout_width="79dp"
-        android:layout_height="79dp"
-        android:layout_marginBottom="294dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:background="@mipmap/button_robot_main_kanhu"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tv_robotimg" />
+        app:layout_constraintRight_toRightOf="@+id/tv_message"
+        android:layout_marginRight="54dp"
+        app:layout_constraintBottom_toTopOf="@id/tv_robotimg"/>
 
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/tv_health"
-        android:layout_width="79dp"
-        android:layout_height="79dp"
-        android:layout_marginBottom="27dp"
-        android:background="@mipmap/button_robot_main_jiankang"
-        app:layout_constraintBottom_toTopOf="@+id/tv_robotimg"
-        app:layout_constraintEnd_toStartOf="@+id/tv_guardianship"
-        app:layout_constraintStart_toEndOf="@+id/tv_remind" />
 
 </android.support.constraint.ConstraintLayout>

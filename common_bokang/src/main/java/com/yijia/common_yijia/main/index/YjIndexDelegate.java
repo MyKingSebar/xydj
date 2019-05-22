@@ -372,7 +372,6 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
                 Toast.makeText(getContext(), R.string.parent_has_not_confirm, Toast.LENGTH_LONG).show();
             }
         });
-        hsv_top_item.fullScroll(ScrollView.FOCUS_DOWN);
     }
 
     private void getFriendsCount() {
@@ -426,6 +425,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
                 tvCtqm.setVisibility(View.VISIBLE);
                 tvKhjl.setVisibility(View.VISIBLE);
                 tvTxjl.setVisibility(View.VISIBLE);
+                hsv_top_item.fullScroll(ScrollView.FOCUS_RIGHT);
                 break;
             case SHOWTOPITEMTYPE_VISITOR:
                 hideTopItem();
@@ -447,6 +447,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
         String name = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getNickname();
         if (!TextUtils.isEmpty(name)) {
             tv_name.setText(name);
+            showTopItem(SHOWTOPITEMTYPE_MINE);
         }
         tv_name.setOnClickListener(v -> {
             if (null == popupWindow) {

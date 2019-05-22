@@ -155,6 +155,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
 
     //IndexWebFragment
     AppCompatTextView tvZcjl, tvCtqm, tvKhjl, tvTxjl, tvQin;
+    private boolean isConfirm = false;
     LinearLayout ll_top_item_layout;
 
     LinearLayoutCompat ll_unread, ll_invite;
@@ -331,17 +332,45 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
         tvTxjl = rootView.findViewById(R.id.txjl);
         tvQin = rootView.findViewById(R.id.qin);
         hideTopItem();
-        tvZcjl.setOnClickListener(v -> getParentDelegate().getSupportDelegate().start(IndexWebFragment.create(mCurrentFamily.mainUserId, IndexWebFragment.ZCJL_TYPE)));
-        tvCtqm.setOnClickListener(v -> getParentDelegate().getSupportDelegate().start(IndexWebFragment.create(mCurrentFamily.mainUserId, IndexWebFragment.CTQM_TYPE)));
-        tvKhjl.setOnClickListener(v -> getParentDelegate().getSupportDelegate().start(IndexWebFragment.create(mCurrentFamily.mainUserId, IndexWebFragment.KHJL_TYPE)));
-        tvTxjl.setOnClickListener(v -> getParentDelegate().getSupportDelegate().start(IndexWebFragment.create(mCurrentFamily.mainUserId, IndexWebFragment.TXJL_TYPE)));
+        tvZcjl.setOnClickListener(v -> {
+            if(isConfirm) {
+                getParentDelegate().getSupportDelegate().start(IndexWebFragment.create(mCurrentFamily.mainUserId, IndexWebFragment.ZCJL_TYPE));
+            } else {
+                Toast.makeText(getContext(), R.string.parent_has_not_confirm, Toast.LENGTH_LONG).show();
+            }
+        });
+        tvCtqm.setOnClickListener(v -> {
+            if(isConfirm) {
+                getParentDelegate().getSupportDelegate().start(IndexWebFragment.create(mCurrentFamily.mainUserId, IndexWebFragment.CTQM_TYPE));
+            } else {
+                Toast.makeText(getContext(), R.string.parent_has_not_confirm, Toast.LENGTH_LONG).show();
+            }
+        });
+        tvKhjl.setOnClickListener(v -> {
+            if(isConfirm) {
+                getParentDelegate().getSupportDelegate().start(IndexWebFragment.create(mCurrentFamily.mainUserId, IndexWebFragment.KHJL_TYPE));
+            } else {
+                Toast.makeText(getContext(), R.string.parent_has_not_confirm, Toast.LENGTH_LONG).show();
+            }
+        });
+        tvTxjl.setOnClickListener(v -> {
+            if(isConfirm) {
+                getParentDelegate().getSupportDelegate().start(IndexWebFragment.create(mCurrentFamily.mainUserId, IndexWebFragment.TXJL_TYPE));
+            } else {
+                Toast.makeText(getContext(), R.string.parent_has_not_confirm, Toast.LENGTH_LONG).show();
+            }
+        });
         tvQin.setOnClickListener(v -> {
-            Bundle bundle = new Bundle();
-            bundle.putString("familyName", mCurrentFamily.mainUserName);
-            bundle.putLong("familyId", mCurrentFamily.familyId);
-            FriendsDelegate2 friendsDelegate2 = new FriendsDelegate2();
-            friendsDelegate2.setArguments(bundle);
-            getParentDelegate().getSupportDelegate().start(friendsDelegate2);
+            if(isConfirm) {
+                Bundle bundle = new Bundle();
+                bundle.putString("familyName", mCurrentFamily.mainUserName);
+                bundle.putLong("familyId", mCurrentFamily.familyId);
+                FriendsDelegate2 friendsDelegate2 = new FriendsDelegate2();
+                friendsDelegate2.setArguments(bundle);
+                getParentDelegate().getSupportDelegate().start(friendsDelegate2);
+            } else {
+                Toast.makeText(getContext(), R.string.parent_has_not_confirm, Toast.LENGTH_LONG).show();
+            }
         });
         hsv_top_item.fullScroll(ScrollView.FOCUS_DOWN);
     }
@@ -431,6 +460,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
                     GlideUtils.load(getContext(), mCurrentFamily.headImage, cimg_img.userImageView(), GlideUtils.USERMODE);
                     cimg_img.setRobotOnline(mCurrentFamily.robotIsOnline);
                     popupWindow.dismiss();
+                    setIsConfirm();
                 });
             }
             if (!popupWindow.isShowing()) {
@@ -452,6 +482,44 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
                 }
             }
         });
+    }
+
+    private void setIsConfirm() {
+        if(0l == mCurrentFamily.familyId){
+            isConfirm = true;
+        } else {
+            getCurrentFamilyMainerIsConfirm();
+        }
+    }
+
+    private void getCurrentFamilyMainerIsConfirm() {
+        RxRestClient.builder()
+                .url("family/query_parent_confirm")
+                .params("yjtk", YjDatabaseManager.getInstance().getDao().loadAll().get(0).getYjtk())
+                .params("familyId", mCurrentFamily.familyId)
+                .build()
+                .get()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseObserver<String>(Latte.getApplicationContext()) {
+                    @Override
+                    public void onResponse(String response) {
+                        final String status = JSON.parseObject(response).getString("status");
+                        if (TextUtils.equals(status, "1001")) {
+                            final JSONObject jsondata = JSON.parseObject(response).getJSONObject("data");
+                            if (null != jsondata && jsondata.containsKey("isConfirm"))
+                                isConfirm = jsondata.getLong("isConfirm") == 1 ? true : false;
+
+                        } else {
+                            isConfirm = false;
+                        }
+                    }
+
+                    @Override
+                    public void onFail(Throwable e) {
+                        isConfirm = false;
+                    }
+                });
     }
 
 
@@ -622,6 +690,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
                             cimg_img.setRobotOnline(mCurrentFamily.robotIsOnline);
                             showTopItem(SHOWTOPITEMTYPE_CREATER);
                             mRefreshHandler.firstPage(mCurrentFamily.familyId);
+                            setIsConfirm();
                             isFirst = false;
                         }
 

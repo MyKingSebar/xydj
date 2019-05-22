@@ -118,7 +118,7 @@ public class ExampleApp extends MultiDexApplication {
 //                .withWebEvent("test", new TestEvent())
 //                .withWebEvent("share", new ShareEvent())
                 //添加Cookie同步拦截器
-                .withWebHost("http://192.168.1.123:8880/")
+                .withWebHost("http://47.104.86.251:8003/")
                 .withInterceptor(new AddCookieInterceptor())
                 .configure();
     }

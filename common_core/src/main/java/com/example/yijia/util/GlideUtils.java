@@ -23,6 +23,8 @@ public class GlideUtils {
             .dontAnimate();
     public static final RequestOptions OPTIONS = new RequestOptions()
             .diskCacheStrategy(DiskCacheStrategy.ALL)
+            .placeholder(R.mipmap.ic_error_outline_white_48dp)
+            .error(R.mipmap.ic_error_outline_white_48dp)
             .centerCrop()
     .transform(new RoundedCorners(10))
             .dontAnimate();

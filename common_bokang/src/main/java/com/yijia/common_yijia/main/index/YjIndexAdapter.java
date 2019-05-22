@@ -110,11 +110,6 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
         this.mIPlayVideoListener = mIPlayVideoListener;
     }
 
-    private static final RequestOptions OPTIONS = new RequestOptions()
-            .diskCacheStrategy(DiskCacheStrategy.ALL)
-            .centerCrop()
-            .dontAnimate();
-
     YjIndexAdapter(List<MultipleItemEntity> data, LatteDelegate delegate) {
         super(data);
         latteDelegate = delegate;
@@ -372,7 +367,7 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
                 tvDelete.setVisibility(View.GONE);
                 break;
         }
-        GlideUtils.load(latteDelegate.getContext(), userHead, civ_img, GlideUtils.DEFAULTMODE);
+        GlideUtils.load(mContext, userHead, civ_img, GlideUtils.USERMODE);
         getLastIndexForLimit(tvContent, maxLine, content);
         if (TextUtils.isEmpty(content)) {
             tvContent.setVisibility(View.GONE);

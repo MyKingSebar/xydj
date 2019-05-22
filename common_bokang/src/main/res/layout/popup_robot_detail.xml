@@ -2,18 +2,16 @@
 <android.support.v7.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:background="@color/white"
+                                              android:background="@drawable/radius5_background_white"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/popup_robot_delete"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/white"
+        android:layout_height="40dp"
         android:gravity="center"
-        android:text="删除"
+        android:text="删  除"
         android:textColor="@color/main_text_black_dark"
-        android:textSize="20sp" />
+        android:textSize="16sp" />
 
 </android.support.v7.widget.LinearLayoutCompat>

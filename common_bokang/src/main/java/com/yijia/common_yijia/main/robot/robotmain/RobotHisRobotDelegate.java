@@ -260,7 +260,7 @@ public class RobotHisRobotDelegate extends LatteDelegate {
             popupWindow.setWidth(DimensionUtil.dpToPx(150));
             popupWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
             popupWindow.setFocusable(true);
-            popupWindow.setBackgroundDrawable(getResources().getDrawable(R.drawable.radius5_background_white));
+            popupWindow.setBackgroundDrawable(getResources().getDrawable(R.color.transparent));
             
         }
 

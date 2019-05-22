@@ -183,4 +183,5 @@ dependencies {
     //崩溃SpiderMan
     debugApi 'com.simple:spiderman:1.0.8'
     releaseApi 'com.simple:spiderman-no-op:1.0.8'
+    api project(':common_amap_location')
 }

@@ -87,5 +87,4 @@ dependencies {
     api project(':baidutext')
     api(name: 'SH_VOIP_SDK_V1.0.2.1_20190423', ext: 'aar')
     implementation project(':ui_magicindicator1.6.0')
-
 }

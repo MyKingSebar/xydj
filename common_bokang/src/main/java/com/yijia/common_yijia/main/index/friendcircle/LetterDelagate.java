@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
+import com.bokang.common_amap_location.AmapLocation;
 import com.example.commcon_xfyun.Lat;
 import com.example.commcon_xfyun.LatCallbackInterface;
 import com.example.latte.ec.R;
@@ -47,6 +48,7 @@ public class LetterDelagate extends LatteDelegate implements LatCallbackInterfac
     AppCompatTextView tv_recipients;
 
     private long friendId = 0;
+    AmapLocation mAmapLicotion=null;
 
     //朋友圈参数
     //1-文本，2-照片，3-语音，4-视频
@@ -117,8 +119,11 @@ public class LetterDelagate extends LatteDelegate implements LatCallbackInterfac
     void save() {
         final String token = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getYjtk();
         contentType = 1;
-        upLoadInfo(token,etTitle.getText().toString(), etText.getText().toString(), "");
-
+        mAmapLicotion=new AmapLocation(getContext(), aMapLocation -> {
+            upLoadInfo(token,etTitle.getText().toString(), etText.getText().toString(), "",aMapLocation.getLongitude(),aMapLocation.getLatitude());
+            mAmapLicotion.destroyLocation();
+        });
+        mAmapLicotion.DefaultGetLocation();
     }
 
 
@@ -170,7 +175,7 @@ public class LetterDelagate extends LatteDelegate implements LatCallbackInterfac
     }
 
 
-    private void upLoadInfo(String token, String title,String content, String filesString) {
+    private void upLoadInfo(String token, String title,String content, String filesString,double longitude,double latitude) {
         LatteLogger.w("upLoadImg", "upLoadInfo");
         final String url = "circle/insert";
         if (circleType == 1) {

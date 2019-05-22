@@ -16,6 +16,9 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationListener;
+import com.bokang.common_amap_location.AmapLocation;
 import com.cjt2325.cameralibrary.JCameraView;
 import com.cjt2325.cameralibrary.listener.BackListener;
 import com.cjt2325.cameralibrary.listener.ClickListener;
@@ -41,6 +44,7 @@ import io.reactivex.schedulers.Schedulers;
 public class CameraActivity extends AppCompatActivity {
     private JCameraView jCameraView;
     final String token = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getYjtk();
+    AmapLocation mAmapLicotion=null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -177,7 +181,13 @@ public class CameraActivity extends AppCompatActivity {
 
                             final JSONObject dataObject = object.getJSONObject("data");
                             final String filePath = dataObject.getString("path");
-                            upLoadInfo(token, "", filePath);
+                            mAmapLicotion=new AmapLocation(getContext(), aMapLocation -> {
+                                upLoadInfo(token, "", filePath,aMapLocation.getLongitude(),aMapLocation.getLatitude());
+                                mAmapLicotion.destroyLocation();
+                            });
+                            mAmapLicotion.DefaultGetLocation();
+
+
                         } else {
                             Toast.makeText(getContext(), object.getString("msg"), Toast.LENGTH_SHORT).show();
                             JDialogUtil.INSTANCE.dismiss();
@@ -194,7 +204,7 @@ public class CameraActivity extends AppCompatActivity {
                 });
     }
 
-    private void upLoadInfo(String token, String content, String filesString) {
+    private void upLoadInfo(String token, String content, String filesString,double longitude,double latitude) {
         LatteLogger.w("upLoadImg", "upLoadInfo");
         final String url = "circle/insert";
         RxRestClient.builder()
@@ -208,8 +218,8 @@ public class CameraActivity extends AppCompatActivity {
                 .params("visibleType", 1)
 //                .params("visibleOrInvisibleUserIds",JSONArray.parseArray(JSON.toJSONString(visibleOrInvisibleUserIds2)))
                 .params("location", "")
-                .params("longitude", 0.0)
-                .params("latitude", 0.0)
+                .params("longitude", longitude)
+                .params("latitude", latitude)
                 .build()
                 .post()
                 .subscribeOn(Schedulers.io())

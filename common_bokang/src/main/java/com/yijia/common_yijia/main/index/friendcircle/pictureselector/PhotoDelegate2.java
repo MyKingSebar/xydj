@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.bokang.common_amap_location.AmapLocation;
 import com.example.latte.ec.R;
 import com.example.latte.ec.R2;
 import com.example.latte.ui.wxvideoedit.EsayVideoEditActivity;
@@ -52,6 +53,7 @@ public class PhotoDelegate2 extends LatteDelegate {
 
     public static long mLong2 = 0;
 
+    AmapLocation mAmapLicotion=null;
 
     boolean isfirst = false;
 
@@ -153,8 +155,11 @@ public class PhotoDelegate2 extends LatteDelegate {
                 break;
             case TEXTMODE:
                 circleType = 1;
-
-                upLoadInfo(token, etText.getText().toString(), "");
+                mAmapLicotion=new AmapLocation(getContext(), aMapLocation -> {
+                    upLoadInfo(token, etText.getText().toString(),  "",aMapLocation.getLongitude(),aMapLocation.getLatitude());
+                    mAmapLicotion.destroyLocation();
+                });
+                mAmapLicotion.DefaultGetLocation();
 
                 break;
             default:
@@ -562,8 +567,11 @@ public class PhotoDelegate2 extends LatteDelegate {
                         if (TextUtils.equals(status, "1001")) {
 
                             final JSONObject dataObject = object.getJSONObject("data");
-                            final String filePath = dataObject.getString("path");
-                            upLoadInfo(token, etText.getText().toString(), filePath);
+                            final String filePath = dataObject.getString("path");mAmapLicotion=new AmapLocation(getContext(), aMapLocation -> {
+                                upLoadInfo(token, etText.getText().toString(), filePath,aMapLocation.getLongitude(),aMapLocation.getLatitude());
+                                mAmapLicotion.destroyLocation();
+                            });
+                            mAmapLicotion.DefaultGetLocation();
                         } else {
                             Toast.makeText(getContext(), object.getString("msg"), Toast.LENGTH_SHORT).show();
                             JDialogUtil.INSTANCE.dismiss();
@@ -668,7 +676,7 @@ public class PhotoDelegate2 extends LatteDelegate {
                 ).launch();
     }
 
-    private void upLoadInfo(String token, String content, String filesString) {
+    private void upLoadInfo(String token, String content, String filesString,double longitude,double latitude) {
         LatteLogger.w("upLoadImg", "upLoadInfo");
         final String url = "circle/insert";
         if (circleType == 1) {

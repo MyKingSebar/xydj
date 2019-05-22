@@ -78,14 +78,4 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tv_robotimg" />
 
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/tv_health"
-        android:layout_width="79dp"
-        android:layout_height="79dp"
-        android:layout_marginBottom="27dp"
-        android:background="@mipmap/button_robot_main_jiankang"
-        app:layout_constraintBottom_toTopOf="@+id/tv_robotimg"
-        app:layout_constraintEnd_toStartOf="@+id/tv_guardianship"
-        app:layout_constraintStart_toEndOf="@+id/tv_remind" />
-
 </android.support.constraint.ConstraintLayout>

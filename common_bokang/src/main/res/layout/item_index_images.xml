@@ -13,9 +13,9 @@
         android:id="@+id/ng_imgs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="41dp"
+        android:layout_marginStart="61dp"
         android:layout_marginTop="11dp"
-        android:layout_marginEnd="18dp"
+        android:layout_marginEnd="15dp"
         />
 
     <include layout="@layout/include_item_index_commet_withdelete" />

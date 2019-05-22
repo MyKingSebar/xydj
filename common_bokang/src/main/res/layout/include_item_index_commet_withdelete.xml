@@ -33,7 +33,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_delete"
-        android:layout_marginStart="47dp"
+        android:layout_marginStart="61dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="15dp">
 
@@ -46,9 +46,9 @@
         android:layout_height="wrap_content"
         android:padding="4dp"
         android:layout_below="@+id/rv_comment"
-        android:layout_marginStart="47dp"
+        android:layout_marginStart="61dp"
         android:layout_marginTop="7dp"
-        android:layout_marginEnd="18dp"
+        android:layout_marginEnd="15dp"
         android:gravity="center_vertical"
         android:layout_marginBottom="8dp"
         android:paddingStart="27dp"

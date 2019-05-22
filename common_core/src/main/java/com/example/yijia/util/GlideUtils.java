@@ -24,6 +24,7 @@ public class GlideUtils {
     public static final RequestOptions OPTIONS = new RequestOptions()
             .diskCacheStrategy(DiskCacheStrategy.ALL)
             .centerCrop()
+    .transform(new RoundedCorners(10))
             .dontAnimate();
 
     public static void load(Context context, String url, ImageView v, int type) {

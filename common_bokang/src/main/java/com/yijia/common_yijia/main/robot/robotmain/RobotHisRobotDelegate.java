@@ -52,7 +52,7 @@ public class RobotHisRobotDelegate extends LatteDelegate {
     public static final String PERMISSIONTYPE = "permissionType";
     public static final String FAMILYID = "familyId";
     public static final String CHATID = "chatId";
-    AppCompatTextView tvCall, tvRemind, tvMessage, tvGuardianship, tvHealth, tvLiveness, tvRobotImg, tvTitle, tvSave;
+    AppCompatTextView tvCall, tvRemind, tvMessage, tvGuardianship, tvLiveness, tvRobotImg, tvTitle, tvSave;
     ImageView ivIcon;
     RelativeLayout rl;
     String token = null;
@@ -109,7 +109,6 @@ public class RobotHisRobotDelegate extends LatteDelegate {
         tvRemind = rootView.findViewById(R.id.tv_remind);
         tvMessage = rootView.findViewById(R.id.tv_message);
         tvGuardianship = rootView.findViewById(R.id.tv_guardianship);
-        tvHealth = rootView.findViewById(R.id.tv_health);
         tvLiveness = rootView.findViewById(R.id.tv_liveness);
         tvRobotImg = rootView.findViewById(R.id.tv_robotimg);
 
@@ -159,13 +158,6 @@ public class RobotHisRobotDelegate extends LatteDelegate {
             intent2.putExtra(CallWaitingActivity.TYPE_KEY, CallWaitingActivity.TYPE_KANHU);
             getActivity().startActivity(intent2);
             bokangSendMessageUtil.sendOnLineMessage(bokangSendMessageUtil.buildBokangMessage(MessageInfoUtil.BOKANG_MONITOR_WAIT, userId + ""));
-        });
-        tvHealth.setOnClickListener(v -> {
-            //TODO 健康记录
-            if (!checkAdmin()) {
-                showToast("您不是管理员，无法进行该操作");
-                return;
-            }
         });
     }
 

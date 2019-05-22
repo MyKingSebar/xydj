@@ -1,31 +1,19 @@
 package com.yijia.common_yijia.main.robot.robotmain;
 
 import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.text.PrecomputedTextCompat;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.AppCompatTextView;
-import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.example.latte.ec.R;
-import com.example.latte.ec.R2;
-import com.example.latte.ui.recycler.MultipleItemEntity;
 import com.example.yijia.app.Latte;
-import com.example.yijia.delegates.LatteDelegate;
 import com.example.yijia.delegates.bottom.BottomItemDelegate;
 import com.example.yijia.net.rx.BaseObserver;
 import com.example.yijia.net.rx.RxRestClient;
@@ -35,26 +23,17 @@ import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMMessage;
 import com.tencent.qcloud.uikit.business.chat.model.MessageInfoUtil;
 import com.yijia.common_yijia.database.YjDatabaseManager;
-import com.yijia.common_yijia.main.message.MessageTabPagerAdapter;
-import com.yijia.common_yijia.main.message.NoticeDataConverter;
-import com.yijia.common_yijia.main.message.NoticesAdapter;
 import com.yijia.common_yijia.main.message.trtc.BoKangSendMessageListener;
 import com.yijia.common_yijia.main.message.trtc.BokangSendMessageUtil;
 import com.yijia.common_yijia.main.message.trtc.CallWaitingActivity;
 import com.yijia.common_yijia.main.robot.callsetting.RobotCallSettingDelegate;
 import com.yijia.common_yijia.main.robot.setting.remind.RobotRemindSettingDelegate;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.concurrent.Future;
-
-import butterknife.BindView;
-import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 public class RobotMyRobotDelegate extends BottomItemDelegate {
-    AppCompatTextView tvCall, tvRemind, tvMessage, tvGuardianship, tvHealth, tvLiveness, tvRobotImg;
+    AppCompatTextView tvCall, tvRemind, tvMessage, tvGuardianship, tvLiveness, tvRobotImg;
     String token = null;
     long userId = 0;
     boolean isOnline = false;
@@ -82,7 +61,6 @@ public class RobotMyRobotDelegate extends BottomItemDelegate {
         tvRemind = rootView.findViewById(R.id.tv_remind);
         tvMessage = rootView.findViewById(R.id.tv_message);
         tvGuardianship = rootView.findViewById(R.id.tv_guardianship);
-        tvHealth = rootView.findViewById(R.id.tv_health);
         tvLiveness = rootView.findViewById(R.id.tv_liveness);
         tvRobotImg = rootView.findViewById(R.id.tv_robotimg);
         tvCall.setOnClickListener(v -> {
@@ -117,10 +95,6 @@ public class RobotMyRobotDelegate extends BottomItemDelegate {
             intent2.putExtra(CallWaitingActivity.TYPE_KEY, CallWaitingActivity.TYPE_VIDEO);
             getActivity().startActivity(intent2);
             bokangSendMessageUtil.sendOnLineMessage(bokangSendMessageUtil.buildBokangMessage(MessageInfoUtil.BOKANG_VIDEO_WAIT, userId + ""));
-        });
-        tvHealth.setOnClickListener(v -> {
-            //TODO 健康记录
-            checkRobotLogin();
         });
 
         bokangSendMessageUtil = new BokangSendMessageUtil(TIMManager.getInstance().getConversation(TIMConversationType.C2C, testChatId), new BoKangSendMessageListener() {

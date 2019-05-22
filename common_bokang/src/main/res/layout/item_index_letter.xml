@@ -12,7 +12,7 @@
 <RelativeLayout
     android:layout_marginTop="10dp"
     android:layout_width="match_parent"
-    android:layout_marginStart="47dp"
+    android:layout_marginStart="61dp"
     android:layout_marginEnd="15dp"
     android:layout_marginBottom="10dp"
     android:layout_height="wrap_content">

@@ -434,14 +434,24 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
                 });
             }
             if (!popupWindow.isShowing()) {
-                getFamilyData();
                 ((SpinnerPopuwindow) popupWindow).showPopupWindow(tv_name);
+                getFamilyData();
             }
         });
         String img = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getImagePath();
         GlideUtils.load(getContext(), img, cimg_img.userImageView(), GlideUtils.USERMODE);
         setOnlineStatue(0);
         getFamilyData();
+
+        CallbackManager.getInstance().addCallback(CallbackType.ROBOT_REMIND_DELETE, new IGlobalCallback() {
+            @Override
+            public void executeCallback(@Nullable Object args) {
+                if(((long)args) == mCurrentFamily.familyId) {
+                    isFirst = true;
+                    getFamilyData();
+                }
+            }
+        });
     }
 
 
@@ -517,7 +527,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
     }
 
     private void getFamilyData() {
-        hideTopItem();
+//        hideTopItem();
         Observable ob1 = RxRestClient.builder()
                 .url("robot/query_robot_is_online")
                 .params("yjtk", YjDatabaseManager.getInstance().getDao().loadAll().get(0).getYjtk())
@@ -569,9 +579,10 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
                         family.robotIsOnline = isOnline ? 1 : 2;
                         family.headImage = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getImagePath();
                         family.permissionType = 1;
-                        mCurrentFamily = family;
                         families.add(family);
-                        showTopItem(SHOWTOPITEMTYPE_MINE);
+
+                        if(isFirst)
+                            mCurrentFamily = family;
 
 
                         if (TextUtils.equals(status, "1001")) {
@@ -590,11 +601,9 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
                                 family.headImage = data.getString("headImage");
                                 family.permissionType = data.getInteger("permissionType");
                                 if ((2 == family.permissionType || 3 == family.permissionType) && mCurrentFamily.permissionType != 2) {
-                                    mCurrentFamily = family;
-                                    TextViewUtils.AppCompatTextViewSetText(tv_name, family.familyName);
-                                    GlideUtils.load(getContext(), mCurrentFamily.headImage, cimg_img.userImageView(), GlideUtils.USERMODE);
-                                    cimg_img.setRobotOnline(mCurrentFamily.robotIsOnline);
-                                    showTopItem(SHOWTOPITEMTYPE_CREATER);
+                                    if(isFirst) {
+                                        mCurrentFamily = family;
+                                    }
                                 }
                                 families.add(family);
                             }
@@ -604,9 +613,14 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
                             Toast.makeText(Latte.getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
 
                         }
-                        if(null != adapter)
+                        if(null != adapter && popupWindow.isShowing()) {
                             adapter.notifyDataSetChanged();
+                        }
                         if(isFirst) {
+                            TextViewUtils.AppCompatTextViewSetText(tv_name, family.familyName);
+                            GlideUtils.load(getContext(), mCurrentFamily.headImage, cimg_img.userImageView(), GlideUtils.USERMODE);
+                            cimg_img.setRobotOnline(mCurrentFamily.robotIsOnline);
+                            showTopItem(SHOWTOPITEMTYPE_CREATER);
                             mRefreshHandler.firstPage(mCurrentFamily.familyId);
                             isFirst = false;
                         }

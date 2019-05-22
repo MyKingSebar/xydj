@@ -296,6 +296,11 @@ public class RobotHisRobotDelegate extends LatteDelegate {
                             if(null != callback) {
                                 callback.executeCallback(new Object());
                             }
+
+                            IGlobalCallback callbackDelete = CallbackManager.getInstance().getCallback(CallbackType.ROBOT_REMIND_DELETE);
+                            if(null != callbackDelete) {
+                                callbackDelete.executeCallback(familyId);
+                            }
                         } else {
                             Toast.makeText(getContext(), R.string.delete_family_error, Toast.LENGTH_LONG).show();
                         }

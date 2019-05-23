@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="64dp"
-                android:background="@color/white">
+    android:layout_width="match_parent"
+    android:layout_height="64dp"
+    android:id="@+id/rl_top"
+    android:background="@color/white">
 
     <RelativeLayout
         android:id="@+id/tv_back"
@@ -10,12 +11,13 @@
         android:layout_height="match_parent">
 
         <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tv_back_icon"
             android:layout_width="18dp"
             android:layout_height="18dp"
             android:layout_alignParentBottom="true"
             android:layout_centerInParent="true"
             android:layout_marginBottom="11dp"
-            android:background="@mipmap/back"/>
+            android:background="@mipmap/back" />
     </RelativeLayout>
 
     <android.support.v7.widget.AppCompatTextView
@@ -27,43 +29,43 @@
         android:layout_marginBottom="9dp"
         android:text="编辑"
         android:textColor="@color/main_text_black_dark"
-        android:textSize="@dimen/second_title_18"/>
+        android:textSize="@dimen/second_title_18" />
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/tv_save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginBottom="11dp"
-        android:layout_marginEnd="15dp"
+        android:layout_alignParentBottom="true"
         android:layout_marginTop="4dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="11dp"
         android:background="@drawable/rectangle_main_orange"
-        android:paddingBottom="5dp"
-        android:paddingEnd="15dp"
         android:paddingStart="15dp"
         android:paddingTop="5dp"
+        android:paddingEnd="15dp"
+        android:paddingBottom="5dp"
         android:text="发送"
         android:textColor="@color/white"
-        android:textSize="15sp"/>
+        android:textSize="15sp" />
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/tv_icon"
         android:layout_width="18dp"
         android:layout_height="18dp"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginBottom="12dp"
+        android:layout_alignParentBottom="true"
         android:layout_marginEnd="15dp"
+        android:layout_marginBottom="12dp"
         android:background="@mipmap/icon_add_jianhuren"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <ImageView
         android:id="@+id/iv_icon"
         android:layout_width="60dp"
         android:layout_height="@dimen/dp_40"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:visibility="gone"
-        android:scaleType="center"/>
+        android:layout_alignParentBottom="true"
+        android:scaleType="center"
+        android:visibility="gone" />
 </RelativeLayout>

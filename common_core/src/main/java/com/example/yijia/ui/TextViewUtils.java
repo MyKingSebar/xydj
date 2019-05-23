@@ -24,13 +24,13 @@ public class TextViewUtils {
         tv.setTextFuture(future);
 
     }
-    public static int getColor(Context mCOntext,int mRcolor){
-        return ContextCompat.getColor(Objects.requireNonNull(mCOntext), mRcolor);
+    public static int getColor(Context mContext,int mRcolor){
+        return ContextCompat.getColor(Objects.requireNonNull(mContext), mRcolor);
     }
-    public static Drawable getDrawable(Context mCOntext, int mRid){
-        return ContextCompat.getDrawable(Objects.requireNonNull(mCOntext), mRid);
+    public static Drawable getDrawable(Context mContext, int mRid){
+        return ContextCompat.getDrawable(Objects.requireNonNull(mContext), mRid);
     }
-    public  static  void  setBackground(Context mCOntext,View view,int drawable){
-        view.setBackground(getDrawable(mCOntext,drawable));
+    public  static  void  setBackground(Context mContext,View view,int drawable){
+        view.setBackground(getDrawable(mContext,drawable));
     }
 }

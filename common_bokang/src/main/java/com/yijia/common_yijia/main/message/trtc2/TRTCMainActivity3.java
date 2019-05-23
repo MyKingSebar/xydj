@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
+import android.support.v7.widget.AppCompatTextView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -15,10 +17,12 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.latte.ec.R;
+import com.example.yijia.ui.TextViewUtils;
 import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMConversationType;
 import com.tencent.imsdk.TIMCustomElem;
@@ -100,6 +104,17 @@ public class TRTCMainActivity3 extends Activity implements View.OnClickListener,
     String userSig = null, selfUserId = null, chatId = null;
     int roomId = 0, sdkAppId = 0;
 
+    //view
+    ConstraintLayout cl_guardianship_bottom;
+    ConstraintLayout cl_bottom_control;
+    AppCompatTextView tv_back_icon;
+    AppCompatTextView tv_save;
+    AppCompatTextView tv_title;
+    RelativeLayout rl_back;
+    RelativeLayout rl_top;
+
+
+
     @Override
     protected void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -154,6 +169,12 @@ public class TRTCMainActivity3 extends Activity implements View.OnClickListener,
                 trtcCloud.muteLocalVideo(true);
                 trtcCloud.stopLocalPreview();
                 trtcCloud.stopLocalAudio();
+                rl_top.setVisibility(View.VISIBLE);
+                cl_guardianship_bottom.setVisibility(View.VISIBLE);
+                cl_bottom_control.setVisibility(View.GONE);
+                TXCloudVideoView localVideoView = mVideoViewLayout.getCloudVideoViewByUseId(trtcParams.userId);
+                localVideoView.setUserId(trtcParams.userId);
+                localVideoView.setVisibility(View.GONE);
                 break;
             default:
                 break;
@@ -196,6 +217,20 @@ public class TRTCMainActivity3 extends Activity implements View.OnClickListener,
     private void initView() {
         setContentView(R.layout.trtc_main_activity3);
 
+        cl_guardianship_bottom =findViewById(R.id.cl_guardianship_bottom);
+        cl_bottom_control =findViewById(R.id.cl_bottom_control);
+        rl_top=findViewById(R.id.rl_top);
+        tv_back_icon=findViewById(R.id.tv_back_icon);
+        tv_save=findViewById(R.id.tv_save);
+        tv_title=findViewById(R.id.tv_title);
+        rl_back =findViewById(R.id.tv_back);
+        TextViewUtils.setBackground(this,rl_top,R.color.transparent);
+        TextViewUtils.setBackground(this,tv_back_icon,R.mipmap.back_white);
+        tv_title.setTextColor(TextViewUtils.getColor(this,R.color.white));
+        TextViewUtils.AppCompatTextViewSetText(tv_title,"远程看护");
+        tv_save.setVisibility(View.GONE);
+        rl_back.setOnClickListener(v-> onExit());
+
         initClickableLayout(R.id.ll_beauty);
         initClickableLayout(R.id.ll_camera);
         initClickableLayout(R.id.ll_voice);
@@ -209,44 +244,50 @@ public class TRTCMainActivity3 extends Activity implements View.OnClickListener,
         TXCloudVideoView localVideoView = mVideoViewLayout.getCloudVideoViewByIndex(0);
         localVideoView.setUserId(trtcParams.userId);
 
-        ivShowMode = (ImageView) findViewById(R.id.iv_show_mode);
+        ivShowMode = findViewById(R.id.iv_show_mode);
         ivShowMode.setOnClickListener(this);
-        ivBeauty = (ImageView) findViewById(R.id.iv_beauty);
-        ivLog = (ImageView) findViewById(R.id.iv_log);
-        ivVoice = (ImageView) findViewById(R.id.iv_mic);
-        ivCamera = (ImageView) findViewById(R.id.iv_camera);
+        ivBeauty = findViewById(R.id.iv_beauty);
+        ivLog = findViewById(R.id.iv_log);
+        ivVoice = findViewById(R.id.iv_mic);
+        ivCamera = findViewById(R.id.iv_camera);
 
-        etRoomId = (EditText)findViewById(R.id.edit_room_id);
-        etUserId = (EditText)findViewById(R.id.edit_user_id);
+        etRoomId = findViewById(R.id.edit_room_id);
+        etUserId = findViewById(R.id.edit_user_id);
 
         findViewById(R.id.btn_confirm).setOnClickListener(this);
         findViewById(R.id.btn_cancel).setOnClickListener(this);
 
-        tvRoomId = (TextView) findViewById(R.id.tv_room_id);
+        tvRoomId = findViewById(R.id.tv_room_id);
         tvRoomId.setText("" + trtcParams.roomId);
 
         settingDlg = new TRTCSettingDialog(this, this);
         moreDlg = new TRTCMoreDialog(this, this);
-        findViewById(R.id.rtc_double_room_back_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                exitRoom();
-            }
-        });
+        findViewById(R.id.rtc_double_room_back_button).setOnClickListener(v -> exitRoom());
 
         //挂断
-        findViewById(R.id.cl_drop).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                exitRoom();
-            }
-        });
+        findViewById(R.id.cl_drop).setOnClickListener(v -> exitRoom());
     }
 
     private LinearLayout initClickableLayout(int resId) {
-        LinearLayout layout = (LinearLayout) findViewById(resId);
+        LinearLayout layout = findViewById(resId);
         layout.setOnClickListener(this);
         return layout;
+    }
+    /**
+     * 监听Back键按下事件,方法2:
+     * 在此处返回false,所以会继续传播该事件. 继续执行super.onKeyDown(keyCode, event);
+     */
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+            onExit();
+            return false;
+        }else {
+            return super.onKeyDown(keyCode, event);
+        }
+    }
+    private void onExit(){
+        exitRoom();
     }
 
     /**
@@ -536,6 +577,7 @@ public class TRTCMainActivity3 extends Activity implements View.OnClickListener,
                     activity.trtcCloud.showDebugView(activity.iDebugLevel);
                     activity.trtcCloud.setDebugViewMargin(userId, new TRTCCloud.TRTCViewMargin(0.0f, 0.0f, 0.1f, 0.0f));
 //                    activity.trtcCloud.setRemoteVideoRenderListener(userId, TRTCCloudDef.TRTC_VIDEO_PIXEL_FORMAT_I420, TRTCCloudDef.TRTC_VIDEO_BUFFER_TYPE_BYTE_ARRAY, this);
+                    activity.mVideoViewLayout.OnBokangIn();
                 }
             }
         }
@@ -598,7 +640,7 @@ public class TRTCMainActivity3 extends Activity implements View.OnClickListener,
             }
 
         }
-
+        @Override
         public void onUserSubStreamAvailable(final String userId, boolean available){
             TRTCMainActivity3 activity = mContext.get();
             if (activity != null) {
@@ -649,25 +691,25 @@ public class TRTCMainActivity3 extends Activity implements View.OnClickListener,
                 activity.mVideoViewLayout.freshToolbarLayoutOnMemberEnter(userId + TRTCCloudDef.TRTC_VIDEO_STREAM_TYPE_BIG);
             }
         }
-
+        @Override
         public void onStartPublishCDNStream(int err, String errMsg) {
 
         }
-
+        @Override
         public void onStopPublishCDNStream(int err, String errMsg) {
 
         }
-
+        @Override
         public void onRenderVideoFrame(String userId, int streamType, TRTCCloudDef.TRTCVideoFrame frame) {
 //            Log.w(TAG, String.format("onRenderVideoFrame userId: %s, type: %d",userId, streamType));
         }
-
+        @Override
         public  void onUserVoiceVolume(ArrayList<TRTCCloudDef.TRTCVolumeInfo> userVolumes, int totalVolume) {
             for (int i = 0; i < userVolumes.size(); ++i) {
                 mContext.get().mVideoViewLayout.updateAudioVolume(userVolumes.get(i).userId, userVolumes.get(i).volume);
             }
         }
-
+        @Override
         public void onStatistics(TRTCStatistics statics){
 
         }
@@ -1115,7 +1157,9 @@ public class TRTCMainActivity3 extends Activity implements View.OnClickListener,
     }
 
     private void startLocalVideo(boolean enable) {
-        if(mEnableCustomVideoCapture) return;
+        if(mEnableCustomVideoCapture) {
+            return;
+        }
         TXCloudVideoView localVideoView = mVideoViewLayout.getCloudVideoViewByUseId(trtcParams.userId);
         localVideoView.setUserId(trtcParams.userId);
         localVideoView.setVisibility(View.VISIBLE);

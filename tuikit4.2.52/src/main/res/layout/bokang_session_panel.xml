@@ -14,10 +14,9 @@
     <com.tencent.qcloud.uikit.business.session.view.SessionListView
         android:id="@+id/session_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@id/session_title_panel"
-        android:layout_marginTop="10dp"
-        android:divider="@color/item_split_color"
+        android:divider="@color/main_line_default_f5"
         android:dividerHeight="1px"
         android:listSelector="#00000000"
         app:right_width="60dp" />

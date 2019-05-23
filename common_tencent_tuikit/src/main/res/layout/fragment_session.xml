@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-   >
+    android:background="@color/main_background_default_f5">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="64dp"
@@ -30,7 +30,7 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="9dp"
-            android:text="亲友团"
+            android:text="亲友聊天"
             android:textColor="@color/main_text_black_dark"
             android:textSize="@dimen/second_title_18" />
 
@@ -39,6 +39,7 @@
     <com.tencent.qcloud.bokang.session.view.BokangSessionPanel
         android:id="@+id/session_panel"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_marginTop="1dp"/>
 
 </LinearLayout>

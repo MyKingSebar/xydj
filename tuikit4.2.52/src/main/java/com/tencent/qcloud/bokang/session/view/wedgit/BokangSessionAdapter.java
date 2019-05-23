@@ -97,7 +97,7 @@ public class BokangSessionAdapter extends ISessionAdapter {
             holder.tv_title = (TextView) convertView.findViewById(R.id.session_title);
             holder.tv_msg = (TextView) convertView.findViewById(R.id.session_last_msg);
             holder.tv_time = (TextView) convertView.findViewById(R.id.session_time);
-            holder.tv_speak = (TextView) convertView.findViewById(R.id.session_speak);
+            holder.tv_speak = convertView.findViewById(R.id.session_speak);
             holder.tv_unRead = (TextView) convertView.findViewById(R.id.session_unRead);
             holder.item_right_txt = (TextView) convertView.findViewById(R.id.item_right_txt);
             holder.imageView = convertView.findViewById(R.id.session_icon_personal);
@@ -231,7 +231,7 @@ public class BokangSessionAdapter extends ISessionAdapter {
         TextView tv_unRead;
         SessionIconView iv_icon;
         TextView item_right_txt;
-        TextView tv_speak;
+        ImageView tv_speak;
 
         ImageView imageView;
     }

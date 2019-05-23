@@ -1,7 +1,5 @@
 package com.yijia.common_yijia.main.index;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.RectF;
 import android.os.Bundle;
@@ -20,17 +18,14 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.TranslateAnimation;
-import android.widget.AdapterView;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.ScrollView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
@@ -39,15 +34,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.app.hubert.guide.NewbieGuide;
 import com.app.hubert.guide.core.Controller;
 import com.app.hubert.guide.listener.OnGuideChangedListener;
-import com.app.hubert.guide.listener.OnLayoutInflatedListener;
-import com.app.hubert.guide.listener.OnPageChangedListener;
 import com.app.hubert.guide.model.GuidePage;
-import com.app.hubert.guide.model.HighLight;
-import com.app.hubert.guide.model.RelativeGuide;
-import com.bumptech.glide.Glide;
 import com.example.latte.ec.R;
 import com.example.latte.ec.R2;
-import com.example.latte.ui.recycler.MultipleFields;
 import com.example.latte.ui.recycler.MultipleItemEntity;
 import com.example.latte.ui.widget.RobotImageView;
 import com.example.yijia.app.Latte;
@@ -79,15 +68,11 @@ import com.yijia.common_yijia.main.index.friends.YjIndexFriendsDataConverter;
 import com.yijia.common_yijia.main.index.invite.InviteRelationshipDelegate;
 import com.yijia.common_yijia.main.message.view.fragment.NoticeDelegate;
 import com.yijia.common_yijia.main.mine.MineDelegate;
-import com.yijia.common_yijia.main.robot.robotmain.RobotListAdapter;
-import com.yijia.common_yijia.main.robot.robotmain.RobotListConverter;
-import com.yijia.common_yijia.main.robot.robotmain.RobotMainListReFreshHandler;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -442,6 +427,17 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
         if (!TextUtils.isEmpty(name)) {
             tv_name.setText(name);
         }
+        CallbackManager.getInstance().addCallback(CallbackType.REFRESH_MAIN_USER_NAME, new IGlobalCallback() {
+            @Override
+            public void executeCallback(@Nullable Object args) {
+                if(null != mCurrentFamily && 0 == mCurrentFamily.familyId) {
+                    String name = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getNickname();
+                    if (!TextUtils.isEmpty(name)) {
+                        tv_name.setText(name);
+                    }
+                }
+            }
+        });
         tv_name.setOnClickListener(v -> {
             if (null == popupWindow) {
                 adapter = new MainFamilyAdapter(getContext(), families, mCurrentFamily);

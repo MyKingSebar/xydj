@@ -5,8 +5,8 @@
     android:layout_height="match_parent"
     android:text="名字"
     android:id="@+id/head_name"
-    android:textColor="#000"
-    android:textSize="20sp"
+    android:textColor="@color/light_black"
+    android:textSize="18sp"
     >
 
 

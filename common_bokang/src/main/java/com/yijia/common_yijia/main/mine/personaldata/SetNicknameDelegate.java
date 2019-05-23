@@ -3,6 +3,8 @@ package com.yijia.common_yijia.main.mine.personaldata;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -45,10 +47,11 @@ public class SetNicknameDelegate extends LatteDelegate implements HeadLayout.OnC
     private void initHeade() {
         headLayout.setHeadleftImg(true, R.mipmap.fanhui);
         headLayout.setHeadName("更改昵称", "#333333", 18);
-        headLayout.setHeadRightText("保存", true, "#333333");
+        headLayout.setHeadRightText("保存", true, "#ffffff");
         headLayout.setHeadlayoutBagColor("#ffffff");
         headLayout.setOnClickHeadReturn(this);
         headLayout.setOnClickHeadRighttext(this);
+
     }
 
     @Override

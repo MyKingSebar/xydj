@@ -45,6 +45,8 @@ public class TRTCVideoViewLayout extends RelativeLayout {
     private RelativeLayout mLayout;
     private int mCount = 0;
     private int mMode;
+    private boolean hasChanged=true;
+    private boolean hasBokangIn=false;
 
     private String mSelfUserId;
     private WeakReference<ITRTCVideoViewLayoutListener> mListener = new WeakReference<>(null);
@@ -286,8 +288,25 @@ public class TRTCVideoViewLayout extends RelativeLayout {
         return null;
     }
 
+    public void OnBokangIn(){
+        hasBokangIn=true;
+    }
+public void BokangChange(){
+    swapViewByIndex(0,1);
+//    TXCloudVideoView v = mVideoViewList.get(0);
+//    Object object = v.getTag(R.string.str_tag_pos);
+//    if (object != null) {
+//        int pos = (int) object;
+//        TXCloudVideoView renderView = (TXCloudVideoView) v;
+//        TXLog.i(TAG, "click on pos: " + pos + "/userId: " + renderView.getUserId());
+//        if (null != renderView.getUserId()) {
+//            swapViewByIndex(0, pos);
+//        }
+//    }
+}
     public void updateLayoutFloat() {
-        for (int i = 0; i < mVideoViewList.size(); i++) {
+        int vlSize= mVideoViewList.size();
+        for (int i = 0; i < vlSize; i++) {
             TXCloudVideoView cloudVideoView = mVideoViewList.get(i);
             if ( i < mFloatParamList.size()) {
                 LayoutParams layoutParams = mFloatParamList.get(i);
@@ -295,9 +314,12 @@ public class TRTCVideoViewLayout extends RelativeLayout {
             }
             cloudVideoView.setTag(R.string.str_tag_pos, i);
             cloudVideoView.setClickable(true);
+            final int ii=i;
+            //布局点击事件
             cloudVideoView.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    System.out.println(ii);
                     Object object = v.getTag(R.string.str_tag_pos);
                     if (object != null) {
                         int pos = (int) object;
@@ -354,6 +376,11 @@ public class TRTCVideoViewLayout extends RelativeLayout {
         return mMode;
     }
 
+    /**
+     * 切换布局
+     * @param src
+     * @param dst
+     */
     public void swapViewByIndex(int src, int dst) {
         TXLog.i(TAG, "swapViewByIndex src:" + src + ",dst:" + dst);
         TXCloudVideoView srcView = mVideoViewList.get(src);
@@ -400,7 +427,9 @@ public class TRTCVideoViewLayout extends RelativeLayout {
     public TXCloudVideoView onMemberEnter(String userId) {
         Log.e(TAG, "onMemberEnter: userId = " + userId);
 
-        if (TextUtils.isEmpty(userId)) return null;
+        if (TextUtils.isEmpty(userId)) {
+            return null;
+        }
         TXCloudVideoView videoView = null;
         int posIdx = 0;
         int posLocal = mVideoViewList.size();
@@ -461,6 +490,10 @@ public class TRTCVideoViewLayout extends RelativeLayout {
 
         if (mMode == MODE_FLOAT) {
             updateLayoutFloat();
+            if(hasBokangIn){
+                swapViewByIndex(0,1);
+                hasBokangIn=false;
+            }
         } else {
             updateLayoutGrid();
         }
@@ -475,13 +508,17 @@ public class TRTCVideoViewLayout extends RelativeLayout {
         }
     }
     public int getScreenWidth(Context context) {
-        if (context == null) return 0;
+        if (context == null){
+            return 0;
+        }
         DisplayMetrics dm = context.getResources().getDisplayMetrics();
         return dm.widthPixels;
     }
 
     public int getScreenHeight(Context context) {
-        if (context == null) return 0;
+        if (context == null) {
+            return 0;
+        }
         DisplayMetrics dm = context.getResources().getDisplayMetrics();
         return dm.heightPixels;
     }

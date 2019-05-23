@@ -28,7 +28,7 @@ import io.reactivex.schedulers.Schedulers;
 public class LetterPeopleDelagate extends LatteDelegate {
     RecyclerView rv = null;
     LetterPeopleAdapter madapter = null;
-    int circleId=0;
+    long circleId=0;
 
      ArrayList<MultipleItemEntity> data=null;
 
@@ -75,11 +75,11 @@ public class LetterPeopleDelagate extends LatteDelegate {
         if(args==null){
             return;
         }
-        circleId=args.getInt("circleId");
+        circleId=args.getLong("circleId");
     }
 
 
-    private void getInfo(String token, int circleId) {
+    private void getInfo(String token, long circleId) {
         RxRestClient.builder()
                 .url("circle/query_visible_or_invisible_users")
                 .params("yjtk", token)

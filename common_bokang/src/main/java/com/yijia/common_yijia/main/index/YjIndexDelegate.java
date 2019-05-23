@@ -1178,7 +1178,6 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
                             Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
                         }
                         JDialogUtil.INSTANCE.dismiss();
-
                     }
 
                     @Override

@@ -318,8 +318,8 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
 //        final AppCompatTextView tvShare = holder.getView(R.id.tv_share);
 //        final LinearLayoutCompat llZan = holder.getView(R.id.ll_zan);
 //        final AppCompatTextView tvGetzan = holder.getView(R.id.tv_getzan);
-        final AppCompatTextView tvCansee = holder.getView(R.id.tv_cansee);
-        final AppCompatTextView tvDelete = holder.getView(R.id.tv_delete);
+        final ImageView tvCansee = holder.getView(R.id.tv_cansee);
+        final ImageView tvDelete = holder.getView(R.id.tv_delete);
         final RecyclerView rvComment = holder.getView(R.id.rv_comment);
         final AppCompatTextView tvComment = holder.getView(R.id.tv_comment);
         final ImageView civ_img = holder.getView(R.id.civ_img);
@@ -449,7 +449,7 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
     private void initLetter(MultipleViewHolder holder, long circleId, String title,String content) {
         final boolean[] canContinue = {false};
         final AppCompatTextView tvTitle = holder.getView(R.id.tv_title);
-        final AppCompatTextView tvCansee = holder.getView(R.id.tv_cansee);
+        final ImageView tvCansee = holder.getView(R.id.tv_cansee);
         final LetterPlayProgressBar bpLetterPlay = holder.getView(R.id.bp_letterplay);
         tvCansee.setVisibility(View.VISIBLE);
         tvTitle.setText(title);

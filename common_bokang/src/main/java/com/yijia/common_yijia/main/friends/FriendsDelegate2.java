@@ -239,7 +239,7 @@ public class FriendsDelegate2 extends LatteDelegate implements  FriendsView , Co
 //                        .withShowAnimation(enterAnimation)
 //                        .withDismissAnimation(dismissAnimation)
                         .gravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL)
-                        .blurBackground(true, option -> option.setBlurRadius(6)
+                        .blurBackground(false, option -> option.setBlurRadius(6)
                                 .setBlurPreScaleRatio(0.9f))
                         .withClick(R.id.tv_invite, v1 -> getSupportDelegate().start(new InviteDelagate()), true)
                         .withClick(R.id.tv_add, v1 -> getSupportDelegate().start(new AddFriendsDelegate()), true)

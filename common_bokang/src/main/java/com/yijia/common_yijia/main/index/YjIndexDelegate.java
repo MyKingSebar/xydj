@@ -997,7 +997,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
 //                        .withShowAnimation(enterAnimation)
 //                        .withDismissAnimation(dismissAnimation)
                         .gravity(gravity)
-                        .blurBackground(true, option -> option.setBlurRadius(6)
+                        .blurBackground(false, option -> option.setBlurRadius(6)
                                 .setBlurPreScaleRatio(0.9f))
                         .withClick(R.id.ll_camera, v1 -> {
                             PhotoDelegate2 delegate = new PhotoDelegate2();

@@ -34,6 +34,9 @@ import com.example.latte.ec.R2;
 import com.example.yijia.net.rx.BaseObserver;
 import com.example.yijia.net.rx.RxRestClient;
 import com.example.latte.ui.widget.HeadLayout;
+import com.example.yijia.util.callback.CallbackManager;
+import com.example.yijia.util.callback.CallbackType;
+import com.example.yijia.util.callback.IGlobalCallback;
 import com.example.yijia.util.log.LatteLogger;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
@@ -223,6 +226,13 @@ public class SetUserHeadDelegate extends LatteDelegate implements HeadLayout.OnC
                                         YjDatabaseManager.getInstance().getDao().update(profile);
                                         //修改头像
                                         setupHead(s,imgPath);
+                                        final IGlobalCallback<String> callback;
+                                        callback = CallbackManager
+                                                .getInstance()
+                                                .getCallback(CallbackType.REFRESH_MAIN_USER_NAME);
+                                        if (callback != null) {
+                                            callback.executeCallback("");
+                                        }
                                     } else {
                                         Toast.makeText(getContext(), object.getString("msg"), Toast.LENGTH_SHORT).show();
                                     }

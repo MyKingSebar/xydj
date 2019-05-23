@@ -435,6 +435,11 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
                     if (!TextUtils.isEmpty(name)) {
                         tv_name.setText(name);
                     }
+
+                    String url = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getImagePath();
+                    if (!TextUtils.isEmpty(name)) {
+                        GlideUtils.load(getContext(), url, cimg_img.userImageView(), GlideUtils.USERMODE);
+                    }
                 }
             }
         });

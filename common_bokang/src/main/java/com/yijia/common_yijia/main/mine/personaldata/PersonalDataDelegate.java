@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -33,7 +34,7 @@ public class PersonalDataDelegate extends LatteDelegate implements HeadLayout.On
     @BindView(R2.id.user_name)
     TextView userName;
     @BindView(R2.id.user_name_layout)
-    LinearLayout userNameLayout;
+    RelativeLayout userNameLayout;
     RequestOptions options;
 
     @Override

@@ -2,6 +2,7 @@ package com.yijia.common_yijia.main.index;
 
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutCompat;
+import android.text.Html;
 import android.view.View;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -60,13 +61,14 @@ YjIndexCommentListener mYjIndexCommentListener=null;
                 });
 
                 //赋值
-                tvName.setText(commentUserNickname + ":");
+//                tvName.setText(commentUserNickname + ":");
+                tvName.setText("");
                 StringBuffer comment = new StringBuffer();
                 if (replyUserId != 0) {
                     comment.append("@").append(replyUserNickname).append(" ");
                 }
                 comment.append(commentContent);
-                tvComment.setText(comment.toString());
+                tvComment.setText(Html.fromHtml("<font color='#576B95' size='16'>"+commentUserNickname+"：</font>"+comment.toString()));
 
                 //点赞
 //                tvZan.setOnClickListener(new View.OnClickListener() {

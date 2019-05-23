@@ -1,5 +1,6 @@
 package com.yijia.common_yijia.main.index;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -22,6 +23,8 @@ import com.example.yijia.ui.sms.JSmsUtil;
 import com.example.yijia.util.log.LatteLogger;
 import com.yijia.common_yijia.database.YjDatabaseManager;
 import com.yijia.common_yijia.main.YjBottomDelegate_with3;
+import com.yijia.common_yijia.sign.ISignListener;
+import com.yijia.common_yijia.sign.YjSignHandler;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -56,11 +59,23 @@ public class InviteDelagate extends LatteDelegate {
     public static final String INVITECODE = "InviteCode";
     public static final String FAMILYID = "familyId";
     public static final String RELATIONID = "relationTypeId";
+    public static final String INVITYTYPE = "invitetype";
+
+    public static final int INVITE_FOR_MINE=1;
+    public static final int INVITE_FOR_OTHER=2;
+    public static final int INVITE_PARENT=3;
+    private int inviteType=0;
+
+    public boolean isFirst=false;
 
     @OnClick(R2.id.tv_back)
     void back() {
-        getSupportDelegate().pop();
-//        getSupportDelegate().popTo(YjBottomDelegate_with3.class,false);
+//        getSupportDelegate().pop();
+        getSupportDelegate().popTo(YjBottomDelegate_with3.class,false);
+        if(isFirst){
+            getSupportDelegate().pop();
+            YjSignHandler.onSkipAddParents(signListener);
+        }
     }
 
     @OnClick(R2.id.tv_wechat)
@@ -82,10 +97,11 @@ public class InviteDelagate extends LatteDelegate {
 
     private final static String TAG = InviteDelagate.class.getSimpleName();
 
-    public static InviteDelagate create(long familyId,long relationId) {
+    public static InviteDelagate create(long familyId,long relationId,int type) {
         final Bundle args = new Bundle();
         args.putLong(FAMILYID, familyId);
         args.putLong(RELATIONID, relationId);
+        args.putInt(INVITYTYPE, type);
 //        args.putString(INVITECODE, inviteCode);
         final InviteDelagate delegate = new InviteDelagate();
         delegate.setArguments(args);
@@ -99,6 +115,7 @@ public class InviteDelagate extends LatteDelegate {
         assert args != null;
         familyId = args.getLong(FAMILYID);
         relationTypeId = args.getLong(RELATIONID);
+        inviteType = args.getInt(INVITYTYPE);
 //        inviteCode = args.getString(INVITECODE);
     }
 
@@ -155,6 +172,7 @@ public class InviteDelagate extends LatteDelegate {
         RxRestClient.builder()
                 .url(url)
                 .params("yjtk", token)
+                .params("inviteType", inviteType)
                 .params("familyId", familyId)
                 .params("relationTypeId", relationTypeId)
                 .build()
@@ -191,5 +209,14 @@ public class InviteDelagate extends LatteDelegate {
                         getSupportDelegate().pop();
                     }
                 });
+    }
+
+    private ISignListener signListener;
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        signListener = (ISignListener) activity;
     }
 }

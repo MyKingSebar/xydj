@@ -52,6 +52,7 @@ import io.reactivex.schedulers.Schedulers;
  *          :3B@@@@@@@@@@@&9@h :Gs   .;sSXH@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@:
  *      s&HA#@@@@@@@@@@@@@@M89A;.8S.       ,r3@@@@@@@@@@@@@@@@@@@@@@@@@@@r
  *   ,13B@@@@@@@@@@@@@@@@@@@5 5B3 ;.         ;@@@@@@@@@@@@@@@@@@@@@@@@@@@i
+ *
  *  5#@@#&@@@@@@@@@@@@@@@@@@9  .39:          ;@@@@@@@@@@@@@@@@@@@@@@@@@@@;
  *  9@@@X:MM@@@@@@@@@@@@@@@#;    ;31.         H@@@@@@@@@@@@@@@@@@@@@@@@@@:
  *   SH#@B9.rM@@@@@@@@@@@@@B       :.         3@@@@@@@@@@@@@@@@@@@@@@@@@@5
@@ -134,7 +135,7 @@ public class InviteRelationshipDelegate extends LatteDelegate {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if(familyId==0){
-            InviteDelagate mDelegate=InviteDelagate.create(familyId,0);
+            InviteDelagate mDelegate=InviteDelagate.create(familyId,0,InviteDelagate.INVITE_FOR_MINE);
             getSupportDelegate().start(mDelegate);
         }
     }
@@ -180,7 +181,7 @@ public class InviteRelationshipDelegate extends LatteDelegate {
                 return;
             }
             long itemId=Long.parseLong(param);
-            InviteDelagate mDelegate=InviteDelagate.create(familyId,itemId);
+            InviteDelagate mDelegate=InviteDelagate.create(familyId,itemId,InviteDelagate.INVITE_FOR_OTHER);
             getSupportDelegate().start(mDelegate);
         });
         final LinearLayoutManager manager = new LinearLayoutManager(Latte.getApplicationContext());
@@ -188,3 +189,5 @@ public class InviteRelationshipDelegate extends LatteDelegate {
         rv.setAdapter(mAdapter);
     }
 }
+
+

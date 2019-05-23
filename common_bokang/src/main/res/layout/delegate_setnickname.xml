@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:orientation="vertical"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/main_background_default_f5">
     <com.example.latte.ui.widget.HeadLayout
         android:id="@+id/head_layout"
         android:layout_width="match_parent"
@@ -14,20 +15,21 @@
         android:id="@+id/set_name"
         android:layout_width="match_parent"
         android:background="#ffffff"
-        android:layout_marginTop="13dp"
-        android:layout_marginLeft="15dp"
+        android:layout_marginTop="1dp"
+        android:paddingRight="15dp"
         android:textSize="16sp"
-        android:paddingLeft="10dp"
+        android:paddingLeft="15dp"
         android:textColor="#333333"
-        android:layout_marginRight="15dp"
+        android:maxLength="10"
+        android:singleLine="true"
         android:layout_height="46dp" />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="#CFCFCF "
+        android:textColor="#999999 "
         android:textSize="16sp"
         android:layout_marginLeft="15dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="4dp"
         android:text="请不要超过10个字，支持中文、英文"
         />
 </LinearLayout>

@@ -64,7 +64,7 @@ public class MainFamilyAdapter extends BaseAdapter {
         }
         MainFamily family = getItem(position);
         holder.name.setText(family.mainUserName);
-        if(mainFamily.familyId == family.familyId) {
+        if(null != mainFamily && mainFamily.familyId == family.familyId) {
             holder.checkBox.setChecked(true);
         } else {
             holder.checkBox.setChecked(false);

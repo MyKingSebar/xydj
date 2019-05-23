@@ -101,7 +101,7 @@ public class MineDelegate extends LatteDelegate {
                 String nickname = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getNickname();
                 String imagePath = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getImagePath();
                 GlideUtils.load(_mActivity, imagePath, userImagePath.userImageView(), GlideUtils.USERMODE);
-                setOnlineStatue(0);
+                setOnlineStatue(YjDatabaseManager.getInstance().getDao().loadAll().get(0).getId());
                 if (nickname != null) {
                     userNickname.setText(nickname);
                 } else {

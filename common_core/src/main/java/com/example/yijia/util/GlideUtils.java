@@ -13,6 +13,8 @@ import com.example.latte.R;
 public class GlideUtils {
     public static final int USERMODE = 1;
     public static final int DEFAULTMODE = 0;
+    public static final int COVERMODE = 2;
+
 
 
     public static final RequestOptions USEROPTIONS = new RequestOptions()
@@ -29,6 +31,13 @@ public class GlideUtils {
     .transform(new RoundedCorners(10))
             .dontAnimate();
 
+    public static final RequestOptions COVEROPTIONS = new RequestOptions()
+            .diskCacheStrategy(DiskCacheStrategy.ALL)
+            .placeholder(R.mipmap.background_index_top)
+            .error(R.mipmap.background_index_top)
+            .centerCrop()
+            .dontAnimate();
+
     public static void load(Context context, String url, ImageView v, int type) {
          RequestOptions option = null;
         switch (type) {
@@ -37,6 +46,9 @@ public class GlideUtils {
                 break;
             case 0:
                 option = OPTIONS;
+                break;
+            case 2:
+                option = COVEROPTIONS;
                 break;
             default:
                 option = OPTIONS;

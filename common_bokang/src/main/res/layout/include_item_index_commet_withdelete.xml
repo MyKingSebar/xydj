@@ -1,58 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:background="@color/white"
-    android:layout_height="wrap_content">
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white">
 
 
-
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/tv_cansee"
-        android:layout_width="18dp"
-        android:layout_height="18dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="30dp"
-        android:layout_toStartOf="@+id/tv_delete"
-        android:background="@mipmap/icon_index_cansee" />
-
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/tv_delete"
-        android:layout_width="18dp"
-        android:layout_height="18dp"
+    <RelativeLayout
+        android:id="@+id/option_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="15dp"
-        android:background="@mipmap/icon_index_delete"
+        android:paddingRight="4dp">
 
-        />
+        <ImageView
+            android:id="@+id/tv_cansee"
+            android:layout_width="40dp"
+            android:layout_height="30dp"
+            android:scaleType="center"
+            android:src="@mipmap/icon_index_cansee"/>
+
+        <ImageView
+            android:id="@+id/tv_delete"
+            android:layout_width="40dp"
+            android:layout_height="30dp"
+            android:scaleType="center"
+            android:layout_toRightOf="@id/tv_cansee"
+            android:src="@mipmap/icon_index_delete"
+
+            />
+    </RelativeLayout>
 
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_comment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_delete"
+        android:layout_below="@+id/option_layout"
+        android:layout_marginEnd="15dp"
         android:layout_marginStart="61dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="15dp">
+        android:layout_marginTop="10dp">
 
     </android.support.v7.widget.RecyclerView>
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/tv_comment"
-        android:background="@drawable/rectangle_gray_line"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="4dp"
         android:layout_below="@+id/rv_comment"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="15dp"
         android:layout_marginStart="61dp"
         android:layout_marginTop="7dp"
-        android:layout_marginEnd="15dp"
+        android:background="@drawable/rectangle_gray_line"
         android:gravity="center_vertical"
-        android:layout_marginBottom="8dp"
+        android:padding="4dp"
         android:paddingStart="43dp"
         android:text="我也说一句"
         android:textColor="@color/main_text_gary_99"
-        android:textSize="16sp" />
+        android:textSize="16sp"/>
 </RelativeLayout>

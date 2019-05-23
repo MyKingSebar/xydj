@@ -85,6 +85,7 @@
                         android:id="@+id/tv_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:minWidth="40dp"
                         android:layout_alignTop="@id/cimg_img"
                         android:layout_marginStart="2dp"
                         android:layout_toRightOf="@id/cimg_img"

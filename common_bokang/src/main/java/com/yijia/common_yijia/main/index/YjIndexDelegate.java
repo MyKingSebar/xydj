@@ -540,6 +540,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
                     cimg_img.setRobotOnline(mCurrentFamily.robotIsOnline);
                     popupWindow.dismiss();
                     setIsConfirm();
+                    getCover();
                 });
             }
             if (!popupWindow.isShowing()) {
@@ -770,6 +771,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
                             showTopItem(SHOWTOPITEMTYPE_CREATER);
                             mRefreshHandler.firstPage(mCurrentFamily.familyId);
                             setIsConfirm();
+                            getCover();
                             isFirst = false;
                         }
 
@@ -1255,11 +1257,11 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
         }
     }
 
-    private void setupCover(String s){
+    private void setupCover(String s, String path){
         RxRestClient.builder()
                 .url("user/update_background")
                 .params("yjtk", YjDatabaseManager.getInstance().getDao().loadAll().get(0).getYjtk())
-                .params("imagePath", s)
+                .params("imagePath", path)
                 .build()
                 .post()
                 .subscribeOn(Schedulers.io())
@@ -1271,8 +1273,41 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
                         if (TextUtils.equals(status, "1001")) {
                             showToast("封面背景上传成功");
                             if(mCurrentFamily.familyId == 0) {
-                                GlideUtils.load(getContext(), s, coverImage, GlideUtils.DEFAULTMODE);
+                                GlideUtils.load(getContext(), s, coverImage, GlideUtils.COVERMODE);
                             }
+                        } else {
+                            final String msg = JSON.parseObject(response).getString("msg");
+                            Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+                        }
+                        JDialogUtil.INSTANCE.dismiss();
+
+                    }
+
+                    @Override
+                    public void onFail(Throwable e) {
+                        Toast.makeText(getContext(), "请稍后尝试", Toast.LENGTH_SHORT).show();
+                        JDialogUtil.INSTANCE.dismiss();
+                    }
+                });
+    }
+
+    private void getCover(){
+        RxRestClient.builder()
+                .url("user/query_background")
+                .params("yjtk", YjDatabaseManager.getInstance().getDao().loadAll().get(0).getYjtk())
+                .params("targetUserId", mCurrentFamily.mainUserId)
+                .build()
+                .get()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseObserver<String>(getContext()) {
+                    @Override
+                    public void onResponse(String response) {
+                        final String status = JSON.parseObject(response).getString("status");
+                        if (TextUtils.equals(status, "1001")) {
+                            JSONObject object = JSON.parseObject(response).getJSONObject("data");
+                            String url = null != object ? object.getString("imagePath") : "";
+                                GlideUtils.load(getContext(), url, coverImage, GlideUtils.COVERMODE);
                         } else {
                             final String msg = JSON.parseObject(response).getString("msg");
                             Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
@@ -1320,8 +1355,8 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
                                         final String imgPath = dataObject.getString("path");
                                         String s = serverAddr + imgPath;
                                         //修改头像
-                                        setupCover(s);
-//                                        GlideUtils.load(getContext(), s, coverImage, GlideUtils.DEFAULTMODE);
+                                        setupCover(s, imgPath);
+//                                        GlideUtils.load(getContext(), s, coverImage, GlideUtils.COVERMODE);
                                     } else {
                                         Toast.makeText(getContext(), object.getString("msg"), Toast.LENGTH_SHORT).show();
                                     }

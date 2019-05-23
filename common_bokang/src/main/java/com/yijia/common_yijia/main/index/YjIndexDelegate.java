@@ -1,7 +1,7 @@
 package com.yijia.common_yijia.main.index;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.RectF;
 import android.os.Bundle;
@@ -18,17 +18,17 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.TranslateAnimation;
-import android.widget.AdapterView;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,17 +39,14 @@ import com.alibaba.fastjson.JSONObject;
 import com.app.hubert.guide.NewbieGuide;
 import com.app.hubert.guide.core.Controller;
 import com.app.hubert.guide.listener.OnGuideChangedListener;
-import com.app.hubert.guide.listener.OnLayoutInflatedListener;
-import com.app.hubert.guide.listener.OnPageChangedListener;
 import com.app.hubert.guide.model.GuidePage;
-import com.app.hubert.guide.model.HighLight;
-import com.app.hubert.guide.model.RelativeGuide;
-import com.bumptech.glide.Glide;
+import com.baidu.ocr.ui.util.DimensionUtil;
 import com.example.latte.ec.R;
 import com.example.latte.ec.R2;
-import com.example.latte.ui.recycler.MultipleFields;
 import com.example.latte.ui.recycler.MultipleItemEntity;
 import com.example.latte.ui.widget.RobotImageView;
+import com.example.yijia.app.AccountManager;
+import com.example.yijia.app.IUserChecker;
 import com.example.yijia.app.Latte;
 import com.example.yijia.delegates.bottom.BottomItemDelegate;
 import com.example.yijia.lisener.AppBarStateChangeListener;
@@ -64,8 +61,13 @@ import com.example.yijia.util.callback.CallbackManager;
 import com.example.yijia.util.callback.CallbackType;
 import com.example.yijia.util.callback.IGlobalCallback;
 import com.example.yijia.util.dimen.DimenUtil;
+import com.example.yijia.util.listener.OnSingleClickListener;
 import com.example.yijia.util.log.LatteLogger;
 import com.joanzapata.iconify.widget.IconTextView;
+import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.config.PictureConfig;
+import com.luck.picture.lib.config.PictureMimeType;
+import com.luck.picture.lib.entity.LocalMedia;
 import com.yijia.common_yijia.database.YjDatabaseManager;
 import com.yijia.common_yijia.main.friends.FriendsDelegate2;
 import com.yijia.common_yijia.main.index.friendcircle.IndexCameraCheckInstener;
@@ -79,15 +81,12 @@ import com.yijia.common_yijia.main.index.friends.YjIndexFriendsDataConverter;
 import com.yijia.common_yijia.main.index.invite.InviteRelationshipDelegate;
 import com.yijia.common_yijia.main.message.view.fragment.NoticeDelegate;
 import com.yijia.common_yijia.main.mine.MineDelegate;
-import com.yijia.common_yijia.main.robot.robotmain.RobotListAdapter;
-import com.yijia.common_yijia.main.robot.robotmain.RobotListConverter;
-import com.yijia.common_yijia.main.robot.robotmain.RobotMainListReFreshHandler;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -160,6 +159,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
 
     LinearLayoutCompat ll_unread, ll_invite;
     ImageView tv_unreadicon;
+    private ImageView coverImage;
 
 
     private List<MainFamily> families = new ArrayList<>();
@@ -319,7 +319,76 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
                 .show();//显示引导层(至少需要一页引导页才能显示)
     }
 
+    private PopupWindow mCoverPopup;
+    private int mHeight, mWidth;
+    private TextView changeConver;
+    private void initTopPopup() {
+        View pop_layout = LayoutInflater.from(getContext()).inflate(R.layout.popup_change_cover, null);
+        mCoverPopup = new PopupWindow(getContext());
+        mCoverPopup.setContentView(pop_layout);
+        mCoverPopup.setFocusable(true);
+        mCoverPopup.setOutsideTouchable(true);
+        mCoverPopup.setWidth(DimensionUtil.dpToPx(150));
+        mCoverPopup.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+        mCoverPopup.setFocusable(true);
+        mCoverPopup.setBackgroundDrawable(getResources().getDrawable(R.color.transparent));
+        changeConver = pop_layout.findViewById(R.id.popup_change_cover);
+        changeConver.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            protected void onSingleClick(View v) {
+                getImage();
+                mCoverPopup.dismiss();
+            }
+        });
+
+        int w = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+        int h = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+        pop_layout.measure(w, h);
+        //获取PopWindow宽和高
+        mHeight = pop_layout.getMeasuredHeight();
+        mWidth = pop_layout.getMeasuredWidth();
+
+    }
+
     private void initTopItem(View rootView) {
+
+        coverImage = rootView.findViewById(R.id.main_cover);
+        initTopPopup();
+        coverImage.setOnTouchListener(new View.OnTouchListener() {
+            boolean show = true;
+            int tempX;
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                switch (event.getAction()) {
+
+                    case MotionEvent.ACTION_DOWN:
+                        show = true;
+                        tempX = (int) event.getX();
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                            show = false;
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        if(show) {
+                            if(mCurrentFamily.familyId != 0 )
+                                return false;
+                            int X = (int) event.getX();
+                            int Y = (int) event.getY();
+                            int xoff = X - mWidth / 2;
+                            int yoff = 0 - (v.getHeight() - Y) - mHeight;
+                            mCoverPopup.showAsDropDown(v, xoff, yoff);
+                            return true;
+                        } else {
+                            return false;
+                        }
+
+                }
+
+                return true;
+            }
+
+        });
 
         ll_top_item_layout = rootView.findViewById(R.id.ll_top_item_layout);
         tvZcjl = rootView.findViewById(R.id.zcjl);
@@ -442,6 +511,22 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
         if (!TextUtils.isEmpty(name)) {
             tv_name.setText(name);
         }
+        CallbackManager.getInstance().addCallback(CallbackType.REFRESH_MAIN_USER_NAME, new IGlobalCallback() {
+            @Override
+            public void executeCallback(@Nullable Object args) {
+                if(null != mCurrentFamily && 0 == mCurrentFamily.familyId) {
+                    String name = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getNickname();
+                    if (!TextUtils.isEmpty(name)) {
+                        tv_name.setText(name);
+                    }
+
+                    String url = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getImagePath();
+                    if (!TextUtils.isEmpty(name)) {
+                        GlideUtils.load(getContext(), url, cimg_img.userImageView(), GlideUtils.USERMODE);
+                    }
+                }
+            }
+        });
         tv_name.setOnClickListener(v -> {
             if (null == popupWindow) {
                 adapter = new MainFamilyAdapter(getContext(), families, mCurrentFamily);
@@ -997,7 +1082,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
 //                        .withShowAnimation(enterAnimation)
 //                        .withDismissAnimation(dismissAnimation)
                         .gravity(gravity)
-                        .blurBackground(true, option -> option.setBlurRadius(6)
+                        .blurBackground(false, option -> option.setBlurRadius(6)
                                 .setBlurPreScaleRatio(0.9f))
                         .withClick(R.id.ll_camera, v1 -> {
                             PhotoDelegate2 delegate = new PhotoDelegate2();
@@ -1113,5 +1198,145 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    private List<LocalMedia> selectList = new ArrayList<>();
+    private void getImage() {
+        // 进入相册 以下是例子：不需要的api可以不写
+        PictureSelector.create(this)
+                .openGallery(PictureMimeType.ofImage())
+                .maxSelectNum(1)
+                .minSelectNum(1)
+                .selectionMode(PictureConfig.SINGLE)
+                .previewImage(true)
+                .isCamera(true)
+                .enableCrop(true)
+                .compress(true)
+                .glideOverride(160, 160)
+                .previewEggs(true)
+                .withAspectRatio(1, 1)
+                .hideBottomControls(false)
+                .freeStyleCropEnabled(true)
+                .showCropFrame(true)
+                .showCropGrid(true)
+                .selectionMedia(selectList)
+                .forResult(500);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            switch (requestCode) {
+                case 500:
+                    // 图片选择
+                    selectList = PictureSelector.obtainMultipleResult(data);
+                    if (!selectList.isEmpty()) {
+                        //上传背景
+                        uploadImage(selectList);
+                    }
+                    break;
+            }
+        }
+    }
+
+    private File[] getFiles(List<LocalMedia> list) {
+        if (list != null) {
+            int size = list.size();
+            File[] files = new File[size];
+            for (int i = 0; i < size; i++) {
+                files[i] = new File(list.get(i).getPath());
+            }
+            return files;
+        } else {
+            LatteLogger.w("upLoadImg", "getFiles() == null");
+            return null;
+        }
+    }
+
+    private void setupCover(String s){
+        RxRestClient.builder()
+                .url("user/update_background")
+                .params("yjtk", YjDatabaseManager.getInstance().getDao().loadAll().get(0).getYjtk())
+                .params("imagePath", s)
+                .build()
+                .post()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseObserver<String>(getContext()) {
+                    @Override
+                    public void onResponse(String response) {
+                        final String status = JSON.parseObject(response).getString("status");
+                        if (TextUtils.equals(status, "1001")) {
+                            showToast("封面背景上传成功");
+                            if(mCurrentFamily.familyId == 0) {
+                                GlideUtils.load(getContext(), s, coverImage, GlideUtils.DEFAULTMODE);
+                            }
+                        } else {
+                            final String msg = JSON.parseObject(response).getString("msg");
+                            Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+                        }
+                        JDialogUtil.INSTANCE.dismiss();
+
+                    }
+
+                    @Override
+                    public void onFail(Throwable e) {
+                        Toast.makeText(getContext(), "请稍后尝试", Toast.LENGTH_SHORT).show();
+                        JDialogUtil.INSTANCE.dismiss();
+                    }
+                });
+    }
+
+    private void uploadImage(List<LocalMedia> imgPath) {
+        JDialogUtil.INSTANCE.showRxDialogShapeLoading(getContext());
+        final String url = "picture/upload";
+
+        if (imgPath != null) {
+            AccountManager.checkAccont(new IUserChecker() {
+                @Override
+                public void onSignIn() {
+                    String token = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getYjtk();
+                    File[] files = getFiles(imgPath);
+                    RxRestClient.builder()
+                            .url(url)
+                            .params("yjtk", token)
+//                .params("files", new File[]{new File(imgPath)})
+                            .files(files)
+                            .build()
+                            .uploadwithparams()
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new BaseObserver<String>(getContext()) {
+                                @Override
+                                public void onResponse(String response) {
+                                    LatteLogger.json("picture/upload", response);
+                                    final JSONObject object = JSON.parseObject(response);
+                                    final String status = object.getString("status");
+                                    if (TextUtils.equals(status, "1001")) {
+                                        final JSONObject dataObject = object.getJSONObject("data");
+                                        String serverAddr = dataObject.getString("serverAddr");
+                                        final String imgPath = dataObject.getString("path");
+                                        String s = serverAddr + imgPath;
+                                        //修改头像
+                                        setupCover(s);
+//                                        GlideUtils.load(getContext(), s, coverImage, GlideUtils.DEFAULTMODE);
+                                    } else {
+                                        Toast.makeText(getContext(), object.getString("msg"), Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                                @Override
+                                public void onFail(Throwable e) {
+                                    Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                }
+
+                @Override
+                public void onNoSignIn() {
+
+                }
+            });
+        }
     }
 }

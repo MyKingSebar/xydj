@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+                                              android:background="@drawable/radius5_background_white"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/popup_change_cover"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:text="更改封面背景"
+        android:textColor="@color/main_text_black_dark"
+        android:textSize="16sp" />
+
+</android.support.v7.widget.LinearLayoutCompat>

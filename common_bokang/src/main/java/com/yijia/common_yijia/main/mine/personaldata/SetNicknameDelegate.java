@@ -12,6 +12,9 @@ import com.example.latte.ec.R;
 import com.example.latte.ec.R2;
 
 import com.example.latte.ui.widget.HeadLayout;
+import com.example.yijia.util.callback.CallbackManager;
+import com.example.yijia.util.callback.CallbackType;
+import com.example.yijia.util.callback.IGlobalCallback;
 import com.yijia.common_yijia.database.YjDatabaseManager;
 import com.yijia.common_yijia.database.YjUserProfile;
 import com.yijia.common_yijia.main.mine.setup.UpDateUtils;
@@ -75,6 +78,15 @@ public class SetNicknameDelegate extends LatteDelegate implements HeadLayout.OnC
                     YjDatabaseManager.getInstance().getDao().update(profile);
                     Toast.makeText(_mActivity, "修改昵称成功", Toast.LENGTH_SHORT).show();
                     getSupportDelegate().pop();
+
+                    final IGlobalCallback<String> callback;
+                    callback = CallbackManager
+                            .getInstance()
+                            .getCallback(CallbackType.REFRESH_MAIN_USER_NAME);
+                    if (callback != null) {
+                        callback.executeCallback("");
+                    }
+
                 }else{
                     Toast.makeText(_mActivity, "修改昵称失败", Toast.LENGTH_SHORT).show();
                 }

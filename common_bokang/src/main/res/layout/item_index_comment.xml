@@ -14,8 +14,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/main_text_blue_57"
+        android:drawableStart="@mipmap/icon_common"
+        android:drawablePadding="10dp"
         android:textSize="16sp"
-        tools:text="张三:" />
+        tools:text="" />
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/tv_comment"

@@ -4,14 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="105dp"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:background="@color/white">
 
 
     <RelativeLayout
         android:id="@+id/item_left"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#FFFFFF"
         android:paddingRight="15dp"
         android:paddingBottom="15dp">
 
@@ -68,12 +68,13 @@
             android:layout_alignParentRight="true"
             android:textColor="@color/grey" />
 
-        <TextView
+        <ImageView
             android:id="@+id/session_speak"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
+            android:scaleType="center"
             android:layout_marginBottom="7dp"
             android:background="@mipmap/bokang_button_imlist_speak" />
 <!--
@@ -101,7 +102,7 @@
 
     <RelativeLayout
         android:id="@+id/item_right"
-        android:layout_width="60dp"
+        android:layout_width="80dp"
         android:layout_height="match_parent"
         android:background="@color/right_bg">
 

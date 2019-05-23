@@ -51,7 +51,7 @@
         android:layout_marginEnd="15dp"
         android:gravity="center_vertical"
         android:layout_marginBottom="8dp"
-        android:paddingStart="27dp"
+        android:paddingStart="43dp"
         android:text="我也说一句"
         android:textColor="@color/main_text_gary_99"
         android:textSize="16sp" />

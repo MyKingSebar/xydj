@@ -1,7 +1,6 @@
 package com.cjt2325.cameralibrary;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -26,7 +25,6 @@ public class ReturnButton extends View {
 
     private Paint paint;
     Path path;
-    private Bitmap bitmp;
 
     public ReturnButton(Context context, int size) {
         this(context);
@@ -43,9 +41,6 @@ public class ReturnButton extends View {
         paint.setStrokeWidth(strokeWidth);
 
         path = new Path();
-
-        bitmp =Bitmap.createBitmap(100,100, Bitmap.Config.ARGB_8888);
-
     }
 
     public ReturnButton(Context context) {
@@ -55,28 +50,7 @@ public class ReturnButton extends View {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         setMeasuredDimension(size, size / 2);
-        int width = this.getMeasuredSize(widthMeasureSpec,true);
-        int height = this.getMeasuredSize(heightMeasureSpec,false);
-        setMeasuredDimension(width,height);
     }
-
-
-    private int getMeasuredSize(int widthMeasureSpec, boolean b) {
-        int specMode = MeasureSpec.getMode(widthMeasureSpec);
-        int specSize = MeasureSpec.getSize(widthMeasureSpec);
-        int retSize = 0;
-        int padding =(b?getPaddingLeft()+getPaddingRight():getPaddingTop()+getPaddingBottom());
-        if(specMode == MeasureSpec.EXACTLY){//显示指定控件大小
-            retSize = specSize;
-        }else{
-            retSize = (b?bitmp.getWidth()+padding:bitmp.getHeight()+padding);
-            if(specMode==MeasureSpec.UNSPECIFIED){
-                retSize = Math.min(retSize,specSize);
-            }
-        }
-        return retSize;
-    }
-
 
     @Override
     protected void onDraw(Canvas canvas) {

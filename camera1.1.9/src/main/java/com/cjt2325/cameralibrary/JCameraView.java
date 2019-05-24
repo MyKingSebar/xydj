@@ -96,7 +96,7 @@ public class JCameraView extends FrameLayout implements CameraInterface.CameraOp
     private ImageView mPhoto;
     private ImageView mSwitchCamera;
     private ImageView mFlashLamp;
-    private ImageView mBack;
+    private RelativeLayout mBack;
     private CaptureLayout mCaptureLayout;
     private FoucsView mFoucsView;
     private MediaPlayer mMediaPlayer;
@@ -169,7 +169,7 @@ public class JCameraView extends FrameLayout implements CameraInterface.CameraOp
         mSwitchCamera = (ImageView) view.findViewById(R.id.image_switch);
         mSwitchCamera.setImageResource(iconSrc);
         mFlashLamp = (ImageView) view.findViewById(R.id.image_flash);
-        mBack = (ImageView) view.findViewById(R.id.back);
+        mBack = (RelativeLayout) view.findViewById(R.id.back);
         mYjBottom = findViewById(R.id.yj_bottom);
         mYjNo = findViewById(R.id.tv_no);
         mYjGo = findViewById(R.id.tv_go);

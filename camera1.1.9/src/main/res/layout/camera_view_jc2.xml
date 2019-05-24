@@ -30,16 +30,21 @@
         android:orientation="horizontal">
 
 
-        <ImageView
-            android:layout_marginTop="32dp"
+        <RelativeLayout
             android:id="@+id/back"
-            android:layout_width="18dp"
-            android:layout_height="18dp"
-            android:layout_marginLeft="15dp"
-            android:src="@drawable/icon_smallvideo_back"/>
+            android:layout_width="70dp"
+            android:layout_height="match_parent">
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="20dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="15dp"
+                android:src="@drawable/icon_smallvideo_back"/>
+        </RelativeLayout>
+
         <TextView
             android:layout_width="0dp"
-            android:text="          微拍"
+            android:text="微拍"
             android:textSize="18sp"
             android:gravity="bottom|center_horizontal"
             android:textColor="#FFFFFF"

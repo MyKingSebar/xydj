@@ -113,7 +113,7 @@ public class GridImageAdapter extends
     public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
         //少于1张，显示继续添加的图标
         if (getItemViewType(position) == TYPE_CAMERA) {
-            viewHolder.mImg.setImageResource(R.mipmap.item_addfriends);
+            viewHolder.mImg.setImageResource(R.mipmap.addimg_1x);
             viewHolder.mImg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

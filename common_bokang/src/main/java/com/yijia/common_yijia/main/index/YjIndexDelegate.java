@@ -430,6 +430,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
                 Bundle bundle = new Bundle();
                 bundle.putString("familyName", mCurrentFamily.mainUserName);
                 bundle.putLong("familyId", mCurrentFamily.familyId);
+                bundle.putInt("permission", mCurrentFamily.permissionType);
                 FriendsDelegate2 friendsDelegate2 = new FriendsDelegate2();
                 friendsDelegate2.setArguments(bundle);
                 getParentDelegate().getSupportDelegate().start(friendsDelegate2);
@@ -1225,7 +1226,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
                 .compress(true)
                 .glideOverride(160, 160)
                 .previewEggs(true)
-                .withAspectRatio(1, 1)
+                .withAspectRatio(2, 1)
                 .hideBottomControls(false)
                 .freeStyleCropEnabled(true)
                 .showCropFrame(true)
@@ -1256,7 +1257,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
             int size = list.size();
             File[] files = new File[size];
             for (int i = 0; i < size; i++) {
-                files[i] = new File(list.get(i).getPath());
+                files[i] = new File(list.get(i).getCompressPath());
             }
             return files;
         } else {

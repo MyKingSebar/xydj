@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
@@ -71,7 +72,11 @@ public class SetNicknameDelegate extends LatteDelegate implements HeadLayout.OnC
     //点击保存
     @Override
     public void onClickHeadRighttext() {
-        String new_name = setName.getText().toString();
+        String new_name = setName.getText().toString().trim();
+        if(TextUtils.isEmpty(new_name)) {
+            Toast.makeText(getContext(), R.string.nick_name_cannot_be_null, Toast.LENGTH_LONG).show();
+            return;
+        }
      UpDateUtils.updatePersonalData(_mActivity, new_name, null, new UpDateUtils.UpDateSuccessAndError() {
             @Override
             public void successAndError(UpDateUtils.UpDatePersonal upDatePersonal) {

@@ -27,7 +27,7 @@ public class PatternsUtil {
     public static final String CHINESE = "^[\\u4E00-\\u9FA5\\uF900-\\uFA2D]+$";                        // 仅中文
     public static final String ASCII = "^[\\x00-\\xFF]+$";                                            // 仅ACSII字符
     public static final String ZIPCODE = "^\\d{6}$";                                                // 邮编
-    public static final String MOBILE = "^13[0-9]{9}|15[012356789][0-9]{8}|17[07][0-9]{8}|18[023456789][0-9]{8}|147[0-9]{8}$";    // 手机
+    public static final String MOBILE = "^(\\+\\d+)?1([3][0-9]|4[5-9]|5[0-3,5-9]|6[5,6]|7[0-8]|8[0-9]|9[1,8,9])\\d{8}$";    // 手机
     public static final String IP4 = "^(25[0-5]|2[0-4]\\d|[0-1]\\d{2}|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|[0-1]\\d{2}|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|[0-1]\\d{2}|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|[0-1]\\d{2}|[1-9]?\\d)$";    // ip地址
     public static final String NOTEMPTY = "^\\S+$";                                                    // 非空
     public static final String PICTURE = "(.*)\\.(jpg|bmp|gif|ico|pcx|jpeg|tif|png|raw|tga)$";        // 图片

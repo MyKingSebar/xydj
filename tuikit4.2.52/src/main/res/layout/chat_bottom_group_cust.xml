@@ -70,10 +70,11 @@
 
         <ImageView
             android:id="@+id/send_btn"
-            android:layout_width="40dp"
-            android:layout_height="30dp"
+            android:layout_width="36dp"
+            android:layout_height="25dp"
             android:background="@drawable/ic_im_send"
             android:gravity="center"
+            android:layout_marginBottom="2dp"
             android:layout_marginLeft="13dp"
             android:textColor="@color/white"
             android:textSize="13sp"

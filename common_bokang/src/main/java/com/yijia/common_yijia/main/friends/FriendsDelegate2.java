@@ -11,6 +11,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
@@ -61,7 +62,7 @@ public class FriendsDelegate2 extends LatteDelegate implements  FriendsView , Co
     @BindView(R2.id.tv_title)
     AppCompatTextView tvTitle;
     @BindView(R2.id.tv_icon)
-    AppCompatTextView tvIcon;
+    ImageView tvIcon;
 
     @OnClick(R2.id.tv_back)
     void back() {
@@ -69,6 +70,7 @@ public class FriendsDelegate2 extends LatteDelegate implements  FriendsView , Co
     }
 
 
+    private int permission;
     //亲友团好友列表
     private List<FriendsBean> friendsBeans;
     private FriendsPresenter friendsPresenter;
@@ -84,6 +86,7 @@ public class FriendsDelegate2 extends LatteDelegate implements  FriendsView , Co
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, @NonNull View rootView) {
         familyId = getArguments().getLong("familyId");
+        permission = getArguments().getInt("permission");
         initView();
         friendsBeans = new ArrayList<>();
         friendsPresenter = new FriendsPresenter(this);
@@ -93,16 +96,24 @@ public class FriendsDelegate2 extends LatteDelegate implements  FriendsView , Co
     }
 
     private void initView() {
-        tvTitle.setText("成员列表");
+        tvTitle.setText("好友列表");
         tvSave.setVisibility(View.INVISIBLE);
-        tvIcon.setVisibility(View.VISIBLE);
-        tvIcon.setOnClickListener(v -> {
+        if(4 != permission) {
+            tvIcon.setImageResource(R.mipmap.icon_addfriend);
+            tvIcon.setVisibility(View.VISIBLE);
+            tvIcon.setOnClickListener(v -> {
 //            showIndexPopup(v);
 //            getSupportDelegate().start(new AddFriendsDelegate());
-            InviteRelationshipDelegate mDelegate = InviteRelationshipDelegate.create(familyId);
-            getSupportDelegate().start(mDelegate);
-        });
-        tvIcon.setBackground(ContextCompat.getDrawable(getContext(),R.mipmap.icon_addfriend));
+
+                if(familyId==0){
+                    InviteDelagate mDelegate=InviteDelagate.create(familyId,0,InviteDelagate.INVITE_FOR_MINE);
+                    getSupportDelegate().start(mDelegate);
+                } else {
+                    InviteRelationshipDelegate mDelegate = InviteRelationshipDelegate.create(familyId);
+                    getSupportDelegate().start(mDelegate);
+                }
+            });
+        }
     }
 
     @Override

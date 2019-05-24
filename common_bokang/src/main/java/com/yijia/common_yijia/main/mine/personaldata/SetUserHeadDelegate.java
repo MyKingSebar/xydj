@@ -172,6 +172,7 @@ public class SetUserHeadDelegate extends LatteDelegate implements HeadLayout.OnC
                 .showCropFrame(true)
                 .showCropGrid(true)
                 .selectionMedia(selectList)
+                .cropWH(320, 320)
                 .forResult(500);
     }
 
@@ -257,7 +258,7 @@ public class SetUserHeadDelegate extends LatteDelegate implements HeadLayout.OnC
             int size = list.size();
             File[] files = new File[size];
             for (int i = 0; i < size; i++) {
-                files[i] = new File(list.get(i).getPath());
+                files[i] = new File(list.get(i).getCompressPath());
             }
             return files;
         } else {

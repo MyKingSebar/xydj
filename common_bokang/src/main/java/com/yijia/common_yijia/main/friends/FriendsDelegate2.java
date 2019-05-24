@@ -70,6 +70,7 @@ public class FriendsDelegate2 extends LatteDelegate implements  FriendsView , Co
     }
 
 
+    private int permission;
     //亲友团好友列表
     private List<FriendsBean> friendsBeans;
     private FriendsPresenter friendsPresenter;
@@ -85,6 +86,7 @@ public class FriendsDelegate2 extends LatteDelegate implements  FriendsView , Co
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, @NonNull View rootView) {
         familyId = getArguments().getLong("familyId");
+        permission = getArguments().getInt("permission");
         initView();
         friendsBeans = new ArrayList<>();
         friendsPresenter = new FriendsPresenter(this);
@@ -94,16 +96,24 @@ public class FriendsDelegate2 extends LatteDelegate implements  FriendsView , Co
     }
 
     private void initView() {
-        tvTitle.setText("成员列表");
+        tvTitle.setText("好友列表");
         tvSave.setVisibility(View.INVISIBLE);
-        tvIcon.setVisibility(View.VISIBLE);
-        tvIcon.setOnClickListener(v -> {
+        if(4 != permission) {
+            tvIcon.setImageResource(R.mipmap.icon_addfriend);
+            tvIcon.setVisibility(View.VISIBLE);
+            tvIcon.setOnClickListener(v -> {
 //            showIndexPopup(v);
 //            getSupportDelegate().start(new AddFriendsDelegate());
-            InviteRelationshipDelegate mDelegate = InviteRelationshipDelegate.create(familyId);
-            getSupportDelegate().start(mDelegate);
-        });
-        tvIcon.setImageResource(R.mipmap.icon_addfriend);
+
+                if(familyId==0){
+                    InviteDelagate mDelegate=InviteDelagate.create(familyId,0,InviteDelagate.INVITE_FOR_MINE);
+                    getSupportDelegate().start(mDelegate);
+                } else {
+                    InviteRelationshipDelegate mDelegate = InviteRelationshipDelegate.create(familyId);
+                    getSupportDelegate().start(mDelegate);
+                }
+            });
+        }
     }
 
     @Override

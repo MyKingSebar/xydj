@@ -430,6 +430,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
                 Bundle bundle = new Bundle();
                 bundle.putString("familyName", mCurrentFamily.mainUserName);
                 bundle.putLong("familyId", mCurrentFamily.familyId);
+                bundle.putInt("permission", mCurrentFamily.permissionType);
                 FriendsDelegate2 friendsDelegate2 = new FriendsDelegate2();
                 friendsDelegate2.setArguments(bundle);
                 getParentDelegate().getSupportDelegate().start(friendsDelegate2);

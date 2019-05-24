@@ -28,6 +28,7 @@
             android:layout_marginTop="15dp"
             android:layout_marginLeft="15dp"
             android:layout_width="50dp"
+            android:scaleType="fitXY"
             android:layout_height="50dp"
             android:visibility="gone" />
 
@@ -102,7 +103,7 @@
 
     <RelativeLayout
         android:id="@+id/item_right"
-        android:layout_width="80dp"
+        android:layout_width="100dp"
         android:layout_height="match_parent"
         android:background="@color/right_bg">
 

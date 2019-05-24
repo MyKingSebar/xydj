@@ -4,17 +4,13 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent">
-    <com.example.latte.ui.widget.HeadLayout
-        android:id="@+id/head_layout"
-        android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:gravity="center_vertical"
-        />
-
+    <include
+        layout="@layout/include_edit_top"
+/>
     <RelativeLayout
 
         android:layout_width="match_parent"
-        android:layout_height="281dp"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="13dp"
         android:layout_marginRight="15dp"
@@ -53,6 +49,7 @@
                 android:text="版本更新"
                 android:textColor="#333333"
                 android:textSize="16sp"
+                android:layout_marginBottom="20dp"
                 />
             <ViewStub
                 android:id="@+id/newversionimg"
@@ -64,6 +61,7 @@
         </LinearLayout>
 
         <TextView
+            android:visibility="gone"
             android:id="@+id/function_introduction"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

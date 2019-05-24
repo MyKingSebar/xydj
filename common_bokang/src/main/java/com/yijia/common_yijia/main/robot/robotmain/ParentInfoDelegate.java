@@ -29,6 +29,8 @@ import com.example.yijia.util.callback.IGlobalCallback;
 import com.example.yijia.util.listener.OnSingleClickListener;
 import com.luck.picture.lib.tools.ToastManage;
 import com.yijia.common_yijia.database.YjDatabaseManager;
+import com.yijia.common_yijia.main.YjBottomDelegate_with3;
+import com.yijia.common_yijia.main.index.InviteDelagate;
 import com.yijia.common_yijia.sign.ISignListener;
 import com.yijia.common_yijia.sign.YjSignHandler;
 
@@ -150,10 +152,16 @@ public class ParentInfoDelegate extends LatteDelegate {
                             if(null != callback) {
                                 callback.executeCallback(new Object());
                             }
-                            getSupportDelegate().popTo(AddParentsDelegate.class, true);
+//                            getSupportDelegate().pop();
                             if (isFirstLogin) {
-                                YjSignHandler.onSkipAddParents(signListener);
+//                                YjSignHandler.onSkipAddParents(signListener);
                             }
+                            JSONObject data=object.getJSONObject("data");
+                            long familyId=data.getLong("familyId");
+                            getSupportDelegate().pop();
+                            InviteDelagate mDelegate=InviteDelagate.create(familyId,0,InviteDelagate.INVITE_PARENT);
+                            mDelegate.isFirst=isFirstLogin;
+                            getSupportDelegate().start(mDelegate);
                         } else {
                             String msg = object.getString("msg");
                             ToastManage.s(getContext(), msg == null ? "服务器出错，请稍后再试" : msg);

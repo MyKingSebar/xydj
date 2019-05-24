@@ -152,6 +152,7 @@ public class ExampleActivity extends ProxyActivity implements
 
     @Override
     public void onSignUpSecondSuccess() {
+//        goMain();
         if (LattePreference.isFirstLogin("first_login") && LattePreference.getNeedAddParents()) {
             AddParentsDelegate addParentsDelegate = new AddParentsDelegate();
             Bundle bundle = new Bundle();
@@ -226,7 +227,7 @@ public class ExampleActivity extends ProxyActivity implements
         loginTencentIM();
         YjBottomDelegate_with3 delegate = new YjBottomDelegate_with3();
         delegate.setmSmallCameraLisener(this);
-        getSupportDelegate().start(delegate);
+        getSupportDelegate().startWithPop(delegate);
     }
 
     private void addLogOutCallBack() {

@@ -50,47 +50,31 @@ public class AddParentsDelegate extends LatteDelegate {
             titleRight.setText(R.string.add_parents_skip);
             titleRight.setBackgroundResource(R.color.transparent);
             titleRight.setTextColor(getResources().getColor(R.color.text_FDBF6F));
-            titleRight.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    YjSignHandler.onSkipAddParents(signListener);
-                }
-            });
+            titleRight.setOnClickListener(v -> YjSignHandler.onSkipAddParents(signListener));
             titleLeft.setVisibility(View.GONE);
         } else {
             titleRight.setVisibility(View.GONE);
-            titleLeft.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    getSupportDelegate().pop();
-                }
-            });
+            titleLeft.setOnClickListener(v -> getSupportDelegate().pop());
         }
 
         addFather = rootView.findViewById(R.id.add_parents_father);
-        addFather.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Bundle bundle = new Bundle();
-                bundle.putBoolean(EXTRA_ISFATHER, true);
-                bundle.putBoolean(EXTRA_ISFIRST_LOGIN, isFirstLogin);
-                ParentInfoDelegate parentInfoDelegate = new ParentInfoDelegate();
-                parentInfoDelegate.setArguments(bundle);
-                getSupportDelegate().start(parentInfoDelegate);
-            }
+        addFather.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            bundle.putBoolean(EXTRA_ISFATHER, true);
+            bundle.putBoolean(EXTRA_ISFIRST_LOGIN, isFirstLogin);
+            ParentInfoDelegate parentInfoDelegate = new ParentInfoDelegate();
+            parentInfoDelegate.setArguments(bundle);
+            getSupportDelegate().start(parentInfoDelegate);
         });
 
         addMather = rootView.findViewById(R.id.add_parents_mather);
-        addMather.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Bundle bundle = new Bundle();
-                bundle.putBoolean(EXTRA_ISFATHER, false);
-                bundle.putBoolean(EXTRA_ISFIRST_LOGIN, isFirstLogin);
-                ParentInfoDelegate parentInfoDelegate = new ParentInfoDelegate();
-                parentInfoDelegate.setArguments(bundle);
-                getSupportDelegate().start(parentInfoDelegate);
-            }
+        addMather.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            bundle.putBoolean(EXTRA_ISFATHER, false);
+            bundle.putBoolean(EXTRA_ISFIRST_LOGIN, isFirstLogin);
+            ParentInfoDelegate parentInfoDelegate = new ParentInfoDelegate();
+            parentInfoDelegate.setArguments(bundle);
+            getSupportDelegate().start(parentInfoDelegate);
         });
     }
 

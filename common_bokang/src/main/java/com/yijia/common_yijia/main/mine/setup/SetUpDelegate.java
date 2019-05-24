@@ -5,11 +5,13 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.AppCompatTextView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.example.latte.ec.R;
 import com.example.latte.ec.R2;
@@ -17,6 +19,7 @@ import com.example.latte.ui.widget.HeadLayout;
 import com.example.yijia.activities.ProxyActivity;
 import com.example.yijia.app.AccountManager;
 import com.example.yijia.delegates.LatteDelegate;
+import com.example.yijia.ui.TextViewUtils;
 import com.example.yijia.util.callback.CallbackManager;
 import com.example.yijia.util.callback.CallbackType;
 import com.example.yijia.util.callback.IGlobalCallback;
@@ -39,8 +42,6 @@ import butterknife.Unbinder;
  * 设置页面
  */
 public class SetUpDelegate extends LatteDelegate implements HeadLayout.OnClickHeadReturn {
-    @BindView(R2.id.head_layout)
-    HeadLayout headLayout;
     @BindView(R2.id.setup_pwd)
     LinearLayout setupPwd;
     @BindView(R2.id.nodisturb)
@@ -51,6 +52,10 @@ public class SetUpDelegate extends LatteDelegate implements HeadLayout.OnClickHe
     LinearLayout specified;
     Unbinder unbinder;
 
+    AppCompatTextView tvTitle, tvSave;
+    RelativeLayout rl;
+
+
     @Override
     public Object setLayout() {
         return R.layout.delegate_setup;
@@ -58,15 +63,17 @@ public class SetUpDelegate extends LatteDelegate implements HeadLayout.OnClickHe
 
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, @NonNull View rootView) {
-        initHead();
+        initHead(rootView);
     }
 
     //初始化头布局
-    private void initHead() {
-        headLayout.setHeadleftImg(true, R.mipmap.fanhui);
-        headLayout.setHeadName("设置", "#333333", 18);
-        headLayout.setHeadlayoutBagColor("#ffffff");
-        headLayout.setOnClickHeadReturn(this);
+    private void initHead(View rootView) {
+        rl = rootView.findViewById(R.id.tv_back);
+        rl.setOnClickListener(v -> getSupportDelegate().pop());
+        tvTitle = rootView.findViewById(R.id.tv_title);
+        tvSave = rootView.findViewById(R.id.tv_save);
+        tvSave.setVisibility(View.INVISIBLE);
+        TextViewUtils.AppCompatTextViewSetText(tvTitle,"设置");
     }
 
     @Override

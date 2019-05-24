@@ -5,16 +5,19 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
 import android.view.ViewStub;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.yijia.delegates.LatteDelegate;
 import com.example.latte.ec.R;
 import com.example.latte.ec.R2;
 import com.example.latte.ui.widget.HeadLayout;
+import com.example.yijia.ui.TextViewUtils;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -24,8 +27,6 @@ import butterknife.OnClick;
  * 关于我们
  */
 public class AboutUsDelegate extends LatteDelegate implements HeadLayout.OnClickHeadReturn {
-    @BindView(R2.id.head_layout)
-    HeadLayout headLayout;
     @BindView(R2.id.yijialog)
     ImageView yijialog;
     @BindView(R2.id.yijiabanben)
@@ -37,6 +38,8 @@ public class AboutUsDelegate extends LatteDelegate implements HeadLayout.OnClick
     @BindView(R2.id.function_introduction)
     TextView functionIntroduction;
 
+    AppCompatTextView tvTitle, tvSave;
+    RelativeLayout rl;
     @Override
     public Object setLayout() {
         return R.layout.delegate_aboutus;
@@ -45,16 +48,19 @@ public class AboutUsDelegate extends LatteDelegate implements HeadLayout.OnClick
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, @NonNull View rootView) {
         //初始化头布局
-        initHead();
+        initHead(rootView);
         //获取版本号
         setcode();
     }
 
-    private void initHead() {
-        headLayout.setHeadleftImg(true, R.mipmap.fanhui);
-        headLayout.setHeadName("关于我们", "#333333", 18);
-        headLayout.setHeadlayoutBagColor("#ffffff");
-        headLayout.setOnClickHeadReturn(this);
+    //初始化头布局
+    private void initHead(View rootView) {
+        rl = rootView.findViewById(R.id.tv_back);
+        rl.setOnClickListener(v -> getSupportDelegate().pop());
+        tvTitle = rootView.findViewById(R.id.tv_title);
+        tvSave = rootView.findViewById(R.id.tv_save);
+        tvSave.setVisibility(View.INVISIBLE);
+        TextViewUtils.AppCompatTextViewSetText(tvTitle,"关于我们");
     }
 
     //获取版本号

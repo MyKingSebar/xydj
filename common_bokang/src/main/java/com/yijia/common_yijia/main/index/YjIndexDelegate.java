@@ -562,6 +562,15 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
                 }
             }
         });
+
+        CallbackManager.getInstance().addCallback(CallbackType.REFRESH_FRIENDS_COUNT, new IGlobalCallback() {
+            @Override
+            public void executeCallback(@Nullable Object args) {
+                if (((long) args) == mCurrentFamily.familyId) {
+                    getFriendsCount();
+                }
+            }
+        });
     }
 
     private void setIsConfirm() {

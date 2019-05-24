@@ -24,6 +24,9 @@ import com.example.yijia.net.rx.BaseObserver;
 import com.example.yijia.net.rx.RxRestClient;
 import com.example.yijia.ui.dialog.JDialogUtil;
 import com.example.yijia.ui.dialog.RxDialogSureCancelListener;
+import com.example.yijia.util.callback.CallbackManager;
+import com.example.yijia.util.callback.CallbackType;
+import com.example.yijia.util.callback.IGlobalCallback;
 import com.yijia.common_yijia.database.YjDatabaseManager;
 import com.yijia.common_yijia.main.friends.adapter.MyFriendsAdapter;
 import com.yijia.common_yijia.main.friends.bean.FriendsBean;
@@ -31,6 +34,7 @@ import com.yijia.common_yijia.main.friends.presenter.FriendsPresenter;
 import com.yijia.common_yijia.main.friends.view.fragment.AddFriendsDelegate;
 import com.yijia.common_yijia.main.friends.view.iview.FriendsView;
 import com.yijia.common_yijia.main.index.InviteDelagate;
+import com.yijia.common_yijia.main.index.invite.InviteRelationshipDelegate;
 import com.yijia.common_yijia.main.message.trtc2.PersonalChatFragment2;
 import com.yijia.common_yijia.main.mine.UserDetailDelegate;
 
@@ -94,7 +98,9 @@ public class FriendsDelegate2 extends LatteDelegate implements  FriendsView , Co
         tvIcon.setVisibility(View.VISIBLE);
         tvIcon.setOnClickListener(v -> {
 //            showIndexPopup(v);
-            getSupportDelegate().start(new AddFriendsDelegate());
+//            getSupportDelegate().start(new AddFriendsDelegate());
+            InviteRelationshipDelegate mDelegate = InviteRelationshipDelegate.create(familyId);
+            getSupportDelegate().start(mDelegate);
         });
         tvIcon.setBackground(ContextCompat.getDrawable(getContext(),R.mipmap.icon_addfriend));
     }
@@ -215,6 +221,15 @@ public class FriendsDelegate2 extends LatteDelegate implements  FriendsView , Co
                             Toast.makeText(getContext(), "删除成功", Toast.LENGTH_SHORT).show();
                             friendsPresenter.reqFriendData(token, familyId);
                             JDialogUtil.INSTANCE.dismiss();
+
+                            final IGlobalCallback<Long> callback;
+                            callback = CallbackManager
+                                    .getInstance()
+                                    .getCallback(CallbackType.REFRESH_FRIENDS_COUNT);
+                            if (callback != null) {
+                                callback.executeCallback(familyId);
+                            }
+
                         } else {
                             final String msg = JSON.parseObject(response).getString("msg");
                             Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();

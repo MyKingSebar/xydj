@@ -19,6 +19,8 @@ import java.util.List;
 
 public final class DoctorInUseRecycAdapter extends MultipleRecyclerAdapter {
 
+    private int position = 0;
+
     private CommonStringClickListener mCommonStringClickListener = null;
 
     public void setmCommonStringClickListener(CommonStringClickListener mCommonStringClickListener) {
@@ -44,6 +46,15 @@ public final class DoctorInUseRecycAdapter extends MultipleRecyclerAdapter {
                 final AppCompatTextView tv_title = holder.getView(R.id.tv_title);
                 final AppCompatTextView tv_text = holder.getView(R.id.tv_text);
                 final ConstraintLayout cl = holder.getView(R.id.cl);
+
+                if(position == holder.getAdapterPosition()) {
+                    tv_title.setTextColor(mContext.getResources().getColor(R.color.text_FDBA63));
+                    tv_text.setTextColor(mContext.getResources().getColor(R.color.text_FDBA63));
+                } else {
+                    tv_title.setTextColor(mContext.getResources().getColor(R.color.main_text_black_dark));
+                    tv_text.setTextColor(mContext.getResources().getColor(R.color.main_text_gary_99));
+                }
+
                 TextViewUtils.AppCompatTextViewSetText(tv_title, name);
                 TextViewUtils.AppCompatTextViewSetText(tv_text, text);
                 GlideUtils.load(Latte.getApplicationContext(), imgUrl, titleImg, GlideUtils.USERMODE);
@@ -61,5 +72,13 @@ public final class DoctorInUseRecycAdapter extends MultipleRecyclerAdapter {
             default:
                 break;
         }
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
     }
 }

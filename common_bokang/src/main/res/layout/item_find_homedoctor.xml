@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/white"
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="74dp">
+    android:layout_height="74dp"
+    android:paddingLeft="15dp">
 
     <View
         android:id="@+id/view2"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginStart="15dp"
         android:background="@color/main_line_default_f5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,8 +24,15 @@
         android:layout_marginStart="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"/>
 
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline"
+        app:layout_constraintGuide_percent="0.5"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:orientation="horizontal"/>
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/tv_name"
@@ -33,10 +40,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:layout_marginTop="11dp"
-        android:textColor="@color/main_text_black_46"
+        android:textColor="@color/main_text_black_dark"
         android:textSize="20sp"
-        app:layout_constraintStart_toEndOf="@+id/iv_img"
-        app:layout_constraintTop_toBottomOf="@+id/view2"
+        app:layout_constraintBottom_toTopOf="@id/guideline"
+        app:layout_constraintStart_toStartOf="parent"
         tools:text="妈妈的小壹" />
 
     <android.support.v7.widget.AppCompatTextView
@@ -48,15 +55,14 @@
         android:text="今日活跃度"
         android:textColor="#9C9C9C"
         android:textSize="16sp"
-        app:layout_constraintStart_toEndOf="@+id/iv_img"
-        app:layout_constraintTop_toBottomOf="@+id/tv_name" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/guideline" />
 
-    <android.support.v7.widget.AppCompatTextView
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="15dp"
-        android:text=">"
-        android:textSize="11sp"
+        android:src="@mipmap/icon_right_back"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

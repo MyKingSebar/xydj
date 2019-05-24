@@ -66,6 +66,8 @@
 
     <string name="parent_has_not_confirm">对方还未确认接受邀请，请稍后再试</string>
 
+    <string name="nick_name_cannot_be_null">昵称不能为空或者空格</string>
+
     <string-array name="robot_remind_voice_seek">
         <item>0</item>
         <item>20</item>

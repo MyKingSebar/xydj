@@ -103,7 +103,7 @@ public class PhotoDelegate2 extends LatteDelegate {
 
             case ALLMODE:
                 if (selectList.size() == 0) {
-                    showToast("请选择");
+                    showToast("请选择一张图片");
                     return;
                 } else {
                     LocalMedia media = selectList.get(0);

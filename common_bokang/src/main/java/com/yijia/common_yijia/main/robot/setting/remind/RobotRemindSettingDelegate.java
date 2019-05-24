@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.Toast;
@@ -128,9 +129,9 @@ public class RobotRemindSettingDelegate extends LatteDelegate implements SwipeRe
         TextViewUtils.AppCompatTextViewSetText(tvTitle, "提醒设置");
         AppCompatTextView tvSave = rootView.findViewById(R.id.tv_save);
         tvSave.setVisibility(View.GONE);
-        AppCompatTextView tvIcon = rootView.findViewById(R.id.tv_icon);
+        ImageView tvIcon = rootView.findViewById(R.id.tv_icon);
         tvIcon.setVisibility(View.VISIBLE);
-        TextViewUtils.setBackground(getContext(), tvIcon, R.mipmap.icon_robot_remindsetting_add);
+        tvIcon.setImageResource(R.mipmap.icon_robot_remindsetting_add);
         tvIcon.setOnClickListener(v -> {
             RobotRemindSettingAddTypeDelegate mRobotRemindSettingAddTypeDelegate = RobotRemindSettingAddTypeDelegate.create(userId);
             getSupportDelegate().start(mRobotRemindSettingAddTypeDelegate);

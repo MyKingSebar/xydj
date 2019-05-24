@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
@@ -37,7 +38,7 @@ public class UserProfilesDelegate extends LatteDelegate implements CommonStringC
     @BindView(R2.id.tv_title)
     AppCompatTextView tvTitle;
     @BindView(R2.id.tv_icon)
-    AppCompatTextView tvIcon;
+    ImageView tvIcon;
     @BindView(R2.id.rv)
     RecyclerView rv;
 

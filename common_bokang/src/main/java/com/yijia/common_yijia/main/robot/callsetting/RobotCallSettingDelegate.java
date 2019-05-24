@@ -11,6 +11,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.example.latte.ec.R;
@@ -29,7 +30,7 @@ import butterknife.OnClick;
 public class RobotCallSettingDelegate extends LatteDelegate {
 
     @BindView(R2.id.tv_icon)
-    AppCompatTextView tvIcon;
+    ImageView tvIcon;
     @BindView(R2.id.tv_save)
     AppCompatTextView tvSave;
     @BindView(R2.id.tv_title)
@@ -64,7 +65,7 @@ public class RobotCallSettingDelegate extends LatteDelegate {
         tvTitle.setText("呼叫设置");
         tvSave.setVisibility(View.GONE);
         tvIcon.setVisibility(View.VISIBLE);
-        TextViewUtils.setBackground(getContext(),tvIcon,R.mipmap.icon_robot_addfriend);
+        tvIcon.setImageResource(R.mipmap.icon_robot_addfriend);
         tvIcon.setOnClickListener(v->getSupportDelegate().start(new RobotCallSettingAddFriendDelegate()));
         tvIcon.setVisibility(View.GONE);
     }

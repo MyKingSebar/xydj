@@ -27,7 +27,7 @@ package com.yijia.common_yijia.bean;
  * 　　　　┗┻┛　┗┻┛+ + + +
  * ━━━━━━感觉萌萌哒━━━━━━
  */
-public class BaseBean extends Object{
+public class BaseBean extends Object {
 
 
     /**

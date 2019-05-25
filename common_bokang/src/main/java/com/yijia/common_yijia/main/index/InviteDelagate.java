@@ -26,6 +26,8 @@ import com.yijia.common_yijia.main.YjBottomDelegate_with3;
 import com.yijia.common_yijia.sign.ISignListener;
 import com.yijia.common_yijia.sign.YjSignHandler;
 
+import java.util.Objects;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -70,8 +72,8 @@ public class InviteDelagate extends LatteDelegate {
 
     @OnClick(R2.id.tv_back)
     void back() {
-//        getSupportDelegate().pop();
-        getSupportDelegate().popTo(YjBottomDelegate_with3.class,false);
+        getSupportDelegate().pop();
+//        getSupportDelegate().popTo(YjBottomDelegate_with3.class,false);
         if(isFirst){
             getSupportDelegate().pop();
             YjSignHandler.onSkipAddParents(signListener);
@@ -85,9 +87,8 @@ public class InviteDelagate extends LatteDelegate {
 
     @OnClick(R2.id.tv_note)
     void inviteNote() {
-        JSmsUtil.INSTENCE.sendSmsWithBody(getContext(), "", smsMsg);
+        JSmsUtil.INSTENCE.sendSmsWithBody(Objects.requireNonNull(getContext()), "", smsMsg);
     }
-
 
     @Override
     public void onSupportVisible() {

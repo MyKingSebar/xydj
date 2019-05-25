@@ -3,6 +3,7 @@ package com.example.yijia.ui.sms;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 
 public enum JSmsUtil {
     //instance
@@ -17,7 +18,7 @@ public enum JSmsUtil {
      * @param number
      * @param body
      */
-    public  void sendSmsWithBody(Context context, String number, String body) {
+    public  void sendSmsWithBody(@NonNull Context context, String number, String body) {
         Intent sendIntent = new Intent(Intent.ACTION_SENDTO);
         sendIntent.setData(Uri.parse("smsto:" + number));
         sendIntent.putExtra("sms_body", body);

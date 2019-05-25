@@ -2,6 +2,7 @@ package com.yijia.common_yijia.main.find.homedoc;
 
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.AppCompatTextView;
+import android.text.TextUtils;
 import android.widget.ImageView;
 
 import com.example.latte.ec.R;
@@ -55,8 +56,17 @@ public final class DoctorInUseRecycAdapter extends MultipleRecyclerAdapter {
                     tv_text.setTextColor(mContext.getResources().getColor(R.color.main_text_gary_99));
                 }
 
-                TextViewUtils.AppCompatTextViewSetText(tv_title, name);
-                TextViewUtils.AppCompatTextViewSetText(tv_text, text);
+                if(TextUtils.isEmpty(name)){
+                    TextViewUtils.AppCompatTextViewSetText(tv_title, "");
+                } else {
+                    TextViewUtils.AppCompatTextViewSetText(tv_title, name);
+                }
+
+                if(TextUtils.isEmpty(text)){
+                    TextViewUtils.AppCompatTextViewSetText(tv_text, "");
+                } else {
+                    TextViewUtils.AppCompatTextViewSetText(tv_text, text);
+                }
                 GlideUtils.load(Latte.getApplicationContext(), imgUrl, titleImg, GlideUtils.USERMODE);
 
                 cl.setOnClickListener(v -> {

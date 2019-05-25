@@ -221,6 +221,11 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
     private RelativeLayout rl_input_container;
     private InputMethodManager mInputManager;
 
+    private PopupWindow.OnDismissListener onDismissListener;
+    public void onDismissListener(PopupWindow.OnDismissListener onDismissListener) {
+        this.onDismissListener = onDismissListener;
+    }
+
     @SuppressLint("WrongConstant")
     private void showPopupcomment(long circleId, String content, MultipleViewHolder holder, long replyUserId, String name) {
         final long CIRCLEID = circleId;
@@ -283,7 +288,10 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
             @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
             @Override
             public void onDismiss() {
+
                 mInputManager.hideSoftInputFromWindow(inputComment.getWindowToken(), 0); //强制隐藏键盘
+                if(null != onDismissListener)
+                    onDismissListener.onDismiss();
             }
         });
         //外部点击事件

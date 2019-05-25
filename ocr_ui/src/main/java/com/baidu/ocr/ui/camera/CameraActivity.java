@@ -19,9 +19,11 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.widget.AppCompatTextView;
 import android.view.Surface;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.baidu.idcardquality.IDcardQualityProcess;
@@ -68,11 +70,12 @@ public class CameraActivity extends Activity {
     private FrameOverlayView overlayView;
     private MaskView cropMaskView;
     private ImageView takePhotoBtn;
+    private RelativeLayout back;
     private PermissionCallback permissionCallback = new PermissionCallback() {
         @Override
         public boolean onRequestPermission() {
             ActivityCompat.requestPermissions(CameraActivity.this,
-                    new String[] {Manifest.permission.CAMERA},
+                    new String[]{Manifest.permission.CAMERA},
                     PERMISSIONS_REQUEST_CAMERA);
             return false;
         }
@@ -84,29 +87,30 @@ public class CameraActivity extends Activity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.bd_ocr_activity_camera);
+        back = findViewById(R.id.tv_back);
+        back.setOnClickListener(v -> finish());
+        takePictureContainer = findViewById(R.id.take_picture_container);
+        confirmResultContainer = findViewById(R.id.confirm_result_container);
 
-        takePictureContainer = (OCRCameraLayout) findViewById(R.id.take_picture_container);
-        confirmResultContainer = (OCRCameraLayout) findViewById(R.id.confirm_result_container);
-
-        cameraView = (CameraView) findViewById(R.id.camera_view);
+        cameraView = findViewById(R.id.camera_view);
         cameraView.getCameraControl().setPermissionCallback(permissionCallback);
-        lightButton = (ImageView) findViewById(R.id.light_button);
+        lightButton = findViewById(R.id.light_button);
         lightButton.setOnClickListener(lightButtonOnClickListener);
-        takePhotoBtn = (ImageView) findViewById(R.id.take_photo_button);
+        takePhotoBtn = findViewById(R.id.take_photo_button);
         findViewById(R.id.album_button).setOnClickListener(albumButtonOnClickListener);
         takePhotoBtn.setOnClickListener(takeButtonOnClickListener);
 
         // confirm result;
-        displayImageView = (ImageView) findViewById(R.id.display_image_view);
+        displayImageView = findViewById(R.id.display_image_view);
         confirmResultContainer.findViewById(R.id.confirm_button).setOnClickListener(confirmButtonOnClickListener);
         confirmResultContainer.findViewById(R.id.cancel_button).setOnClickListener(confirmCancelButtonOnClickListener);
         findViewById(R.id.rotate_button).setOnClickListener(rotateButtonOnClickListener);
 
-        cropView = (CropView) findViewById(R.id.crop_view);
-        cropContainer = (OCRCameraLayout) findViewById(R.id.crop_container);
-        overlayView = (FrameOverlayView) findViewById(R.id.overlay_view);
+        cropView = findViewById(R.id.crop_view);
+        cropContainer = findViewById(R.id.crop_container);
+        overlayView = findViewById(R.id.overlay_view);
         cropContainer.findViewById(R.id.confirm_button).setOnClickListener(cropConfirmButtonListener);
-        cropMaskView = (MaskView) cropContainer.findViewById(R.id.crop_mask_view);
+        cropMaskView = cropContainer.findViewById(R.id.crop_mask_view);
         cropContainer.findViewById(R.id.cancel_button).setOnClickListener(cropCancelButtonListener);
 
         setOrientation(getResources().getConfiguration());
@@ -202,11 +206,11 @@ public class CameraActivity extends Activity {
     private void initNative(final String token) {
         CameraNativeHelper.init(CameraActivity.this, token,
                 new CameraNativeHelper.CameraNativeInitCallback() {
-            @Override
-            public void onError(int errorCode, Throwable e) {
-                cameraView.setInitNativeStatus(errorCode);
-            }
-        });
+                    @Override
+                    public void onError(int errorCode, Throwable e) {
+                        cameraView.setInitNativeStatus(errorCode);
+                    }
+                });
     }
 
     private void showTakePicture() {
@@ -243,23 +247,20 @@ public class CameraActivity extends Activity {
         }
     }
 
-    private View.OnClickListener albumButtonOnClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
+    private View.OnClickListener albumButtonOnClickListener = v -> {
 
-            if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE)
-                    != PackageManager.PERMISSION_GRANTED) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                    ActivityCompat.requestPermissions(CameraActivity.this,
-                            new String[] {Manifest.permission.READ_EXTERNAL_STORAGE},
-                            PERMISSIONS_EXTERNAL_STORAGE);
-                    return;
-                }
+        if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                ActivityCompat.requestPermissions(CameraActivity.this,
+                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                        PERMISSIONS_EXTERNAL_STORAGE);
+                return;
             }
-            Intent intent = new Intent(Intent.ACTION_PICK);
-            intent.setType("image/*");
-            startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE);
         }
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType("image/*");
+        startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE);
     };
 
     private View.OnClickListener lightButtonOnClickListener = new View.OnClickListener() {
@@ -426,7 +427,7 @@ public class CameraActivity extends Activity {
         }
         return result;
     }
-    
+
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
@@ -497,7 +498,6 @@ public class CameraActivity extends Activity {
 
     /**
      * 做一些收尾工作
-     *
      */
     private void doClear() {
         CameraThreadPool.cancelAutoFocusTimer();

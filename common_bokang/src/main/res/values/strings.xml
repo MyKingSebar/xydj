@@ -21,7 +21,9 @@
 
     <string name="health_self_result_close">返回</string>
 
-    <string name="add_parents_title">请选择添加父母</string>
+    <string name="add_parents_title">请选择添加我的父母</string>
+
+    <string name="add_own_parents">添加我的父母</string>
 
     <string name="add_parents_skip">跳过</string>
 

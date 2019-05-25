@@ -158,6 +158,7 @@ public class NoticeDelegate extends LatteDelegate implements NoticeView, IIndexI
                             adapter = new NoticesAdapter(data, NoticeDelegate.this);
                             adapter.setOkAddListener(NoticeDelegate.this);
                             rv.setAdapter(adapter);
+                            adapter.setEmptyView(R.layout.adapter_notice_empty);
                         } else {
                             final String msg = JSON.parseObject(response).getString("msg");
                             Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();

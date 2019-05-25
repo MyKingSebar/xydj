@@ -210,6 +210,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, View rootView) {
         mRefreshHandler = YjReFreshHandler.create(mRefreshLayout, mRecyclerView, null, this, this, this, this, this);
+        mRefreshHandler.setEmptyClickListener(()->useSDCardWithCheck(null, this));
         mRefreshHandler.onDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {

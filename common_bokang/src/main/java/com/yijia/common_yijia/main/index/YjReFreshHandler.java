@@ -4,6 +4,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
@@ -90,6 +91,8 @@ public class YjReFreshHandler extends RefreshHandler {
                                             .setJsonData(response)
                                             .convert();
                             mAdapter = new YjIndexAdapter(data, DELEGATE);
+                            if(null != onDismissListener)
+                                onDismissListener.onDismiss();
                             mAdapter.setIndexItemListener(LISTENER);
                             mAdapter.setIndexCanReadItemListener(READLISTENER);
                             mAdapter.setmIPlayVideoListener(PLAYLISTENER);
@@ -117,6 +120,11 @@ public class YjReFreshHandler extends RefreshHandler {
                         REFRESH_LAYOUT.setRefreshing(false);
                     }
                 });
+    }
+
+    private PopupWindow.OnDismissListener onDismissListener;
+    public void onDismissListener(PopupWindow.OnDismissListener onDismissListener) {
+        this.onDismissListener = onDismissListener;
     }
 
     private void paging() {

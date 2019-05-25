@@ -96,6 +96,7 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.BiFunction;
 import io.reactivex.schedulers.Schedulers;
+import razerdp.basepopup.BasePopupWindow;
 import razerdp.basepopup.QuickPopupBuilder;
 import razerdp.basepopup.QuickPopupConfig;
 
@@ -209,6 +210,12 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, View rootView) {
         mRefreshHandler = YjReFreshHandler.create(mRefreshLayout, mRecyclerView, null, this, this, this, this, this);
+        mRefreshHandler.onDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                initBottomBar();
+            }
+        });
         CallbackManager.getInstance()
                 .addCallback(CallbackType.ON_SCAN, (IGlobalCallback<String>) args -> Toast.makeText(getContext(), args, Toast.LENGTH_LONG).show());
 
@@ -326,6 +333,12 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
         View pop_layout = LayoutInflater.from(getContext()).inflate(R.layout.popup_change_cover, null);
         mCoverPopup = new PopupWindow(getContext());
         mCoverPopup.setContentView(pop_layout);
+        mCoverPopup.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                initBottomBar();
+            }
+        });
         mCoverPopup.setFocusable(true);
         mCoverPopup.setOutsideTouchable(true);
         mCoverPopup.setWidth(DimensionUtil.dpToPx(150));
@@ -542,6 +555,12 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
                     popupWindow.dismiss();
                     setIsConfirm();
                     getCover();
+                });
+                ((SpinnerPopuwindow) popupWindow).onDismissListener(new PopupWindow.OnDismissListener() {
+                    @Override
+                    public void onDismiss() {
+                        initBottomBar();
+                    }
                 });
             }
             if (!popupWindow.isShowing()) {
@@ -1094,6 +1113,12 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
 //                        .withShowAnimation(enterAnimation)
 //                        .withDismissAnimation(dismissAnimation)
                         .gravity(gravity)
+                        .dismissListener(new BasePopupWindow.OnDismissListener() {
+                            @Override
+                            public void onDismiss() {
+                                initBottomBar();
+                            }
+                        })
                         .blurBackground(false, option -> option.setBlurRadius(6)
                                 .setBlurPreScaleRatio(0.9f))
                         .withClick(R.id.ll_camera, v1 -> {
@@ -1151,6 +1176,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
             public void RxDialogSure() {
                 JDialogUtil.INSTANCE.dismiss();
                 deletego(id);
+                initBottomBar();
             }
 
             @Override

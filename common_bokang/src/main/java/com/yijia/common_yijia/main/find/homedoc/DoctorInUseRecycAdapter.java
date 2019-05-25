@@ -2,6 +2,7 @@ package com.yijia.common_yijia.main.find.homedoc;
 
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.AppCompatTextView;
+import android.text.TextUtils;
 import android.widget.ImageView;
 
 import com.example.latte.ec.R;
@@ -18,6 +19,8 @@ import java.util.List;
 
 
 public final class DoctorInUseRecycAdapter extends MultipleRecyclerAdapter {
+
+    private int position = 0;
 
     private CommonStringClickListener mCommonStringClickListener = null;
 
@@ -44,8 +47,26 @@ public final class DoctorInUseRecycAdapter extends MultipleRecyclerAdapter {
                 final AppCompatTextView tv_title = holder.getView(R.id.tv_title);
                 final AppCompatTextView tv_text = holder.getView(R.id.tv_text);
                 final ConstraintLayout cl = holder.getView(R.id.cl);
-                TextViewUtils.AppCompatTextViewSetText(tv_title, name);
-                TextViewUtils.AppCompatTextViewSetText(tv_text, text);
+
+                if(position == holder.getAdapterPosition()) {
+                    tv_title.setTextColor(mContext.getResources().getColor(R.color.text_FDBA63));
+                    tv_text.setTextColor(mContext.getResources().getColor(R.color.text_FDBA63));
+                } else {
+                    tv_title.setTextColor(mContext.getResources().getColor(R.color.main_text_black_dark));
+                    tv_text.setTextColor(mContext.getResources().getColor(R.color.main_text_gary_99));
+                }
+
+                if(TextUtils.isEmpty(name)){
+                    TextViewUtils.AppCompatTextViewSetText(tv_title, "");
+                } else {
+                    TextViewUtils.AppCompatTextViewSetText(tv_title, name);
+                }
+
+                if(TextUtils.isEmpty(text)){
+                    TextViewUtils.AppCompatTextViewSetText(tv_text, "");
+                } else {
+                    TextViewUtils.AppCompatTextViewSetText(tv_text, text);
+                }
                 GlideUtils.load(Latte.getApplicationContext(), imgUrl, titleImg, GlideUtils.USERMODE);
 
                 cl.setOnClickListener(v -> {
@@ -61,5 +82,13 @@ public final class DoctorInUseRecycAdapter extends MultipleRecyclerAdapter {
             default:
                 break;
         }
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
     }
 }

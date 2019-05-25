@@ -218,6 +218,12 @@ public class HomeDoctorInUseRecycDelegate extends LatteDelegate {
                                 if (s.length != 5) {
                                     return;
                                 }
+
+                                int p = mHomeDoctorInTabPagerAdapter.getPosition();
+                                mHomeDoctorInTabPagerAdapter.setPosition(Integer.parseInt(s[4]));
+                                mHomeDoctorInTabPagerAdapter.notifyItemChanged(p);
+                                mHomeDoctorInTabPagerAdapter.notifyItemChanged(mHomeDoctorInTabPagerAdapter.getPosition());
+
                                 PersonalChatFragmentLittle delegate = PersonalChatFragmentLittle.create(s[0], s[1], s[2], s[3], Integer.parseInt(s[4]));
                                 mDelegate=(PersonalChatFragmentLittle) mDelegate.change(delegate);
 //                                getSupportDelegate().loadRootFragment(R.id.view_pager,delegate);

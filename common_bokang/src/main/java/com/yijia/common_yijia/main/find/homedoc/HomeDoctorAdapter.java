@@ -2,6 +2,7 @@ package com.yijia.common_yijia.main.find.homedoc;
 
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.AppCompatTextView;
+import android.text.TextUtils;
 import android.widget.ImageView;
 
 import com.example.latte.ec.R;
@@ -57,8 +58,17 @@ public final class HomeDoctorAdapter extends MultipleRecyclerAdapter {
                     }
                 });
                 //赋值
-                TextViewUtils.AppCompatTextViewSetText(tvName, doctTeamName);
-                TextViewUtils.AppCompatTextViewSetText(tvHname, hospitalName);
+                if(TextUtils.isEmpty(doctTeamName)){
+                    TextViewUtils.AppCompatTextViewSetText(tvName, "");
+                } else {
+                    TextViewUtils.AppCompatTextViewSetText(tvName, doctTeamName);
+                }
+
+                if(TextUtils.isEmpty(hospitalName)) {
+                    TextViewUtils.AppCompatTextViewSetText(tvHname, "");
+                } else {
+                    TextViewUtils.AppCompatTextViewSetText(tvHname, hospitalName);
+                }
                 GlideUtils.load(Latte.getApplicationContext(), headImage, ivImg, GlideUtils.DEFAULTMODE);
                 break;
 

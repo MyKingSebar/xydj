@@ -56,6 +56,8 @@ public class SpinnerPopuwindow extends PopupWindow {
             @Override
             public void onDismiss() {
                 darkenBackground(1f);
+                if(null != onDismissListener)
+                    onDismissListener.onDismiss();
             }
         });
         //解决软键盘挡住弹窗问题
@@ -69,6 +71,11 @@ public class SpinnerPopuwindow extends PopupWindow {
         listView.setOnItemClickListener(itemsOnClick);
         listView.setAdapter(adapter);
 
+    }
+
+    private OnDismissListener onDismissListener;
+    public void onDismissListener(OnDismissListener onDismissListener) {
+        this.onDismissListener = onDismissListener;
     }
 
     //获取选中列表中的数据所对应的position

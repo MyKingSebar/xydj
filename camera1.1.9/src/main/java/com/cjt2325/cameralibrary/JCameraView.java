@@ -557,10 +557,10 @@ public class JCameraView extends FrameLayout implements CameraInterface.CameraOp
     public void playVideo(Bitmap firstFrame, final String url) {
         videoUrl = url;
         JCameraView.this.firstFrame = firstFrame;
-        new Thread(new Runnable() {
-            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-            @Override
-            public void run() {
+//        new Thread(new Runnable() {
+//            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+//            @Override
+//            public void run() {
                 try {
                     if (mMediaPlayer == null) {
                         mMediaPlayer = new MediaPlayer();
@@ -580,20 +580,22 @@ public class JCameraView extends FrameLayout implements CameraInterface.CameraOp
                                     .getVideoHeight());
                         }
                     });
+                    mMediaPlayer.prepareAsync();
                     mMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                         @Override
                         public void onPrepared(MediaPlayer mp) {
-                            mMediaPlayer.start();
+                            if(!mMediaPlayer.isPlaying())
+                                mMediaPlayer.start();
                         }
                     });
                     mMediaPlayer.setLooping(true);
-                    mMediaPlayer.prepare();
-                } catch (IOException e) {
+
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
-        }).start();
-    }
+//        }).start();
+//    }
 
     @Override
     public void stopVideo() {

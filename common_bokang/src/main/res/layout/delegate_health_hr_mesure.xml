@@ -17,7 +17,7 @@
 
     </com.yijia.common_yijia.main.find.healthself.CameraMesure.CameraPreviewView>
 
-    <ImageView
+    <com.yijia.common_yijia.main.find.healthself.CameraScanView
         android:id="@+id/health_self_mesure_image"
         android:layout_width="200dp"
         android:layout_height="200dp"

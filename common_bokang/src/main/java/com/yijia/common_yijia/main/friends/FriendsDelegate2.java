@@ -154,6 +154,7 @@ public class FriendsDelegate2 extends LatteDelegate implements  FriendsView , Co
         MyFriendsAdapter adapter = new MyFriendsAdapter(R.layout.friends_itme, friendsBeans);
         adapter.setmCommonClickListener(this);
         friendsRecycler.setAdapter(adapter);
+        adapter.setEmptyView(R.layout.adapter_friend_empty);
         adapter.setOnItemClickListener((adapter1, view, position) -> {
 
             FriendsBean bean = friendsBeans.get(position);

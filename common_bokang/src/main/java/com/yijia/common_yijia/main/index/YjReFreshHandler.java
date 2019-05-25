@@ -4,11 +4,14 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.example.latte.ec.R;
 import com.example.yijia.app.Latte;
 import com.example.yijia.delegates.LatteDelegate;
 import com.example.yijia.net.rx.BaseObserver;
@@ -19,6 +22,7 @@ import com.example.latte.ui.refresh.PagingBean;
 import com.example.latte.ui.refresh.RefreshHandler;
 import com.example.yijia.util.log.LatteLogger;
 import com.yijia.common_yijia.database.YjDatabaseManager;
+import com.yijia.common_yijia.main.friends.CommonClickListener;
 
 import java.util.ArrayList;
 
@@ -27,6 +31,11 @@ import io.reactivex.schedulers.Schedulers;
 
 public class YjReFreshHandler extends RefreshHandler {
     long mfamilyId = 0;
+private CommonClickListener emptyClickListener=null;
+
+    public void setEmptyClickListener(CommonClickListener emptyClickListener) {
+        this.emptyClickListener = emptyClickListener;
+    }
 
     public YjReFreshHandler(SwipeRefreshLayout swipeRefreshLayout, RecyclerView recyclerView, DataConverter converter, PagingBean bean, LatteDelegate delegate, IIndexItemListener listener, IIndexCanReadItemListener readlistener, IPlayVideoListener playVideoListener, IDeleteListener deleteListener) {
         super(swipeRefreshLayout, recyclerView, converter, bean);
@@ -101,6 +110,13 @@ public class YjReFreshHandler extends RefreshHandler {
                             final LinearLayoutManager manager = new LinearLayoutManager(Latte.getApplicationContext());
                             RECYCLERVIEW.setLayoutManager(manager);
                             RECYCLERVIEW.setAdapter(mAdapter);
+                            View emptyView = DELEGATE.getLayoutInflater().inflate(R.layout.adapter_index_empty, (ViewGroup) RECYCLERVIEW.getParent(), false);
+                            emptyView.setOnClickListener(v->{
+                                if(emptyClickListener!=null){
+                                    emptyClickListener.onCommonClick();
+                                }
+                            });
+                            mAdapter.setEmptyView(emptyView);
                             if (data.size() > 0) {
                                 BEAN.setBeginCircleId(data.get(data.size() - 1).getField(YjIndexMultipleFields.CIRCLEID));
                             }

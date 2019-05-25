@@ -11,7 +11,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:paddingBottom="15dp"
+        android:paddingBottom="30dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -26,8 +26,22 @@
             android:background="@color/transparent"
             android:src="@mipmap/robot_list_add_parents"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="gone"/>
 
+        <TextView
+            android:id="@+id/robot_list_add_own_parents"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="90dp"
+            android:drawableTop="@mipmap/addimg_1x"
+            android:text="@string/add_own_parents"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:drawablePadding="5dp"
+            android:textColor="@color/text_FDBA63"
+            android:textSize="16sp"
+            app:layout_constraintTop_toTopOf="@id/robor_list_top"/>
 
         <TextView
             android:id="@+id/robot_list_image"
@@ -38,7 +52,8 @@
             android:text="@string/add_parents_robot_name"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/robot_list_add"/>
+            app:layout_constraintTop_toTopOf="@id/robor_list_top"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/robot_list_know"
@@ -51,7 +66,8 @@
             android:textSize="16sp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/robot_list_image"/>
+            app:layout_constraintTop_toBottomOf="@id/robot_list_image"
+            android:visibility="gone"/>
     </android.support.constraint.ConstraintLayout>
 
     <android.support.v4.widget.SwipeRefreshLayout

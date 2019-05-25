@@ -28,6 +28,7 @@ public class HealthHRMesureDelegate extends LatteDelegate {
     private boolean canReleased = false;
 
     private HealthMainDelegate mainDelegate;
+    private CameraScanView cameraScanView;
     @Override
     public Object setLayout() {
         return R.layout.delegate_health_hr_mesure;
@@ -58,6 +59,7 @@ public class HealthHRMesureDelegate extends LatteDelegate {
         mainDelegate = getParentDelegate();
         cameraPreviewView = rootView.findViewById(R.id.health_self_mesure_preview);
         progress = rootView.findViewById(R.id.health_self_mesure_progress);
+        cameraScanView = rootView.findViewById(R.id.health_self_mesure_image);
     }
 
     @Override
@@ -170,6 +172,9 @@ public class HealthHRMesureDelegate extends LatteDelegate {
     public void onPause() {
         super.onPause();
         mainDelegate.pauseTts();
+
+        if(null != cameraScanView)
+            cameraScanView.release();
     }
 
     private boolean lastTestRight = true, isFirst = true;
@@ -181,6 +186,9 @@ public class HealthHRMesureDelegate extends LatteDelegate {
             cameraPreviewView.releaseCamera();
             canReleased = false;
         }
+
+        if(null != cameraScanView)
+            cameraScanView.release();
     }
 
 }

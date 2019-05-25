@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -22,6 +23,7 @@ import com.example.yijia.net.rx.RxRestClient;
 import com.example.yijia.util.callback.CallbackManager;
 import com.example.yijia.util.callback.CallbackType;
 import com.example.yijia.util.callback.IGlobalCallback;
+import com.example.yijia.util.listener.OnSingleClickListener;
 import com.yijia.common_yijia.database.YjDatabaseManager;
 import com.yijia.common_yijia.main.friends.CommonEntityClickListener;
 import com.yijia.common_yijia.main.friends.CommonLongIntClickListener;
@@ -43,6 +45,8 @@ public class RobotListDelegate extends BottomItemDelegate implements CommonEntit
     private String token = null;
     private List<MultipleItemEntity> data = new ArrayList<>();
     private RobotListAdapter mAdapter;
+
+    private TextView addParents;
 
     @Override
     public Object setLayout() {
@@ -74,6 +78,14 @@ public class RobotListDelegate extends BottomItemDelegate implements CommonEntit
             @Override
             public void executeCallback(@Nullable Object args) {
                 robotMainListReFreshHandler.firstPage(mAdapter, data);
+            }
+        });
+
+        addParents = rootView.findViewById(R.id.robot_list_add_own_parents);
+        addParents.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            protected void onSingleClick(View v) {
+                getParentDelegate().getSupportDelegate().start(new AddParentsDelegate());
             }
         });
     }

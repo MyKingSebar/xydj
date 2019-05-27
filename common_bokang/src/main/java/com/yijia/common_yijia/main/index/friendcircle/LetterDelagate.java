@@ -255,4 +255,9 @@ public class LetterDelagate extends LatteDelegate implements LatCallbackInterfac
     public void latError(String s) {
 
     }
+
+    @Override
+    public void latDoing(int volume) {
+
+    }
 }

@@ -64,6 +64,9 @@ public class RobotImageView extends RelativeLayout {
     public ImageView userImageView() {
         return userImageView;
     }
+    public ImageView robotImageView() {
+        return robotImageView;
+    }
 
     public void setRobotOnline(boolean online) {
         if (online) {

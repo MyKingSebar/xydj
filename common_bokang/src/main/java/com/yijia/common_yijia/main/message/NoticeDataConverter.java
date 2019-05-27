@@ -30,12 +30,14 @@ public class NoticeDataConverter extends DataConverter {
             final Long isRead = data.getLong("isRead");
             final String createdTime = data.getString("createdTime");
             final String modifiedTime = data.getString("modifiedTime");
+            final String imagePath = data.getString("imagePath");
             final Long friendApplyId = data.getLong("friendApplyId");
             final int isAgree = data.getInteger("isAgree");
 
             final MultipleItemEntity entity = MultipleItemEntity.builder()
                     .setField(MultipleFields.ITEM_TYPE, YjIndexItemType.INDEX_NOTICELIST_ITEM)
                     .setField(MultipleFields.ID, id)
+                    .setField(MultipleFields.IMAGE_URL, imagePath)
                     .setField(NoticeMultipleFields.TARGETUSERID, targetUserId)
                     .setField(NoticeMultipleFields.PUTHTYPEID, pushType)
                     .setField(NoticeMultipleFields.TITLE, title)

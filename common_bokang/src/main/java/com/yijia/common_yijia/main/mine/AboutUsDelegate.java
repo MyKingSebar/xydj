@@ -116,7 +116,7 @@ public class AboutUsDelegate extends LatteDelegate implements HeadLayout.OnClick
         AllenVersionChecker
                 .getInstance()
                 .downloadOnly(
-                        UIData.create().setDownloadUrl(url)
+                        UIData.create().setTitle("壹家新版本震撼来袭!").setContent("包含多个新增内容,快来点击下载吧!").setDownloadUrl(url)
                 )
                 .executeMission(getContext());
     }

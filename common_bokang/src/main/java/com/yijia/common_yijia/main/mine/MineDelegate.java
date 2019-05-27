@@ -89,6 +89,7 @@ public class MineDelegate extends LatteDelegate {
         mRequestOptions = RequestOptions.circleCropTransform()
                 // .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .skipMemoryCache(true);
+        userImagePath.robotImageView().setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -135,6 +136,7 @@ public class MineDelegate extends LatteDelegate {
                             isOnline = jo.getBoolean("isOnline");
                         }
                         userImagePath.setRobotOnline(isOnline);
+
                     }
 
                     @Override
@@ -224,16 +226,20 @@ public class MineDelegate extends LatteDelegate {
             Toast.makeText(_mActivity, "远程监护", Toast.LENGTH_SHORT).show();
         }
         else if (i == R.id.pro_card) {
-            Toast.makeText(_mActivity, "亲属卡", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(_mActivity, "亲属卡", Toast.LENGTH_SHORT).show();
+            getSupportDelegate().start(UnDevelopDelegate.creat("亲属卡"));
         } else if (i == R.id.photo_album) {
-            Toast.makeText(_mActivity, "相册", Toast.LENGTH_SHORT).show();
+            getSupportDelegate().start(UnDevelopDelegate.creat("看护相册"));
+//            Toast.makeText(_mActivity, "相册", Toast.LENGTH_SHORT).show();
         } else if (i == R.id.letter) {
-            Toast.makeText(_mActivity, "家书", Toast.LENGTH_SHORT).show();
+            getSupportDelegate().start(UnDevelopDelegate.creat("家书"));
+//            Toast.makeText(_mActivity, "家书", Toast.LENGTH_SHORT).show();
         } else if (i == R.id.About_us) {
             //跳转到关于我们
             getSupportDelegate().start(new AboutUsDelegate());
         } else if (i == R.id.help) {
-            Toast.makeText(_mActivity, "帮助", Toast.LENGTH_SHORT).show();
+            getSupportDelegate().start(UnDevelopDelegate.creat("帮助"));
+//            Toast.makeText(_mActivity, "帮助", Toast.LENGTH_SHORT).show();
         } else if (i == R.id.set_up) {
             //点击设置条目 跳转到设置页面
             getSupportDelegate().start(new SetUpDelegate());

@@ -54,6 +54,7 @@ public final class NoticesAdapter extends MultipleRecyclerAdapter {
                 final Long isRead = entity.getField(NoticeMultipleFields.ISREAD);
                 final String createdTime = entity.getField(NoticeMultipleFields.CREATEDTIME);
                 final String modifiedTime = entity.getField(NoticeMultipleFields.MODIFIEDTIME);
+                final String imagePath = entity.getField(MultipleFields.IMAGE_URL);
 
                 final Long friendApplyId = entity.getField(NoticeMultipleFields.FRIENDAPPLYID);
                 final int isAgree = entity.getField(NoticeMultipleFields.ISAGREE);
@@ -66,11 +67,12 @@ public final class NoticesAdapter extends MultipleRecyclerAdapter {
                 final ImageView im = holder.getView(R.id.im);
 
                 //赋值
-                im.setImageResource(icons[puthTypeId - 1]);
-                Glide.with(mContext)
-                        .load(icons[puthTypeId - 1])
-                        .apply(GlideUtils.USEROPTIONS)
-                        .into(im);
+                GlideUtils.load(mContext,imagePath,im,GlideUtils.DEFAULTMODE);
+//                im.setImageResource(icons[puthTypeId - 1]);
+//                Glide.with(mContext)
+//                        .load(icons[puthTypeId - 1])
+//                        .apply(GlideUtils.USEROPTIONS)
+//                        .into(im);
                 tvName.setText(title);
                 tvContent.setText(content);
                 if (puthTypeId == 9) {

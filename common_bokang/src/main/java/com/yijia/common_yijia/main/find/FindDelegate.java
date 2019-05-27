@@ -11,6 +11,8 @@ import android.widget.RelativeLayout;
 import com.example.latte.ec.R;
 import com.example.latte.ec.R2;
 import com.example.yijia.delegates.bottom.BottomItemDelegate;
+import com.tencent.imsdk.TIMManager;
+import com.tencent.imsdk.ext.message.TIMConversationExt;
 import com.yijia.common_yijia.main.find.healthself.HealthMainDelegate;
 import com.yijia.common_yijia.main.find.homedoc.HomeDoctorDelegate;
 import com.yijia.common_yijia.main.message.trtc.session.SessionFragment;
@@ -66,6 +68,10 @@ public class FindDelegate extends BottomItemDelegate {
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, @NonNull View rootView) {
         initHead();
+        initDate();
+    }
+
+    private void initDate() {
     }
 
     //初始化头布局

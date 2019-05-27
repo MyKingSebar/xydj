@@ -534,7 +534,7 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
         final RelativeLayout rlVideo = holder.getView(R.id.rl_video);
         final ImageView imVideo = holder.getView(R.id.iv_video);
         final String videoCoverUrl = entity.getField(YjIndexMultipleFields.VIDEOCOVERURL);
-        GlideUtils.load(mContext, videoCoverUrl, imVideo, GlideUtils.USERMODE);
+        GlideUtils.load(mContext, videoCoverUrl, imVideo, GlideUtils.DEFAULTMODE);
         rlVideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

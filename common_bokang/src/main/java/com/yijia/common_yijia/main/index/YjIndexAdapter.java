@@ -403,7 +403,7 @@ public final class YjIndexAdapter extends MultipleRecyclerAdapter {
         try {
             Date createdTime_d = df.parse(createdTime);
             Log.d("jialei", "createdTime_d：" + (createdTime_d.getYear() + -1900) + "," + createdTime_d.getMonth() + "," + createdTime_d.getDay());
-            String time = TimeFormat.getCompareNowString(createdTime_d);
+            String time = TimeFormat.getCompareNowString2(createdTime_d);
             tvTime.setText(time);
         } catch (ParseException e) {
             e.printStackTrace();

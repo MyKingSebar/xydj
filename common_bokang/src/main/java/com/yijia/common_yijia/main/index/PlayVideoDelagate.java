@@ -8,6 +8,7 @@ import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -43,16 +44,11 @@ public class PlayVideoDelagate extends LatteDelegate {
     RecyclerView rv = null;
     int circleId=0;
     private ExoPlayer player;
-    private boolean playWhenReady;
+    private boolean playWhenReady=true;
     private int currentWindow;
     private long playbackPosition;
     String[] medias=null;
     PlayerView pv=null;
-    @Override
-    public void onSupportVisible() {
-        super.onSupportVisible();
-    }
-
 
     @Override
     public Object setLayout() {
@@ -66,14 +62,23 @@ public class PlayVideoDelagate extends LatteDelegate {
 
 
     private void init(View view) {
-        RelativeLayout rl = view.findViewById(R.id.tv_back);
-        rl.setOnClickListener(v -> getSupportDelegate().pop());
-        AppCompatTextView tv = view.findViewById(R.id.tv_title);
-        tv.setText("");
-        AppCompatTextView tv2 = view.findViewById(R.id.tv_save);
-        tv2.setVisibility(View.INVISIBLE);
+//        RelativeLayout rl = view.findViewById(R.id.tv_back);
+//        rl.setOnClickListener(v -> getSupportDelegate().pop());
+//        AppCompatTextView tv = view.findViewById(R.id.tv_title);
+//        tv.setText("");
+//        AppCompatTextView tv2 = view.findViewById(R.id.tv_save);
+//        tv2.setVisibility(View.INVISIBLE);
         pv=view.findViewById(R.id.video_view);
         initializePlayer(pv,medias);
+        pv.setUseController(false);
+        pv.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                getSupportDelegate().pop();
+                return false;
+            }
+        });
+
     }
 
 
@@ -98,6 +103,7 @@ public class PlayVideoDelagate extends LatteDelegate {
 
             player.setPlayWhenReady(playWhenReady);
             player.seekTo(currentWindow, playbackPosition);
+
         }
         final int mediaUrlSize = mediaUrl.length;
         MediaSource[] mediaSources = new MediaSource[mediaUrlSize];

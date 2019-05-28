@@ -83,6 +83,7 @@
 
             app:tsb_show_tick_marks_type="divider"
             app:tsb_thumb_color="@color/main_text_orange"
+            app:tsb_track_progress_color="@color/main_text_orange"
             app:tsb_show_tick_texts="below"
             app:tsb_tick_marks_color="@color/main_text_orange"
             app:tsb_tick_texts_color="@color/selector_tick_texts_2_color"

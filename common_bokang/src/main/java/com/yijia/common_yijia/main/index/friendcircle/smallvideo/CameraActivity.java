@@ -181,8 +181,9 @@ public class CameraActivity extends AppCompatActivity {
 
                             final JSONObject dataObject = object.getJSONObject("data");
                             final String filePath = dataObject.getString("path");
+                            final String videoCoverUrl = dataObject.getString("coverPath");
                             mAmapLicotion=new AmapLocation(getContext(), aMapLocation -> {
-                                upLoadInfo(token, "", filePath,aMapLocation.getLongitude(),aMapLocation.getLatitude());
+                                upLoadInfo(token, "",videoCoverUrl, filePath,aMapLocation.getLongitude(),aMapLocation.getLatitude());
                                 mAmapLicotion.destroyLocation();
                             });
                             mAmapLicotion.DefaultGetLocation();
@@ -204,7 +205,7 @@ public class CameraActivity extends AppCompatActivity {
                 });
     }
 
-    private void upLoadInfo(String token, String content, String filesString,double longitude,double latitude) {
+    private void upLoadInfo(String token, String content,String videoCoverUrl, String filesString,double longitude,double latitude) {
         LatteLogger.w("upLoadImg", "upLoadInfo");
         final String url = "circle/insert";
         RxRestClient.builder()
@@ -218,6 +219,7 @@ public class CameraActivity extends AppCompatActivity {
                 .params("visibleType", 1)
 //                .params("visibleOrInvisibleUserIds",JSONArray.parseArray(JSON.toJSONString(visibleOrInvisibleUserIds2)))
                 .params("location", "")
+                .params("videoCoverUrl", videoCoverUrl)
                 .params("longitude", longitude)
                 .params("latitude", latitude)
                 .build()

@@ -64,7 +64,13 @@ public final class RobotListAdapter extends MultipleRecyclerAdapter {
                 //赋值
                 TextViewUtils.AppCompatTextViewSetText(tvName, name);
                 TextViewUtils.AppCompatTextViewSetText(tvAge, age);
-                TextViewUtils.AppCompatTextViewSetText(tvStatus, online == 1 ? "小壹在家" : "小壹离线");
+                if (online == 1) {
+                    TextViewUtils.AppCompatTextViewSetText(tvStatus, mContext.getResources().getString(R.string.xy_online));
+                    tvStatus.setTextColor(mContext.getResources().getColor(R.color.COLOR_6daaf0));
+                } else {
+                    TextViewUtils.AppCompatTextViewSetText(tvStatus, mContext.getResources().getString(R.string.xy_unonline));
+                    tvStatus.setTextColor(mContext.getResources().getColor(R.color.COLOR_999999));
+                }
                 imageView.setRobotOnline(online == 1);
                 TextViewUtils.AppCompatTextViewSetText(tvRelativeship, relationship);
                 TextViewUtils.AppCompatTextViewSetText(tvRecord, record);

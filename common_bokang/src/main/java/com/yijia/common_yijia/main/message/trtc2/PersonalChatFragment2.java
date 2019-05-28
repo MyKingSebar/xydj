@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,7 +22,10 @@ import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.example.common_tencent_tuikit.Constants;
 import com.example.common_tencent_tuikit.chat.title_bottom.ChatTitieBottomAdapter;
 import com.example.common_tencent_tuikit.chat.title_bottom.TitleBottomChildType;
@@ -30,6 +34,9 @@ import com.example.common_tencent_tuikit.chat.title_bottom.TitleBottomPersonalCh
 import com.example.latte.ec.R;
 import com.example.latte.ui.recycler.MultipleItemEntity;
 import com.example.yijia.delegates.LatteDelegate;
+import com.example.yijia.net.rx.BaseObserver;
+import com.example.yijia.net.rx.RxRestClient;
+import com.example.yijia.ui.dialog.JDialogUtil;
 import com.tencent.imsdk.TIMConversationType;
 import com.tencent.imsdk.TIMFriendshipManager;
 import com.tencent.imsdk.TIMManager;
@@ -46,9 +53,14 @@ import com.yijia.common_yijia.main.find.TtsPopup;
 import com.yijia.common_yijia.main.message.trtc.BoKangSendMessageListener;
 import com.yijia.common_yijia.main.message.trtc.BokangSendMessageUtil;
 import com.yijia.common_yijia.main.message.trtc.CallWaitingActivity;
+import com.yijia.common_yijia.main.mine.ExtraString;
+import com.yijia.common_yijia.main.mine.SHCallingActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by valxehuang on 2018/7/30.
@@ -217,7 +229,65 @@ public class PersonalChatFragment2 extends LatteDelegate {
         if(requestCode == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             mTtsPopup.showPopupWindow();
         }
+
+        if (requestCode == 11 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            if (shNumber != null) {
+                startCall(shNumber, chatName, imageUrl);
+            } else {
+                Toast.makeText(getContext(), R.string.get_data_error, Toast.LENGTH_LONG).show();
+            }
+        }
     }
+
+    private String shNumber, imageUrl;
+
+    private void startCall(String phone, String name, String url) {
+        Intent intent = new Intent(getContext(), SHCallingActivity.class);
+        intent.putExtra(ExtraString.ISINCOME, false);
+        intent.putExtra(ExtraString.PHONE_NUM, phone);
+        intent.putExtra(ExtraString.PHONE_NAME, name);
+        intent.putExtra(ExtraString.PHONE_URL, url);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
+
+
+//    private void getUserData() {
+//        JDialogUtil.INSTANCE.showRxDialogShapeLoading(getContext());
+//        String url = "friend/query_friend_info";
+//        RxRestClient.builder()
+//                .url(url)
+//                .params("yjtk", YjDatabaseManager.getInstance().getDao().loadAll().get(0).getYjtk())
+//                .params("friendUserId", userId)
+//                .build()
+//                .get()
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new BaseObserver<String>(getContext()) {
+//                    @Override
+//                    public void onResponse(String response) {
+//                        final String status = JSON.parseObject(response).getString("status");
+//                        if (TextUtils.equals(status, "1001")) {
+//                            JSONObject object = JSON.parseObject(response).getJSONObject("data");
+//                            if (null != object) {
+//                                shNumber = object.getString("shNumber");
+//                                imageUrl = "";
+//                            }
+//                        } else {
+//                            final String msg = JSON.parseObject(response).getString("msg");
+//                            Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+//                        }
+//
+//                        JDialogUtil.INSTANCE.dismiss();
+//                    }
+//
+//                    @Override
+//                    public void onFail(Throwable e) {
+//                        Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+//                        JDialogUtil.INSTANCE.dismiss();
+//                    }
+//                });
+//    }
 
     private void initBottomRecycle() {
         mChatTitieBottomAdapter = new ChatTitieBottomAdapter(initTitleBottomData());
@@ -235,6 +305,24 @@ public class PersonalChatFragment2 extends LatteDelegate {
             if (type == null) {
                 return;
             }
+
+            if (TextUtils.equals(type, TitleBottomChildType.PHONECALL.name())) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+
+                        requestPermissions(new String[]{
+                                Manifest.permission.RECORD_AUDIO}, 11);
+                        return;
+                    }
+                }
+                if (shNumber != null) {
+                    startCall(shNumber, chatName, imageUrl);
+                } else {
+                    Toast.makeText(getContext(), R.string.get_data_error, Toast.LENGTH_LONG).show();
+                }
+            }
+
+
             if (TextUtils.equals(type, TitleBottomChildType.AUDIOCALL.name())) {
                 final Intent intent2 = new Intent(getContext(), CallWaitingActivity.class);
                 int userId = (YjDatabaseManager.getInstance().getDao().loadAll().get(0).getId()).intValue();

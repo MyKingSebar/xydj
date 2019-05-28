@@ -1,24 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="248dp"
-    android:layout_height="wrap_content"
-    android:layout_gravity="right|center_vertical"
-    android:background="@drawable/rectangle10_main_orange"
-    android:orientation="vertical">
+                                              xmlns:app="http://schemas.android.com/apk/res-auto"
+                                              android:layout_width="match_parent"
+                                              android:layout_height="wrap_content"
+                                              android:layout_gravity="right|center_vertical"
+                                              android:layout_marginLeft="15dp"
+                                              android:layout_marginRight="15dp"
+                                              android:background="@drawable/rectangle10_main_orange"
+                                              android:orientation="vertical">
 
     <android.support.v7.widget.AppCompatEditText
         android:id="@+id/et_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/transparent"
         android:gravity="top|start"
+        android:minHeight="80dp"
         android:padding="15dp"
         android:textColor="@color/white"
-        android:textCursorDrawable="@drawable/line_black"
-        android:textSize="@dimen/third_title_16" />
+        android:textSize="@dimen/sp_14"/>
+
+    <com.yijia.common_yijia.main.find.WaveView
+        android:id="@+id/waveView"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        app:wvType="single"
+        app:wvCenterLineColor="#f0f"
+        app:wvCenterLineWidth="1dp"
+        app:wvLineColor="#ff0"
+        app:wvLineWidth="1dp"
+        app:wvLineSpace="5dp"/>
 
     <android.support.v7.widget.LinearLayoutCompat
         android:layout_width="match_parent"
-        android:layout_height="30dp">
+        android:layout_height="40dp">
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/tv_cancel"
@@ -28,7 +43,7 @@
             android:gravity="center"
             android:text="取消"
             android:textColor="@color/white"
-            android:textSize="14sp" />
+            android:textSize="14sp"/>
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/tv_ok"
@@ -38,7 +53,7 @@
             android:gravity="center"
             android:text="发送"
             android:textColor="@color/white"
-            android:textSize="14sp" />
+            android:textSize="14sp"/>
     </android.support.v7.widget.LinearLayoutCompat>
 
 

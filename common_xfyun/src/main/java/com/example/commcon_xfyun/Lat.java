@@ -266,6 +266,9 @@ public class Lat {
         public void onVolumeChanged(int volume, byte[] data) {
             showTip("当前正在说话，音量大小：" + volume);
             Log.d(TAG, "返回音频数据：" + data.length);
+            if (mLatCallbackInterface != null) {
+                mLatCallbackInterface.latDoing(volume);
+            }
         }
 
         @Override

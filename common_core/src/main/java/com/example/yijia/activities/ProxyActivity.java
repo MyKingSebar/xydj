@@ -61,7 +61,7 @@ public abstract class ProxyActivity extends AppCompatActivity implements ISuppor
         container.setId(R.id.delegate_container);
         setContentView(container);
         if (savedInstanceState == null) {
-            DELEGATE.loadRootFragment(R.id.delegate_container, setRootDelegate(),false,false);
+            DELEGATE.loadRootFragment(R.id.delegate_container, setRootDelegate(),false,true);
         }
     }
     @Override

@@ -17,17 +17,17 @@ public class TitleBottomPersonalChatDataConverter extends DataConverter {
         final MultipleItemEntity entity = MultipleItemEntity.builder()
                 .setField(MultipleFields.ITEM_TYPE,TitleBottomItemType.IM_CHAT_TITLEBOTTOM)
                 .setField(MultipleFields.IMAGE_URL, com.example.latte.ui.R.mipmap.icon_im_audiocall)
-                .setField(MultipleFields.NAME,"即时通话")
-                .setField(MultipleFields.CHILD_ITEM_TYPE,TitleBottomChildType.AUDIOCALL.name())
+                .setField(MultipleFields.NAME,"打电话")
+                .setField(MultipleFields.CHILD_ITEM_TYPE,TitleBottomChildType.PHONECALL.name())
                 .build();
         ENTITIES.add(entity);
-        final MultipleItemEntity entity2 = MultipleItemEntity.builder()
-                .setField(MultipleFields.ITEM_TYPE,TitleBottomItemType.IM_CHAT_TITLEBOTTOM)
-                .setField(MultipleFields.IMAGE_URL, com.example.latte.ui.R.mipmap.icon_im_zhidingjianhu)
-                .setField(MultipleFields.NAME,"指定监护")
-                .setField(MultipleFields.CHILD_ITEM_TYPE,TitleBottomChildType.DESIGNATEDGUARDIAN.name())
-                .build();
-        ENTITIES.add(entity2);
+//        final MultipleItemEntity entity2 = MultipleItemEntity.builder()
+//                .setField(MultipleFields.ITEM_TYPE,TitleBottomItemType.IM_CHAT_TITLEBOTTOM)
+//                .setField(MultipleFields.IMAGE_URL, com.example.latte.ui.R.mipmap.icon_im_zhidingjianhu)
+//                .setField(MultipleFields.NAME,"指定监护")
+//                .setField(MultipleFields.CHILD_ITEM_TYPE,TitleBottomChildType.DESIGNATEDGUARDIAN.name())
+//                .build();
+//        ENTITIES.add(entity2);
 
         return ENTITIES;
     }

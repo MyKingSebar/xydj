@@ -168,7 +168,7 @@ public class SetUserHeadDelegate extends LatteDelegate implements HeadLayout.OnC
                 .previewEggs(true)
                 .withAspectRatio(1, 1)
                 .hideBottomControls(false)
-                .freeStyleCropEnabled(true)
+                .freeStyleCropEnabled(false)
                 .showCropFrame(true)
                 .showCropGrid(true)
                 .selectionMedia(selectList)

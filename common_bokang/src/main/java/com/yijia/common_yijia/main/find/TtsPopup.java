@@ -30,6 +30,7 @@ public class TtsPopup extends BasePopupWindow implements LatCallbackInterface {
     private AppCompatTextView mCancelButton;
     private AppCompatTextView mCompeleteButton;
     private AppCompatEditText mInputEdittext;
+    private WaveView waveView;
     private Context mContext = null;
     private String tencentId = null;
     private TtsPopuCallBack mTtsPopuCallBack = null;
@@ -75,6 +76,7 @@ public class TtsPopup extends BasePopupWindow implements LatCallbackInterface {
             dismiss();
         });
         mInputEdittext = findViewById(R.id.et_text);
+        waveView = findViewById(R.id.waveView);
         mStringBuffer = new StringBuffer();
         checkLat();
         setClipChildren(false);
@@ -137,6 +139,7 @@ public class TtsPopup extends BasePopupWindow implements LatCallbackInterface {
 
     @Override
     public void latSuccess(String s) {
+
         Log.d("latSuccess", "latSuccess:" + s);
         mStringBuffer.setLength(0);
         mStringBuffer.append(mInputEdittext.getText().toString());
@@ -154,6 +157,11 @@ public class TtsPopup extends BasePopupWindow implements LatCallbackInterface {
     @Override
     public void latError(String s) {
         initLat();
+    }
+
+    @Override
+    public void latDoing(int volume) {
+        waveView.putValue(volume);
     }
 
     @Override

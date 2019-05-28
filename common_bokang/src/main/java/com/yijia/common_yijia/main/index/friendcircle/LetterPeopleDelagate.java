@@ -53,7 +53,7 @@ public class LetterPeopleDelagate extends LatteDelegate {
         RelativeLayout rl = view.findViewById(R.id.tv_back);
         rl.setOnClickListener(v -> getSupportDelegate().pop());
         AppCompatTextView tv = view.findViewById(R.id.tv_title);
-        tv.setText("家书可见范围");
+        tv.setText("该家书的收信人");
         AppCompatTextView tv2 = view.findViewById(R.id.tv_save);
         tv2.setVisibility(View.INVISIBLE);
         rv = view.findViewById(R.id.rv_letter_friends);
@@ -85,7 +85,7 @@ public class LetterPeopleDelagate extends LatteDelegate {
                 .params("yjtk", token)
                 .params("circleId", circleId)
                 .build()
-                .post()
+                .get()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseObserver<String>(getContext()) {

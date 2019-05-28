@@ -1,6 +1,7 @@
 package com.yijia.common_yijia.main.index.friendcircle;
 
 import android.support.v7.widget.AppCompatTextView;
+import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.example.latte.ec.R;
@@ -44,14 +45,11 @@ private LatteDelegate mDelegate=null;
 
                 //取出所以控件
                 final AppCompatTextView tvName = holder.getView(R.id.tv_name);
-                final CircleImageView civ = holder.getView(R.id.civ);
+                final ImageView civ = holder.getView(R.id.civ);
 
                 //赋值
                 tvName.setText(nickname);
-                Glide.with(mDelegate)
-                        .load(userHead)
-                        .apply(GlideUtils.USEROPTIONS)
-                        .into(civ);
+                GlideUtils.load(mDelegate.getContext(),userHead,civ,GlideUtils.USERMODE);
                 //点赞
 //                tvZan.setOnClickListener(new View.OnClickListener() {
 //                    @Override

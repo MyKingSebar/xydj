@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -175,8 +176,8 @@ public class InviteRelationshipDelegate extends LatteDelegate {
             InviteDelagate mDelegate = InviteDelagate.create(familyId, itemId, InviteDelagate.INVITE_FOR_OTHER);
             getSupportDelegate().start(mDelegate);
         });
-        final LinearLayoutManager manager = new LinearLayoutManager(Latte.getApplicationContext());
-        rv.setLayoutManager(manager);
+//        final LinearLayoutManager manager = new LinearLayoutManager(Latte.getApplicationContext());
+        rv.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
         rv.setAdapter(mAdapter);
     }
 }

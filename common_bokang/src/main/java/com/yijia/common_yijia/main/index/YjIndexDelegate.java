@@ -210,7 +210,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, View rootView) {
         mRefreshHandler = YjReFreshHandler.create(mRefreshLayout, mRecyclerView, null, this, this, this, this, this);
-        mRefreshHandler.setEmptyClickListener(()->useSDCardWithCheck(null, this));
+        mRefreshHandler.setEmptyClickListener(() -> useSDCardWithCheck(null, this));
         mRefreshHandler.onDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
@@ -330,6 +330,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
     private PopupWindow mCoverPopup;
     private int mHeight, mWidth;
     private TextView changeConver;
+
     private void initTopPopup() {
         View pop_layout = LayoutInflater.from(getContext()).inflate(R.layout.popup_change_cover, null);
         mCoverPopup = new PopupWindow(getContext());
@@ -371,6 +372,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
         coverImage.setOnTouchListener(new View.OnTouchListener() {
             boolean show = true;
             int tempX;
+
             @Override
             public boolean onTouch(View v, MotionEvent event) {
 
@@ -381,11 +383,11 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
                         tempX = (int) event.getX();
                         break;
                     case MotionEvent.ACTION_MOVE:
-                            show = false;
+                        show = false;
                         break;
                     case MotionEvent.ACTION_UP:
-                        if(show) {
-                            if(mCurrentFamily.familyId != 0 )
+                        if (show) {
+                            if (mCurrentFamily.familyId != 0)
                                 return false;
                             int X = (int) event.getX();
                             int Y = (int) event.getY();
@@ -529,7 +531,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
         CallbackManager.getInstance().addCallback(CallbackType.REFRESH_MAIN_USER_NAME, new IGlobalCallback() {
             @Override
             public void executeCallback(@Nullable Object args) {
-                if(null != mCurrentFamily && 0 == mCurrentFamily.familyId) {
+                if (null != mCurrentFamily && 0 == mCurrentFamily.familyId) {
                     String name = YjDatabaseManager.getInstance().getDao().loadAll().get(0).getNickname();
                     if (!TextUtils.isEmpty(name)) {
                         tv_name.setText(name);
@@ -1240,6 +1242,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
     }
 
     private List<LocalMedia> selectList = new ArrayList<>();
+
     private void getImage() {
         // 进入相册 以下是例子：不需要的api可以不写
         PictureSelector.create(this)
@@ -1275,6 +1278,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
                         uploadImage(selectList);
                     }
                     break;
+                default:
             }
         }
     }
@@ -1293,7 +1297,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
         }
     }
 
-    private void setupCover(String s, String path){
+    private void setupCover(String s, String path) {
         RxRestClient.builder()
                 .url("user/update_background")
                 .params("yjtk", YjDatabaseManager.getInstance().getDao().loadAll().get(0).getYjtk())
@@ -1308,7 +1312,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
                         final String status = JSON.parseObject(response).getString("status");
                         if (TextUtils.equals(status, "1001")) {
                             showToast("封面背景上传成功");
-                            if(mCurrentFamily.familyId == 0) {
+                            if (mCurrentFamily.familyId == 0) {
                                 GlideUtils.load(getContext(), s, coverImage, GlideUtils.COVERMODE);
                             }
                         } else {
@@ -1327,7 +1331,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
                 });
     }
 
-    private void getCover(){
+    private void getCover() {
         RxRestClient.builder()
                 .url("user/query_background")
                 .params("yjtk", YjDatabaseManager.getInstance().getDao().loadAll().get(0).getYjtk())
@@ -1343,7 +1347,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
                         if (TextUtils.equals(status, "1001")) {
                             JSONObject object = JSON.parseObject(response).getJSONObject("data");
                             String url = null != object ? object.getString("imagePath") : "";
-                                GlideUtils.load(getContext(), url, coverImage, GlideUtils.COVERMODE);
+                            GlideUtils.load(getContext(), url, coverImage, GlideUtils.COVERMODE);
                         } else {
                             final String msg = JSON.parseObject(response).getString("msg");
                             Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
@@ -1397,6 +1401,7 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
                                         Toast.makeText(getContext(), object.getString("msg"), Toast.LENGTH_SHORT).show();
                                     }
                                 }
+
                                 @Override
                                 public void onFail(Throwable e) {
                                     Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();

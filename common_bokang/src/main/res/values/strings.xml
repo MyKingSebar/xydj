@@ -25,6 +25,8 @@
 
     <string name="add_own_parents">添加我的父母</string>
 
+    <string name="add_parents_title_tip">创建围绕父母的家庭圈</string>
+
     <string name="add_parents_skip">跳过</string>
 
     <string name="add_parents_father">父亲</string>

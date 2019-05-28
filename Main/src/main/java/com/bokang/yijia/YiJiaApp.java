@@ -48,7 +48,7 @@ import me.yokeyword.fragmentation.Fragmentation;
 import me.yokeyword.fragmentation.helper.ExceptionHandler;
 
 
-public class ExampleApp extends MultiDexApplication {
+public class YiJiaApp extends MultiDexApplication {
     public static final String PACKAGENAME = "com.bokang.yijia";
     public static final String MODE = "RELEASE";
     public static final String MODE_DEBUG = "DEBUG";

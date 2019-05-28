@@ -13,8 +13,7 @@ import com.example.yijia.util.callback.CallbackManager;
 import com.example.yijia.util.callback.CallbackType;
 import com.example.yijia.util.callback.IGlobalCallback;
 import com.example.yijia.util.log.LatteLogger;
-import com.bokang.yijia.ExampleActivity;
-import com.google.gson.JsonObject;
+import com.bokang.yijia.YiJiaActivity;
 
 import java.util.Set;
 
@@ -70,7 +69,7 @@ public class PushReceiver extends BroadcastReceiver {
     private void onOpenNotification(Context context, Bundle bundle) {
         final String extra = bundle.getString(JPushInterface.EXTRA_EXTRA);
         final Bundle openActivityBundle = new Bundle();
-        final Intent intent = new Intent(context, ExampleActivity.class);
+        final Intent intent = new Intent(context, YiJiaActivity.class);
         intent.putExtras(openActivityBundle);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         ContextCompat.startActivity(context, intent, null);

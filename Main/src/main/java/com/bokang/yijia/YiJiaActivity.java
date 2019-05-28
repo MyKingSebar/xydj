@@ -16,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
-import com.bokang.tencent_trtc_sdk.TrtcConfig;
 import com.example.common_tencent_tuikit.TuiKitConfig;
 import com.example.latte.ui.launcher.ILauncherListener;
 import com.example.latte.ui.launcher.OnLauncherFinishTag;
@@ -34,11 +33,8 @@ import com.example.yijia.util.log.LatteLogger;
 import com.example.yijia.util.storage.LattePreference;
 import com.tencent.imsdk.TIMCallBack;
 import com.tencent.imsdk.TIMConversation;
-import com.tencent.imsdk.TIMConversationType;
 import com.tencent.imsdk.TIMCustomElem;
 import com.tencent.imsdk.TIMManager;
-import com.tencent.imsdk.ext.message.TIMConversationExt;
-import com.tencent.imsdk.ext.message.TIMMessageExt;
 import com.tencent.qcloud.bokang.BokangChatListener;
 import com.tencent.qcloud.bokang.BokangChatManager;
 import com.tencent.qcloud.uikit.TUIKit;
@@ -54,10 +50,7 @@ import com.yijia.common_yijia.main.YjBottomDelegate_with3;
 import com.yijia.common_yijia.main.index.friendcircle.smallvideo.CameraActivity;
 import com.yijia.common_yijia.main.index.friendcircle.smallvideo.SmallCameraLisener;
 import com.yijia.common_yijia.main.message.trtc.CallIntentData;
-import com.yijia.common_yijia.main.message.trtc.CallWaitingActivity;
 import com.yijia.common_yijia.main.message.trtc.CalledWaitingActivity;
-import com.yijia.common_yijia.main.message.trtc2.TRTCMainActivity2;
-import com.yijia.common_yijia.main.message.trtc2.TRTCMainActivity3;
 import com.yijia.common_yijia.main.robot.robotmain.AddParentsDelegate;
 import com.yijia.common_yijia.sign.ISignListener;
 import com.yijia.common_yijia.sign.SignInNoteOnlyDelegate;
@@ -70,7 +63,7 @@ import qiu.niorgai.StatusBarCompat;
 
 import static com.example.yijia.app.AccountManager.checkAccont;
 
-public class ExampleActivity extends ProxyActivity implements
+public class YiJiaActivity extends ProxyActivity implements
         ISignListener,
         ILauncherListener,
         BokangChatListener, SmallCameraLisener {
@@ -81,7 +74,7 @@ public class ExampleActivity extends ProxyActivity implements
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ExampleApp.flag = 0;
+        YiJiaApp.flag = 0;
         final ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.hide();
@@ -319,7 +312,7 @@ public class ExampleActivity extends ProxyActivity implements
     }
 
     private void showFlout() {
-        if (TextUtils.equals(ExampleApp.MODE, ExampleApp.MODE_DEBUG)) {
+        if (TextUtils.equals(YiJiaApp.MODE, YiJiaApp.MODE_DEBUG)) {
             ImageView imageView = new ImageView(getApplicationContext());
             imageView.setImageResource(R.mipmap.icon_find_door);
 
@@ -456,16 +449,16 @@ public class ExampleActivity extends ProxyActivity implements
                             .PERMISSION_GRANTED &&
                     ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager
                             .PERMISSION_GRANTED) {
-                startActivityForResult(new Intent(ExampleActivity.this, CameraActivity.class), 100);
+                startActivityForResult(new Intent(YiJiaActivity.this, CameraActivity.class), 100);
             } else {
                 //不具有获取权限，需要进行权限申请
-                ActivityCompat.requestPermissions(ExampleActivity.this, new String[]{
+                ActivityCompat.requestPermissions(YiJiaActivity.this, new String[]{
                         Manifest.permission.WRITE_EXTERNAL_STORAGE,
                         Manifest.permission.RECORD_AUDIO,
                         Manifest.permission.CAMERA}, GET_PERMISSION_REQUEST);
             }
         } else {
-            startActivityForResult(new Intent(ExampleActivity.this, CameraActivity.class), 100);
+            startActivityForResult(new Intent(YiJiaActivity.this, CameraActivity.class), 100);
         }
     }
 
@@ -495,7 +488,7 @@ public class ExampleActivity extends ProxyActivity implements
                     size++;
                 }
                 if (size == 0) {
-                    startActivityForResult(new Intent(ExampleActivity.this, CameraActivity.class), 100);
+                    startActivityForResult(new Intent(YiJiaActivity.this, CameraActivity.class), 100);
                 } else {
                     Toast.makeText(this, "请到设置-权限管理中开启", Toast.LENGTH_SHORT).show();
                 }

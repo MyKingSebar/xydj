@@ -43,7 +43,7 @@
 
     <application
         tools:replace="android:name,android:icon"
-        android:name="com.bokang.yijia.ExampleApp"
+        android:name="com.bokang.yijia.YiJiaApp"
         android:allowBackup="true"
         android:icon="@mipmap/icon"
         android:label="@string/app_name"
@@ -66,7 +66,7 @@
         <service android:name="com.amap.api.location.APSService"></service>
         <!--高德地图 END-->
 
-        <activity android:name="com.bokang.yijia.ExampleActivity"
+        <activity android:name="com.bokang.yijia.YiJiaActivity"
             android:screenOrientation="portrait"
             >
         </activity>

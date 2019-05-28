@@ -4,11 +4,13 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -48,6 +50,9 @@ public class RobotListDelegate extends BottomItemDelegate implements CommonEntit
 
     private TextView addParents;
 
+    private AppCompatTextView tvSave, tvTitle;
+    private RelativeLayout tvBack;
+
     @Override
     public Object setLayout() {
         return R.layout.delegate_robot_list;
@@ -61,6 +66,14 @@ public class RobotListDelegate extends BottomItemDelegate implements CommonEntit
     }
 
     private void initView(View rootView) {
+
+        tvSave = rootView.findViewById(R.id.tv_save);
+        tvTitle = rootView.findViewById(R.id.tv_title);
+        tvBack = rootView.findViewById(R.id.tv_back);
+        tvTitle.setText(R.string.robot_name);
+        tvSave.setVisibility(View.GONE);
+        tvBack.setVisibility(View.GONE);
+
         imageButton = rootView.findViewById(R.id.robot_list_add);
         imageButton.setOnClickListener(v -> {
             getParentDelegate().getSupportDelegate().start(new AddParentsDelegate());

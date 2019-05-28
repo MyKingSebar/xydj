@@ -6,15 +6,22 @@
                                              android:layout_height="match_parent"
                                              android:background="@color/page_bg">
 
+    <include
+        android:id="@+id/include"
+        layout="@layout/include_edit_top"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <android.support.constraint.ConstraintLayout
         android:id="@+id/robor_list_top"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:paddingBottom="30dp"
+        android:paddingBottom="25dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/include">
 
         <ImageView
             android:id="@+id/robot_list_add"
@@ -33,13 +40,13 @@
             android:id="@+id/robot_list_add_own_parents"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="90dp"
-            android:drawableTop="@mipmap/addimg_1x"
+            android:layout_marginTop="25dp"
+            android:drawableTop="@mipmap/icon_add_parents"
             android:text="@string/add_own_parents"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            android:drawablePadding="5dp"
-            android:textColor="@color/text_FDBA63"
+            android:drawablePadding="10dp"
+            android:textColor="@color/app_text_dark"
             android:textSize="16sp"
             app:layout_constraintTop_toTopOf="@id/robor_list_top"/>
 

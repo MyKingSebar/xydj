@@ -690,8 +690,10 @@ public class YjIndexDelegate extends BottomItemDelegate implements IFriendsItemL
                         }
                         if (isOnline) {
                             tv_online.setText(R.string.xy_online);
+                            tv_online.setTextColor(getContext().getResources().getColor(R.color.COLOR_6daaf0));
                         } else {
                             tv_online.setText(R.string.xy_unonline);
+                            tv_online.setTextColor(getContext().getResources().getColor(R.color.COLOR_999999));
                         }
                         cimg_img.setRobotOnline(isOnline);
                     }

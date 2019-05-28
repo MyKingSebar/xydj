@@ -80,7 +80,8 @@ public class YiJiaActivity extends ProxyActivity implements
             actionBar.hide();
         }
         Latte.getConfigurator().withActivity(this);
-        StatusBarCompat.translucentStatusBar(this, true);
+//        StatusBarCompat.translucentStatusBar(this, true);
+        StatusBarCompat.setStatusBarColor(this, getResources().getColor(R.color.status_bar_bg));
         if (!isShowFlout) {
             showFlout();
             isShowFlout = true;
